@@ -1,0 +1,104 @@
+CYRUS SHAHRIARI
+San Jose, CA
+linkedin.com/in/cyrusshahriari
+
+ENTERPRISE PRODUCT & ITSM LEADER • SERVICENOW PLATFORM
+
+Enterprise Product and ITSM Leader with a proven track record of transforming complex operations into scalable, reliable
+systems across financial services, healthcare, and global SaaS environments. Expert in leveraging the ServiceNow platform, ITIL
+governance, and AI-enabled workflows to optimize service delivery and reduce organizational friction. Adept at driving
+high-impact cross-functional alignment across engineering, UX, and operations; historically reduced open incidents by 40% at
+ServiceNow HQ and decreased expedited changes by 50% through governance automation.
+
+CORE COMPETENCIES
+
+IT Service Management | IT Change Management | Business Analysis | ITIL Process Design | Governance | ServiceNow
+Platform | Regulatory & Compliance | Incident & Root Cause Analysis | Management | Agile / Scrum Methodologies | AI &
+
+Agentic Workflow | Integration
+
+IT Service Management - ServiceNow (Incident, Request, Change, Integrated Risk Management, Workplace Services, Visitor
+Management), HP Service Manager, Matrix42, Jira, Change Advisory Board (CAB) Facilitation, Request for Change (RFC)
+Assessment, ITIL Change / Incident / Problem Management.
+Business Analysis - AI & Automation - Requirements Gathering, User Story Authoring, Gap Analysis, Process Mapping, UAT/QA
+Agentic AI (ServiceNow), Claude Enterprise, Google Gemini, Microsoft Copilot, DeepSeek, ServiceNow, Bash, PowerShell, Linux
+(Ubuntu/Debian), Windows, iOS, Android.
+
+PROFESSIONAL EXPERIENCE
+
+SERVICENOW, Santa Clara, CA January 2025 - May 2026
+Cloud-based software platform that automates digital business workflows and powers enterprise operations.
+Product Manager
+● Manage Integrated Risk Management (IRM) Portfolio: Audit Management, Regulatory Change Management, Policy &
+Compliance, Risk Management.
+● Manage Agentic AI deployment for the IRM platform as 'Customer Zero,' driving a 30% improvement in operational
+efficiency across a multi-million dollar product portfolio.
+● Lead end-to-end incident management for IRM, performing root cause analysis and serving as primary stakeholder
+communication lead for all platform incidents and resolutions.
+● Define and prioritize product backlog items, author user stories, and drive sprint ceremonies in close partnership with Level
+2/3 engineering teams for continuous IRM platform improvements.
+● Integrate Zoom Agentic AI into the ServiceNow platform to optimize scheduling, record management, and cross-functional
+engagement workflows.
+● Deliver compliance oversight for Audit, Regulatory Change, and Policy Management products, ensuring alignment with
+internal controls and regulatory frameworks.
+● Champion workflow enhancements across approval flows and notification systems, increasing change compliance and
+audit readiness for internal business stakeholders.
+● Resolve complex platform incidents (e.g., eSignature plugin failure) through cross-functional collaboration and hands-on
+technical analysis, restoring functionality and improving user experience.
+CYPRESS HCM AT SERVICENOW, Santa Clara, CA May 2023 - January 2025
+Cloud-based software platform that automates digital business workflows and powers enterprise operations.
+Business Systems Analyst
+● Owned the Visitor Management application across 20+ global locations, including mobile version upgrades, hardware
+integration, and multi-region deployment coordination.
+● Managed the inaugural deployment of the Occupational Health & Safety application module, establishing baseline
+processes and governance standards.
+● Reduced open incidents and service requests by 40% within a three-month period through systematic backlog prioritization
+and proactive stakeholder engagement.
+
+● Developed an internal operational dashboard providing real-time visibility into application health and escalation metrics for
+leadership.
+● Coordinated with global development and QA teams (50+ hours/week), authoring user stories, defect reports, and
+conducting knowledge transfer sessions.
+FIRST REPUBLIC BANK, San Francisco, CA May 2020 - May 2023
+Commercial bank and wealth management firm catering to high-net-worth individuals.
+Sr. IT Infrastructure Change Analyst
+● Assessed 1,200+ monthly change records, applying ITIL change management principles to reduce emergency/expedited
+changes by 50%, significantly lowering organizational risk.
+● Increased standard (pre-approved) changes by 15% through automation initiatives and targeted training programs for
+change submitters.
+● Chaired bi-weekly Change Advisory Board (CAB) meetings, facilitating cross-functional risk discussions and approvals across
+infrastructure, applications, and security teams.
+● Investigated failed changes and post-implementation incidents, delivering root cause analysis reports and remediation
+training to reduce repeat failures.
+LUMENTUM, San Jose, CA January 2020 - July 2020
+Leading provider of optical, photonic, and commercial laser products
+ITIL Process Manager
+Lumentum is a leading provider of optical, photonic, and commercial laser products
+● Led ITIL process development and oversight focusing on Incident, Change, Configuration and Problem Management.
+Organize bi-weekly Change Advisory Board (CAB) meetings covering three regions.
+● Designed and implemented the Configuration Management Database (CMDB) on ServiceNow CSDM Model. Assisted with
+the migration from Jira Service Desk to ServiceNow in the first quarter of 2020.
+ABBVIE, Sunnyvale, CA August 2018 - December 2019
+Global biopharmaceutical company discovering and delivering innovative medicines.
+ServiceNow Business Analyst
+● Performed domain architecture activities in ServiceNow for a leading pharmaceutical organization.
+● Analyzed and mapped the 'As-Is' Human Resources (HR) process via Workday to ServiceNow. Supported HR hire,
+termination, and organizational change workflows in the ITSM platform.
+KAISER PERMANENTE, Pleasanton, CA November 2017 - August 2018
+One of the largest not-for-profit health plans in the U.S., operating on an integrated care model.
+Business Systems Analyst
+● Supported IT Asset Management (ITAM) and Software Asset Management (SAM) project (Matrix42 Suite)
+● Implemented server licensing provisioning process, tracked software utilization to ensure compliance.
+DIMENSION DATA, Santa Clara, CA April 2016 - November 2017
+ITSM Data / Business Analyst
+COOPER TECHNOLOGIES, Santa Cruz, CA June 2015 - March 2016
+IT Service Consultant
+HEALTH SHARED SERVICES BC, Vancouver, Canada January 2013 - June 2014
+Sr. Coordinator / Business Analyst, January 2013 - June 2014
+
+EDUCATION AND QUALIFICATIONS
+
+Management, Information Systems, Menlo College, Atherton, CA
+
+ITIL v3 Certified - APM Group Foundation | Microsoft Certified Technology Specialist (MCTS)
+FEMA CERT Train-the-Trainer / Program Manager | Bilingual: English (Native) | German (Fluent)

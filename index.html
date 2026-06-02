@@ -1,119 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyrus Shahriari – Technical Product Manager</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-        header {
-            background: #1a1a1a;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.4rem;
-        }
-        header h2 {
-            margin-top: 10px;
-            font-size: 1.2rem;
-            font-weight: 300;
-        }
-        section {
-            max-width: 900px;
-            margin: 30px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-        }
-        a {
-            color: #0056b3;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .links a {
-            margin-right: 20px;
-            font-weight: bold;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #777;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Cyrus Shahriari – Enterprise Product & ITSM Leader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --navy: #0b1b33;
+      --navy-light: #12284a;
+      --accent: #1f5fbf;
+      --bg: #f4f5f7;
+      --card-bg: #ffffff;
+      --text-main: #222222;
+      --text-muted: #666666;
+      --border-soft: #dde1e7;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(11, 27, 51, 0.96);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+    .navbar-brand {
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+    .navbar-nav {
+      display: flex;
+      gap: 24px;
+    }
+    .navbar-nav a {
+      color: #e4e8f2;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .navbar-nav a:hover {
+      color: #ffffff;
+    }
+    /* HERO */
+    .hero {
+      margin-top: 64px;
+      background: radial-gradient(circle at top left, #1f5fbf 0, #0b1b33 45%, #050a14 100%);
+      color: #ffffff;
+      padding: 80px 20px 60px;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-main h1 {
+      font-size: 2.6rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+    .hero-main h2 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #c7d2e8;
+      margin-bottom: 18px;
+    }
+    .hero-main p {
+      font-size: 0.98rem;
+      color: #d7e0f2;
+      max-width: 620px;
+      margin-bottom: 24px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+        transform 0.1s ease;
+    }
+    .btn-primary {
+      background: #ffffff;
+      color: var(--navy);
+      border-color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #e9edf7;
+      border-color: #e9edf7;
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #ffffff;
+      border-color: #c7d2e8;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .hero-meta {
+      font-size: 0.85rem;
+      color: #aeb9d4;
+      margin-top: 10px;
+    }
+    .hero-card {
+      background: rgba(9, 20, 43, 0.9);
+      border-radius: 12px;
+      padding: 20px 22px;
+      border: 1px solid rgba(111, 143, 201, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+    .hero-card-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9fb3e0;
+      margin-bottom: 8px;
+    }
+    .hero-card p {
+      font-size: 0.9rem;
+      color: #dde5f7;
+    }
+    /* LAYOUT */
+    .section {
+      max-width: 1100px;
+      margin: 26px auto;
+      padding: 0 20px;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 24px 26px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      border: 1px solid var(--border-soft);
+    }
+    .section-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--navy-light);
+      margin-bottom: 14px;
+    }
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    /* EXPERIENCE */
+    .experience-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 8px;
+    }
+    .exp-item {
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      padding: 16px 18px;
+      background: #ffffff;
+    }
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .exp-role {
+      font-weight: 600;
+      color: var(--navy-light);
+    }
+    .exp-company {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .exp-dates {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .exp-bullets {
+      margin-top: 6px;
+      padding-left: 18px;
+    }
+    .exp-bullets li {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .skill-group {
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      padding: 12px 14px;
+      background: #ffffff;
+    }
+    .skill-group h4 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--navy-light);
+      margin-bottom: 6px;
+    }
+    .skill-group p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 0;
+    }
+    /* CONTACT */
+    .contact-list {
+      list-style: none;
+      font-size: 0.95rem;
+    }
+    .contact-list li {
+      margin-bottom: 6px;
+    }
+    /* FOOTER */
+    footer {
+      margin-top: 30px;
+      background: var(--navy);
+      color: #c7d2e8;
+      text-align: center;
+      padding: 16px 10px 20px;
+      font-size: 0.85rem;
+    }
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+      .navbar {
+        padding: 0 16px;
+      }
+      .navbar-nav {
+        gap: 14px;
+      }
+      .hero {
+        padding: 70px 16px 40px;
+      }
+    }
+    @media (max-width: 600px) {
+      .navbar-nav {
+        display: none;
+      }
+      .hero-main h1 {
+        font-size: 2.1rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-    <h1>Cyrus Shahriari</h1>
-    <h2>Technical Product Manager | ITSM & IRM Specialist | AI‑Driven Enterprise Solutions</h2>
-</header>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">CYRUS SHAHRIARI</div>
+    <div class="navbar-nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
-<section>
-    <h2>Professional Summary</h2>
-    <p>
-        Technical Product Manager with over 10 years of experience delivering global IT Service Management (ITSM),
-        Integrated Risk Management (IRM), and AI‑enabled enterprise solutions across regulated industries including
-        technology, finance, healthcare, and education. Skilled in product strategy, audit and compliance workflows,
-        regulatory change management, and operational excellence. Fluent in English and German.
-    </p>
-</section>
+  <!-- HERO -->
+  <header id="home" class="hero">
+    <div class="hero-inner">
+      <div class="hero-main">
+        <h1>CYRUS SHAHRIARI</h1>
+        <h2>Enterprise Product & ITSM Leader • ServiceNow Platform</h2>
+        <p>
+          Enterprise Product and IT Service Management leader with over 10 years of experience transforming complex
+          operations into scalable, reliable systems across financial services, healthcare, and global SaaS environments.
+          Expert in leveraging the ServiceNow platform, ITIL governance, and AI‑enabled workflows to optimize service
+          delivery and reduce organizational friction.
+        </p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank">
+            View LinkedIn Profile
+          </a>
+          <a class="btn btn-outline" href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank">
+            View Public Resume (PDF)
+          </a>
+        </div>
+        <div class="hero-meta">
+          San Jose, CA • English (Native), German (Fluent)
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-title">Current Focus</div>
+        <p>
+          Dedicated to the FIFA Fan Operations team following successful delivery of the Integrated Risk Management,
+          Regulatory Change, and Audit Management portfolios. Enabled daily and monthly releases for Customer Zero,
+          ensuring platform stability, compliance, and continuous improvement.
+        </p>
+      </aside>
+    </div>
+  </header>
 
-<section>
-    <h2>Current Focus</h2>
-    <p>
-        Currently supporting the FIFA Fan Operations team following successful delivery of the Integrated Risk
-        Management, Regulatory Change, and Audit Management portfolios. Enabled daily and monthly releases for
-        Customer Zero, ensuring platform stability, compliance, and continuous improvement.
-    </p>
-</section>
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="section-card">
+      <h3 class="section-title">About</h3>
+      <p>
+        Enterprise Product & ITSM Leader with a proven track record of transforming complex operations into scalable,
+        reliable systems across financial services, healthcare, and global SaaS environments. Adept at driving high‑impact
+        cross‑functional alignment across engineering, UX, and operations; historically reduced open incidents by 40% at
+        ServiceNow HQ and decreased expedited changes by 50% through governance automation.
+      </p>
+      <p>
+        Specializes in the ServiceNow platform, ITIL process design, Integrated Risk Management, and AI‑enabled workflows
+        that improve service delivery, governance, and regulatory compliance. Experienced in leading change across
+        highly regulated environments while maintaining operational excellence and stakeholder trust.
+      </p>
+    </div>
+  </section>
 
-<section>
-    <h2>Experience Highlights</h2>
-    <ul>
-        <li>Led Agentic AI implementation for Integrated Risk Management at ServiceNow, improving operational efficiency by 30%.</li>
-        <li>Managed Audit, Regulatory Change, and Policy Management products for internal enterprise stakeholders.</li>
-        <li>Oversaw global Visitor Management and Occupational Health & Safety applications across 20+ locations.</li>
-        <li>Reduced incident backlog by 40% and improved change management processes across multiple organizations.</li>
-        <li>Delivered enterprise ITSM and IRM solutions for First Republic Bank, Kaiser Permanente, AbbVie, Lumentum, and more.</li>
-    </ul>
-</section>
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Experience</h3>
+      <p class="section-subtitle">
+        Selected roles and achievements across enterprise product management, IT service management, and governance.
+      </p>
 
-<section class="links">
-    <h2>Links</h2>
-    <p>
-        <a href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank">LinkedIn Profile</a>
-        <a href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank">Public Resume</a>
-    </p>
-</section>
+      <div class="experience-grid">
 
-<section>
-    <h2>Technical Skills</h2>
-    <ul>
-        <li>Generative AI: Google Gemini, DeepSeek, Microsoft Copilot, ServiceNow My Assist</li>
-        <li>Service Management: ServiceNow, HP Service Manager, Jira, Matrix42</li>
-        <li>Data Analysis: Excel (PivotTables, VLOOKUP), Power BI</li>
-        <li>Scripting: Bash, PowerShell</li>
-        <li>Networking: Cisco routers/switches, Wi‑Fi networks</li>
-        <li>Operating Systems: Android, iOS, Linux (Ubuntu/Debian), Windows</li>
-    </ul>
-</section>
+        <!-- ServiceNow -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Product Manager</div>
+              <div class="exp-company">ServiceNow, Santa Clara, CA</div>
+            </div>
+            <div class="exp-dates">January 2025 – May 2026</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Managed the Integrated Risk Management (IRM) portfolio, including Audit Management, Regulatory Change Management, Policy & Compliance, and Risk Management.</li>
+            <li>Led Agentic AI deployment for the IRM platform as “Customer Zero,” driving a 30% improvement in operational efficiency across a multi‑million‑dollar product portfolio.</li>
+            <li>Owned end‑to‑end incident management for IRM, performing root cause analysis and serving as primary stakeholder communication lead for all platform incidents and resolutions.</li>
+            <li>Defined and prioritized product backlog items, authored user stories, and drove sprint ceremonies in close partnership with Level 2/3 engineering teams for continuous platform improvements.</li>
+            <li>Integrated Zoom Agentic AI into the ServiceNow platform to optimize scheduling, record management, and cross‑functional engagement workflows.</li>
+            <li>Delivered compliance oversight for Audit, Regulatory Change, and Policy Management products, ensuring alignment with internal controls and regulatory frameworks.</li>
+            <li>Championed workflow enhancements across approval flows and notification systems, increasing change compliance and audit readiness for internal business stakeholders.</li>
+            <li>Resolved complex platform incidents (e.g., eSignature plugin failure) through cross‑functional collaboration and hands‑on technical analysis, restoring functionality and improving user experience.</li>
+          </ul>
+        </article>
 
-<footer>
-    © 2026 Cyrus Shahriari — San Jose, CA
-</footer>
+        <!-- Cypress HCM at ServiceNow -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Business Systems Analyst</div>
+              <div class="exp-company">Cypress HCM at ServiceNow, Santa Clara, CA</div>
+            </div>
+            <div class="exp-dates">May 2023 – January 2025</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Owned the Visitor Management application across 20+ global locations, including mobile version upgrades, hardware integration, and multi‑region deployment coordination.</li>
+            <li>Managed the inaugural deployment of the Occupational Health & Safety application module, establishing baseline processes and governance standards.</li>
+            <li>Reduced open incidents and service requests by 40% within three months through systematic backlog prioritization and proactive stakeholder engagement.</li>
+            <li>Developed an internal operational dashboard providing real‑time visibility into application health and escalation metrics for leadership.</li>
+            <li>Coordinated with global development and QA teams (50+ hours/week), authoring user stories, defect reports, and conducting knowledge transfer sessions.</li>
+          </ul>
+        </article>
+
+        <!-- First Republic Bank -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Sr. IT Infrastructure Change Analyst</div>
+              <div class="exp-company">First Republic Bank, San Francisco, CA</div>
+            </div>
+            <div class="exp-dates">May 2020 – May 2023</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Assessed 1,200+ monthly change records, applying ITIL change management principles to reduce emergency/expedited changes by 50%, significantly lowering organizational risk.</li>
+            <li>Increased standard (pre‑approved) changes by 15% through automation initiatives and targeted training programs for change submitters.</li>
+            <li>Chaired bi‑weekly Change Advisory Board (CAB) meetings, facilitating cross‑functional risk discussions and approvals across infrastructure, applications, and security teams.</li>
+            <li>Investigated failed changes and post‑implementation incidents, delivering root cause analysis reports and remediation training to reduce repeat failures.</li>
+          </ul>
+        </article>
+
+        <!-- Lumentum -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">ITIL Process Manager</div>
+              <div class="exp-company">Lumentum, San Jose, CA</div>
+            </div>
+            <div class="exp-dates">January 2020 – July 2020</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Led ITIL process development and oversight focusing on Incident, Change, Configuration, and Problem Management.</li>
+            <li>Organized bi‑weekly Change Advisory Board (CAB) meetings covering three regions.</li>
+            <li>Designed and implemented the Configuration Management Database (CMDB) on the ServiceNow CSDM model.</li>
+            <li>Assisted with the migration from Jira Service Desk to ServiceNow in the first quarter of 2020.</li>
+          </ul>
+        </article>
+
+        <!-- AbbVie -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">ServiceNow Business Analyst</div>
+              <div class="exp-company">AbbVie, Sunnyvale, CA</div>
+            </div>
+            <div class="exp-dates">August 2018 – December 2019</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Performed domain architecture activities in ServiceNow for a leading pharmaceutical organization.</li>
+            <li>Analyzed and mapped the “As‑Is” Human Resources (HR) process via Workday to ServiceNow.</li>
+            <li>Supported HR hire, termination, and organizational change workflows in the ITSM platform.</li>
+          </ul>
+        </article>
+
+        <!-- Kaiser Permanente -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Business Systems Analyst</div>
+              <div class="exp-company">Kaiser Permanente, Pleasanton, CA</div>
+            </div>
+            <div class="exp-dates">November 2017 – August 2018</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Supported IT Asset Management (ITAM) and Software Asset Management (SAM) projects using the Matrix42 Suite.</li>
+            <li>Implemented server licensing provisioning processes and tracked software utilization to ensure compliance.</li>
+          </ul>
+        </article>
+
+        <!-- Dimension Data -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">ITSM Data / Business Analyst</div>
+              <div class="exp-company">Dimension Data, Santa Clara, CA</div>
+            </div>
+            <div class="exp-dates">April 2016 – November 2017</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Supported ITSM data analysis and business analysis activities across enterprise service management initiatives.</li>
+          </ul>
+        </article>
+
+        <!-- Cooper Technologies -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">IT Service Consultant</div>
+              <div class="exp-company">Cooper Technologies, Santa Cruz, CA</div>
+            </div>
+            <div class="exp-dates">June 2015 – March 2016</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Delivered IT service consulting and process improvement support for small to mid‑sized organizations.</li>
+          </ul>
+        </article>
+
+        <!-- Health Shared Services BC -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Sr. Coordinator / Business Analyst</div>
+              <div class="exp-company">Health Shared Services BC, Vancouver, Canada</div>
+            </div>
+            <div class="exp-dates">January 2013 – June 2014</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Coordinated and analyzed business processes in a large healthcare shared services environment.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Skills</h3>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h4>ITSM & Governance</h4>
+          <p>
+            IT Service Management, IT Change Management, ITIL Process Design, Governance, Regulatory & Compliance,
+            Incident & Root Cause Analysis, Change Advisory Board (CAB) Facilitation, Request for Change (RFC) Assessment.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4>Platforms & Tools</h4>
+          <p>
+            ServiceNow (Incident, Request, Change, Integrated Risk Management, Workplace Services, Visitor Management),
+            HP Service Manager, Matrix42, Jira.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4>AI & Agentic Workflows</h4>
+          <p>
+            Agentic AI (ServiceNow), Claude Enterprise, Google Gemini, Microsoft Copilot, DeepSeek, AI‑enabled workflows
+            for governance, risk, and compliance.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4>Business Analysis</h4>
+          <p>
+            Requirements Gathering, User Story Authoring, Gap Analysis, Process Mapping, UAT/QA, Operational Dashboards,
+            Cross‑functional Stakeholder Engagement.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4>Scripting & Systems</h4>
+          <p>
+            Bash, PowerShell, Linux (Ubuntu/Debian), Windows, iOS, Android.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Contact</h3>
+      <ul class="contact-list">
+        <li><strong>Email:</strong> <a href="mailto:cyrus.shahriari@gmail.com">cyrus.shahriari@gmail.com</a></li>
+        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank">linkedin.com/in/cyrusshahriari</a></li>
+        <li><strong>Public Resume:</strong> <a href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank">View PDF on Google Drive</a></li>
+        <li><strong>Location:</strong> San Jose, CA</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 Cyrus Shahriari • Enterprise Product & ITSM Leader • ServiceNow Platform
+  </footer>
 
 </body>
 </html>
