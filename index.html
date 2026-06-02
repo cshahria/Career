@@ -1,725 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyrus Shahriari — IT Leader & Product Strategist</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #0f0e0d;
-    --ink-soft: #4a4844;
-    --ink-muted: #9a9590;
-    --canvas: #f7f5f1;
-    --canvas-alt: #eceae4;
-    --accent: #1a4d8f;
-    --accent-light: #e8eef8;
-    --rule: rgba(15,14,13,0.12);
-    --serif: 'DM Serif Display', Georgia, serif;
-    --sans: 'DM Sans', system-ui, sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--sans);
-    background: var(--canvas);
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2.5rem;
-    height: 60px;
-    background: rgba(247,245,241,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--rule);
-  }
-  .nav-brand {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    letter-spacing: 0.01em;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.82rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 60px;
-  }
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6rem 3rem 6rem 5rem;
-    border-right: 1px solid var(--rule);
-  }
-  .hero-eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-  }
-  .hero-name {
-    font-family: var(--serif);
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    line-height: 1.08;
-    letter-spacing: -0.01em;
-    margin-bottom: 2rem;
-  }
-  .hero-name em { font-style: italic; color: var(--accent); }
-  .hero-bio {
-    font-size: 1.05rem;
-    color: var(--ink-soft);
-    line-height: 1.75;
-    max-width: 420px;
-    margin-bottom: 2.5rem;
-  }
-  .hero-tags {
-    display: flex; flex-wrap: wrap; gap: 0.5rem;
-    margin-bottom: 2.5rem;
-  }
-  .tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    padding: 0.3rem 0.85rem;
-    border-radius: 100px;
-    background: var(--canvas-alt);
-    color: var(--ink-soft);
-    border: 1px solid var(--rule);
-  }
-  .hero-cta { display: flex; gap: 1rem; align-items: center; }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.7rem 1.5rem;
-    background: var(--accent);
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .btn-primary:hover { background: #163f77; transform: translateY(-1px); }
-  .btn-ghost {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.7rem 1.5rem;
-    border: 1px solid var(--rule);
-    color: var(--ink-soft);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  .hero-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 6rem 4rem 6rem 3rem;
-  }
-  .stats-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
-    margin-bottom: 2.5rem;
-  }
-  .stat-box {
-    padding: 1.5rem;
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    background: #fff;
-  }
-  .stat-num {
-    font-family: var(--serif);
-    font-size: 2.8rem;
-    line-height: 1;
-    color: var(--accent);
-    margin-bottom: 0.3rem;
-  }
-  .stat-label {
-    font-size: 0.78rem;
-    color: var(--ink-muted);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-  .hero-badge {
-    padding: 1.25rem 1.5rem;
-    background: var(--accent-light);
-    border-left: 3px solid var(--accent);
-    border-radius: 4px;
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-  }
-  .hero-badge strong { color: var(--ink); font-weight: 500; }
-
-  /* SECTIONS */
-  section { padding: 6rem 5rem; }
-  section + section { border-top: 1px solid var(--rule); }
-  .section-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    line-height: 1.15;
-    margin-bottom: 3rem;
-  }
-  .section-title em { font-style: italic; color: var(--accent); }
-
-  /* EXPERIENCE */
-  .experience-list { display: flex; flex-direction: column; gap: 0; }
-  .exp-item {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 0 2.5rem;
-    padding: 2.5rem 0;
-    border-bottom: 1px solid var(--rule);
-    transition: background 0.2s;
-  }
-  .exp-item:first-child { padding-top: 0; }
-  .exp-meta { padding-top: 0.1rem; }
-  .exp-period {
-    font-size: 0.78rem;
-    color: var(--ink-muted);
-    letter-spacing: 0.04em;
-    margin-bottom: 0.4rem;
-  }
-  .exp-company {
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: var(--accent);
-    margin-bottom: 0.2rem;
-  }
-  .exp-location {
-    font-size: 0.78rem;
-    color: var(--ink-muted);
-  }
-  .exp-role {
-    font-family: var(--serif);
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.3;
-  }
-  .exp-desc {
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-    line-height: 1.7;
-    margin-bottom: 0.75rem;
-  }
-  .exp-highlights {
-    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem;
-  }
-  .highlight-pill {
-    font-size: 0.72rem;
-    font-weight: 500;
-    padding: 0.2rem 0.7rem;
-    border-radius: 100px;
-    background: var(--accent-light);
-    color: var(--accent);
-    letter-spacing: 0.03em;
-  }
-
-  /* SKILLS */
-  .skills-section { background: var(--canvas-alt); }
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1px;
-    background: var(--rule);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  .skill-group {
-    background: var(--canvas);
-    padding: 1.5rem;
-  }
-  .skill-group-title {
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: var(--ink-muted);
-    margin-bottom: 1rem;
-  }
-  .skill-items { display: flex; flex-direction: column; gap: 0.5rem; }
-  .skill-item {
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .skill-item::before {
-    content: '';
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  /* PROJECTS */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-  .project-card {
-    padding: 1.75rem;
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    background: #fff;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .project-card-eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 500;
-    margin-bottom: 0.75rem;
-  }
-  .project-card-title {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    margin-bottom: 0.6rem;
-    line-height: 1.3;
-  }
-  .project-card-desc {
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    line-height: 1.65;
-    margin-bottom: 1rem;
-  }
-  .project-link {
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--accent);
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    display: inline-flex; align-items: center; gap: 0.3rem;
-  }
-  .project-link:hover { text-decoration: underline; }
-
-  /* CONTACT */
-  .contact-section {
-    background: var(--ink);
-    color: #fff;
-  }
-  .contact-section .section-label { color: rgba(255,255,255,0.4); }
-  .contact-section .section-title { color: #fff; }
-  .contact-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-    align-items: start;
-  }
-  .contact-note {
-    font-size: 1.05rem;
-    color: rgba(255,255,255,0.6);
-    line-height: 1.75;
-    margin-bottom: 2rem;
-  }
-  .contact-items { display: flex; flex-direction: column; gap: 1rem; }
-  .contact-item {
-    display: flex; align-items: center; gap: 1rem;
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.7);
-  }
-  .contact-item-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.35);
-    font-weight: 500;
-    width: 90px;
-    flex-shrink: 0;
-  }
-  .contact-item a { color: rgba(255,255,255,0.75); text-decoration: none; }
-  .contact-item a:hover { color: #fff; text-decoration: underline; }
-  .contact-right {
-    display: flex; flex-direction: column; gap: 1rem;
-  }
-  .doc-link {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 1.5rem;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background 0.2s, border-color 0.2s;
-  }
-  .doc-link:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.25); }
-  .doc-link-title { font-size: 0.9rem; color: #fff; font-weight: 500; }
-  .doc-link-sub { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.15rem; }
-  .doc-arrow { color: rgba(255,255,255,0.35); font-size: 1.2rem; }
-
-  /* FOOTER */
-  footer {
-    padding: 2rem 5rem;
-    border-top: 1px solid var(--rule);
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 0.78rem;
-    color: var(--ink-muted);
-  }
-  .footer-note { font-style: italic; font-size: 0.75rem; }
-
-  @media (max-width: 900px) {
-    nav { padding: 0 1.5rem; }
-    .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid var(--rule); }
-    .hero-right { padding: 3rem 1.5rem; }
-    section { padding: 4rem 1.5rem; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    .contact-grid { grid-template-columns: 1fr; }
-    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyrus Shahriari – Technical Product Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.4rem;
+        }
+        header h2 {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+        section {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .links a {
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+    </style>
 </head>
+
 <body>
 
-<nav>
-  <a class="nav-brand" href="#top">Cyrus Shahriari</a>
-  <ul class="nav-links">
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+<header>
+    <h1>Cyrus Shahriari</h1>
+    <h2>Technical Product Manager | ITSM & IRM Specialist | AI‑Driven Enterprise Solutions</h2>
+</header>
 
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="hero-left">
-    <p class="hero-eyebrow">IT Leader · Product Strategist · San Jose, CA</p>
-    <h1 class="hero-name">Cyrus<br><em>Shahriari</em></h1>
-    <p class="hero-bio">A strategic IT executive with 20+ years of experience driving enterprise transformation in highly regulated industries. Specializing in ITSM, AI governance, and product strategy at global scale.</p>
-    <div class="hero-tags">
-      <span class="tag">ITIL v3 Certified</span>
-      <span class="tag">ServiceNow</span>
-      <span class="tag">AI Governance</span>
-      <span class="tag">Change Management</span>
-      <span class="tag">No sponsorship required</span>
-    </div>
-    <div class="hero-cta">
-      <a class="btn-primary" href="https://drive.google.com/file/d/1iwNyS7Lig7cb-VYOdPQl9KkBd9-9IlIp3/view" target="_blank">↓ Download Resume</a>
-      <a class="btn-ghost" href="#contact">Get in Touch</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-num">20+</div>
-        <div class="stat-label">Years experience</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">8</div>
-        <div class="stat-label">Global employers</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">3</div>
-        <div class="stat-label">Continents</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">40%</div>
-        <div class="stat-label">Incident reduction @ FRB</div>
-      </div>
-    </div>
-    <div class="hero-badge">
-      <strong>Currently:</strong> Technical Product Manager at <strong>ServiceNow</strong> (headquarters, Santa Clara) — Digital Technology · Integrated Risk Management
-    </div>
-  </div>
+<section>
+    <h2>Professional Summary</h2>
+    <p>
+        Technical Product Manager with over 10 years of experience delivering global IT Service Management (ITSM),
+        Integrated Risk Management (IRM), and AI‑enabled enterprise solutions across regulated industries including
+        technology, finance, healthcare, and education. Skilled in product strategy, audit and compliance workflows,
+        regulatory change management, and operational excellence. Fluent in English and German.
+    </p>
 </section>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <p class="section-label">Career</p>
-  <h2 class="section-title">Professional <em>Experience</em></h2>
-  <div class="experience-list">
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <p class="exp-period">May 2023 – Present</p>
-        <p class="exp-company">ServiceNow</p>
-        <p class="exp-location">Santa Clara, CA</p>
-      </div>
-      <div>
-        <p class="exp-role">Technical Product Manager</p>
-        <p class="exp-desc">Member of the Digital Technology (IT Finance – Digital Employee Experience) team at ServiceNow headquarters. Led the Visitor Management project enabling Global Security Badge printing across 30 worldwide offices. Driving integration between Integrated Risk and Azure-based applications for evidence processing.</p>
-        <p class="exp-desc">Reduced open incidents and requests by 40% in the first three months. Recorded over 250 hours of Knowledge Transfer sessions. Drafted 200+ stories with detailed business requirements across the QA function.</p>
-        <div class="exp-highlights">
-          <span class="highlight-pill">Integrated Risk Management</span>
-          <span class="highlight-pill">ServiceNow Platform</span>
-          <span class="highlight-pill">Product Lifecycle</span>
-          <span class="highlight-pill">Azure Integration</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <p class="exp-period">July 2020 – May 2023</p>
-        <p class="exp-company">First Republic Bank</p>
-        <p class="exp-location">San Francisco, CA</p>
-      </div>
-      <div>
-        <p class="exp-role">Sr. IT Change Analyst</p>
-        <p class="exp-desc">Senior member of the IS Change Management Team, exceeding expectations in all three annual performance reviews. Assessed an average of 1,200 change records per month, slashing expedited changes by 50%. Hosted biweekly Change Advisory Board meetings with senior IT managers and SMEs.</p>
-        <div class="exp-highlights">
-          <span class="highlight-pill">ITSM</span>
-          <span class="highlight-pill">Change Advisory Board</span>
-          <span class="highlight-pill">Financial Sector</span>
-          <span class="highlight-pill">ServiceNow</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <p class="exp-period">Jan 2020 – July 2020</p>
-        <p class="exp-company">Lumentum</p>
-        <p class="exp-location">San Jose, CA</p>
-      </div>
-      <div>
-        <p class="exp-role">ITIL Process Manager</p>
-        <p class="exp-desc">Oversaw ITIL process development for Incident, Service Request, Change, Configuration, and Problem Management across three global regions. Led migration from Jira Service Desk to ServiceNow. Managed CMDB implementation based on CSDM 2.0.</p>
-        <div class="exp-highlights">
-          <span class="highlight-pill">ITIL Process Design</span>
-          <span class="highlight-pill">CMDB / CSDM</span>
-          <span class="highlight-pill">Jira → ServiceNow</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <p class="exp-period">Aug 2018 – Dec 2019</p>
-        <p class="exp-company">AbbVie</p>
-        <p class="exp-location">Sunnyvale, CA</p>
-      </div>
-      <div>
-        <p class="exp-role">Domain Architect (ServiceNow)</p>
-        <p class="exp-desc">Performed domain architecture in ServiceNow for a leading pharmaceutical organization. Analyzed and mapped As-Is HR processes via Workday integration. Created over 200 reports in six months as the de facto NOW reporting SME lead.</p>
-        <div class="exp-highlights">
-          <span class="highlight-pill">Pharmaceutical</span>
-          <span class="highlight-pill">Workday Integration</span>
-          <span class="highlight-pill">ServiceNow Architecture</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <p class="exp-period">Mar 2006 – Mar 2012</p>
-        <p class="exp-company">European Central Bank</p>
-        <p class="exp-location">Frankfurt, Germany</p>
-      </div>
-      <div>
-        <p class="exp-role">ITIL Business Process Designer</p>
-        <p class="exp-desc">Gathered business requirements as part of the change management process, developed change workflows, and conducted disaster recovery exercises with the ITSCM team at one of the world's most regulated financial institutions.</p>
-        <div class="exp-highlights">
-          <span class="highlight-pill">Central Banking</span>
-          <span class="highlight-pill">Disaster Recovery</span>
-          <span class="highlight-pill">Change Workflows</span>
-          <span class="highlight-pill">OpenText / LiveLink</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="exp-item">
-      <div class="exp-meta">
-        <p class="exp-period">Jan 2001 – Jan 2005</p>
-        <p class="exp-company">Menlo College</p>
-        <p class="exp-location">Atherton, CA</p>
-      </div>
-      <div>
-        <p class="exp-role">IT Systems Administrator</p>
-        <p class="exp-desc">Administered Windows and Linux servers and Cisco-based VoIP systems. Started as a student intern and converted to full-time. Earned Bachelor of Science in Management Information Systems (1998–2000).</p>
-        <div class="exp-highlights">
-          <span class="highlight-pill">B.S. MIS</span>
-          <span class="highlight-pill">Linux / Windows Admin</span>
-          <span class="highlight-pill">Cisco VoIP</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
+<section>
+    <h2>Current Focus</h2>
+    <p>
+        Currently supporting the FIFA Fan Operations team following successful delivery of the Integrated Risk
+        Management, Regulatory Change, and Audit Management portfolios. Enabled daily and monthly releases for
+        Customer Zero, ensuring platform stability, compliance, and continuous improvement.
+    </p>
 </section>
 
-<!-- SKILLS -->
-<section id="skills" class="skills-section">
-  <p class="section-label">Expertise</p>
-  <h2 class="section-title">Skills &amp; <em>Capabilities</em></h2>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <p class="skill-group-title">Frameworks &amp; Methods</p>
-      <div class="skill-items">
-        <span class="skill-item">ITIL v3 (Certified)</span>
-        <span class="skill-item">Agile / Scrum</span>
-        <span class="skill-item">IT Change Management</span>
-        <span class="skill-item">Incident &amp; Problem Mgmt</span>
-        <span class="skill-item">CMDB / CSDM</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Platforms</p>
-      <div class="skill-items">
-        <span class="skill-item">ServiceNow (NOW)</span>
-        <span class="skill-item">Microsoft Azure</span>
-        <span class="skill-item">Workday</span>
-        <span class="skill-item">Jira Service Desk</span>
-        <span class="skill-item">OpenText / LiveLink</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Domain Knowledge</p>
-      <div class="skill-items">
-        <span class="skill-item">Regulatory Compliance</span>
-        <span class="skill-item">AI Governance</span>
-        <span class="skill-item">Enterprise Risk Mgmt</span>
-        <span class="skill-item">Financial Services IT</span>
-        <span class="skill-item">Pharma / Healthcare IT</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Leadership &amp; Strategy</p>
-      <div class="skill-items">
-        <span class="skill-item">Product Lifecycle Mgmt</span>
-        <span class="skill-item">Stakeholder Management</span>
-        <span class="skill-item">Cross-functional Teams</span>
-        <span class="skill-item">Executive Reporting</span>
-        <span class="skill-item">Knowledge Transfer</span>
-      </div>
-    </div>
-  </div>
+<section>
+    <h2>Experience Highlights</h2>
+    <ul>
+        <li>Led Agentic AI implementation for Integrated Risk Management at ServiceNow, improving operational efficiency by 30%.</li>
+        <li>Managed Audit, Regulatory Change, and Policy Management products for internal enterprise stakeholders.</li>
+        <li>Oversaw global Visitor Management and Occupational Health & Safety applications across 20+ locations.</li>
+        <li>Reduced incident backlog by 40% and improved change management processes across multiple organizations.</li>
+        <li>Delivered enterprise ITSM and IRM solutions for First Republic Bank, Kaiser Permanente, AbbVie, Lumentum, and more.</li>
+    </ul>
 </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <p class="section-label">Community &amp; Projects</p>
-  <h2 class="section-title">Beyond the <em>Office</em></h2>
-  <div class="projects-grid">
-    <div class="project-card">
-      <p class="project-card-eyebrow">Emergency Preparedness</p>
-      <h3 class="project-card-title">SJNCERT — Community Emergency Response</h3>
-      <p class="project-card-desc">Active member of the San Jose Neighborhood CERT program, trained in disaster response, first aid, and community coordination to support emergency services.</p>
-      <a class="project-link" href="http://sjncert.org/" target="_blank">sjncert.org →</a>
-    </div>
-    <div class="project-card">
-      <p class="project-card-eyebrow">Civic Technology</p>
-      <h3 class="project-card-title">SJ 311 Services &amp; Smart City Initiatives</h3>
-      <p class="project-card-desc">Contributed to San Jose's 311 services and smart city outreach, bridging community needs with digital government tools and service delivery improvements.</p>
-      <a class="project-link" href="https://bit.ly/SJ311Services" target="_blank">View project →</a>
-    </div>
-    <div class="project-card">
-      <p class="project-card-eyebrow">Sustainability</p>
-      <h3 class="project-card-title">Waze Carpool Feedback &amp; Commuter Advocacy</h3>
-      <p class="project-card-desc">User experience research and feedback program for Waze Carpool, focused on improving commuter experience and reducing solo-driver traffic in the Bay Area.</p>
-      <a class="project-link" href="https://sites.google.com/view/2018wazefeedback/home" target="_blank">View project →</a>
-    </div>
-    <div class="project-card">
-      <p class="project-card-eyebrow">Data Quality</p>
-      <h3 class="project-card-title">Data Cleansing &amp; Governance Initiatives</h3>
-      <p class="project-card-desc">Personal and professional interest in data stewardship — exploring methods to improve data integrity, reduce duplication, and enable cleaner reporting in enterprise platforms.</p>
-      <a class="project-link" href="https://sites.google.com/view/cyrusshahriari/projects/data-cleansing" target="_blank">View details →</a>
-    </div>
-    <div class="project-card">
-      <p class="project-card-eyebrow">Reviews &amp; Insights</p>
-      <h3 class="project-card-title">Gartner Peer Insights Contributions</h3>
-      <p class="project-card-desc">Published technology reviews on Gartner Peer Insights, sharing practitioner experience on enterprise software including ITSM platforms and cloud services.</p>
-      <a class="project-link" href="https://sites.google.com/view/cyrusshahriari/reviews/gartner-peer-insights" target="_blank">Read reviews →</a>
-    </div>
-    <div class="project-card">
-      <p class="project-card-eyebrow">Volunteering</p>
-      <h3 class="project-card-title">FIFA World Cup 2026 — Fan Operations</h3>
-      <p class="project-card-desc">Fan Operations volunteer for 6 World Cup matches at San Francisco Bay Area Stadium. Wayfinding, seat assistance, and fan experience at one of the world's biggest sporting events.</p>
-      <a class="project-link" href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank">Read the journal →</a>
-    </div>
-  </div>
+<section class="links">
+    <h2>Links</h2>
+    <p>
+        <a href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank">LinkedIn Profile</a>
+        <a href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank">Public Resume</a>
+    </p>
 </section>
 
-<!-- CONTACT -->
-<section id="contact" class="contact-section">
-  <p class="section-label">Let's connect</p>
-  <h2 class="section-title">Get in <em>Touch</em></h2>
-  <div class="contact-grid">
-    <div>
-      <p class="contact-note">Open to new opportunities in IT leadership, product management, and ITSM strategy. No sponsorship required — eligible to work in the US and EU.</p>
-      <div class="contact-items">
-        <div class="contact-item">
-          <span class="contact-item-label">Email</span>
-          <a href="mailto:cyrus.cti@gmail.com">cyrus.cti@gmail.com</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-item-label">Location</span>
-          <span>San Jose, California, USA</span>
-        </div>
-        <div class="contact-item">
-          <span class="contact-item-label">Site</span>
-          <a href="https://bit.ly/2020CYRUS" target="_blank">bit.ly/2020CYRUS</a>
-        </div>
-        <div class="contact-item">
-          <span class="contact-item-label">References</span>
-          <a href="https://sites.google.com/view/cyrusshahriari/career/references" target="_blank">Available on request</a>
-        </div>
-      </div>
-    </div>
-    <div class="contact-right">
-      <a class="doc-link" href="https://drive.google.com/file/d/1iwNyS7Lig7cb-VYOdPQl9KkBd9-9IlIp3/view" target="_blank">
-        <div>
-          <div class="doc-link-title">Resume (PDF)</div>
-          <div class="doc-link-sub">2025 · Cyrus Shahriari vQ3</div>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a class="doc-link" href="https://docs.google.com/presentation/d/1XDqyXtSLhOqAIksvvvGCykYUDOkjRPys0u_SRT-QEf0/edit" target="_blank">
-        <div>
-          <div class="doc-link-title">Career Slides</div>
-          <div class="doc-link-sub">Visual career overview · Google Slides</div>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-      <a class="doc-link" href="https://sites.google.com/view/cyrusshahriari/reviews/books" target="_blank">
-        <div>
-          <div class="doc-link-title">Book Reviews</div>
-          <div class="doc-link-sub">Professional reading · annotated list</div>
-        </div>
-        <span class="doc-arrow">↗</span>
-      </a>
-    </div>
-  </div>
+<section>
+    <h2>Technical Skills</h2>
+    <ul>
+        <li>Generative AI: Google Gemini, DeepSeek, Microsoft Copilot, ServiceNow My Assist</li>
+        <li>Service Management: ServiceNow, HP Service Manager, Jira, Matrix42</li>
+        <li>Data Analysis: Excel (PivotTables, VLOOKUP), Power BI</li>
+        <li>Scripting: Bash, PowerShell</li>
+        <li>Networking: Cisco routers/switches, Wi‑Fi networks</li>
+        <li>Operating Systems: Android, iOS, Linux (Ubuntu/Debian), Windows</li>
+    </ul>
 </section>
 
 <footer>
-  <span>© 2026 Cyrus Shahriari</span>
-  <span class="footer-note">Views expressed are my own and do not reflect those of current or previous employers.</span>
+    © 2026 Cyrus Shahriari — San Jose, CA
 </footer>
 
 </body>

@@ -1,0 +1,53 @@
+﻿Cyrus Shahriari
+San Jose, CA | cyrus.shahriari@gmail.com | linkedin.com/in/cyrusshahriari
+Technical Product Manager | ITSM Practitioner | Cross-Industry Innovator
+
+PROFILE
+An accomplished IT leader with over two decades of experience, specializing in global IT Service Management (ITSM) product strategies across highly regulated sectors like technology, finance, healthcare, and education. His expertise encompasses IT change management, audit processes, regulatory compliance, policy development, and AI governance. Holding a B.S. in MIS, ITIL v3, and Microsoft Technology Specialist certifications, he is fluent in English and German, enabling strong international collaboration. He consistently drives the entire product lifecycle, implements agile transformations, and delivers robust enterprise platforms that achieve operational excellence and enhance customer value.
+PROFESSIONAL EXPERIENCE
+Technical Product Manager (TPM) – ServiceNow, Santa Clara, USA
+Permanently hired as a manager at ServiceNow, overseeing the Integrated Risk Management product portfolio, including Audit Management, Regulatory Change Management, Policy and Compliance Management, and Risk Management.
+March 2024 – Present (Full time since January 6, 2025)
+* Spearheads the implementation of Agentic AI for Integrated Risk Management (IRM), deploying it for ‘Customer Zero’, impacting a multi-million dollar portfolio, and increasing operational efficiency by 30%.
+* Optimizes engagement and interview processes by integrating Zoom Agentic AI within the ServiceNow platform for seamless record management and scheduling.
+* Leads IRM incident management, overseeing root cause analysis and serving as the primary point of contact for all incident communications and resolutions.
+* Collaborates with the Senior IRM Director to drive continuous improvement initiatives for the stability and control of the IRM platform.
+* Provides dedicated support for risk and issue management activities, coordinating with Level 2 and Level 3 development teams for timely resolution.
+* Successfully resolves a complex eSignature plugin incident through cross-functional collaboration and in-depth technical support, improving user experience and restoring functionality.
+* Manages Audit, Regulatory Change, and Policy Management products, providing essential support to internal business stakeholders to ensure compliance and smooth operations.
+* Supports significant workflow enhancements for audit management, regulatory change management, and policy processes, optimizing approval flows and notification systems for increased efficiency and compliance.
+Business Systems Analyst - Cypress HCM at ServiceNow, Santa Clara, USA
+May 15, 2023 – March 2024
+* Managed the Visitor Management application, including mobile version upgrades and hardware functionality, across more than 20 global locations.
+* Oversaw the Occupational Health and Safety application as its inaugural deployed module.
+* Coordinated extensively with global development and QA teams, dedicating an average of over 50 hours per week.
+* Reduced open incidents and requests by 40% within a three-month period.
+* Developed an internal dashboard and effectively managed escalations.
+* Provided comprehensive production support, facilitated system enhancements, collaborated with UX experts, performed knowledge transfer, and authored user stories and defect reports
+Sr. IT Infrastructure Change Analyst – First Republic Bank, San Francisco, USA
+Jul 2020 – May 2023
+* Halved expedited changes by assessing over 1200 monthly records.
+* Increased standard changes by 15% through automation and training.
+* Created reports using Excel pivot tables and led bi-weekly CAB meetings.
+* Investigated failed changes, providing root cause analysis and training.
+* Performed rigorous QA and testing in ServiceNow ITSM.
+ADDITIONAL EXPERIENCE
+ITIL Process Manager – Lumentum                                         (Jan 2020 – Jul 2020)
+ServiceNow Business Analyst – AbbVie                                        (Aug 2018 – Dec 2019)
+Business Systems Analyst – Kaiser Permanente                         (Nov 2017 – Aug 2018)
+ITSM Data / Business Analyst – Dimension Data                         Apr 2016 – Nov 2017)
+IT Service Consultant – Cooper Technologies                                 (Jun 2015 – Mar 2016)
+Sr. Coordinator / Business Analyst – Health Shared Services BC         (Jan 2013 – Jun 2014)
+European Central Bank, Google, Menlo College                        (Early Career)
+EDUCATION & CERTIFICATIONS
+• B.S. in Management Information Systems – Menlo College, Atherton, CA
+• ITIL v3 Certified (APM Group Foundation)
+• Microsoft Certified Technology Specialist
+• FEMA CERT Train-the-Trainer / Program Manager
+TECHNICAL SKILLS
+• Generative AI: Google Gemini, DeepSeek, Microsoft Co-Pilot, ServiceNow My Assist.
+• Service Management: ServiceNow. HP Service Manager, Jira, Matrix42.
+• Data Analysis: Excel (PivotTables, VLOOKUP), Power BI.
+• Scripting: Bash, Microsoft Co-PowerShell.
+• Networking: Cisco routers/switches, Wi-Fi networks.
+• Operating Systems: Android, iOS, Linux (Ubuntu/Debian), Windows.
