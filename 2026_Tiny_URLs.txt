@@ -1,8 +1,7 @@
-
-
-
 Cyrus Shahriari Career
 https://tinyurl.com/2026-cyrus
+
+https://cshahria.github.io/2026fifaworldcup/events.html
 
 https://www.linkedin.com/in/cyrusshahriari/
 
@@ -13,3 +12,9 @@ https://cshahria.github.io/career/index.html
 
 
 https://cshahria.github.io/Career/index.html
+
+https://cshahria.goatcounter.com/
+
+<script data-goatcounter="https://cshahria.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
