@@ -195,7 +195,35 @@
     <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
     <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
   </nav>
+<div style="display:flex;gap:12px;justify-content:center;margin:10px 0 18px;flex-wrap:wrap;">
+  <div style="background:#e8f1fc;border-radius:10px;padding:8px 14px;text-align:center;font-family:system-ui,sans-serif;">
+    <div style="font-size:0.7rem;color:#2b7fd6;font-weight:700;">📍 NEXT MEETING</div>
+    <div id="meetingCountdown" style="font-size:0.85rem;color:#1f2937;font-weight:600;">--</div>
+    <div style="font-size:0.68rem;color:#6b7280;">Jul 2 · 11:00 AM PT · Mtn View Library</div>
+  </div>
+  <div style="background:#fdf2df;border-radius:10px;padding:8px 14px;text-align:center;font-family:system-ui,sans-serif;">
+    <div style="font-size:0.7rem;color:#c8870a;font-weight:700;">⏳ REPORT DUE</div>
+    <div id="dueCountdown" style="font-size:0.85rem;color:#1f2937;font-weight:600;">--</div>
+    <div style="font-size:0.68rem;color:#6b7280;">Wk26 results · Wk27 goals</div>
+  </div>
+</div>
 
+<script>
+function startCountdown(elId, targetISO){
+  const el = document.getElementById(elId);
+  function update(){
+    const diff = new Date(targetISO) - new Date();
+    if(diff <= 0){ el.textContent = "Now"; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    el.textContent = d + "d " + h + "h";
+  }
+  update();
+  setInterval(update, 60000);
+}
+startCountdown('meetingCountdown', '2026-07-02T11:00:00-07:00');
+startCountdown('dueCountdown', '2026-06-29T00:00:00-07:00');
+</script>
   <header>
     <span class="tag">unPTO ACCOUNTABILITY</span>
     <h1>Week 27 · 2026 Check-In</h1>
