@@ -1,0 +1,35 @@
+Hello Cyrus, 
+
+Greetings!
+My name is Ravi and I'm a recruiter at Intelliswift, an LTTS company.
+We have an immediate opening with one of our valid clients, please go through the job description and if you are interested kindly share me your updated resume ASAP.
+ 
+Role: AI Lab Technical Support Specialist
+Location: Onsite, Milpitas, CA
+Duration: 3 Months Contract
+Job ID: 25755-1
+ 
+Job Description:
+
+We're looking for a hands-on engineer/technician to assist with the setup, maintenance, and operation of our high-performance computing cluster.
+This role is ideal for someone with practical experience in Linux systems in the data center who enjoys working in a fast-paced technical environment.
+ 
+Key Responsibilities:
+Racking, Stacking, Cabling and maintenance the AI data center and lab.
+Perform routine maintenance and troubleshooting on Linux servers, storage and networking systems.
+Use tools to monitor and troubleshoot hardware issues.
+Work closely with engineers and developers to ensure smooth operation of the AI infrastructure.
+ 
+Required Skills/Experience:
+Experience with assembly of mechanical or electrical systems, or performing component-level repairs and troubleshooting on technical equipment.
+Ability to lift/move 50lb (23kg) of equipment and ability to exert yourself physically over extended periods of time, including frequent bending, kneeling, climbing, pushing/pulling and lifting.
+Experience working within a data center or network operation center environment.
+Comfortable working in a Linux environment & ability to diagnose and troubleshoot issues in operating systems, computer/server hardware or networking stack.
+Able to write and understand simple Bash or Python scripts.
+Exposure to Git, Jenkins, or similar tools is a plus.
+ 
+
+If you are qualified, available, interested, planning to make a change, or know of a friend who might have the required qualifications and interest, please call me ASAP at (510) 370-4578, even if we have spoken recently about a different position. If you do respond via e-mail please include a daytime phone number so I can reach you. In considering candidates, time is of the essence, so please respond ASAP. Thank you.
+
+Sincerely yours,
+Ravi Sankar Yathati

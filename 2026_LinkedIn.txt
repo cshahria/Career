@@ -11,7 +11,7 @@ March 2024 – Present (Full time since January 6, 2025)
 * Spearheads the implementation of Agentic AI for Integrated Risk Management (IRM), deploying it for ‘Customer Zero’, impacting a multi-million dollar portfolio, and increasing operational efficiency by 30%.
 * Optimizes engagement and interview processes by integrating Zoom Agentic AI within the ServiceNow platform for seamless record management and scheduling.
 * Leads IRM incident management, overseeing root cause analysis and serving as the primary point of contact for all incident communications and resolutions.
-* Collaborates with the Senior IRM Director to drive continuous improvement initiatives for the stability and control of the IRM platform.
+* Collaborates with the Senior IRM Director to drive continuous improvement initiatives  for the stability and control of the IRM platform.
 * Provides dedicated support for risk and issue management activities, coordinating with Level 2 and Level 3 development teams for timely resolution.
 * Successfully resolves a complex eSignature plugin incident through cross-functional collaboration and in-depth technical support, improving user experience and restoring functionality.
 * Manages Audit, Regulatory Change, and Policy Management products, providing essential support to internal business stakeholders to ensure compliance and smooth operations.
