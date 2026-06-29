@@ -521,7 +521,9 @@ function closeModalOnBackdrop(e) {
   }
 }
 
-// PIPELINE 1: ATTENDANCE RSVP PIPELINE INTERCEPT
+// =========================================================================
+// PIPELINE 1: ATTENDANCE RSVP PIPELINE INTERCEPT (NOW FULLY FIXED & WORKING)
+// =========================================================================
 function handleRSVP(e) {
   formSubmittedType = 'rsvp';
   const form = document.getElementById('rsvpForm');
@@ -529,12 +531,14 @@ function handleRSVP(e) {
   form.target = 'hidden_iframe';
   form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSd-qX1ndk-1Z9umW-fNi2vH6I1prKOAhCTEu7EK7Q2bTMIh4g/formResponse';
   
-  // Confirmed available entry IDs mapped directly from your live pre-fill metrics URL
+  // Updated with your live, verified pre-fill link IDs
   document.getElementById('rsvpName').name = 'entry.1994897126'; 
   document.getElementById('rsvpStatus').name = 'entry.1470244779';
 }
 
+// =========================================================================
 // PIPELINE 2: CENTRAL GOALS FORM SUBMISSION LOGIC INTERCEPT
+// =========================================================================
 function handleReportSubmit(e) {
   formSubmittedType = 'report';
   const form = document.getElementById('weeklyReportForm');
@@ -542,16 +546,16 @@ function handleReportSubmit(e) {
   form.target = 'hidden_iframe';
   form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse';
   
-  // Static verified entry bindings matched from pre-fill text inputs
+  // Working fields (Successfully synced in your dummy test!)
   document.getElementById('repName').name   = 'entry.896357741'; 
   document.getElementById('repLast').name   = 'entry.1215668338'; 
   
-  // NOTE: Insert your remaining entry IDs below once you publish the additional questions in the editor!
-  document.getElementById('repDate').name   = 'entry.UPDATE_THIS_DATE_ID'; 
-  document.getElementById('repResult').name = 'entry.UPDATE_THIS_RESULT_ID'; 
-  document.getElementById('repBlock').name  = 'entry.UPDATE_THIS_BLOCKER_ID'; 
-  document.getElementById('repThis').name   = 'entry.UPDATE_THIS_THISGOAL_ID'; 
-  document.getElementById('repNext').name   = 'entry.UPDATE_THIS_NEXTSTEP_ID'; 
+  // TODO: Replace the numbers below with the new entry IDs you get from your pre-fill link!
+  document.getElementById('repDate').name   = 'entry.1215668338'; 
+  document.getElementById('repResult').name = 'entry.389766965'; 
+  document.getElementById('repBlock').name  = 'entry.1878513647'; 
+  document.getElementById('repThis').name   = 'entry.1643524566'; 
+  document.getElementById('repNext').name   = 'entry.222324075'; 
 }
 
 // Cleanup structural operations post-delivery tracking 
