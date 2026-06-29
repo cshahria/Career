@@ -239,10 +239,6 @@
     font-family: inherit;
     font-size: 0.9rem;
   }
-  /* Ensure textareas can be manually expanded cleanly by users if desired */
-  .form-group textarea {
-    resize: vertical;
-  }
 
   footer{
     text-align:center;
@@ -424,7 +420,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
   <!-- ========================================== -->
   <!-- LOCAL WORKSPACE: CYRUS STATUS REPORT       -->
   <!-- ========================================== -->
-  <div id="cyrusModal" class="modal-overlay">
+  <div id="cyrusModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('cyrusModal')">&times;</button>
       <h3 style="margin-top:0;">📋 Cyrus Shahriari — Tracker Details</h3>
@@ -443,7 +439,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
   </div>
 
   <!-- REPORT SUBMISSION FORM INTERACTIVE MODAL layout -->
-  <div id="dueModal" class="modal-overlay">
+  <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('dueModal')">&times;</button>
       <h3>📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
@@ -464,7 +460,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
         </div>
         <div class="form-group">
           <label>Result</label>
-          <textarea id="repResult" rows="2" placeholder="e.g. Done, Partial, In progress" required></textarea>
+          <input type="text" id="repResult" placeholder="e.g. Done, Partial, In progress" required>
         </div>
         <div class="form-group">
           <label>Blockers (If Any)</label>
@@ -476,7 +472,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
         </div>
         <div class="form-group">
           <label>First Next Step</label>
-          <textarea id="repNext" rows="2" placeholder="Immediate action item" required></textarea>
+          <input type="text" id="repNext" placeholder="Immediate action item" required></textarea>
         </div>
 
         <button type="submit" class="submit-btn primary" style="margin-top:8px;">Securely Submit Update Row</button>
@@ -517,6 +513,12 @@ function openModal(modalId, userName = '') {
 
 function closeModal(modalId) {
   document.getElementById(modalId).style.display = 'none';
+}
+
+function closeModalOnBackdrop(e) {
+  if(e.target.classList.contains('modal-overlay')) {
+    e.target.style.display = 'none';
+  }
 }
 
 // =========================================================================
