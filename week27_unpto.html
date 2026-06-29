@@ -385,10 +385,10 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
     <!-- RSVP Section -->
     <div style="background: var(--sky-light); padding: 14px; border-radius: 8px;">
       <h3 style="margin: 0 0 8px 0; font-size: 0.9rem; color: var(--sky);">📅 Weekly Attendance RSVP</h3>
-      <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSd-qX1ndk-1Z9umW-fNi2vH6I1prKOAhCTEu7EK7Q2bTMIh4g/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
+      <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <input type="text" id="rsvpName" name="entry.1994897126" placeholder="Your Name" style="padding: 6px; border: 1px solid var(--border); border-radius: 4px; flex: 1; min-width: 120px;" required>
-          <select id="rsvpStatus" name="entry.1470244779" style="padding: 6px; border: 1px solid var(--border); border-radius: 4px;" required>
+          <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Your Name" style="padding: 6px; border: 1px solid var(--border); border-radius: 4px; flex: 1; min-width: 120px;" required>
+          <select id="rsvpStatus" name="entry.502351350" style="padding: 6px; border: 1px solid var(--border); border-radius: 4px;" required>
             <option value="Attending Both Sessions">Attending Both Sessions</option>
             <option value="Check-in Only">Check-in Only</option>
             <option value="Coworking Only">Coworking Only</option>
@@ -554,7 +554,6 @@ function handleReportSubmit(e) {
 function handleFormDone() {
   if (formSubmittedType === 'rsvp') {
     alert("RSVP securely synced to our tracking spreadsheet!");
-    // Form data is safely retained without being forcefully cleared mid-flight
   } else if (formSubmittedType === 'report') {
     alert("Your weekly report has been uploaded and structured safely!");
     closeModal('dueModal');
