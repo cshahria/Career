@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>unPTO Accountability · Week 27, 2026</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --amber:#c8870a;
+    --amber-light:#fdf2df;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:24px 16px 60px;
+    line-height:1.55;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  nav{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    font-size:0.85rem;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  nav a{
+    color:var(--sky);
+    text-decoration:none;
+    font-weight:600;
+  }
+  nav a:hover{text-decoration:underline;}
+
+  header{
+    text-align:center;
+    margin-bottom:26px;
+  }
+  .tag{
+    display:inline-block;
+    background:var(--pitch-light);
+    color:var(--pitch);
+    font-size:0.75rem;
+    font-weight:700;
+    padding:4px 12px;
+    border-radius:20px;
+    letter-spacing:.04em;
+    margin-bottom:10px;
+  }
+  header h1{
+    font-size:1.7rem;
+    margin:0 0 6px;
+    color:#111827;
+  }
+  header p{
+    color:var(--muted);
+    margin:0;
+    font-size:0.95rem;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card h2{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#111827;
+  }
+
+  /* format block - exact structure requested */
+  .format-block{
+    font-family:'Consolas','Courier New',monospace;
+    background:#f9fafb;
+    border:1px dashed var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:0.9rem;
+    color:#374151;
+    white-space:pre-line;
+  }
+  .format-block b{color:#111827;}
+
+  .pill{
+    display:inline-block;
+    padding:3px 12px;
+    border-radius:20px;
+    font-size:0.78rem;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  .pill.done{background:var(--pitch-light);color:var(--pitch);}
+  .pill.progress{background:var(--sky-light);color:var(--sky);}
+  .pill.missed{background:#fde8e8;color:#c0392b;}
+  .pill.blank{background:#f1f1f1;color:var(--muted);}
+
+  ul{margin:0;padding-left:0;list-style:none;}
+  li{
+    position:relative;
+    padding:7px 0 7px 24px;
+    font-size:0.95rem;
+    border-bottom:1px solid #f1f3f4;
+  }
+  li:last-child{border-bottom:none;}
+  li::before{
+    content:'⚽';
+    position:absolute;
+    left:0;
+    font-size:0.8rem;
+    top:8px;
+  }
+
+  .meta-line{
+    font-size:0.88rem;
+    color:var(--muted);
+    margin-top:8px;
+  }
+
+  /* Team grid */
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:6px;
+  }
+  @media (min-width:520px){
+    .team-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  .player{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 12px 10px;
+    text-align:center;
+    background:#fafbfa;
+  }
+  .player .avatar{
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--pitch-light);
+    color:var(--pitch);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    font-size:1rem;
+    margin:0 auto 8px;
+  }
+  .player.me .avatar{background:var(--sky-light);color:var(--sky);}
+  .player .name{font-weight:700;font-size:0.9rem;margin-bottom:6px;}
+  .player .status{margin-top:2px;}
+
+  footer{
+    text-align:center;
+    margin-top:30px;
+    color:var(--muted);
+    font-size:0.8rem;
+  }
+  .note{
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-top:10px;
+  }
+  .divider{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.8rem;
+    margin:26px 0 14px;
+  }
+</style>
+  <script data-goatcounter="https://cshahria.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
+    <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
+    <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
+  </nav>
+<div style="display:flex;gap:12px;justify-content:center;margin:10px 0 18px;flex-wrap:wrap;">
+  <div style="background:#e8f1fc;border-radius:10px;padding:8px 14px;text-align:center;font-family:system-ui,sans-serif;">
+    <div style="font-size:0.7rem;color:#2b7fd6;font-weight:700;">📍 NEXT MEETING</div>
+    <div id="meetingCountdown" style="font-size:0.85rem;color:#1f2937;font-weight:600;">--</div>
+    <div style="font-size:0.68rem;color:#6b7280;">Jul 2 · 11:00 AM PT · Mtn View Library</div>
+  </div>
+  <div style="background:#fdf2df;border-radius:10px;padding:8px 14px;text-align:center;font-family:system-ui,sans-serif;">
+    <div style="font-size:0.7rem;color:#c8870a;font-weight:700;">⏳ REPORT DUE</div>
+    <div id="dueCountdown" style="font-size:0.85rem;color:#1f2937;font-weight:600;">--</div>
+    <div style="font-size:0.68rem;color:#6b7280;">Wk26 results · Wk27 goals</div>
+  </div>
+</div>
+
+<script>
+function startCountdown(elId, targetISO){
+  const el = document.getElementById(elId);
+  function update(){
+    const diff = new Date(targetISO) - new Date();
+    if(diff <= 0){ el.textContent = "Now"; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    el.textContent = d + "d " + h + "h";
+  }
+  update();
+  setInterval(update, 60000);
+}
+startCountdown('meetingCountdown', '2026-07-02T11:00:00-07:00');
+startCountdown('dueCountdown', '2026-06-29T00:00:00-07:00');
+</script>
+  <header>
+    <span class="tag">unPTO ACCOUNTABILITY</span>
+    <h1>Week 27 · 2026 Check-In</h1>
+    <p>June 29 – July 5, 2026 · sharing progress, not keeping score</p>
+  </header>
+
+  <!-- Exact required format -->
+  <div class="card">
+    <h2>📋 Weekly Report Format</h2>
+    <div class="format-block"><b>Last week's goal:</b> Wrap up volunteer shifts, keep reading the networking book, and consolidate home expenses.
+<b>Result:</b> Done
+<b>Blocker:</b> None right now.
+<b>This week's goal:</b> EDD session, counselor one-on-one, group session, and final volunteer shift on July 1st.
+<b>First next step:</b> Lock in the EDD/counselor appointment and show up for the July 1st shift.</div>
+  </div>
+
+  <div class="card">
+    <h2>✅ Last Week (Week 26) <span class="pill done">Done</span></h2>
+    <ul>
+      <li>Worked two volunteer shifts — Monday June 22nd and Thursday June 25th — good reps for live networking practice.</li>
+      <li>Started reading 'The 20 Minute Networking Meeting' book by Marcia Ballinger aiming to finish by mid-July.</li>
+      <li>Started looking at home projects and home expense consolidation. Continued recovery and health focus.</li>
+    </ul>
+    <p class="meta-line"><strong>Blocker:</strong> None right now.</p>
+  </div>
+
+  <div class="card">
+    <h2>🎯 This Week (Week 27) <span class="pill progress">In Progress</span></h2>
+    <ul>
+      <li>EDD session, counselor one-on-one, and the group session.</li>
+      <li>Final volunteer shift in Santa Clara — Wednesday, July 1st, 1300 - 2000 PT. Closes out the international volunteer assignment.</li>
+      <li>Practice mock interviews and a 20-minute networking session with the group.</li>
+      <li>Handle a couple of personal/family items, and start scouting job leads for the week.</li>
+    </ul>
+    <p class="meta-line"><strong>First next step:</strong> Lock in the EDD/counselor appointment, then show up for July 1st.</p>
+  </div>
+
+  <div class="card">
+    <h2>🔭 On the Radar</h2>
+    <ul>
+      <li>July 6th — Volunteer appreciation event, another chance to network.</li>
+      <li>July 8th — Reactivate the LHH transition program.</li>
+      <li>Ongoing — happy to swap tips and tricks with anyone in the group, and help organize unPTO events if useful.</li>
+    </ul>
+  </div>
+
+  <div class="divider">— unPTO Team Board —</div>
+
+  <div class="card">
+    <h2>🟢 Our Team</h2>
+    <div class="team-grid">
+      <div class="player me">
+        <div class="avatar">C</div>
+        <div class="name">Cyrus</div>
+        <span class="pill progress">In Progress</span>
+      </div>
+      <div class="player">
+        <div class="avatar">F</div>
+        <div class="name">Felice</div>
+        <span class="pill blank">—</span>
+      </div>
+      <div class="player">
+        <div class="avatar">S</div>
+        <div class="name">Siddarth</div>
+        <span class="pill blank">—</span>
+      </div>
+      <div class="player">
+        <div class="avatar">T</div>
+        <div class="name">Tina</div>
+        <span class="pill blank">—</span>
+      </div>
+      <div class="player">
+        <div class="avatar">K</div>
+        <div class="name">Kar</div>
+        <span class="pill blank">—</span>
+      </div>
+      <div class="player">
+        <div class="avatar">A</div>
+        <div class="name">Art</div>
+        <span class="pill blank">—</span>
+      </div>
+      <div class="player">
+        <div class="avatar">E</div>
+        <div class="name">Emily</div>
+        <span class="pill blank">—</span>
+      </div>
+    </div>
+    <p class="note">Boxes update as everyone shares their own Done / In Progress / Missed status.</p>
+  </div>
+
+  <div class="card" style="background:var(--pitch-light);border:none;">
+    <h2 style="color:var(--pitch);">💬 Open to Sharing Ideas</h2>
+    <p style="margin:0;font-size:0.92rem;">Not trying to broadcast wins here — just keeping a simple log so the group can swap what's working. Happy to send this over WhatsApp each week if it's useful for tracking.</p>
+  </div>
+  
+  
+<div style="width:140px;flex-shrink:0;">
+  <svg viewBox="0 0 400 400" style="width:100%;">
+    <circle cx="200" cy="200" r="190" fill="#EAF3DE" stroke="#3B6D11" stroke-width="3"/>
+    <circle cx="200" cy="200" r="168" fill="#F6FBF0" stroke="#639922" stroke-width="1.5"/>
+    <circle cx="200" cy="150" r="34" fill="#F2A623"/>
+    <g stroke="#F2A623" stroke-width="4" stroke-linecap="round">
+      <line x1="200" y1="96" x2="200" y2="80"/><line x1="246" y1="104" x2="256" y2="92"/><line x1="154" y1="104" x2="144" y2="92"/>
+    </g>
+    <path d="M40 280 Q110 220 170 270 Q220 220 280 268 Q330 230 360 280 L360 340 L40 340 Z" fill="#1D9E75"/>
+    <path d="M40 300 Q120 250 200 295 Q270 250 360 300 L360 340 L40 340 Z" fill="#0F6E56"/>
+    <path d="M180 240 L196 256 L228 216" fill="none" stroke="#185FA5" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>  
+
+<div style="text-align:center;margin:20px 0;">
+  <img src="./2026_Weekly_Report.png" alt="Weekly report process" style="max-width:100%;border-radius:10px;border:1px solid #e5e7eb;">
+  <p style="font-size:0.8rem;color:#6b7280;margin-top:6px;">Our weekly reporting process</p>
+</div>
+
+  <footer>unPTO Accountability Tracker · Updated June 28, 2026</footer>
+
+</div>
+</body>
+</html>
