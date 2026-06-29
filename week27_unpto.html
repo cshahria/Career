@@ -522,7 +522,7 @@ function closeModalOnBackdrop(e) {
 }
 
 // =========================================================================
-// PIPELINE 1: ATTENDANCE RSVP PIPELINE INTERCEPT (FIXED DESIGN HARDWIRED)
+// PIPELINE 1: ATTENDANCE RSVP PIPELINE INTERCEPT
 // =========================================================================
 function handleRSVP(e) {
   formSubmittedType = 'rsvp';
@@ -554,8 +554,7 @@ function handleReportSubmit(e) {
 function handleFormDone() {
   if (formSubmittedType === 'rsvp') {
     alert("RSVP securely synced to our tracking spreadsheet!");
-    const form = document.getElementById('rsvpForm');
-    form.reset();
+    // Form data is safely retained without being forcefully cleared mid-flight
   } else if (formSubmittedType === 'report') {
     alert("Your weekly report has been uploaded and structured safely!");
     closeModal('dueModal');
