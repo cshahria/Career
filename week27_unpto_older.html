@@ -369,14 +369,14 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
     <!-- RSVP Section -->
     <div style="background: var(--sky-light); padding: 14px; border-radius: 8px;">
       <h3 style="margin: 0 0 8px 0; font-size: 0.9rem; color: var(--sky);">📅 Weekly Attendance RSVP</h3>
-      <form id="rsvpForm" onsubmit="handleRSVP(event)">
+      <form id="rsvpForm" method="POST" onsubmit="handleRSVP(event)">
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <input type="text" id="rsvpName" placeholder="Your Name" style="padding: 6px; border: 1px solid var(--border); border-radius: 4px; flex: 1; min-width: 120px;" required>
           <select id="rsvpStatus" style="padding: 6px; border: 1px solid var(--border); border-radius: 4px;" required>
-            <option value="Attending Both">Attending Both Sessions</option>
+            <option value="Attending Both Sessions">Attending Both Sessions</option>
             <option value="Check-in Only">Check-in Only</option>
             <option value="Coworking Only">Coworking Only</option>
-            <option value="Absence">Cannot Attend This Week</option>
+            <option value="Cannot Attend This Week">Cannot Attend This Week</option>
           </select>
           <button type="submit" style="background: var(--sky); color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer;">Submit RSVP</button>
         </div>
@@ -448,19 +448,24 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
   <!-- MEDIA BLOCK -->
   <div style="text-align:center;margin:20px 0;">
     <img src="./2026_Weekly_Report.png" alt="Weekly report process" style="max-width:100%;border-radius:10px;border:1px solid #e5e7eb; margin-bottom: 20px;">
-
-
-  <!-- Video BLOCK -->    
-
-
-  <!-- Footer -->
+    
+    <video controls style="max-width:100%; border-radius:10px; border:1px solid #e5e7eb; background:#000;">
+      <source src="./Weekly_Process.mp4" type="video/mp4">
+      Your browser does not support the video tag. You can <a href="./Weekly_Process.mp4" style="color:var(--sky); text-decoration:none; font-weight:600;">download the video template here</a>.
+    </video>
+    <p style="font-size:0.8rem;color:#6b7280;margin-top:6px;">Screen recording demo of the weekly process</p>
+  </div>
 
   <footer>unPTO Accountability Tracker · Updated June 29, 2026</footer>
 
 </div>
 
+<!-- Invisible iframe sandboxes Google Form default redirection behaviors -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof rsvpSubmitted !== 'undefined' && rsvpSubmitted) { handleRSVPDone(); }"></iframe>
+
 <script>
 let currentActiveUser = '';
+let rsvpSubmitted = false;
 
 function openModal(modalId, userName = '') {
   document.getElementById(modalId).style.display = 'flex';
@@ -506,12 +511,25 @@ function triggerSubmit(type) {
   closeModal('dueModal');
 }
 
+// Intercepts HTML form and pushes parameters quietly to the active Google Form target
 function handleRSVP(e) {
-  e.preventDefault();
-  const name = document.getElementById('rsvpName').value;
-  const status = document.getElementById('rsvpStatus').value;
-  alert(`Thank you ${name}! Your RSVP ("${status}") has been captured for this Thursday's workspace iteration.`);
-  document.getElementById('rsvpForm').reset();
+  rsvpSubmitted = true;
+  const form = document.getElementById('rsvpForm');
+  
+  form.target = 'hidden_iframe';
+  form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSd-qX1ndk-1Z9umW-fNi2vH6I1prKOAhCTEu7EK7Q2bTMIh4g/formResponse';
+  
+  document.getElementById('rsvpName').name = 'entry.338520377';
+  document.getElementById('rsvpStatus').name = 'entry.1706689620';
+}
+
+function handleRSVPDone() {
+  alert("RSVP securely synced to our tracking spreadsheet!");
+  const form = document.getElementById('rsvpForm');
+  form.reset();
+  document.getElementById('rsvpName').removeAttribute('name');
+  document.getElementById('rsvpStatus').removeAttribute('name');
+  rsvpSubmitted = false;
 }
 </script>
 </body>

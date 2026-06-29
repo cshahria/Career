@@ -213,6 +213,13 @@
     background: var(--sky);
     margin-right: 8px;
   }
+  .submit-btn.primary {
+    background: var(--pitch);
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+    margin-top: 16px;
+  }
 
   /* Form Styling */
   .form-group {
@@ -299,7 +306,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
     <h2>🟢 Our Team Board</h2>
     
     <div class="process-box">
-      <strong>Weekly Update Process:</strong> Click Cyrus to view status tracking data locally, or select another active member to route directly to our secure central workspace ledger.
+      <strong>Weekly Update Process:</strong> Select your name below to fill out and route your structural parameters directly to our team workspace ledger.
     </div>
 
     <div class="team-grid">
@@ -310,13 +317,13 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Siddarth -->
-      <div class="player" onclick="openSpreadsheet()">
+      <div class="player" onclick="openModal('dueModal', 'Siddarth')">
         <div class="avatar">S</div>
         <div class="name">Siddarth</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Emily -->
-      <div class="player" onclick="openSpreadsheet()">
+      <div class="player" onclick="openModal('dueModal', 'Emily')">
         <div class="avatar">E</div>
         <div class="name">Emily</div>
         <span class="pill progress">In Progress</span>
@@ -345,6 +352,15 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
         <div class="name">Art</div>
         <span class="pill due">Due</span>
       </div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE METRICS REFERENCE CARD -->
+  <div class="card">
+    <h2>📋 Structural Progress Template</h2>
+    <p style="font-size:0.85rem; color:var(--muted); margin-top:-6px;">Ensure updates align cleanly with these primary fields before publishing:</p>
+    <div style="background:#f9fafb; padding:12px; border:1px dashed var(--border); border-radius:8px; font-family:monospace; font-size:0.88rem; color:#374151;">
+      Name, Date, Last week's goal, Result, Blocker, This week's goal, First next step
     </div>
   </div>
 
@@ -383,6 +399,15 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
       </form>
     </div>
 
+    <!-- RESTRICTED LEDGER ACCESS BOX WITH DISCLAIMER -->
+    <div style="margin-top: 16px; background: #fff8eb; border: 1px solid #ffe4b3; padding: 14px; border-radius: 8px;">
+      <h3 style="margin:0 0 6px 0; font-size:0.9rem; color:#b45309;">📊 Private Team Ledger Pipeline</h3>
+      <p style="font-size:0.85rem; margin:0 0 10px 0; color:#4b5563;">
+        <strong>Privacy Disclaimer:</strong> Please only distribute or publish progress content that you are entirely comfortable saving on a restricted, shared Google Sheet configuration.
+      </p>
+      <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="display:inline-block; color:var(--sky); font-weight:700; font-size:0.88rem; text-decoration:none;">Go to Restricted Google Sheet Workspace ↗</a>
+    </div>
+
     <div style="margin-top: 14px; display: flex; gap: 12px; font-size: 0.85rem;">
       <a href="https://chat.whatsapp.com/AccountabilityPeninsulaSouthBay" target="_blank" style="color: #25d366; font-weight: 600; text-decoration: none;">💬 WhatsApp Group</a>
       <a href="https://discord.com/channels/1497468492322967604/1517618871169716447" target="_blank" style="color: #5865F2; font-weight: 600; text-decoration: none;">🎮 Discord Hub</a>
@@ -391,7 +416,6 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
   </div>
 
   <div class="divider">— Interactive Workspace Archives —</div>
-
 
   <!-- ========================================== -->
   <!-- LOCAL WORKSPACE: CYRUS STATUS REPORT       -->
@@ -402,85 +426,89 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
       <h3 style="margin-top:0;">📋 Cyrus Shahriari — Tracker Details</h3>
       <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
       
-      <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem;">
+      <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem; margin-bottom:14px;">
 <strong>Last week's goal:</strong> Wrap up volunteer shifts, keep reading the networking book, and consolidate home expenses.
 <strong>Result:</strong> Done
 <strong>Blocker:</strong> None right now.
 <strong>This week's goal:</strong> EDD session, counselor one-on-one, group session, and final volunteer shift on July 1st.
 <strong>First next step:</strong> Lock in the EDD/counselor appointment and show up for the July 1st shift.
       </div>
+
+      <button class="submit-btn primary" onclick="closeModal('cyrusModal'); openModal('dueModal', 'Cyrus');">Submit New Status Report</button>
     </div>
   </div>
 
-
-  <!-- GENERAL SUBMISSION MODAL FOR "DUE" MEMBERS -->
+  <!-- REPORT SUBMISSION FORM INTERACTIVE MODAL layout -->
   <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('dueModal')">&times;</button>
-      <h3>📤 Submit Report: <span id="modalTargetName">User</span></h3>
-      <p style="font-size: 0.82rem; color: var(--muted); margin: -10px 0 14px 0;">Fill out fields to instantly build a pre-formatted routing link.</p>
+      <h3>📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
+      <p style="font-size: 0.82rem; color: var(--muted); margin: -10px 0 14px 0;">Complete the fields below to sync parameters quietly via backend framing logic.</p>
       
-      <div class="form-group">
-        <label>Last Week's Goal & Result</label>
-        <textarea id="f_last" rows="2" placeholder="e.g. Completed resume revision. Done."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Blockers (If Any)</label>
-        <input type="text" id="f_block" placeholder="e.g. None">
-      </div>
-      <div class="form-group">
-        <label>This Week's Goal</label>
-        <textarea id="f_this" rows="2" placeholder="e.g. Apply to 3 target pipelines."></textarea>
-      </div>
-      <div class="form-group">
-        <label>First Next Step</label>
-        <input type="text" id="f_next" placeholder="e.g. Filter listings on platform."></textarea>
-      </div>
+      <form id="weeklyReportForm" method="POST" onsubmit="handleReportSubmit(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="repName" readonly style="background:#f3f4f6; font-weight:600;">
+        </div>
+        <div class="form-group">
+          <label>Report Date</label>
+          <input type="date" id="repDate" required>
+        </div>
+        <div class="form-group">
+          <label>Last Week's Goal</label>
+          <textarea id="repLast" rows="2" placeholder="What did you work on?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Result</label>
+          <input type="text" id="repResult" placeholder="e.g. Done, Partial, In progress" required>
+        </div>
+        <div class="form-group">
+          <label>Blockers (If Any)</label>
+          <input type="text" id="repBlock" placeholder="e.g. None">
+        </div>
+        <div class="form-group">
+          <label>This Week's Goal</label>
+          <textarea id="repThis" rows="2" placeholder="What are your targets for this iteration?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>First Next Step</label>
+          <input type="text" id="repNext" placeholder="Immediate action item" required></textarea>
+        </div>
 
-      <div style="display: flex; margin-top: 10px;">
-        <button class="submit-btn email" onclick="triggerSubmit('email')">Generate Email Dispatch</button>
-        <button class="submit-btn" onclick="triggerSubmit('whatsapp')">Send via WhatsApp</button>
-      </div>
-      <p style="font-size:0.72rem; color:var(--muted); margin-top:10px;">* Native security sandboxing limits direct, non-interactive pipeline writes. These buttons build clean automated text hooks without manual copy-paste overhead.</p>
+        <button type="submit" class="submit-btn primary" style="margin-top:8px;">Securely Submit Update Row</button>
+      </form>
     </div>
-  </div>
-
-  <!-- MEDIA BLOCK -->
-  <div style="text-align:center;margin:20px 0;">
-    <img src="./2026_Weekly_Report.png" alt="Weekly report process" style="max-width:100%;border-radius:10px;border:1px solid #e5e7eb; margin-bottom: 20px;">
-    
-    <video controls style="max-width:100%; border-radius:10px; border:1px solid #e5e7eb; background:#000;">
-      <source src="./Weekly_Process.mp4" type="video/mp4">
-      Your browser does not support the video tag. You can <a href="./Weekly_Process.mp4" style="color:var(--sky); text-decoration:none; font-weight:600;">download the video template here</a>.
-    </video>
-    <p style="font-size:0.8rem;color:#6b7280;margin-top:6px;">Screen recording demo of the weekly process</p>
   </div>
 
   <footer>unPTO Accountability Tracker · Updated June 29, 2026</footer>
 
 </div>
 
-<!-- Invisible iframe sandboxes Google Form default redirection behaviors -->
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof rsvpSubmitted !== 'undefined' && rsvpSubmitted) { handleRSVPDone(); }"></iframe>
+<!-- Invisible background transport sandbox handling configuration targets -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
 <script>
+let formSubmittedType = ''; 
 let currentActiveUser = '';
-let rsvpSubmitted = false;
 
 function openModal(modalId, userName = '') {
   document.getElementById(modalId).style.display = 'flex';
   if(userName) {
     currentActiveUser = userName;
     document.getElementById('modalTargetName').textContent = userName;
-    document.getElementById('f_last').value = '';
-    document.getElementById('f_block').value = '';
-    document.getElementById('f_this').value = '';
-    document.getElementById('f_next').value = '';
+    document.getElementById('repName').value = userName;
+    
+    // Auto-populate current calendar date value
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('repDate').value = today;
+    
+    // Clear dynamic field text scopes cleanly
+    document.getElementById('repLast').value = '';
+    document.getElementById('repResult').value = '';
+    document.getElementById('repBlock').value = '';
+    document.getElementById('repThis').value = '';
+    document.getElementById('repNext').value = '';
   }
-}
-
-function openSpreadsheet() {
-  window.open('https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing', '_blank');
 }
 
 function closeModal(modalId) {
@@ -493,43 +521,57 @@ function closeModalOnBackdrop(e) {
   }
 }
 
-function triggerSubmit(type) {
-  const last = document.getElementById('f_last').value || 'N/A';
-  const block = document.getElementById('f_block').value || 'None';
-  const ths = document.getElementById('f_this').value || 'N/A';
-  const nxt = document.getElementById('f_next').value || 'N/A';
-
-  const textMessage = `unPTO Progress Update [${currentActiveUser}]\n\n• Last Week: ${last}\n• Blocker: ${block}\n• This Week: ${ths}\n• Next Step: ${nxt}`;
-  
-  if(type === 'email') {
-    const mailtoUrl = `mailto:cyrus.shahriari@gmail.com?subject=unPTO Progress Report - ${currentActiveUser}&body=${encodeURIComponent(textMessage)}`;
-    window.location.href = mailtoUrl;
-  } else if(type === 'whatsapp') {
-    const waUrl = `https://wa.me/?text=${encodeURIComponent(textMessage)}`;
-    window.open(waUrl, '_blank');
-  }
-  closeModal('dueModal');
-}
-
-// Intercepts HTML form and pushes parameters quietly to the active Google Form target
+// PIPELINE 1: ATTENDANCE RSVP PIPELINE INTERCEPT
 function handleRSVP(e) {
-  rsvpSubmitted = true;
+  formSubmittedType = 'rsvp';
   const form = document.getElementById('rsvpForm');
   
   form.target = 'hidden_iframe';
   form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSd-qX1ndk-1Z9umW-fNi2vH6I1prKOAhCTEu7EK7Q2bTMIh4g/formResponse';
   
-  document.getElementById('rsvpName').name = 'entry.338520377';
-  document.getElementById('rsvpStatus').name = 'entry.1706689620';
+  // Confirmed available entry IDs mapped directly from your live pre-fill metrics URL
+  document.getElementById('rsvpName').name = 'entry.1994897126'; 
+  document.getElementById('rsvpStatus').name = 'entry.1470244779';
 }
 
-function handleRSVPDone() {
-  alert("RSVP securely synced to our tracking spreadsheet!");
-  const form = document.getElementById('rsvpForm');
-  form.reset();
-  document.getElementById('rsvpName').removeAttribute('name');
-  document.getElementById('rsvpStatus').removeAttribute('name');
-  rsvpSubmitted = false;
+// PIPELINE 2: CENTRAL GOALS FORM SUBMISSION LOGIC INTERCEPT
+function handleReportSubmit(e) {
+  formSubmittedType = 'report';
+  const form = document.getElementById('weeklyReportForm');
+  
+  form.target = 'hidden_iframe';
+  form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse';
+  
+  // Static verified entry bindings matched from pre-fill text inputs
+  document.getElementById('repName').name   = 'entry.896357741'; 
+  document.getElementById('repLast').name   = 'entry.1215668338'; 
+  
+  // NOTE: Insert your remaining entry IDs below once you publish the additional questions in the editor!
+  document.getElementById('repDate').name   = 'entry.UPDATE_THIS_DATE_ID'; 
+  document.getElementById('repResult').name = 'entry.UPDATE_THIS_RESULT_ID'; 
+  document.getElementById('repBlock').name  = 'entry.UPDATE_THIS_BLOCKER_ID'; 
+  document.getElementById('repThis').name   = 'entry.UPDATE_THIS_THISGOAL_ID'; 
+  document.getElementById('repNext').name   = 'entry.UPDATE_THIS_NEXTSTEP_ID'; 
+}
+
+// Cleanup structural operations post-delivery tracking 
+function handleFormDone() {
+  if (formSubmittedType === 'rsvp') {
+    alert("RSVP securely synced to our tracking spreadsheet!");
+    const form = document.getElementById('rsvpForm');
+    form.reset();
+    document.getElementById('rsvpName').removeAttribute('name');
+    document.getElementById('rsvpStatus').removeAttribute('name');
+  } else if (formSubmittedType === 'report') {
+    alert("Your weekly report has been uploaded and structured safely!");
+    closeModal('dueModal');
+    const form = document.getElementById('weeklyReportForm');
+    form.reset();
+    ['repName','repDate','repLast','repResult','repBlock','repThis','repNext'].forEach(id => {
+      document.getElementById(id).removeAttribute('name');
+    });
+  }
+  formSubmittedType = '';
 }
 </script>
 </body>
