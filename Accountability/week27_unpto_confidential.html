@@ -299,7 +299,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
     <h2>🟢 Our Team Board</h2>
     
     <div class="process-box">
-      <strong>Weekly Update Process:</strong> Click Cyrus to view status tracking data locally, or select another active member to route directly to our secure central workspace ledger.
+      <strong>Weekly Update Process:</strong> Click your team pill below to review tracking details, or to quickly fill out and submit your mandatory progress report.
     </div>
 
     <div class="team-grid">
@@ -310,13 +310,13 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Siddarth -->
-      <div class="player" onclick="openSpreadsheet()">
+      <div class="player" onclick="openModal('siddarthModal')">
         <div class="avatar">S</div>
         <div class="name">Siddarth</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Emily -->
-      <div class="player" onclick="openSpreadsheet()">
+      <div class="player" onclick="openModal('emilyModal')">
         <div class="avatar">E</div>
         <div class="name">Emily</div>
         <span class="pill progress">In Progress</span>
@@ -394,7 +394,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
 
 
   <!-- ========================================== -->
-  <!-- LOCAL WORKSPACE: CYRUS STATUS REPORT       -->
+  <!-- EDIT HERE: CYRUS STATUS REPORT             -->
   <!-- ========================================== -->
   <div id="cyrusModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
@@ -403,11 +403,56 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
       <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
       
       <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem;">
-<strong>Last week's goal:</strong> Wrap up volunteer shifts, keep reading the networking book, and consolidate home expenses.
-<strong>Result:</strong> Done
-<strong>Blocker:</strong> None right now.
-<strong>This week's goal:</strong> EDD session, counselor one-on-one, group session, and final volunteer shift on July 1st.
-<strong>First next step:</strong> Lock in the EDD/counselor appointment and show up for the July 1st shift.
+<strong>Last week's goal:</strong> Wrap up volunteer shifts, keep reading the networking book, and consolidate home expenses.[cite: 7]
+<strong>Result:</strong> Done[cite: 7]
+<strong>Blocker:</strong> None right now.[cite: 7]
+<strong>This week's goal:</strong> EDD session, counselor one-on-one, group session, and final volunteer shift on July 1st.[cite: 7]
+<strong>First next step:</strong> Lock in the EDD/counselor appointment and show up for the July 1st shift.[cite: 7]
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- EDIT HERE: SIDDARTH STATUS REPORT          -->
+  <!-- ========================================== -->
+  <div id="siddarthModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('siddarthModal')">&times;</button>
+      <h3 style="margin-top:0;">📋 Siddarth — Tracker Details</h3>
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
+      
+      <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem;">
+<strong>This week’s goal:</strong>
+* Draft blog post[cite: 5]
+* Ask workshop presenters for permission to publish the blog post discussing their workshops[cite: 5]
+* Study math: abstract algebra groups & vector spaces[cite: 5]
+
+<strong>First next step:</strong>
+* Iterate on blog post outline[cite: 5]
+* Watch two selected videos about abstract algebra groups[cite: 5]
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- EDIT HERE: EMILY STATUS REPORT             -->
+  <!-- ========================================== -->
+  <div id="emilyModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('emilyModal')">&times;</button>
+      <h3 style="margin-top:0;">📋 Emily — Tracker Details</h3>
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
+      
+      <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem;">
+<strong>Last week's goal:</strong> follow up on Sloan class and resume review[cite: 6]
+<strong>Result:</strong> done[cite: 6]
+<strong>Blocker:</strong> need more communication options for class[cite: 6]
+
+<strong>This week's goal:</strong> submission of applications and finish coursework submission[cite: 6]
+
+<strong>first next step:</strong> skills section review and class attendance[cite: 6]
       </div>
     </div>
   </div>
@@ -473,10 +518,6 @@ function openModal(modalId, userName = '') {
     document.getElementById('f_this').value = '';
     document.getElementById('f_next').value = '';
   }
-}
-
-function openSpreadsheet() {
-  window.open('https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing', '_blank');
 }
 
 function closeModal(modalId) {

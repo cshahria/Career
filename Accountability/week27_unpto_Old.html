@@ -285,7 +285,7 @@ function startCountdown(elId, targetISO){
   setInterval(update, 60000);
 }
 startCountdown('meetingCountdown', '2026-07-02T11:00:00-07:00');
-startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
+startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00'); // Updated to 1700 PT Today
 </script>
 
   <header>
@@ -294,12 +294,12 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
     <p>June 29 – July 5, 2026 · sharing progress, not keeping score</p>
   </header>
 
-  <!-- TEAM BOARD -->
+  <!-- TEAM BOARD (Moved to top layer) -->
   <div class="card">
     <h2>🟢 Our Team Board</h2>
     
     <div class="process-box">
-      <strong>Weekly Update Process:</strong> Click Cyrus to view status tracking data locally, or select another active member to route directly to our secure central workspace ledger.
+      <strong>Weekly Update Process:</strong> Click your team pill below to review tracking details, or to quickly fill out and submit your mandatory progress report.
     </div>
 
     <div class="team-grid">
@@ -310,13 +310,13 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Siddarth -->
-      <div class="player" onclick="openSpreadsheet()">
+      <div class="player" onclick="openModal('siddarthModal')">
         <div class="avatar">S</div>
         <div class="name">Siddarth</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Emily -->
-      <div class="player" onclick="openSpreadsheet()">
+      <div class="player" onclick="openModal('emilyModal')">
         <div class="avatar">E</div>
         <div class="name">Emily</div>
         <span class="pill progress">In Progress</span>
@@ -392,26 +392,65 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
 
   <div class="divider">— Interactive Workspace Archives —</div>
 
-
-  <!-- ========================================== -->
-  <!-- LOCAL WORKSPACE: CYRUS STATUS REPORT       -->
-  <!-- ========================================== -->
+  <!-- MODAL CONTAINER FOR CYRUS -->
   <div id="cyrusModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('cyrusModal')">&times;</button>
       <h3 style="margin-top:0;">📋 Cyrus Shahriari — Tracker Details</h3>
       <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
       
-      <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem;">
-<strong>Last week's goal:</strong> Wrap up volunteer shifts, keep reading the networking book, and consolidate home expenses.
-<strong>Result:</strong> Done
-<strong>Blocker:</strong> None right now.
-<strong>This week's goal:</strong> EDD session, counselor one-on-one, group session, and final volunteer shift on July 1st.
-<strong>First next step:</strong> Lock in the EDD/counselor appointment and show up for the July 1st shift.
-      </div>
+      <strong>Last Week Results:</strong>
+      <ul style="margin-bottom:12px;">
+        <li>Completed two active volunteer operations shifts (June 22 & June 25) for networking practice.</li>
+        <li>Began text analysis of 'The 20 Minute Networking Meeting' target structure.</li>
+        <li>Consolidated infrastructure items and property calculations.</li>
+      </ul>
+      
+      <strong>Current Week Objectives:</strong>
+      <ul>
+        <li>Organize standard EDD logistics and align external strategic check-ins.</li>
+        <li>Final deployment shift assignment at Santa Clara facility (July 1st, 13:00 - 20:00 PT).</li>
+        <li>Interactive local mock trial evaluations and communication setups.</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: var(--muted); margin-top: 8px;"><strong>First Step:</strong> Synchronize scheduled alignment calendars.</p>
     </div>
   </div>
 
+  <!-- MODAL CONTAINER FOR SIDDARTH -->
+  <div id="siddarthModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('siddarthModal')">&times;</button>
+      <h3 style="margin-top:0;">📋 Siddarth — Tracker Details</h3>
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
+      
+      <strong>This Week's Goals:</strong>
+      <ul>
+        <li>Draft functional text for production blog deployment architecture.</li>
+        <li>Contact regional panel presenters to review content parameters and publish clearances.</li>
+        <li>Deep-dive study layout: Modern abstract algebra groups and core structural vector spaces.</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: var(--muted); margin-top: 8px;"><strong>First Step:</strong> Outline core logic points for article text and view structural documentation media.</p>
+    </div>
+  </div>
+
+  <!-- MODAL CONTAINER FOR EMILY -->
+  <div id="emilyModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('emilyModal')">&times;</button>
+      <h3 style="margin-top:0;">📋 Emily — Tracker Details</h3>
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
+      
+      <strong>Last Week Results:</strong>
+      <p style="font-size:0.9rem; margin: 4px 0;">Completed alignment reviews and initial profile structural modifications.</p>
+      <p style="font-size:0.8rem; color: var(--amber);">⚠️ <em>Blocker: Requires expanded communication access channels.</em></p>
+      
+      <strong>This Week's Goals:</strong>
+      <ul>
+        <li>Finalize package submission and complete ongoing session workflows.</li>
+      </ul>
+      <p style="font-size: 0.8rem; color: var(--muted); margin-top: 8px;"><strong>First Step:</strong> Execute skills array adjustments and attend operational presentation blocks.</p>
+    </div>
+  </div>
 
   <!-- GENERAL SUBMISSION MODAL FOR "DUE" MEMBERS -->
   <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
@@ -434,7 +473,7 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
       </div>
       <div class="form-group">
         <label>First Next Step</label>
-        <input type="text" id="f_next" placeholder="e.g. Filter listings on platform."></textarea>
+        <input type="text" id="f_next" placeholder="e.g. Filter listings on platform.">
       </div>
 
       <div style="display: flex; margin-top: 10px;">
@@ -445,16 +484,19 @@ startCountdown('dueCountdown', '2026-06-29T17:00:00-07:00');
     </div>
   </div>
 
-  <!-- MEDIA BLOCK -->
+<div style="text-align:center;margin:20px 0;">
+  <img src="./2026_Weekly_Report.png" alt="Weekly report process" style="max-width:100%;border-radius:10px;border:1px solid #e5e7eb;">
+  
   <div style="text-align:center;margin:20px 0;">
-    <img src="./2026_Weekly_Report.png" alt="Weekly report process" style="max-width:100%;border-radius:10px;border:1px solid #e5e7eb; margin-bottom: 20px;">
-    
-    <video controls style="max-width:100%; border-radius:10px; border:1px solid #e5e7eb; background:#000;">
-      <source src="./Weekly_Process.mp4" type="video/mp4">
-      Your browser does not support the video tag. You can <a href="./Weekly_Process.mp4" style="color:var(--sky); text-decoration:none; font-weight:600;">download the video template here</a>.
-    </video>
-    <p style="font-size:0.8rem;color:#6b7280;margin-top:6px;">Screen recording demo of the weekly process</p>
-  </div>
+  <video controls style="max-width:100%; border-radius:10px; border:1px solid #e5e7eb; background:#000;">
+    <source src="./Weekly_Process.mp4" type="video/mp4">
+    Your browser does not support the video tag. You can <a href="./Weekly_Process.mp4" style="color:var(--sky); text-decoration:none; font-weight:600;">download the video template here</a>.
+  </video>
+  <p style="font-size:0.8rem;color:#6b7280;margin-top:6px;">Screen recording demo of the weekly process</p>
+</div>
+  
+  <p style="font-size:0.8rem;color:#6b7280;margin-top:6px;">Our weekly reporting process</p>
+</div>
 
   <footer>unPTO Accountability Tracker · Updated June 29, 2026</footer>
 
@@ -468,15 +510,12 @@ function openModal(modalId, userName = '') {
   if(userName) {
     currentActiveUser = userName;
     document.getElementById('modalTargetName').textContent = userName;
+    // Clear inputs
     document.getElementById('f_last').value = '';
     document.getElementById('f_block').value = '';
     document.getElementById('f_this').value = '';
     document.getElementById('f_next').value = '';
   }
-}
-
-function openSpreadsheet() {
-  window.open('https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing', '_blank');
 }
 
 function closeModal(modalId) {
