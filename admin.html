@@ -127,98 +127,42 @@
     <p>Update system parameters globally without manual code revision</p>
   </header>
 
-  <form id="adminControlForm" method="POST" action="https://docs.google.com/forms/d/e/YOUR_TARGET_FORM_ID/formResponse" target="hidden_iframe" onsubmit="handleAdminSubmit(event)">
+  <form id="adminControlForm" onsubmit="handleAdminSubmit(event)">
     
     <!-- SECTION 1: TIMING PARAMETERS -->
     <div class="card">
       <h2>📅 Deadlines & System Countdowns</h2>
       <div class="grid-2">
         <div class="form-group">
-          <label for="nextMeeting">Next Meeting Timestamp (ISO)</label>
-          <input type="datetime-local" id="nextMeeting" name="entry.MEETING_FIELD_ID" required>
+          <label for="nextMeeting">Next Meeting Timestamp</label>
+          <input type="datetime-local" id="nextMeeting" required>
         </div>
         <div class="form-group">
-          <label for="reportDue">Report Due Timestamp (ISO)</label>
-          <input type="datetime-local" id="reportDue" name="entry.DUE_FIELD_ID" required>
+          <label for="reportDue">Report Due Timestamp</label>
+          <input type="datetime-local" id="reportDue" required>
         </div>
       </div>
     </div>
 
     <!-- SECTION 2: TEAM BOARD STATUSES -->
     <div class="card">
-      <h2>🟢 Team Board Board Status Mapping</h2>
+      <h2>🟢 Team Board Status Mapping</h2>
       
-      <div class="status-row">
-        <span>Cyrus</span>
-        <select name="entry.CYRUS_STATUS_ID" id="statusCyrus">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <div class="status-row">
-        <span>Siddarth</span>
-        <select name="entry.SIDD_STATUS_ID" id="statusSiddarth">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <div class="status-row">
-        <span>Emily</span>
-        <select name="entry.EMILY_STATUS_ID" id="statusEmily">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <div class="status-row">
-        <span>Felice</span>
-        <select name="entry.FELICE_STATUS_ID" id="statusFelice">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <div class="status-row">
-        <span>Tina</span>
-        <select name="entry.TINA_STATUS_ID" id="statusTina">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <div class="status-row">
-        <span>Kar</span>
-        <select name="entry.KAR_STATUS_ID" id="statusKar">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <div class="status-row">
-        <span>Art</span>
-        <select name="entry.ART_STATUS_ID" id="statusArt">
-          <option value="progress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="due">Due</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
+      <div class="status-row"><span>Cyrus</span><select id="statusCyrus"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
+      <div class="status-row"><span>Siddarth</span><select id="statusSiddarth"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
+      <div class="status-row"><span>Emily</span><select id="statusEmily"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
+      <div class="status-row"><span>Felice</span><select id="statusFelice"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
+      <div class="status-row"><span>Tina</span><select id="statusTina"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
+      <div class="status-row"><span>Kar</span><select id="statusKar"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
+      <div class="status-row"><span>Art</span><select id="statusArt"><option value="progress">In Progress</option><option value="done">Done</option><option value="due">Due</option><option value="blank">Blank</option></select></div>
     </div>
 
-    <!-- SECTION 3: WEEKLY CADENCE AGENDA -->
+    <!-- SECTION 3: WEEKLY CADENCE AGENDA (OPTIONAL) -->
     <div class="card">
-      <h2>🎯 Weekly Cadence Specific Agenda</h2>
+      <h2>🎯 Weekly Cadence Specific Agenda (Optional)</h2>
       <div class="form-group">
-        <label for="agendaText">Active Iteration Targets & Notice Board</label>
-        <textarea id="agendaText" name="entry.AGENDA_FIELD_ID" rows="4" placeholder="e.g. 11:00 PT – Accountability Check-in (1 Hour)..." required></textarea>
+        <label for="agendaText">Active Iteration Targets & Notice Board (Leave blank to use default template)</label>
+        <textarea id="agendaText" rows="4" placeholder="e.g. 11:00 PT – Accountability Check-in (1 Hour)..."></textarea>
       </div>
     </div>
 
@@ -226,25 +170,51 @@
   </form>
 </div>
 
-<!-- Transport Sandbox -->
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted) { handleAdminDone(); }"></iframe>
-
 <script>
-window.submitted = false;
+function handleAdminSubmit(event) {
+  event.preventDefault();
+  
+  const statusConfig = {
+    Cyrus: document.getElementById('statusCyrus').value,
+    Siddarth: document.getElementById('statusSiddarth').value,
+    Emily: document.getElementById('statusEmily').value,
+    Felice: document.getElementById('statusFelice').value,
+    Tina: document.getElementById('statusTina').value,
+    Kar: document.getElementById('statusKar').value,
+    Art: document.getElementById('statusArt').value
+  };
+  
+  const dates = {
+    meeting: document.getElementById('nextMeeting').value,
+    due: document.getElementById('reportDue').value
+  };
 
-function handleAdminSubmit() {
-  window.submitted = true;
+  const agenda = document.getElementById('agendaText').value.trim();
+
+  localStorage.setItem('unpto_status', JSON.stringify(statusConfig));
+  localStorage.setItem('unpto_dates', JSON.stringify(dates));
+  localStorage.setItem('unpto_agenda', agenda);
+  
+  alert("Local workspace parameters updated successfully!");
 }
 
-function handleAdminDone() {
-  alert("Global workspace state has been successfully updated!");
-  window.submitted = false;
-}
-
-// Prefill current date/time to simplify updates on page load
-document.getElementById('nextMeeting').value = "2026-07-02T11:00";
-document.getElementById('reportDue').value = "2026-06-29T17:00";
+// Load current saved values or fall back to defaults
+window.onload = function() {
+  const savedStatuses = JSON.parse(localStorage.getItem('unpto_status'));
+  if(savedStatuses) {
+    Object.keys(savedStatuses).forEach(name => {
+      const el = document.getElementById(`status${name}`);
+      if(el) el.value = savedStatuses[name];
+    });
+  }
+  
+  const savedDates = JSON.parse(localStorage.getItem('unpto_dates'));
+  document.getElementById('nextMeeting').value = savedDates ? savedDates.meeting : "2026-07-02T11:00";
+  document.getElementById('reportDue').value = savedDates ? savedDates.due : "2026-06-29T17:00";
+  
+  const savedAgenda = localStorage.getItem('unpto_agenda');
+  if(savedAgenda) document.getElementById('agendaText').value = savedAgenda;
+};
 </script>
-
 </body>
 </html>
