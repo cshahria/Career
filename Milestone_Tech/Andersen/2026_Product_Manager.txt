@@ -1,0 +1,45 @@
+Client is Andersen Consulting, and the end client is an insurance company (life and annuities).  They are currently working on a 2-month proof of concept project, and once presented to the client and signed off, the role can extend to the end of the year and likely into 2027
+Pay is up to $90/hr. W2. 
+Logistics
+	Remote, on-site, or hybrid? Remote within US is OK, must be able to align with EASTERN TIME hours
+	Is there any travel involved? Possibly 1 client trip
+	What's the target start date? ASAP (must have someone in place before 7/16.
+
+Soft Skills & Work Style
+	Will the candidates interface directly with stakeholders or just internal teams? Yes will be eliciting requirements from client stakeholders
+Product Manager
+Overview
+We are seeking an experienced Product Manager to support the design and build of an Agentic Policy Administration System. The architecture is cloud-native on AWS and leverages agentic patterns to automate and orchestrate policy administration workflows. The product manager will work alongside a cross-functional delivery team including architects, engineers, and client stakeholders to define requirements, manage scope, and drive delivery within a structured engagement model.
+The Product Manager will play a critical role in shaping the product vision, driving requirements discovery with business stakeholders, and translating complex insurance lifecycle needs into detailed, developer-ready documentation. This role will also leverage GenAI tools such as Claude to accelerate requirements development, documentation, and collaboration with engineering. An understanding of agentic AI capabilities and where they can appropriately enhance workflow automation will be beneficial.
+
+Key Responsibilities
+	Lead and facilitate requirements gathering sessions with business stakeholders and subject matter experts.
+	Elicit, clarify, and document business, functional, and technical requirements for a custom policy admin platform.
+	Work closely with stakeholders to define and validate the end-to-end policy lifecycle workflow, including key operational challenges and edge cases.
+	Translate requirements into detailed markdown documentation for developers, including clear acceptance criteria and technical-level specifications.
+	Partner with developers throughout the POC to ensure requirements are understood, prioritized, and delivered effectively.
+	Manage developers and coordinate delivery across the project team.
+	Use Claude and other GenAI tooling to accelerate requirements writing, documentation, solution shaping, and workflow analysis.
+	Collaborate with technical teams to explore how AI and agentic capabilities can be incorporated appropriately into the solution.
+	Help define the product direction, MVP scope, and success criteria for the proof-of-life initiative.
+	Identify risks, dependencies, and gaps across business and technical workstreams.
+	Support alignment across business, technology, and delivery stakeholders in a fast-paced, collaborative environment.
+
+Required Skills and Experience
+	5-10 years’ Product Management experience within a consulting or systems integration context, with demonstrated ability to operate in ambiguous, fast-paced delivery environments.
+	Experience supporting or leading delivery of digital or technology-enabled products from requirements definition through functional validation.
+	Familiarity with insurance, annuity, or financial services products is required. Understanding of policy lifecycle concepts, benefit mechanics, or related business processes is a plus.
+	Strong command of agile delivery practices, including backlog management, requirement development, and sprint facilitation.
+	Ability to lead working sessions with technical and business stakeholders to document requirements, surface decisions, and maintain scope discipline.
+	Experience translating complex business processes and product rules into structured, executable requirements documentation.
+	Demonstrated, habitual use of AI productivity tools, including Claude or Copilot at minimum. This program uses AI tooling as a core component of its delivery workflow. Candidates who cannot speak concretely to day-to-day use of AI tools in their current role are not suitable for this engagement regardless of other qualifications.
+
+Preferred Qualifications
+	Experience with policy administration systems, insurance workflow platforms, or adjacent core systems.
+	Exposure to AI-enabled product development or workflow automation.
+	Experience with regulated product environments and compliance-sensitive processes.
+	Strong understanding of end-to-end product delivery from discovery through implementation.
+	Familiarity with building solutions in an AWS environment; AWS experience is helpful.
+
+The estimated pay range for this position is USD $80.00/Hr - USD $90.00/Hr. Exact compensation and offers of employment are dependent on job-related knowledge, skills, experience, licenses or certifications, and location. We also offer comprehensive benefits. The Talent Acquisition Partner can share more details about compensation or benefits for the role during the interview process.
+
