@@ -29,9 +29,24 @@
   }
   .wrap{max-width:760px;margin:0 auto;}
 
+  nav{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    font-size:0.85rem;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  nav a{
+    color:var(--sky);
+    text-decoration:none;
+    font-weight:600;
+  }
+  nav a:hover{text-decoration:underline;}
+
   header{
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:26px;
   }
   .tag{
     display:inline-block;
@@ -150,7 +165,10 @@
     font-weight:700;
     letter-spacing:.02em;
   }
+  .pill.done{background:var(--pitch-light);color:var(--pitch);}
   .pill.progress{background:var(--sky-light);color:var(--sky);}
+  .pill.due{background:var(--amber-light);color:var(--amber);}
+  .pill.blank{background:#f1f1f1;color:var(--muted);}
 
   ul{margin:0;padding-left:0;list-style:none;}
   li{
@@ -175,6 +193,14 @@
     border-radius: 8px;
     padding: 12px 14px;
     margin-bottom: 12px;
+  }
+  .minutes-member {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+  .minutes-member strong {
+    color: var(--pitch);
   }
 
   /* Team grid */
@@ -212,6 +238,7 @@
   }
   .player.me .avatar{background:var(--sky-light);color:var(--sky);}
   .player .name{font-weight:700;font-size:0.9rem;margin-bottom:6px;}
+  .player .status{margin-top:2px;}
 
   /* Modal System */
   .modal-overlay {
@@ -259,6 +286,10 @@
     margin-top: 12px;
     text-align: center;
   }
+  .submit-btn.email {
+    background: var(--sky);
+    margin-right: 8px;
+  }
   .submit-btn.primary {
     background: var(--pitch);
     width: 100%;
@@ -301,40 +332,27 @@
 
   footer{
     text-align:center;
-    margin-top:40px;
+    margin-top:30px;
     color:var(--muted);
     font-size:0.8rem;
   }
-  .disclaimer-text {
-    font-size: 0.72rem;
-    color: #7f8c8d;
-    max-width: 600px;
-    margin: 12px auto 0;
-    line-height: 1.4;
-  }
-  .bottom-nav {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    font-size: 0.78rem;
-    margin-top: 24px;
-    flex-wrap: wrap;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 14px;
-  }
-  .bottom-nav a {
-    color: var(--muted);
-    text-decoration: none;
-  }
-  .bottom-nav a:hover {
-    color: var(--text);
-    text-decoration: underline;
+  .divider{
+    text-align:center;
+    color:var(--muted);
+    font-size:0.8rem;
+    margin:26px 0 14px;
   }
 </style>
   <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="wrap">
+
+  <nav>
+    <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
+    <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
+    <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
+  </nav>
 
   <!-- EXPANDED DASHBOARD HEADERS -->
   <div class="dashboard-grid">
@@ -365,7 +383,7 @@
     </div>
   </div>
 
-  <!-- ATTENDANCE RSVP CARD -->
+  <!-- ATTENDANCE RSVP CARD (MOVED UP) -->
   <div class="card" style="background: var(--sky-light); border: 1px solid #b9d5f7;">
     <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #1e64b0; display:flex; align-items:center; gap:6px;">📅 Weekly Attendance RSVP</h3>
     <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
@@ -382,21 +400,11 @@
     </form>
   </div>
 
-  <!-- MAIN TITLE ZONE -->
   <header style="margin-top:24px;">
     <span class="tag">unPTO ACCOUNTABILITY</span>
     <h1>Week 28 · 2026 Check-In</h1>
     <p>July 6 – July 12, 2026 · sharing progress, not keeping score</p>
   </header>
-
-  <!-- PRIVATE LEDGER BOX (MOVED UP UNDER TITLE) -->
-  <div style="background: #fff8eb; border: 1px solid #ffe4b3; padding: 14px; border-radius: 8px; margin-bottom:20px;">
-    <h3 style="margin:0 0 6px 0; font-size:0.9rem; color:#b45309;">📊 Private Team Ledger Pipeline</h3>
-    <p style="font-size:0.85rem; margin:0 0 10px 0; color:#4b5563;">
-      <strong>Privacy Disclaimer:</strong> Please only distribute or publish progress content that you are entirely comfortable saving on a restricted, shared spreadsheet configuration.
-    </p>
-    <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="display:inline-block; color:var(--sky); font-weight:700; font-size:0.88rem; text-decoration:none;">Go to Restricted Google Sheet Workspace ↗</a>
-  </div>
 
   <!-- MEETING MINUTES INTERACTIVE WIDGET -->
   <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
@@ -412,12 +420,12 @@
     <h2>🟢 Our Team Board</h2>
     
     <div class="process-box">
-      <strong>Weekly Update Process:</strong> Select your name below to fill out and route your structural parameters directly to our team workspace ledger.
+      <strong>Weekly Update Process:</strong> Select your name below to fill out and route your structural parameters directly to our team workspace ledger. Refer to file "Goals.txt" verbatim for target histories.
     </div>
 
     <div class="team-grid">
-      <!-- Cyrus (Updated interaction click match) -->
-      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus">
+      <!-- Cyrus -->
+      <div class="player me" onclick="openModal('cyrusModal')" data-name="Cyrus">
         <div class="avatar">C</div>
         <div class="name">Cyrus</div>
         <span class="pill progress">In Progress</span>
@@ -477,25 +485,18 @@
     </div>
   </div>
 
-  <!-- LOW VISIBILITY FOOTER NAVIGATION -->
-  <div class="bottom-nav">
-    <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
-    <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
-    <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
+  <!-- PRIVATE LEDGER BOX (MOVED TO BOTTOM) -->
+  <div style="background: #fff8eb; border: 1px solid #ffe4b3; padding: 14px; border-radius: 8px; margin-bottom:20px;">
+    <h3 style="margin:0 0 6px 0; font-size:0.9rem; color:#b45309;">📊 Private Team Ledger Pipeline</h3>
+    <p style="font-size:0.85rem; margin:0 0 10px 0; color:#4b5563;">
+      <strong>Privacy Disclaimer:</strong> Please only distribute or publish progress content that you are entirely comfortable saving on a restricted, shared spreadsheet configuration.
+    </p>
+    <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="display:inline-block; color:var(--sky); font-weight:700; font-size:0.88rem; text-decoration:none;">Go to Restricted Google Sheet Workspace ↗</a>
   </div>
 
-  <footer>
-    <div>unPTO Accountability Tracker · Updated July 2, 2026</div>
-    <div class="disclaimer-text">
-      <strong>Important Public Availability Disclaimer:</strong> This workspace operates as a public GitHub Pages dashboard configuration utilized openly for shared reporting metrics and peer accountability. By interacting or logging parameter updates here, you acknowledge and agree that your data submissions are routed transparently and can be accessed online. <strong>Strictly refrain from submitting confidential info, proprietary system targets, full family surnames, or exact identifying data.</strong>
-    </div>
-  </footer>
+  <div class="divider">— Interactive Workspace Archives —</div>
 
-</div>
-
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
-
-  <!-- INTERACTIVE MODAL: MEETING MINUTES (WITH DOCUMENT LINK INSERT) -->
+  <!-- INTERACTIVE MODAL: MEETING MINUTES -->
   <div id="minutesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:620px;">
       <button class="modal-close" onclick="closeModal('minutesModal')">&times;</button>
@@ -510,10 +511,60 @@
         </p>
       </div>
 
-      <div style="margin: 18px 0 10px; padding: 12px; background: var(--sky-light); border-radius: 8px; border: 1px dashed var(--sky); text-align: center;">
-        <span style="font-size: 0.9rem; font-weight: 700; color: #1e64b0; display: block; margin-bottom: 6px;">📂 Detailed Log Directory</span>
-        <a href="https://docs.google.com/document/d/1GrsHvwo6CNk0OsbvY6XzByY2Zp-kVsymmTE4VFL4kKY/edit?usp=sharing" target="_blank" style="font-size: 0.88rem; color: var(--sky); font-weight: 700; text-decoration: underline; word-break: break-all;">Open Full Session Artifact & Member Outputs Document ↗</a>
+      <h4 style="margin:16px 0 8px; font-size:0.95rem;">Attendance & Core Member Outputs:</h4>
+      
+      <div class="minutes-member">
+        <strong>Felice</strong>
+        <p style="font-size:0.88rem; margin:2px 0;">• Leading sessions and managing buddies for the Peninsula/South Bay cluster.</p>
+        <p style="font-size:0.88rem; margin:2px 0;">• Discussed digital marketing background and YouTube monetization strategies.</p>
       </div>
+
+      <div class="minutes-member">
+        <strong>Art</strong>
+        <p style="font-size:0.88rem; margin:2px 0;">• Joining forces with Felice to help run team operations and handle quality assurance across video channels.</p>
+        <p style="font-size:0.88rem; margin:2px 0;">• Shared collaborative content pipelines exploring specific tools like VidRush AI video generation.</p>
+      </div>
+
+      <div class="minutes-member">
+        <strong>Tina</strong>
+        <p style="font-size:0.88rem; margin:2px 0;">• Shared practical pointers on the EDD process, noting underemployed criteria limits up to 12 months.</p>
+        <p style="font-size:0.88rem; margin:2px 0;">• Highlighted current focuses in tech consulting, fitness training, and home improvement execution.</p>
+      </div>
+
+      <div class="minutes-member">
+        <strong>Siddharth</strong>
+        <p style="font-size:0.88rem; margin:2px 0;">• Detailed mechanical and automotive product engineering foundations.</p>
+        <p style="font-size:0.88rem; margin:2px 0;">• Focusing on an intensive MIT management course through late August to map product optimization paths.</p>
+      </div>
+
+      <div class="minutes-member">
+        <strong>Cyrus</strong>
+        <p style="font-size:0.88rem; margin:2px 0;">• Volunteered to take over tracking data entry and keep status page form parameters simple.</p>
+        <p style="font-size:0.88rem; margin:2px 0;">• Emphasized organic real-world networking strategies to stay clear of excessive desk/computer isolation.</p>
+      </div>
+
+      <div style="margin-top:14px; font-size:0.82rem; color:var(--muted); background:#f9fafb; padding:8px; border-radius:6px;">
+        * Follow-up tracking note: Check alignment and scheduling availability for Kar.
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCAL WORKSPACE: CYRUS STATUS REPORT -->
+  <div id="cyrusModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('cyrusModal')">&times;</button>
+      <h3 style="margin-top:0;">📋 Cyrus Shahriari — Tracker Details</h3>
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 12px 0;">
+      
+      <div style="white-space: pre-wrap; font-family: inherit; font-size: 0.95rem; margin-bottom:14px;">
+<strong>Last week's goal:</strong> Wrap up volunteer shifts, keep reading the networking book, and consolidate home expenses.
+<strong>Result:</strong> Done
+<strong>Blocker:</strong> None right now.
+<strong>This week's goal:</strong> EDD session, counselor one-on-one, group session, and final volunteer shift on July 1st.
+<strong>First next step:</strong> Lock in the EDD/counselor appointment and show up for the July 1st shift.
+      </div>
+
+      <button class="submit-btn primary" onclick="closeModal('cyrusModal'); openModal('dueModal', 'Cyrus');">Submit New Status Report</button>
     </div>
   </div>
 
@@ -558,6 +609,12 @@
       </form>
     </div>
   </div>
+
+  <footer>unPTO Accountability Tracker · Updated July 2, 2026</footer>
+
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
 <script>
 let intervals = {};
