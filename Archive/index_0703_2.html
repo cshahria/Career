@@ -209,65 +209,29 @@
       font-size: 0.95rem;
       margin-bottom: 10px;
     }
-    /* EXPERIENCE ACCORDIONS */
+    /* EXPERIENCE */
     .experience-grid {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin-top: 12px;
+      gap: 18px;
+      margin-top: 8px;
     }
     .exp-item {
       border-radius: 8px;
       border: 1px solid var(--border-soft);
-      background: #ffffff;
-      overflow: hidden;
-    }
-    .exp-item details {
-      width: 100%;
-    }
-    .exp-item summary {
-      list-style: none;
-      outline: none;
-      cursor: pointer;
       padding: 16px 18px;
-      transition: background 0.15s ease;
-    }
-    .exp-item summary::-webkit-details-marker {
-      display: none;
-    }
-    .exp-item summary:hover {
-      background: #f8fafc;
+      background: #ffffff;
     }
     .exp-header {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      position: relative;
-      padding-right: 24px;
-    }
-    .exp-header::after {
-      content: '▸';
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      transition: transform 0.2s ease;
-    }
-    .exp-item details[open] summary .exp-header::after {
-      transform: translateY(-50%) rotate(90deg);
-    }
-    .exp-main-title {
-      display: flex;
-      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 6px;
     }
     .exp-role {
       font-weight: 600;
       color: var(--navy-light);
-      font-size: 0.98rem;
     }
     .exp-company {
       font-size: 0.9rem;
@@ -276,23 +240,16 @@
     .exp-dates {
       font-size: 0.85rem;
       color: var(--text-muted);
-      font-weight: 500;
-    }
-    .exp-content {
-      padding: 4px 18px 18px 18px;
-      border-top: 1px dashed var(--border-soft);
-      background: #fafbfc;
     }
     .exp-bullets {
+      margin-top: 6px;
       padding-left: 18px;
-      margin-top: 8px;
     }
     .exp-bullets li {
       font-size: 0.9rem;
-      margin-bottom: 6px;
-      color: var(--text-main);
+      margin-bottom: 4px;
     }
-    /* SKILLS PILLARS WITH ICONS */
+    /* SKILLS */
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -302,7 +259,7 @@
     .skill-group {
       border-radius: 8px;
       border: 1px solid var(--border-soft);
-      padding: 14px;
+      padding: 12px 14px;
       background: #ffffff;
     }
     .skill-group h4 {
@@ -310,14 +267,7 @@
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--navy-light);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .skill-icon {
-      font-size: 1.1rem;
-      display: inline-block;
+      margin-bottom: 6px;
     }
     .skill-group p {
       font-size: 0.9rem;
@@ -522,10 +472,11 @@
     <div class="navbar-nav">
       <a href="#home">Home</a>
       <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#certs">ITIL Documentation</a>
       <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#certs">Certifications</a>
       <a href="#contact">Contact</a>
+      <a href="#infographic">Impact</a>
     </div>
   </nav>
 
@@ -565,6 +516,14 @@
     </div>
   </header>
 
+  <!-- INFOGRAPHIC -->
+  <section id="infographic" class="section">
+    <div class="section-card" style="text-align:center;">
+      <img src="mission.png" alt="Cyrus Shahriari"
+           style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);" />
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section id="about" class="section">
     <div class="section-card">
@@ -583,41 +542,201 @@
     </div>
   </section>
 
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Experience</h3>
+      <p class="section-subtitle">
+        Selected roles and achievements across enterprise product management, IT service management, and governance.
+      </p>
+
+      <div class="experience-grid">
+
+        <!-- ServiceNow -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Product Manager</div>
+              <div class="exp-company">ServiceNow, Santa Clara, CA</div>
+            </div>
+            <div class="exp-dates">January 2025 – May 2026</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Managed the Integrated Risk Management (IRM) portfolio, including Audit Management, Regulatory Change Management, Policy & Compliance, and Risk Management.</li>
+            <li>Led Agentic AI deployment for the IRM platform as "Customer Zero," driving a 30% improvement in operational efficiency across a multi‑million‑dollar product portfolio.</li>
+            <li>Owned end‑to‑end incident management for IRM, performing root cause analysis and serving as primary stakeholder communication lead for all platform incidents and resolutions.</li>
+            <li>Defined and prioritized product backlog items, authored user stories, and drove sprint ceremonies in close partnership with Level 2/3 engineering teams for continuous platform improvements.</li>
+            <li>Integrated Zoom Agentic AI into the ServiceNow platform to optimize scheduling, record management, and cross‑functional engagement workflows.</li>
+            <li>Delivered compliance oversight for Audit, Regulatory Change, and Policy Management products, ensuring alignment with internal controls and regulatory frameworks.</li>
+            <li>Championed workflow enhancements across approval flows and notification systems, increasing change compliance and audit readiness for internal business stakeholders.</li>
+            <li>Resolved complex platform incidents (e.g., eSignature plugin failure) through cross‑functional collaboration and hands‑on technical analysis, restoring functionality and improving user experience.</li>
+          </ul>
+        </article>
+
+        <!-- Cypress HCM at ServiceNow -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Business Systems Analyst</div>
+              <div class="exp-company">Cypress HCM at ServiceNow, Santa Clara, CA</div>
+            </div>
+            <div class="exp-dates">May 2023 – January 2025</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Owned the Visitor Management application across 20+ global locations, including mobile version upgrades, hardware integration, and multi‑region deployment coordination.</li>
+            <li>Managed the inaugural deployment of the Occupational Health & Safety application module, establishing baseline processes and governance standards.</li>
+            <li>Reduced open incidents and service requests by 40% within three months through systematic backlog prioritization and proactive stakeholder engagement.</li>
+            <li>Developed an internal operational dashboard providing real‑time visibility into application health and escalation metrics for leadership.</li>
+            <li>Coordinated with global development and QA teams (50+ hours/week), authoring user stories, defect reports, and conducting knowledge transfer sessions.</li>
+          </ul>
+        </article>
+
+        <!-- First Republic Bank -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Sr. IT Infrastructure Change Analyst</div>
+              <div class="exp-company">First Republic Bank, San Francisco, CA</div>
+            </div>
+            <div class="exp-dates">May 2020 – May 2023</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Assessed 1,200+ monthly change records, applying ITIL change management principles to reduce emergency/expedited changes by 50%, significantly lowering organizational risk.</li>
+            <li>Increased standard (pre‑approved) changes by 15% through automation initiatives and targeted training programs for change submitters.</li>
+            <li>Chaired bi‑weekly Change Advisory Board (CAB) meetings, facilitating cross‑functional risk discussions and approvals across infrastructure, applications, and security teams.</li>
+            <li>Investigated failed changes and post‑implementation incidents, delivering root cause analysis reports and remediation training to reduce repeat failures.</li>
+          </ul>
+        </article>
+
+        <!-- Lumentum -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">ITIL Process Manager</div>
+              <div class="exp-company">Lumentum, San Jose, CA</div>
+            </div>
+            <div class="exp-dates">January 2020 – July 2020</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Led ITIL process development and oversight focusing on Incident, Change, Configuration, and Problem Management.</li>
+            <li>Organized bi‑weekly Change Advisory Board (CAB) meetings covering three regions.</li>
+            <li>Designed and implemented the Configuration Management Database (CMDB) on the ServiceNow CSDM model.</li>
+            <li>Assisted with the migration from Jira Service Desk to ServiceNow in the first quarter of 2020.</li>
+          </ul>
+        </article>
+
+        <!-- AbbVie -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">ServiceNow Business Analyst</div>
+              <div class="exp-company">AbbVie, Sunnyvale, CA</div>
+            </div>
+            <div class="exp-dates">August 2018 – December 2019</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Performed domain architecture activities in ServiceNow for a leading pharmaceutical organization.</li>
+            <li>Analyzed and mapped the "As‑Is" Human Resources (HR) process via Workday to ServiceNow.</li>
+            <li>Supported HR hire, termination, and organizational change workflows in the ITSM platform.</li>
+          </ul>
+        </article>
+
+        <!-- Kaiser Permanente -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Business Systems Analyst</div>
+              <div class="exp-company">Kaiser Permanente, Pleasanton, CA</div>
+            </div>
+            <div class="exp-dates">November 2017 – August 2018</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Supported IT Asset Management (ITAM) and Software Asset Management (SAM) projects using the Matrix42 Suite.</li>
+            <li>Implemented server licensing provisioning processes and tracked software utilization to ensure compliance.</li>
+          </ul>
+        </article>
+
+        <!-- Dimension Data -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">ITSM Data / Business Analyst</div>
+              <div class="exp-company">Dimension Data, Santa Clara, CA</div>
+            </div>
+            <div class="exp-dates">April 2016 – November 2017</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Supported ITSM data analysis and business analysis activities across enterprise service management initiatives.</li>
+          </ul>
+        </article>
+
+        <!-- Cooper Technologies -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">IT Service Consultant</div>
+              <div class="exp-company">Cooper Technologies, Santa Cruz, CA</div>
+            </div>
+            <div class="exp-dates">June 2015 – March 2016</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Delivered IT service consulting and process improvement support for small to mid‑sized organizations.</li>
+          </ul>
+        </article>
+
+        <!-- Health Shared Services BC -->
+        <article class="exp-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Sr. Coordinator / Business Analyst</div>
+              <div class="exp-company">Health Shared Services BC, Vancouver, Canada</div>
+            </div>
+            <div class="exp-dates">January 2013 – June 2014</div>
+          </div>
+          <ul class="exp-bullets">
+            <li>Coordinated and analyzed business processes in a large healthcare shared services environment.</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
   <!-- SKILLS -->
   <section id="skills" class="section">
     <div class="section-card">
       <h3 class="section-title">Skills</h3>
       <div class="skills-grid">
         <div class="skill-group">
-          <h4><span class="skill-icon">⚙️</span>ITSM & Governance</h4>
+          <h4>ITSM & Governance</h4>
           <p>
             IT Service Management, IT Change Management, ITIL Process Design, Governance, Regulatory & Compliance,
             Incident & Root Cause Analysis, Change Advisory Board (CAB) Facilitation, Request for Change (RFC) Assessment.
           </p>
         </div>
         <div class="skill-group">
-          <h4><span class="skill-icon">💻</span>Platforms & Tools</h4>
+          <h4>Platforms & Tools</h4>
           <p>
             ServiceNow (Incident, Request, Change, Integrated Risk Management, Workplace Services, Visitor Management),
             HP Service Manager, Matrix42, Jira.
           </p>
         </div>
         <div class="skill-group">
-          <h4><span class="skill-icon">🤖</span>AI & Agentic Workflows</h4>
+          <h4>AI & Agentic Workflows</h4>
           <p>
             Agentic AI (ServiceNow), Claude Enterprise, Google Gemini, Microsoft Copilot, DeepSeek, AI‑enabled workflows
             for governance, risk, and compliance.
           </p>
         </div>
         <div class="skill-group">
-          <h4><span class="skill-icon">📊</span>Business Analysis</h4>
+          <h4>Business Analysis</h4>
           <p>
             Requirements Gathering, User Story Authoring, Gap Analysis, Process Mapping, UAT/QA, Operational Dashboards,
             Cross‑functional Stakeholder Engagement.
           </p>
         </div>
         <div class="skill-group">
-          <h4><span class="skill-icon">📜</span>Scripting & Systems</h4>
+          <h4>Scripting & Systems</h4>
           <p>
             Bash, PowerShell, Linux (Ubuntu/Debian), Windows, iOS, Android.
           </p>
@@ -626,10 +745,10 @@
     </div>
   </section>
 
-  <!-- ITIL DOCUMENTATION -->
+  <!-- CERTIFICATIONS -->
   <section id="certs" class="section">
     <div class="section-card">
-      <h3 class="section-title">Information Technology Infrastructure Library Documentation</h3>
+      <h3 class="section-title">Certifications & Credentials</h3>
       <p class="section-subtitle">Select ITIL framework verifications, scans, and verified examination portfolios.</p>
       
       <div class="cert-grid">
@@ -672,220 +791,6 @@
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
-  <section id="experience" class="section">
-    <div class="section-card">
-      <h3 class="section-title">Experience</h3>
-      <p class="section-subtitle">
-        Selected roles and achievements across enterprise product management, IT service management, and governance. Click an entry to expand architectural project breakdowns.
-      </p>
-
-      <div class="experience-grid">
-
-        <!-- ServiceNow -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">Product Manager</span>
-                  <span class="exp-company">ServiceNow, Santa Clara, CA</span>
-                </div>
-                <div class="exp-dates">January 2025 – May 2026</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Managed the Integrated Risk Management (IRM) portfolio, including Audit Management, Regulatory Change Management, Policy & Compliance, and Risk Management.</li>
-                <li>Led Agentic AI deployment for the IRM platform as "Customer Zero," driving a 30% improvement in operational efficiency across a multi‑million‑dollar product portfolio.</li>
-                <li>Owned end‑to‑end incident management for IRM, performing root cause analysis and serving as primary stakeholder communication lead for all platform incidents and resolutions.</li>
-                <li>Defined and prioritized product backlog items, authored user stories, and drove sprint ceremonies in close partnership with Level 2/3 engineering teams for continuous platform improvements.</li>
-                <li>Integrated Zoom Agentic AI into the ServiceNow platform to optimize scheduling, record management, and cross‑functional engagement workflows.</li>
-                <li>Delivered compliance oversight for Audit, Regulatory Change, and Policy Management products, ensuring alignment with internal controls and regulatory frameworks.</li>
-                <li>Championed workflow enhancements across approval flows and notification systems, increasing change compliance and audit readiness for internal business stakeholders.</li>
-                <li>Resolved complex platform incidents (e.g., eSignature plugin failure) through cross‑functional collaboration and hands‑on technical analysis, restoring functionality and improving user experience.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- Cypress HCM at ServiceNow -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">Business Systems Analyst</span>
-                  <span class="exp-company">Cypress HCM at ServiceNow, Santa Clara, CA</span>
-                </div>
-                <div class="exp-dates">May 2023 – January 2025</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Owned the Visitor Management application across 20+ global locations, including mobile version upgrades, hardware integration, and multi‑region deployment coordination.</li>
-                <li>Managed the inaugural deployment of the Occupational Health & Safety application module, establishing baseline processes and governance standards.</li>
-                <li>Reduced open incidents and service requests by 40% within three months through systematic backlog prioritization and proactive stakeholder engagement.</li>
-                <li>Developed an internal operational dashboard providing real‑time visibility into application health and escalation metrics for leadership.</li>
-                <li>Coordinated with global development and QA teams (50+ hours/week), authoring user stories, defect reports, and conducting knowledge transfer sessions.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- First Republic Bank -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">Sr. IT Infrastructure Change Analyst</span>
-                  <span class="exp-company">First Republic Bank, San Francisco, CA</span>
-                </div>
-                <div class="exp-dates">May 2020 – May 2023</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Assessed 1,200+ monthly change records, applying ITIL change management principles to reduce emergency/expedited changes by 50%, significantly lowering organizational risk.</li>
-                <li>Increased standard (pre‑approved) changes by 15% through automation initiatives and targeted training programs for change submitters.</li>
-                <li>Chaired bi‑weekly Change Advisory Board (CAB) meetings, facilitating cross‑functional risk discussions and approvals across infrastructure, applications, and security teams.</li>
-                <li>Investigated failed changes and post‑implementation incidents, delivering root cause analysis reports and remediation training to reduce repeat failures.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- Lumentum -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">ITIL Process Manager</span>
-                  <span class="exp-company">Lumentum, San Jose, CA</span>
-                </div>
-                <div class="exp-dates">January 2020 – July 2020</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Led ITIL process development and oversight focusing on Incident, Change, Configuration, and Problem Management.</li>
-                <li>Organized bi‑weekly Change Advisory Board (CAB) meetings covering three regions.</li>
-                <li>Designed and implemented the Configuration Management Database (CMDB) on the ServiceNow CSDM model.</li>
-                <li>Assisted with the migration from Jira Service Desk to ServiceNow in the first quarter of 2020.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- AbbVie -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">ServiceNow Business Analyst</span>
-                  <span class="exp-company">AbbVie, Sunnyvale, CA</span>
-                </div>
-                <div class="exp-dates">August 2018 – December 2019</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Performed domain architecture activities in ServiceNow for a leading pharmaceutical organization.</li>
-                <li>Analyzed and mapped the "As‑Is" Human Resources (HR) process via Workday to ServiceNow.</li>
-                <li>Supported HR hire, termination, and organizational change workflows in the ITSM platform.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- Kaiser Permanente -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">Business Systems Analyst</span>
-                  <span class="exp-company">Kaiser Permanente, Pleasanton, CA</span>
-                </div>
-                <div class="exp-dates">November 2017 – August 2018</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Supported IT Asset Management (ITAM) and Software Asset Management (SAM) projects using the Matrix42 Suite.</li>
-                <li>Implemented server licensing provisioning processes and tracked software utilization to ensure compliance.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- Dimension Data -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">ITSM Data / Business Analyst</span>
-                  <span class="exp-company">Dimension Data, Santa Clara, CA</span>
-                </div>
-                <div class="exp-dates">April 2016 – November 2017</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Supported ITSM data analysis and business analysis activities across enterprise service management initiatives.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- Cooper Technologies -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">IT Service Consultant</span>
-                  <span class="exp-company">Cooper Technologies, Santa Cruz, CA</span>
-                </div>
-                <div class="exp-dates">June 2015 – March 2016</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Delivered IT service consulting and process improvement support for small to mid‑sized organizations.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-        <!-- Health Shared Services BC -->
-        <article class="exp-item">
-          <details>
-            <summary>
-              <div class="exp-header">
-                <div class="exp-main-title">
-                  <span class="exp-role">Sr. Coordinator / Business Analyst</span>
-                  <span class="exp-company">Health Shared Services BC, Vancouver, Canada</span>
-                </div>
-                <div class="exp-dates">January 2013 – June 2014</div>
-              </div>
-            </summary>
-            <div class="exp-content">
-              <ul class="exp-bullets">
-                <li>Coordinated and analyzed business processes in a large healthcare shared services environment.</li>
-              </ul>
-            </div>
-          </details>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
   <!-- CONTACT -->
   <section id="contact" class="section">
     <div class="section-card">
@@ -899,14 +804,6 @@
     </div>
   </section>
 
-  <!-- INFOGRAPHIC (Moved & Scaled Down) -->
-  <section id="infographic" class="section" style="margin-top: 10px; margin-bottom: 20px;">
-    <div style="text-align: center;">
-      <img src="mission.png" alt="Strategic Mission Breakdown"
-           style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); opacity: 0.85;" />
-    </div>
-  </section>
-
   <!-- LIGHTBOX MODAL OVERLAY -->
   <div id="lightboxModal" class="modal-overlay" onclick="closeLightbox(event)">
     <div class="modal-wrapper" onclick="event.stopPropagation()">
@@ -915,7 +812,7 @@
         <button class="modal-close-btn" onclick="toggleModal(false)">&times;</button>
       </div>
       <div id="modalBody" class="modal-body">
-        <!-- Content injected dynamically -->
+        <!-- Content gets injected dynamically by JavaScript -->
       </div>
     </div>
   </div>
@@ -970,6 +867,7 @@
       }
     }
 
+    // Escape Key event to close modal easily
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && modal.classList.contains('active')) {
         toggleModal(false);
