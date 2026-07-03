@@ -147,26 +147,9 @@
     .hero-card {
       background: rgba(9, 20, 43, 0.9);
       border-radius: 12px;
-      padding: 22px;
+      padding: 20px 22px;
       border: 1px solid rgba(111, 143, 201, 0.4);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      text-align: center;
-    }
-    .hero-profile-img {
-      width: 130px;
-      height: 130px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, 0.85);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-    .hero-card-content {
-      width: 100%;
-      text-align: left;
     }
     .hero-card-title {
       font-size: 0.85rem;
@@ -274,140 +257,6 @@
       color: var(--text-main);
       margin-bottom: 0;
     }
-
-    /* CERTIFICATIONS GALLERY */
-    .cert-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .cert-item {
-      border: 1px solid var(--border-soft);
-      border-radius: 8px;
-      background: #ffffff;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .cert-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-    }
-    .cert-thumb-wrapper {
-      background: #eaecef;
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-    .cert-thumb-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .cert-pdf-placeholder {
-      font-size: 2.2rem;
-      color: #b32424;
-      font-weight: bold;
-    }
-    .cert-caption {
-      padding: 10px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-main);
-      text-align: center;
-      border-top: 1px solid var(--border-soft);
-      background: #fafafa;
-      flex-grow: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* POPUP LIGHTBOX MODAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(11, 27, 51, 0.9);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      padding: 20px;
-    }
-    .modal-overlay.active {
-      display: flex;
-    }
-    .modal-wrapper {
-      background: #ffffff;
-      max-width: 800px;
-      width: 100%;
-      max-height: 90vh;
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    }
-    .modal-header {
-      padding: 14px 20px;
-      background: #f8f9fa;
-      border-bottom: 1px solid var(--border-soft);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--navy-light);
-    }
-    .modal-close-btn {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--text-muted);
-      line-height: 1;
-    }
-    .modal-close-btn:hover {
-      color: #000000;
-    }
-    .modal-body {
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f0f2f5;
-      min-height: 300px;
-    }
-    .modal-body img {
-      max-width: 100%;
-      max-height: 70vh;
-      object-fit: contain;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      border-radius: 4px;
-    }
-    .modal-pdf-box {
-      text-align: center;
-      padding: 30px;
-      background: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border: 1px solid var(--border-soft);
-    }
-    .modal-pdf-box p {
-      margin-bottom: 16px;
-      font-weight: 500;
-    }
-
     /* CONTACT */
     .contact-list {
       list-style: none;
@@ -439,14 +288,6 @@
       .hero {
         padding: 70px 16px 40px;
       }
-      .hero-card {
-        flex-direction: row;
-        text-align: left;
-      }
-      .hero-profile-img {
-        width: 90px;
-        height: 90px;
-      }
     }
     @media (max-width: 600px) {
       .navbar-nav {
@@ -454,10 +295,6 @@
       }
       .hero-main h1 {
         font-size: 2.1rem;
-      }
-      .hero-card {
-        flex-direction: column;
-        text-align: center;
       }
     }
   </style>
@@ -474,7 +311,6 @@
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
-      <a href="#certs">Certifications</a>
       <a href="#contact">Contact</a>
       <a href="#infographic">Impact</a>
     </div>
@@ -505,15 +341,12 @@
         </div>
       </div>
       <aside class="hero-card">
-        <img src="2026_Profile.jpeg" alt="Cyrus Shahriari" class="hero-profile-img" />
-        <div class="hero-card-content">
-          <div class="hero-card-title">Current Focus</div>
-          <p>
-            Dedicated to the FIFA Fan Operations team following successful delivery of the Integrated Risk Management,
-            Regulatory Change, and Audit Management portfolios. Enabled daily and monthly releases for Customer Zero,
-            ensuring platform stability, compliance, and continuous improvement.
-          </p>
-        </div>
+        <div class="hero-card-title">Current Focus</div>
+        <p>
+          Dedicated to the FIFA Fan Operations team following successful delivery of the Integrated Risk Management,
+          Regulatory Change, and Audit Management portfolios. Enabled daily and monthly releases for Customer Zero,
+          ensuring platform stability, compliance, and continuous improvement.
+        </p>
       </aside>
     </div>
   </header>
@@ -747,52 +580,6 @@
     </div>
   </section>
 
-  <!-- CERTIFICATIONS -->
-  <section id="certs" class="section">
-    <div class="section-card">
-      <h3 class="section-title">Certifications & Credentials</h3>
-      <p class="section-subtitle">Select ITIL framework verifications, scans, and verified examination portfolios.</p>
-      
-      <div class="cert-grid">
-        <!-- Scan 1 -->
-        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_1.png', 'ITIL Certificate Scan - Page 1')">
-          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_1.png" alt="Scan 1" /></div>
-          <div class="cert-caption">ITIL Certificate Scan 1</div>
-        </div>
-        <!-- Scan 2 -->
-        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_2.png', 'ITIL Certificate Scan - Page 2')">
-          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_2.png" alt="Scan 2" /></div>
-          <div class="cert-caption">ITIL Certificate Scan 2</div>
-        </div>
-        <!-- Scan 3 -->
-        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_7.png', 'ITIL Certificate Scan - Page 7')">
-          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_7.png" alt="Scan 7" /></div>
-          <div class="cert-caption">ITIL Certificate Scan 3</div>
-        </div>
-        <!-- Scan 4 -->
-        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_9.png', 'ITIL Certificate Scan - Page 9')">
-          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_9.png" alt="Scan 9" /></div>
-          <div class="cert-caption">ITIL Certificate Scan 4</div>
-        </div>
-        <!-- Scan 5 -->
-        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_10.png', 'ITIL Certificate Scan - Page 10')">
-          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_10.png" alt="Scan 10" /></div>
-          <div class="cert-caption">ITIL Certificate Scan 5</div>
-        </div>
-        <!-- PDF 1 -->
-        <div class="cert-item" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4.pdf', 'ITIL v4 Framework Syllabus / Core Document')">
-          <div class="cert-thumb-wrapper"><span class="cert-pdf-placeholder">PDF</span></div>
-          <div class="cert-caption">ITIL v4 Core Document</div>
-        </div>
-        <!-- PDF 2 -->
-        <div class="cert-item" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4_Allison-7588-59437053.pdf', 'ITIL v4 Official Examination Certificate Summary')">
-          <div class="cert-thumb-wrapper"><span class="cert-pdf-placeholder">PDF</span></div>
-          <div class="cert-caption">ITIL Certificate File</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- CONTACT -->
   <section id="contact" class="section">
     <div class="section-card">
@@ -806,76 +593,12 @@
     </div>
   </section>
 
-  <!-- LIGHTBOX MODAL OVERLAY -->
-  <div id="lightboxModal" class="modal-overlay" onclick="closeLightbox(event)">
-    <div class="modal-wrapper" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <div id="modalTitle" class="modal-title">Certificate Document View</div>
-        <button class="modal-close-btn" onclick="toggleModal(false)">&times;</button>
-      </div>
-      <div id="modalBody" class="modal-body">
-        <!-- Content gets injected dynamically by JavaScript -->
-      </div>
-    </div>
-  </div>
+
 
   <!-- FOOTER -->
   <footer>
     © 2026 Cyrus Shahriari • Enterprise Product & ITSM Strategist • ServiceNow Platform
   </footer>
-
-  <!-- INTERACTIVE GALLERY SCRIPT -->
-  <script>
-    const modal = document.getElementById('lightboxModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-
-    function toggleModal(show) {
-      if(show) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      } else {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    }
-
-    function openLightbox(type, source, title) {
-      modalTitle.textContent = title;
-      modalBody.innerHTML = '';
-
-      if (type === 'image') {
-        const img = document.createElement('img');
-        img.src = source;
-        img.alt = title;
-        modalBody.appendChild(img);
-      } else if (type === 'pdf') {
-        modalBody.innerHTML = `
-          <div class="modal-pdf-box">
-            <p><strong>${title}</strong></p>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">PDF documents can be opened cleanly in a focused environment or downloaded directly below.</p>
-            <a class="btn btn-primary" href="${source}" target="_blank" style="background: var(--accent); color: white; border-radius: 6px; padding: 8px 16px;">
-              Open PDF File
-            </a>
-          </div>
-        `;
-      }
-      toggleModal(true);
-    }
-
-    function closeLightbox(event) {
-      if (event.target === modal) {
-        toggleModal(false);
-      }
-    }
-
-    // Escape Key event to close modal easily
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        toggleModal(false);
-      }
-    });
-  </script>
 
 </body>
 </html>
