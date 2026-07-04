@@ -124,7 +124,7 @@
   <header>
     <span class="tag">ADMINISTRATIVE INTERFACE</span>
     <h1>Workspace Control Center</h1>
-    <p>Generate an updated config.json — commit it to publish to the live site</p>
+    <p>Update system parameters globally without manual code revision</p>
   </header>
 
   <form id="adminControlForm" onsubmit="handleAdminSubmit(event)">
@@ -166,110 +166,55 @@
       </div>
     </div>
 
-    <button type="submit" class="submit-btn">Generate Configuration File</button>
+    <button type="submit" class="submit-btn">Publish Configuration Matrix</button>
   </form>
-
-  <!-- SECTION 4: OUTPUT / PUBLISH STEP -->
-  <div class="card" id="outputCard" style="display:none;">
-    <h2>📄 Your Updated config.json</h2>
-    <p style="font-size:0.85rem; color:var(--muted); margin:0 0 12px;">
-      This page can't write to your live site directly — GitHub Pages only serves static files, there's no server listening for this form. Copy or download the file below, then replace <code>config.json</code> in your repo with it (edit in place on GitHub, or drag-and-drop it in via the web UI) and commit. The site pulls this file in automatically on page load.
-    </p>
-    <div class="form-group">
-      <textarea id="jsonOutput" rows="12" readonly style="font-family:'SFMono-Regular',Consolas,Menlo,monospace; font-size:0.82rem;"></textarea>
-    </div>
-    <div class="grid-2">
-      <button type="button" class="submit-btn" onclick="copyJson()" style="background:var(--sky);">Copy to Clipboard</button>
-      <button type="button" class="submit-btn" onclick="downloadJson()">Download config.json</button>
-    </div>
-  </div>
 </div>
 
 <script>
-// Converts a <input type="datetime-local"> value (e.g. "2026-07-09T11:00")
-// into the "-07:00" offset ISO format the tracker page expects.
-function toOffsetISO(localValue) {
-  if (!localValue) return null;
-  return localValue + ':00-07:00';
-}
-
-// Converts an ISO string with offset back into the plain value
-// datetime-local inputs need (strips the offset/seconds).
-function fromOffsetISO(iso) {
-  if (!iso) return '';
-  return iso.slice(0, 16);
-}
-
 function handleAdminSubmit(event) {
   event.preventDefault();
-
-  const config = {
-    nextMeetingISO: toOffsetISO(document.getElementById('nextMeeting').value),
-    nextReportISO: toOffsetISO(document.getElementById('reportDue').value),
-    statuses: {
-      Cyrus: document.getElementById('statusCyrus').value,
-      Siddarth: document.getElementById('statusSiddarth').value,
-      Emily: document.getElementById('statusEmily').value,
-      Felice: document.getElementById('statusFelice').value,
-      Tina: document.getElementById('statusTina').value,
-      Kar: document.getElementById('statusKar').value,
-      Art: document.getElementById('statusArt').value
-    },
-    agenda: document.getElementById('agendaText').value.trim()
+  
+  const statusConfig = {
+    Cyrus: document.getElementById('statusCyrus').value,
+    Siddarth: document.getElementById('statusSiddarth').value,
+    Emily: document.getElementById('statusEmily').value,
+    Felice: document.getElementById('statusFelice').value,
+    Tina: document.getElementById('statusTina').value,
+    Kar: document.getElementById('statusKar').value,
+    Art: document.getElementById('statusArt').value
+  };
+  
+  const dates = {
+    meeting: document.getElementById('nextMeeting').value,
+    due: document.getElementById('reportDue').value
   };
 
-  const json = JSON.stringify(config, null, 2);
-  document.getElementById('jsonOutput').value = json;
-  document.getElementById('outputCard').style.display = 'block';
-  document.getElementById('outputCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const agenda = document.getElementById('agendaText').value.trim();
+
+  localStorage.setItem('unpto_status', JSON.stringify(statusConfig));
+  localStorage.setItem('unpto_dates', JSON.stringify(dates));
+  localStorage.setItem('unpto_agenda', agenda);
+  
+  alert("Local workspace parameters updated successfully!");
 }
 
-function copyJson() {
-  const el = document.getElementById('jsonOutput');
-  el.select();
-  navigator.clipboard.writeText(el.value).then(() => {
-    alert('Copied! Paste this into config.json in your repo and commit.');
-  }).catch(() => {
-    alert('Copy failed — select the text manually and copy with Ctrl/Cmd+C.');
-  });
-}
-
-function downloadJson() {
-  const blob = new Blob([document.getElementById('jsonOutput').value], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'config.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-// On load, try to pull current live values from config.json so the form
-// starts pre-filled with what's actually published (falls back to
-// reasonable defaults if config.json isn't reachable, e.g. opening this
-// file locally instead of through GitHub Pages).
-window.addEventListener('DOMContentLoaded', () => {
-  fetch('config.json', { cache: 'no-store' })
-    .then(r => r.ok ? r.json() : null)
-    .then(cfg => {
-      if (!cfg) throw new Error('no config');
-      document.getElementById('nextMeeting').value = fromOffsetISO(cfg.nextMeetingISO) || '2026-07-09T11:00';
-      document.getElementById('reportDue').value = fromOffsetISO(cfg.nextReportISO) || '2026-07-06T11:00';
-      if (cfg.statuses) {
-        Object.keys(cfg.statuses).forEach(name => {
-          const el = document.getElementById(`status${name}`);
-          if (el) el.value = cfg.statuses[name];
-        });
-      }
-      if (cfg.agenda) document.getElementById('agendaText').value = cfg.agenda;
-    })
-    .catch(() => {
-      document.getElementById('nextMeeting').value = '2026-07-09T11:00';
-      document.getElementById('reportDue').value = '2026-07-06T11:00';
+// Load current saved values or fall back to defaults
+window.onload = function() {
+  const savedStatuses = JSON.parse(localStorage.getItem('unpto_status'));
+  if(savedStatuses) {
+    Object.keys(savedStatuses).forEach(name => {
+      const el = document.getElementById(`status${name}`);
+      if(el) el.value = savedStatuses[name];
     });
-});
+  }
+  
+  const savedDates = JSON.parse(localStorage.getItem('unpto_dates'));
+  document.getElementById('nextMeeting').value = savedDates ? savedDates.meeting : "2026-07-02T11:00";
+  document.getElementById('reportDue').value = savedDates ? savedDates.due : "2026-06-29T17:00";
+  
+  const savedAgenda = localStorage.getItem('unpto_agenda');
+  if(savedAgenda) document.getElementById('agendaText').value = savedAgenda;
+};
 </script>
 </body>
 </html>

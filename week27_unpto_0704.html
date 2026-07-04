@@ -151,9 +151,6 @@
     letter-spacing:.02em;
   }
   .pill.progress{background:var(--sky-light);color:var(--sky);}
-  .pill.done{background:var(--pitch-light);color:var(--pitch);}
-  .pill.due{background:var(--amber-light);color:var(--amber);}
-  .pill.blank{display:none;}
 
   ul{margin:0;padding-left:0;list-style:none;}
   li{
@@ -412,37 +409,37 @@
 
     <div class="team-grid">
       <!-- Cyrus (Updated interaction click match) -->
-      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus">
+      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus">
         <div class="avatar">C</div>
         <div class="name">Cyrus</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Siddharth  -->
-      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth">
+      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth ">
         <div class="avatar">S</div>
         <div class="name">Siddharth </div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Felice -->
-      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice">
+      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice">
         <div class="avatar">F</div>
         <div class="name">Felice</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Tina -->
-      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina">
+      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina">
         <div class="avatar">T</div>
         <div class="name">Tina</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Kar -->
-      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
+      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar">
         <div class="avatar">K</div>
         <div class="name">Kar</div>
         <span class="pill progress">In Progress</span>
       </div>
       <!-- Art -->
-      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
+      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art">
         <div class="avatar">A</div>
         <div class="name">Art</div>
         <span class="pill progress">In Progress</span>
@@ -584,51 +581,12 @@ function startCountdown(elId, targetISO){
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Fallback defaults — used only if config.json can't be loaded
-  let nextMeetingISO = '2026-07-09T11:00:00-07:00';
-  let nextReportISO = '2026-07-06T11:00:00-07:00';
+  const nextMeetingISO = '2026-07-09T11:00:00-07:00';
+  const nextReportISO = '2026-07-06T11:00:00-07:00';
 
-  fetch('config.json', { cache: 'no-store' })
-    .then(r => r.ok ? r.json() : null)
-    .then(cfg => {
-      if (cfg) {
-        if (cfg.nextMeetingISO) nextMeetingISO = cfg.nextMeetingISO;
-        if (cfg.nextReportISO) nextReportISO = cfg.nextReportISO;
-        applyStatuses(cfg.statuses);
-        applyAgenda(cfg.agenda);
-      }
-    })
-    .catch(() => { /* config.json missing or unreachable — use fallback defaults */ })
-    .finally(() => {
-      startCountdown('meetingCountdown', nextMeetingISO);
-      startCountdown('dueCountdown', nextReportISO);
-    });
+  startCountdown('meetingCountdown', nextMeetingISO);
+  startCountdown('dueCountdown', nextReportISO);
 });
-
-function applyStatuses(statuses) {
-  if (!statuses) return;
-  const pillLabel = { progress: 'In Progress', done: 'Done', due: 'Due', blank: '' };
-  document.querySelectorAll('.player[data-key]').forEach(card => {
-    const key = card.getAttribute('data-key');
-    const status = statuses[key];
-    if (!status) return;
-    const pill = card.querySelector('.pill');
-    if (!pill) return;
-    pill.className = 'pill ' + status;
-    pill.textContent = pillLabel[status] ?? '';
-  });
-}
-
-function applyAgenda(agendaText) {
-  if (!agendaText || !agendaText.trim()) return; // keep existing default bullets
-  const container = document.getElementById('cadenceAgendaContainer');
-  if (!container) return;
-  const lines = agendaText.split('\n').map(l => l.trim()).filter(Boolean);
-  if (!lines.length) return;
-  container.innerHTML = '<strong>Weekly Core Session Info:</strong><ul style="margin-top: 6px;">' +
-    lines.map(l => `<li style="font-size:0.85rem;">${l.replace(/</g, '&lt;')}</li>`).join('') +
-    '</ul>';
-}
 
 let formSubmittedType = ''; 
 let currentActiveUser = '';

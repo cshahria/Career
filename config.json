@@ -1,0 +1,13 @@
+{
+  "nextMeetingISO": "2026-07-09T11:00:00-07:00",
+  "nextReportISO": "2026-07-06T11:00:00-07:00",
+  "statuses": {
+    "Cyrus": "progress",
+    "Siddarth": "progress",
+    "Felice": "progress",
+    "Tina": "progress",
+    "Kar": "progress",
+    "Art": "progress"
+  },
+  "agenda": ""
+}
