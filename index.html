@@ -562,16 +562,44 @@
     </div>
   </header>
 
-  <!-- CONTACT -->
+<!-- CONTACT -->
   <section id="contact" class="section">
-    <div class="section-card">
-      <h3 class="section-title">Contact</h3>
-      <ul class="contact-list">
-        <li><strong>Email:</strong> <a href="mailto:cyrus.shahriari@gmail.com">cyrus.shahriari@gmail.com</a></li>
-        <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank">linkedin.com/in/cyrusshahriari</a></li>
-        <li><strong>Public Resume:</strong> <a href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank">View PDF on Google Drive</a></li>
-        <li><strong>Location:</strong> San Jose, CA</li>
-      </ul>
+    <div class="section-card" style="text-align: center; padding: 24px 20px;">
+      <h3 class="section-title" style="margin-bottom: 18px;">Get in Touch</h3>
+      
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 800px; margin: 0 auto;">
+        
+        <!-- Email Link -->
+        <a href="mailto:cyrus.shahriari@gmail.com" class="btn btn-outline" 
+           style="color: var(--text-main); border-color: var(--border-soft); background: #fafafa; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='#f0f4fa'; this.style.borderColor='var(--accent)';" 
+           onmouseout="this.style.background='#fafafa'; this.style.borderColor='var(--border-soft)';">
+          <span style="font-size: 1.1rem; margin-right: 6px;">✉️</span> Email Me
+        </a>
+
+        <!-- LinkedIn Link -->
+        <a href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank" class="btn btn-outline" 
+           style="color: var(--text-main); border-color: var(--border-soft); background: #fafafa; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='#f0f4fa'; this.style.borderColor='var(--accent)';" 
+           onmouseout="this.style.background='#fafafa'; this.style.borderColor='var(--border-soft)';">
+          <span style="font-size: 1.1rem; margin-right: 6px;">💼</span> LinkedIn
+        </a>
+
+        <!-- Resume Link -->
+        <a href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank" class="btn btn-outline" 
+           style="color: var(--text-main); border-color: var(--border-soft); background: #fafafa; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='#f0f4fa'; this.style.borderColor='var(--accent)';" 
+           onmouseout="this.style.background='#fafafa'; this.style.borderColor='var(--border-soft)';">
+          <span style="font-size: 1.1rem; margin-right: 6px;">📄</span> Public Resume
+        </a>
+
+        <!-- Location Badge (Non-clickable) -->
+        <div class="btn" 
+             style="color: var(--text-muted); border: 1px dashed var(--border-soft); background: transparent; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; cursor: default;">
+          <span style="font-size: 1.1rem; margin-right: 6px;">📍</span> San Jose, CA
+        </div>
+
+      </div>
     </div>
   </section>
 
