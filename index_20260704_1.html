@@ -458,34 +458,14 @@
       font-weight: 500;
     }
 
-    /* CONTACT & RESOURCE BUTTONS */
-    .resource-btn-group {
-      display: flex; 
-      flex-wrap: wrap; 
-      justify-content: flex-start; 
-      gap: 12px; 
-      margin-top: 20px;
+    /* CONTACT */
+    .contact-list {
+      list-style: none;
+      font-size: 0.95rem;
     }
-    .inline-resource-btn {
-      color: var(--text-main); 
-      border: 1px solid var(--border-soft); 
-      background: #fafafa; 
-      border-radius: 8px; 
-      font-weight: 500; 
-      font-size: 0.88rem; 
-      padding: 10px 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-      cursor: pointer;
+    .contact-list li {
+      margin-bottom: 6px;
     }
-    .inline-resource-btn:hover {
-      background: #f0f4fa; 
-      border-color: var(--accent);
-      text-decoration: none;
-    }
-
     /* FOOTER */
     footer {
       margin-top: 30px;
@@ -873,8 +853,7 @@
             Cross‑functional Stakeholder Engagement.
           </p>
         </div>
-      </div>
-    </div>
+
   </section>
   
   <!-- ITIL DOCUMENTATION -->
@@ -883,7 +862,6 @@
       <h3 class="section-title">ITIL Certifications</h3>
       <p class="section-subtitle">Select ITIL framework verifications, scans, and verified examination portfolios.</p>
       
-      <!-- Image Gallery Matrix -->
       <div class="cert-grid">
         <!-- Scan 1 -->
         <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_1.png', 'ITIL Certificate Scan - Page 1')">
@@ -910,18 +888,17 @@
           <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_10.png" alt="Scan 10" /></div>
           <div class="cert-caption">ITIL Overview for Techs OpSys</div>
         </div>
-      </div>
-
-      <!-- Refined Inline PDF Resource Links (Contact Section Style) -->
-      <div class="resource-btn-group">
-        <div class="inline-resource-btn" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4.pdf', 'ITIL v4 Framework Syllabus / Core Document')">
-          <span style="font-size: 1.1rem; margin-right: 8px;">📄</span> ITIL v4 Core Document
+        <!-- PDF 1 -->
+        <div class="cert-item" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4.pdf', 'ITIL v4 Framework Syllabus / Core Document')">
+          <div class="cert-thumb-wrapper"><span class="cert-pdf-placeholder">PDF</span></div>
+          <div class="cert-caption">ITIL v4 Core Document</div>
         </div>
-        <div class="inline-resource-btn" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4_Allison-7588-59437053.pdf', 'ITIL v4 Official Examination Certificate Summary')">
-          <span style="font-size: 1.1rem; margin-right: 8px;">📄</span> ITIL Certificate File
+        <!-- PDF 2 -->
+        <div class="cert-item" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4_Allison-7588-59437053.pdf', 'ITIL v4 Official Examination Certificate Summary')">
+          <div class="cert-thumb-wrapper"><span class="cert-pdf-placeholder">PDF</span></div>
+          <div class="cert-caption">ITIL Certificate File</div>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -933,7 +910,7 @@
       
       <div class="cert-grid">
         <!-- World Cup 2026 -->
-        <div class="cert-item" onclick="openLightbox('image', './2026_World_Cup/2026_World_Cup_USA.png', 'World Cup 2026 - Fan Operations Verification')">
+        <div class="cert-item" onclick="openWorldCupModal()">
           <div class="cert-thumb-wrapper">
             <img src="./2026_World_Cup/2026_World_Cup_USA.png" alt="World Cup 2026" />
           </div>
@@ -958,7 +935,7 @@
           </div>
         </div>
 
-        <!-- Moreland West Neighborhood Association -->
+<!-- Moreland West Neighborhood Association -->
         <a class="cert-item" href="https://morelandwestneighborhood.wordpress.com/" target="_blank" style="text-decoration: none; display: flex; flex-direction: column;">
           <div class="cert-thumb-wrapper">
             <span class="cert-pdf-placeholder" style="color: var(--accent); font-size: 1.8rem;">🔗</span>
@@ -986,7 +963,7 @@
 
       <div class="cert-grid">
         <!-- Scan 1 -->
-        <div class="cert-item" onclick="openLightbox('image', './FEMA/2026_070310_1.png', 'FEMA Certificate - Verification (1.9)')">
+        <div class="cert-item" onclick="openLightbox('image', './FEMA/2026_070310_1.png', 'FEMA Certificate - ')">
           <div class="cert-thumb-wrapper"><img src="./FEMA/2026_070310_1.png" alt="FEMA Cert 1" /></div>
           <div class="cert-caption">FEMA Verification (1.9)</div>
         </div>
@@ -1001,7 +978,7 @@
   
 
 
-  <!-- INFOGRAPHIC -->
+  <!-- INFOGRAPHIC (Moved & Scaled Down) -->
   <section id="infographic" class="section" style="margin-top: 10px; margin-bottom: 20px;">
     <div style="text-align: center;">
       <img src="mission.png" alt="Strategic Mission Breakdown"
