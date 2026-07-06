@@ -339,7 +339,9 @@
 <body>
 <div class="wrap">
 
+  <!-- EXPANDED DASHBOARD HEADERS -->
   <div class="dashboard-grid">
+    <!-- Next Meeting Section -->
     <div class="panel-meeting">
       <div class="panel-meeting-info">
         <div style="font-size:0.75rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING COUNTDOWN</div>
@@ -357,20 +359,23 @@
       </div>
     </div>
 
+    <!-- Report Due Section -->
     <div class="panel-due">
       <div style="font-size:0.75rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
       <div id="dueCountdown" style="font-size:1.4rem; color:#111827; font-weight:800; margin: 2px 0 4px;">--</div>
-      <div style="font-size:0.88rem; color:#1f2937; font-weight:600; margin-bottom: 2px;">Monday Jul 6, 2026 @ 17:00 PT</div>
+      <div style="font-size:0.88rem; color:#1f2937; font-weight:600; margin-bottom: 2px;">Monday Jul 6, 2026 @ 11:00 PT</div>
       <div style="font-size:0.78rem; color:#78350f;">Iteration updates parameter sync window</div>
     </div>
   </div>
   
-    <header style="margin-top:24px;">
+    <!-- MAIN TITLE ZONE -->
+  <header style="margin-top:24px;">
     <span class="tag">unPTO ACCOUNTABILITY</span>
     <h1>Week 28 · 2026 Check-In</h1>
     <p>July 6 – July 12, 2026</p>
   </header>
 
+  <!-- ATTENDANCE RSVP CARD -->
   <div class="card" style="background: var(--sky-light); border: 1px solid #b9d5f7;">
     <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #1e64b0; display:flex; align-items:center; gap:6px;">📅 Weekly Attendance RSVP</h3>
     <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
@@ -388,6 +393,7 @@
   </div>
 
 
+  <!-- PRIVATE LEDGER BOX (MOVED UP UNDER TITLE) -->
   <div style="background: #fff8eb; border: 1px solid #ffe4b3; padding: 14px; border-radius: 8px; margin-bottom:20px;">
     <h3 style="margin:0 0 6px 0; font-size:0.9rem; color:#b45309;">📊 Private Team Ledger Pipeline</h3>
     <p style="font-size:0.85rem; margin:0 0 10px 0; color:#4b5563;">
@@ -396,6 +402,7 @@
     <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="display:inline-block; color:var(--sky); font-weight:700; font-size:0.88rem; text-decoration:none;">Go to Restricted Google Sheet Workspace ↗</a>
   </div>
 
+  <!-- TEAM BOARD -->
   <div class="card">
     <h2>🟢 Our Team Board</h2>
     
@@ -404,31 +411,37 @@
     </div>
 
     <div class="team-grid">
+      <!-- Cyrus (Updated interaction click match) -->
       <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus">
         <div class="avatar">C</div>
         <div class="name">Cyrus</div>
         <span class="pill progress">In Progress</span>
       </div>
+      <!-- Siddharth  -->
       <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth">
         <div class="avatar">S</div>
         <div class="name">Siddharth </div>
         <span class="pill progress">In Progress</span>
       </div>
+      <!-- Felice -->
       <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice">
         <div class="avatar">F</div>
         <div class="name">Felice</div>
         <span class="pill progress">In Progress</span>
       </div>
+      <!-- Tina -->
       <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina">
         <div class="avatar">T</div>
         <div class="name">Tina</div>
         <span class="pill progress">In Progress</span>
       </div>
+      <!-- Kar -->
       <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
         <div class="avatar">K</div>
         <div class="name">Kar</div>
         <span class="pill progress">In Progress</span>
       </div>
+      <!-- Art -->
       <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
         <div class="avatar">A</div>
         <div class="name">Art</div>
@@ -438,6 +451,7 @@
   </div>
 
 
+  <!-- MEETING MINUTES INTERACTIVE WIDGET -->
   <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
     <h2>📝 Latest Session Minutes</h2>
     <p style="font-size:0.88rem; color:#374151; margin:0 0 12px 0;">
@@ -447,6 +461,7 @@
   </div>
 
 
+  <!-- CADENCE & MISSION STATEMENT -->
   <div class="card" style="background:#fcfdfc; border-top: 3px solid var(--pitch);">
     <h2>🎯 Group Mission & Cadence</h2>
     <p style="font-size: 0.92rem; margin: 0 0 12px 0;">
@@ -468,6 +483,7 @@
     </div>
   </div>
 
+  <!-- LOW VISIBILITY FOOTER NAVIGATION -->
   <div class="bottom-nav">
     <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
     <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
@@ -485,9 +501,10 @@
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
+  <!-- INTERACTIVE MODAL: MEETING MINUTES (WITH DOCUMENT LINK INSERT) -->
   <div id="minutesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:620px;">
-      <button class="modal-close" onclick="closeModal('minutesModal')">×</button>
+      <button class="modal-close" onclick="closeModal('minutesModal')">&times;</button>
       <h3 style="margin-top:0; color:#111827;">📝 Meeting Minutes: July 2, 2026</h3>
       <p style="font-size:0.82rem; color:var(--muted); margin:-8px 0 12px 0;">Peninsula/South Bay Accountability Group</p>
       <hr style="border:0; border-top:1px solid var(--border); margin:12px 0;">
@@ -506,9 +523,10 @@
     </div>
   </div>
 
+  <!-- REPORT SUBMISSION FORM INTERACTIVE MODAL -->
   <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
-      <button class="modal-close" onclick="closeModal('dueModal')">×</button>
+      <button class="modal-close" onclick="closeModal('dueModal')">&times;</button>
       <h3>📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
       <p style="font-size: 0.82rem; color: var(--muted); margin: -10px 0 14px 0;">Complete the fields below to sync parameters quietly via backend framing logic.</p>
       
@@ -527,7 +545,7 @@
         </div>
         <div class="form-group">
           <label>Result</label>
-          <textarea id="repResult" rows="2" placeholder="e.g. Done, Partial, In progress" required></textarea>
+          <input type="text" id="repResult" placeholder="e.g. Done, Partial, In progress" required>
         </div>
         <div class="form-group">
           <label>Blockers (If Any)</label>
@@ -568,7 +586,7 @@ function startCountdown(elId, targetISO){
 window.addEventListener('DOMContentLoaded', () => {
   // Fallback defaults — used only if config.json can't be loaded
   let nextMeetingISO = '2026-07-09T11:00:00-07:00';
-  let nextReportISO = '2026-07-06T17:00:00-07:00';
+  let nextReportISO = '2026-07-06T11:00:00-07:00';
 
   fetch('config.json', { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
@@ -608,7 +626,7 @@ function applyAgenda(agendaText) {
   const lines = agendaText.split('\n').map(l => l.trim()).filter(Boolean);
   if (!lines.length) return;
   container.innerHTML = '<strong>Weekly Core Session Info:</strong><ul style="margin-top: 6px;">' +
-    lines.map(l => `<li style="font-size:0.85rem;">${l.replace(/</g, '<')}</li>`).join('') +
+    lines.map(l => `<li style="font-size:0.85rem;">${l.replace(/</g, '&lt;')}</li>`).join('') +
     '</ul>';
 }
 
