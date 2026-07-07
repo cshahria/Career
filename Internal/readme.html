@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation: Adding New Tiles</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --code-bg:#2d3748;
+    --code-text:#f7fafc;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:30px 16px 60px;
+    line-height:1.6;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  header{
+    border-bottom:2px solid var(--border);
+    padding-bottom:16px;
+    margin-bottom:30px;
+  }
+  header h1{
+    font-size:1.8rem;
+    margin:0 0 8px;
+    color:#111827;
+    font-weight: 800;
+  }
+  header p {
+    margin:0;
+    color:var(--muted);
+    font-size:0.95rem;
+  }
+  h2 {
+    font-size:1.3rem;
+    color:#111827;
+    margin-top:32px;
+    margin-bottom:12px;
+  }
+  p { margin:0 0 16px; }
+  ol { margin:0 0 20px; padding-left:20px; }
+  li { margin-bottom:10px; }
+  
+  /* Code block styling matching typical chat layouts */
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 16px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+    margin: 12px 0 24px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  }
+  code {
+    font-family: 'Consolas', 'Courier New', Courier, monospace;
+    background: #e5e7eb;
+    color: #1f2937;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.88rem;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+  .highlight {
+    color: #f6ad55;
+    font-weight: bold;
+  }
+  .comment {
+    color: #a0aec0;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>How to Manually Add New Tiles</h1>
+    <p>Follow these two steps to scale your custom dashboard layout without changing any core JavaScript logic.</p>
+  </header>
+
+  <p>Adding a completely new category tile requires copying and pasting code snippets into exactly <strong>two places</strong> inside your <code>index.html</code> file.</p>
+
+  <h2>Step A: Add the Visual Tile Button</h2>
+  <p>Scroll down to the <code>&lt;div class="tile-grid"&gt;</code> section of your file. Paste a new tile code block right below the existing ones. Make sure to choose a unique modal name for the <code>openModal('...')</code> trigger.</p>
+
+  <pre><code>&lt;!-- Duplicate this block inside the .tile-grid container --&gt;
+&lt;div class="tile" onclick="openModal('<span class="highlight">yourNewModal</span>')"&gt;
+  &lt;div class="icon"&gt;🔮&lt;/div&gt; <span class="comment">&lt;!-- Replace with any emoji --&gt;</span>
+  &lt;div class="name"&gt;New Category&lt;/div&gt; <span class="comment">&lt;!-- Label text --&gt;</span>
+&lt;/div&gt;</code></pre>
+
+  <h2>Step B: Add the Form Pop-up Window (Modal)</h2>
+  <p>Scroll down to the bottom of the document and look for the other modal windows. Paste this new template block right before the final closing <code>&lt;/body&gt;</code> tag. Ensure the container <code>id="..."</code> matches your modal name from Step A exactly.</p>
+
+  <pre><code>&lt;!-- MODAL: NEW CATEGORY TRACKER --&gt;
+&lt;div id="<span class="highlight">yourNewModal</span>" class="modal-overlay"&gt;
+  &lt;div class="modal-content"&gt;
+    &lt;button class="modal-close" onclick="closeModal('<span class="highlight">yourNewModal</span>')"&gt;×&lt;/button&gt;
+    &lt;h3&gt;Log New Entry&lt;/h3&gt;
+    
+    <span class="comment">&lt;!-- 1. Update form action URL with your Google Form response endpoint --&gt;</span>
+    &lt;form method="POST" action="<span class="highlight">https://docs.google.com/forms/d/e/YOUR_NEW_FORM_ID/formResponse</span>" target="hidden_iframe" onsubmit="handleFormSubmit()"&gt;
+      
+      <span class="comment">&lt;!-- 2. Duplicate or adjust these form-group fields to match your spreadsheet inputs --&gt;</span>
+      &lt;div class="form-group"&gt;
+        &lt;label&gt;Field Name&lt;/label&gt;
+        &lt;input type="text" name="<span class="highlight">entry.123456789</span>" placeholder="Hint text..." required&gt;
+      </div>
+      
+      &lt;button type="submit" class="submit-btn"&gt;Save Entry&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+  <h2>Quick Reminders</h2>
+  <ol>
+    <li><strong>Required Attribute:</strong> Adding <code>required</code> inside your <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> tags forces the browser to prevent submission if the field is empty.</li>
+    <li><strong>Field Mapping:</strong> Always pull the exact <code>entry.#######</code> data keys directly from your target Google Form's live page source so submissions line up perfectly with your sheet columns.</li>
+  </ol>
+
+</div>
+</body>
+</html>
