@@ -169,7 +169,7 @@
         <div class="name">Transport</div>
       </div>
 	  
-      <!-- Health Tile -->
+	  <!-- Health Tile -->
       <div class="tile" onclick="openModal('healthModal')">
         <div class="icon">🏥</div>
         <div class="name">Health</div>
@@ -248,7 +248,7 @@ function handleFormResponse() {
       
       <div class="form-group">
         <label>Vehicle</label>
-        <select name="entry.1746673694" required>
+		  <select name="entry.1746673694" required>
           <option value="" disabled selected>Select a type...</option>
           <option value="Honda">Honda</option>
           <option value="Hyundai">Hyundai</option>
@@ -283,7 +283,8 @@ function handleFormResponse() {
     <button class="modal-close" onclick="closeModal('healthModal')">×</button>
     <h3>Log Health Entry</h3>
     
-    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfjhc82v4mUsc0-kESx6_rb3k3GFNk7CNzJLX85kvCZipDCzQ/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">   
+    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfjhc82v4mUsc0-kESx6_rb3k3GFNk7CNzJLX85kvCZipDCzQ/viewform?usp=header" target="hidden_iframe" onsubmit="handleFormSubmit()">   
+		</div>
       
       <div class="form-group">
         <label>Weight</label>
@@ -297,38 +298,14 @@ function handleFormResponse() {
       
       <div class="form-group">
         <label>BP (DIA)</label>
-        <input type="text" name="entry.2043716033" placeholder="Blood Pressure">
-      </div>
-
- <div class="form-group">
-        <label>BPM</label>
-        <input type="text" name="entry.81108166" placeholder="Heart rate">
-      </div>
-	  
-	  
-	   <div class="form-group">
-        <label>BMI</label>
-        <input type="text" name="entry.733795243" placeholder="BMI">
-      </div>
-	  
-	  
-	  
-	   <div class="form-group">
-        <label>Fat Rate</label>
-        <input type="text" name="entry.202599437" placeholder="Fat %">
-      </div>
-
-      <div class="form-group">
-        <label>Details</label>
-        <textarea name="entry.1540725706" rows="4" placeholder="Add details, notes, etc..." required></textarea>
-      </div>
-
-      
+        <textarea name="entry.2043716033" rows="4" placeholder="Blood Pressure"></textarea>
+      </div>      
       <button type="submit" class="submit-btn">Save Entry</button>
     </form>
   </div>
 </div>
-<!-- MODAL: HEALTH TRACKER END -->
+<!-- MODAL: TRANSPORT TRACKER END -->
+
 
 </body>
 </html>
