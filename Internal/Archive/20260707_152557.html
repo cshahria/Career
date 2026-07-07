@@ -162,12 +162,6 @@
         <div class="icon">💼</div>
         <div class="name">Career</div>
       </div>
-
-      <!-- Transport Tile -->
-      <div class="tile" onclick="openModal('transportModal')">
-        <div class="icon">🚗</div>
-        <div class="name">Transport</div>
-      </div>
     </div>
   </div>
 
@@ -180,6 +174,7 @@
 let submitted = false;
 function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
 function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+// Note: Backdrop click logic removed to ensure persistent behavior
 function handleFormSubmit() { submitted = true; }
 function handleFormResponse() {
   alert("Entry successfully saved!");
@@ -224,39 +219,6 @@ function handleFormResponse() {
       <div class="form-group">
         <label>Details</label>
         <textarea name="entry.313660064" rows="4" placeholder="Add relevant details, next steps, or notes..." required></textarea>
-      </div>
-      
-      <button type="submit" class="submit-btn">Save Entry</button>
-    </form>
-  </div>
-</div>
-
-<!-- MODAL: TRANSPORT TRACKER -->
-<div id="transportModal" class="modal-overlay">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('transportModal')">×</button>
-    <h3>Log Transport Entry</h3>
-    
-    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScO5mREMSSrEmXOx1tUGqPVwy6x_tGiqpdrv2t_ukxi3Op5Uw/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
-      
-      <div class="form-group">
-        <label>Vehicle</label>
-        <input type="text" name="entry.1746673694" placeholder="e.g., Car, Bike" required>
-      </div>
-      
-      <div class="form-group">
-        <label>Odometer</label>
-        <input type="number" name="entry.1502509449" placeholder="Current mileage" required>
-      </div>
-      
-      <div class="form-group">
-        <label>PSI</label>
-        <input type="text" name="entry.1582394975" placeholder="e.g., 35 Front / 35 Rear">
-      </div>
-      
-      <div class="form-group">
-        <label>Details</label>
-        <textarea name="entry.1590632152" rows="4" placeholder="Add service details, notes, etc..." required></textarea>
       </div>
       
       <button type="submit" class="submit-btn">Save Entry</button>
