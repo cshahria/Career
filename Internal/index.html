@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tracker</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:24px 16px 60px;
+    line-height:1.55;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  header{
+    text-align:center;
+    margin-bottom:24px;
+    margin-top:12px;
+  }
+  header h1{
+    font-size:2rem;
+    margin:0;
+    color:#111827;
+    font-weight: 800;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:12px;
+  }
+  @media (min-width:520px){
+    .tile-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  .tile{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px 14px;
+    text-align:center;
+    background:#fafbfa;
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .tile:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+  }
+  .tile .icon{
+    width:46px;height:46px;
+    border-radius:50%;
+    background:var(--sky-light);
+    color:var(--sky);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;
+    margin:0 auto 10px;
+  }
+  .tile .name{font-weight:700;font-size:1rem;color:#111827;}
+
+  /* Modal System */
+  .modal-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 14px;
+    max-width: 500px;
+    width: 100%;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .submit-btn {
+    display: block;
+    background: var(--pitch);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:hover { background: #176839; }
+
+  /* Form Styling */
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--sky);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Tracker</h1>
+  </header>
+
+  <div class="card">
+    <div class="tile-grid">
+      <!-- Career Tile -->
+      <div class="tile" onclick="openModal('careerModal')">
+        <div class="icon">💼</div>
+        <div class="name">Career</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Invisible iframe prevents Google Form from forcing a page redirect on submit -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
+
+<script>
+let submitted = false;
+function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+// Note: Backdrop click logic removed to ensure persistent behavior
+function handleFormSubmit() { submitted = true; }
+function handleFormResponse() {
+  alert("Entry successfully saved!");
+  submitted = false;
+  document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+  document.querySelectorAll('form').forEach(f => f.reset());
+}
+</script>
+
+<!-- MODAL: CAREER TRACKER -->
+<div id="careerModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('careerModal')">×</button>
+    <h3>Log Career Entry</h3>
+    
+    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScxC1WGpA0kBuKK9iBZ5G8lSqcPLfag7W-YC6WgzWHtW2QmgA/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
+      
+      <div class="form-group">
+        <label>Type</label>
+        <select name="entry.1364379988" required>
+          <option value="" disabled selected>Select a type...</option>
+          <option value="Networking">Networking</option>
+          <option value="Recruiter">Recruiter</option>
+          <option value="Success Story">Success Story</option>
+          <option value="Event">Event</option>
+          <option value="Call">Call</option>
+          <option value="Information">Information</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="entry.632964531" placeholder="e.g., Company or Contact Name" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Contact</label>
+        <input type="text" name="entry.192025469" placeholder="e.g., Email, Phone, or LinkedIn URL">
+      </div>
+      
+      <div class="form-group">
+        <label>Details</label>
+        <textarea name="entry.313660064" rows="4" placeholder="Add relevant details, next steps, or notes..." required></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn">Save Entry</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
