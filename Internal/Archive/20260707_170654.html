@@ -78,33 +78,6 @@
   }
   .tile .name{font-weight:700;font-size:1rem;color:#111827;}
 
-  /* Sheet Pill Link Component */
-  .sheet-pill-container {
-    text-align: center;
-    margin-top: 12px;
-    margin-bottom: 8px;
-  }
-  .sheet-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: var(--sky-light);
-    color: var(--sky);
-    border: 1px solid #b9d5f7;
-    padding: 10px 24px;
-    border-radius: 30px;
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.15s ease, transform 0.15s ease;
-    box-shadow: 0 2px 6px rgba(43,127,214,0.08);
-  }
-  .sheet-pill:hover {
-    background: #dbeafc;
-    transform: translateY(-1px);
-  }
-
   /* Modal System */
   .modal-overlay {
     position: fixed;
@@ -191,31 +164,30 @@
 
   <div class="card">
     <div class="tile-grid">
+      <!-- Career Tile -->
       <div class="tile" onclick="openModal('careerModal')">
         <div class="icon">💼</div>
         <div class="name">Career</div>
       </div>
 
+      <!-- Transport Tile -->
       <div class="tile" onclick="openModal('transportModal')">
         <div class="icon">🚗</div>
         <div class="name">Transport</div>
       </div>
 	  
+      <!-- Health Tile -->
       <div class="tile" onclick="openModal('healthModal')">
         <div class="icon">🏥</div>
         <div class="name">Health</div>
       </div>
-    </div>
-    
-    <div class="sheet-pill-container">
-      <a href="https://docs.google.com/spreadsheets/d/1KV17LNudhMbEEJuz68gGrn7-wl7VbRnQ_2MefTblWQ0/edit?usp=sharing" target="_blank" class="sheet-pill">
-        📊 Open Tracking Sheet ↗
-      </a>
+	  
     </div>
   </div>
 
 </div>
 
+<!-- Invisible iframe prevents Google Form from forcing a page redirect on submit -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
 
 <script>
@@ -237,12 +209,13 @@ function updatePsiHint(selectElement) {
   const targets = {
     'Honda': 'Target: 33 cold / 35 hot',
     'Hyundai': 'Target: 34 cold / 36 hot',
-    'Specialized': 'Target: 68 rear / 73 front'
+    'Specialized': 'Target: 73 rear / 68 front'
   };
   hintElement.textContent = targets[selectElement.value] || '';
 }
 </script>
 
+<!-- MODAL: CAREER TRACKER -->
 <div id="careerModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('careerModal')">×</button>
@@ -266,7 +239,7 @@ function updatePsiHint(selectElement) {
       
       <div class="form-group">
         <label>Name</label>
-        <input type="text" name="entry.632964531" placeholder="e.g., Company or Contact Name" required>
+        <input type="text" name="entry.632964531" placeholder="e.g., Company or Contact Name">
       </div>
       
       <div class="form-group">
@@ -276,7 +249,7 @@ function updatePsiHint(selectElement) {
       
       <div class="form-group">
         <label>Details</label>
-        <textarea name="entry.313660064" rows="4" placeholder="Add relevant details, next steps, or notes..." required></textarea>
+        <textarea name="entry.313660064" rows="4" placeholder="Add relevant details, next steps, or notes..."></textarea>
       </div>
       
       <button type="submit" class="submit-btn">Save Entry</button>
@@ -284,6 +257,7 @@ function updatePsiHint(selectElement) {
   </div>
 </div>
 
+<!-- MODAL: TRANSPORT TRACKER START -->
 <div id="transportModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('transportModal')">×</button>
@@ -314,12 +288,16 @@ function updatePsiHint(selectElement) {
       
       <div class="form-group">
         <label>Details</label>
-        <textarea name="entry.1590632152" rows="4" placeholder="Add service details, notes, etc..." required></textarea>
+        <textarea name="entry.1590632152" rows="4" placeholder="Add service details, notes, etc..."></textarea>
       </div>      
       <button type="submit" class="submit-btn">Save Entry</button>
     </form>
   </div>
 </div>
+<!-- MODAL: TRANSPORT TRACKER END -->
+
+
+<!-- MODAL: HEALTH TRACKER START -->
 <div id="healthModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('healthModal')">×</button>
@@ -359,32 +337,14 @@ function updatePsiHint(selectElement) {
 
       <div class="form-group">
         <label>Details</label>
-        <textarea name="entry.1540725706" rows="4" placeholder="Add details, notes, etc..." required></textarea>
+        <textarea name="entry.1540725706" rows="4" placeholder="Add details, notes, etc...></textarea>
       </div>
 
       <button type="submit" class="submit-btn">Save Entry</button>
     </form>
   </div>
 </div>
-
-<!-- Objective -->
-
-<div style="max-width:760px; margin: 40px auto 0; padding: 16px 20px; border-top: 1px dashed #e5e7eb; text-align: center;">
-  <p style="font-size: 0.78rem; color: #6b7280; line-height: 1.6; margin: 0; font-family: system-ui, sans-serif;">
-    <strong>Architecture Objective:</strong> This tracking utility serves as a decoupled input layer designed to bypass spreadsheet mobile layout friction. By leveraging an asynchronous <code>POST</code> mechanism, data is cleanly piped directly into isolated, secure database streams. Keeping data collection raw and structured eliminates the need for manual sheet formulas, establishing a pristine chronological data layout optimized for downstream AI analysis, pattern mapping, and automated reporting.
-  </p>
-</div>
-
-
-<!-- Data Flow -->
-
-<div style="display: flex; flex-direction: column; min-height: 50vh;">
-  <div style="margin-top: auto; text-align: center; width: 50%; padding-bottom: 15px;">
-    <img src="./Data_Flow.png" alt="Data Flow Diagram" style="max-width: 50%; height: auto;">
-  </div>
-</div>
-
-
+<!-- MODAL: HEALTH TRACKER END -->
 
 </body>
 </html>
