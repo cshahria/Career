@@ -52,7 +52,7 @@
     margin-top:12px;
   }
   @media (min-width:520px){
-    .tile-grid{grid-template-columns:repeat(5,1fr);}
+    .tile-grid{grid-template-columns:repeat(4,1fr);}
   }
   .tile{
     border:1px solid var(--border);
@@ -77,12 +77,6 @@
     margin:0 auto 10px;
   }
   .tile .name{font-weight:700;font-size:1rem;color:#111827;}
-
-  /* Unique style rule for docs button */
-  .tile.docs-tile .icon {
-    background: #f3f4f6;
-    color: var(--muted);
-  }
 
   /* Sheet Pill Link Component */
   .sheet-pill-container {
@@ -221,51 +215,6 @@
     50% { transform: scale(1.06); }
     100% { transform: scale(1); }
   }
-
-  /* Documentation Specific Layout Rules */
-  .docs-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .docs-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 12px;
-    background: #f9fafb;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #374151;
-    cursor: pointer;
-    text-align: left;
-    text-decoration: none;
-    transition: background 0.1s, border-color 0.1s;
-  }
-  .docs-btn:hover {
-    background: #f3f4f6;
-    border-color: #d1d5db;
-  }
-  .docs-viewer-box {
-    margin-top: 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px;
-    background: #fafafa;
-    display: none;
-  }
-  .docs-disclaimer {
-    margin-top: 24px;
-    padding-top: 14px;
-    border-top: 1px dashed var(--border);
-    font-size: 0.76rem;
-    color: #9ca3af;
-    line-height: 1.4;
-  }
 </style>
 </head>
 <body>
@@ -296,12 +245,6 @@
         <div class="icon">📝</div>
         <div class="name">Notes</div>
       </div>
-
-      <!-- New Documentation Tile Integration -->
-      <div class="tile docs-tile" onclick="openModal('docsModal')">
-        <div class="icon">📂</div>
-        <div class="name">Docs</div>
-      </div>
     </div>
     
     <div class="sheet-pill-container">
@@ -324,12 +267,6 @@ let currentMicButton = null;
 function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
 function closeModal(modalId) { 
   stopDictation();
-  // Reset documentation viewer targets if closing doc box
-  if(modalId === 'docsModal') {
-    document.getElementById('videoPlayerBox').style.display = 'none';
-    document.getElementById('demoVideoSource').src = '';
-    document.getElementById('diagramImageBox').style.display = 'none';
-  }
   document.getElementById(modalId).style.display = 'none'; 
 }
 function handleFormSubmit() { submitted = true; }
@@ -345,6 +282,7 @@ function handleFormResponse() {
   stopDictation();
 }
 
+// Dynamically updates target values based on vehicle selected
 function updatePsiHint(selectElement) {
   const hintElement = document.getElementById('psiTargetHint');
   const targets = {
@@ -355,6 +293,7 @@ function updatePsiHint(selectElement) {
   hintElement.textContent = targets[selectElement.value] || '';
 }
 
+// Dynamically converts kg to lbs for display purposes only
 function updateLbsHint(inputElement) {
   const hintElement = document.getElementById('weightLbsHint');
   const kgValue = parseFloat(inputElement.value);
@@ -366,6 +305,7 @@ function updateLbsHint(inputElement) {
   }
 }
 
+// Universal Native Dictation Setup
 function toggleDictation(btn, targetId) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -375,11 +315,13 @@ function toggleDictation(btn, targetId) {
 
   const targetInput = document.getElementById(targetId);
 
+  // If already listening on this specific field, stop it
   if (currentMicButton === btn) {
     stopDictation();
     return;
   }
 
+  // If listening to a different field, clean up first
   stopDictation();
 
   recognition = new SpeechRecognition();
@@ -427,22 +369,6 @@ function stopDictation() {
     currentMicButton = null;
   }
   currentTargetInput = null;
-}
-
-// Media presentation triggers inside documentation panel
-function viewVideoDemo() {
-  document.getElementById('diagramImageBox').style.display = 'none';
-  const vBox = document.getElementById('videoPlayerBox');
-  const player = document.getElementById('demoVideoSource');
-  player.src = "2026_Demo.mp4";
-  vBox.style.display = "block";
-  document.getElementById('demoVideoControl').load();
-}
-
-function viewDiagramImage() {
-  document.getElementById('videoPlayerBox').style.display = 'none';
-  document.getElementById('demoVideoSource').src = '';
-  document.getElementById('diagramImageBox').style.display = 'block';
 }
 </script>
 
@@ -606,49 +532,6 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- MODAL: DOCUMENTATION LINK CONTAINER -->
-<div id="docsModal" class="modal-overlay">
-  <div class="modal-content" style="max-width: 550px;">
-    <button class="modal-close" onclick="closeModal('docsModal')">×</button>
-    <h3>Project Documentation</h3>
-    <p style="font-size:0.88rem; color:var(--muted); margin:-8px 0 16px;">Select a resource artifact below to review or present.</p>
-    
-    <div class="docs-list">
-      <button type="button" class="docs-btn" onclick="viewVideoDemo()">
-        <span style="font-size:1.2rem;">🎬</span>
-        <span>Demo Recording <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(2026_Demo.mp4)</code></span>
-      </button>
-
-      <a href="readme.html" target="_blank" class="docs-btn">
-        <span style="font-size:1.2rem;">📄</span>
-        <span style="flex-grow:1;">Documentation Manual <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(readme.html)</code></span>
-        <span style="font-size:0.8rem; color:var(--muted);">↗</span>
-      </a>
-
-      <button type="button" class="docs-btn" onclick="viewDiagramImage()">
-        <span style="font-size:1.2rem;">🗺️</span>
-        <span>System Architecture Diagram <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(Data_Flow.png)</code></span>
-      </button>
-    </div>
-
-    <!-- Target injection slots for media playback directly within popup -->
-    <div id="videoPlayerBox" class="docs-viewer-box">
-      <video id="demoVideoControl" controls style="width:100%; height:auto; border-radius:4px; display:block;">
-        <source id="demoVideoSource" type="video/mp4">
-        Your device viewport does not support embedded media elements.
-      </video>
-    </div>
-
-    <div id="diagramImageBox" class="docs-viewer-box">
-      <img src="Data_Flow.png" alt="Architecture Flow Layer" style="width:100%; height:auto; border-radius:4px; display:block;">
-    </div>
-
-    <div class="docs-disclaimer">
-      <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.
-    </div>
-  </div>
-</div>
-
 <style>
   .blueprint-container {
     max-width: 760px;
@@ -667,6 +550,7 @@ function viewDiagramImage() {
     padding: 10px;
     text-align: left;
   }
+  /* Desktop Layout Rules */
   @media (min-width: 640px) {
     .blueprint-flex {
       flex-direction: row;
