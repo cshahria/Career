@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>unPTO Accountability · Week 28, 2026</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --amber:#c8870a;
+    --amber-light:#fdf2df;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:24px 16px 60px;
+    line-height:1.55;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  header{
+    text-align:center;
+    margin-bottom:20px;
+  }
+  .tag{
+    display:inline-block;
+    background:var(--pitch-light);
+    color:var(--pitch);
+    font-size:0.75rem;
+    font-weight:700;
+    padding:4px 12px;
+    border-radius:20px;
+    letter-spacing:.04em;
+    margin-bottom:10px;
+  }
+  header h1{
+    font-size:1.7rem;
+    margin:0 0 6px;
+    color:#111827;
+  }
+  header p{
+    color:var(--muted);
+    margin:0;
+    font-size:0.95rem;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 20px;
+    margin-bottom:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card h2{
+    margin:0 0 12px;
+    font-size:1.05rem;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#111827;
+  }
+
+  /* Big Display Dashboard Grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 10px 0 20px;
+  }
+  @media (min-width: 640px) {
+    .dashboard-grid {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .panel-meeting {
+    background: var(--sky-light);
+    border: 1px solid #b9d5f7;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (min-width: 480px) {
+    .panel-meeting {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  .panel-meeting-info { flex: 1; }
+  .panel-meeting-map {
+    width: 110px;
+    height: 110px;
+    border-radius: 10px;
+    border: 1px solid #b9d5f7;
+    overflow: hidden;
+    background: #fff;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  }
+  .panel-meeting-map img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .panel-due {
+    background: var(--amber-light);
+    border: 1px solid #f9dfb1;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .process-box {
+    background: #f9fafb;
+    border-left: 4px solid var(--amber);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.85rem;
+    color: #4b5563;
+    margin-bottom: 14px;
+  }
+
+  .pill{
+    display:inline-block;
+    padding:3px 12px;
+    border-radius:20px;
+    font-size:0.78rem;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  .pill.progress{background:var(--sky-light);color:var(--sky);}
+  .pill.done{background:var(--pitch-light);color:var(--pitch);}
+  .pill.due{background:var(--amber-light);color:var(--amber);}
+  .pill.blank{display:none;}
+
+  ul{margin:0;padding-left:0;list-style:none;}
+  li{
+    position:relative;
+    padding:7px 0 7px 24px;
+    font-size:0.95rem;
+    border-bottom:1px solid #f1f3f4;
+  }
+  li:last-child{border-bottom:none;}
+  li::before{
+    content:'⚽';
+    position:absolute;
+    left:0;
+    font-size:0.8rem;
+    top:8px;
+  }
+
+  /* Minutes Summary Styling */
+  .minutes-highlight-box {
+    background: #fafbfa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+
+  /* Team grid */
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:12px;
+  }
+  @media (min-width:520px){
+    .team-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  .player{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 12px;
+    text-align:center;
+    background:#fafbfa;
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .player:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  }
+  .player .avatar{
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--pitch-light);
+    color:var(--pitch);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    font-size:1rem;
+    margin:0 auto 8px;
+  }
+  .player.me .avatar{background:var(--sky-light);color:var(--sky);}
+  .player .name{font-weight:700;font-size:0.9rem;margin-bottom:6px;}
+
+  /* Modal System */
+  .modal-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 14px;
+    max-width: 580px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .submit-btn {
+    display: inline-block;
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .submit-btn.primary {
+    background: var(--pitch);
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+    margin-top: 16px;
+  }
+  .submit-btn.action-trigger {
+    background: linear-gradient(135deg, var(--pitch), #1b7a43);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: background 0.2s ease;
+    border: none;
+    color: #fff;
+  }
+  .submit-btn.action-trigger:hover {
+    background: #176839;
+  }
+
+  /* Form Styling */
+  .form-group {
+    margin-bottom: 12px;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:40px;
+    color:var(--muted);
+    font-size:0.8rem;
+  }
+  .disclaimer-text {
+    font-size: 0.72rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 12px auto 0;
+    line-height: 1.4;
+  }
+  .bottom-nav {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    font-size: 0.78rem;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 14px;
+  }
+  .bottom-nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .bottom-nav a:hover {
+    color: var(--text);
+    text-decoration: underline;
+  }
+</style>
+  <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="dashboard-grid">
+    <div class="panel-meeting">
+      <div class="panel-meeting-info">
+        <div style="font-size:0.75rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING COUNTDOWN</div>
+        <div id="meetingCountdown" style="font-size:1.4rem; color:#111827; font-weight:800; margin: 2px 0 4px;">--</div>
+        <div style="font-size:0.88rem; color:#1f2937; font-weight:600; margin-bottom: 2px;">Thursday Jul 9, 2026 · 11:00 – 14:00</div>
+        <div style="font-size:0.8rem; color:var(--muted); line-height:1.3;">
+          Starbucks - 780 Alma Ln, Foster City, CA 94404<br>
+          <a href="https://maps.google.com/?q=780+Alma+Ln,+Foster+City,+CA+94404" target="_blank" style="color:var(--sky); font-weight:700; text-decoration:none; display:inline-block; margin-top:4px;">Open Map Location ↗</a>
+        </div>
+      </div>
+      <div class="panel-meeting-map">
+        <a href="https://maps.google.com/?q=780+Alma+Ln,+Foster+City,+CA+94404" target="_blank">
+          <img src="image_a51699.png" alt="Foster City Location Map Abstract">
+        </a>
+      </div>
+    </div>
+
+    <div class="panel-due">
+      <div style="font-size:0.75rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
+      <div id="dueCountdown" style="font-size:1.4rem; color:#111827; font-weight:800; margin: 2px 0 4px;">--</div>
+      <div style="font-size:0.88rem; color:#1f2937; font-weight:600; margin-bottom: 2px;">Monday Jul 6, 2026 @ 17:00 PT</div>
+      <div style="font-size:0.78rem; color:#78350f;">Iteration updates parameter sync window</div>
+    </div>
+  </div>
+  
+    <header style="margin-top:24px;">
+    <span class="tag">unPTO ACCOUNTABILITY</span>
+    <h1>Week 28 · 2026 Check-In</h1>
+    <p>July 6 – July 12, 2026</p>
+  </header>
+
+  <div class="card" style="background: var(--sky-light); border: 1px solid #b9d5f7;">
+    <h3 style="margin: 0 0 8px 0; font-size: 0.95rem; color: #1e64b0; display:flex; align-items:center; gap:6px;">📅 Weekly Attendance RSVP</h3>
+    <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Your Name" style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; flex: 1; min-width: 140px;" required>
+        <select id="rsvpStatus" name="entry.502351350" style="padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-family:inherit;" required>
+          <option value="Attending Both Sessions">Attending Both Sessions</option>
+          <option value="Check-In Only">Check-in Only</option>
+          <option value="Coworking Only">Coworking Only</option>
+          <option value="Cannot attend this week">Cannot Attend This Week</option>
+        </select>
+        <button type="submit" style="background: var(--sky); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; font-family:inherit;">Submit RSVP</button>
+      </div>
+    </form>
+  </div>
+
+
+  <div style="background: #fff8eb; border: 1px solid #ffe4b3; padding: 14px; border-radius: 8px; margin-bottom:20px;">
+    <h3 style="margin:0 0 6px 0; font-size:0.9rem; color:#b45309;">📊 Private Team Ledger Pipeline</h3>
+    <p style="font-size:0.85rem; margin:0 0 10px 0; color:#4b5563;">
+      <strong>Privacy Disclaimer:</strong> Please only distribute or publish progress content that you are entirely comfortable saving on a restricted, shared spreadsheet configuration.
+    </p>
+    <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="display:inline-block; color:var(--sky); font-weight:700; font-size:0.88rem; text-decoration:none;">Go to Restricted Google Sheet Workspace ↗</a>
+  </div>
+
+  <div class="card">
+    <h2>🟢 Our Team Board</h2>
+    
+    <div class="process-box">
+      <strong>Weekly Update Process:</strong> Select your name below to fill out and route your structural parameters directly to our team workspace ledger.
+    </div>
+
+    <div class="team-grid">
+      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus">
+        <div class="avatar">C</div>
+        <div class="name">Cyrus</div>
+        <span class="pill progress">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth">
+        <div class="avatar">S</div>
+        <div class="name">Siddharth </div>
+        <span class="pill progress">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice">
+        <div class="avatar">F</div>
+        <div class="name">Felice</div>
+        <span class="pill progress">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina">
+        <div class="avatar">T</div>
+        <div class="name">Tina</div>
+        <span class="pill progress">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
+        <div class="avatar">K</div>
+        <div class="name">Kar</div>
+        <span class="pill progress">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
+        <div class="avatar">A</div>
+        <div class="name">Art</div>
+        <span class="pill progress">In Progress</span>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
+    <h2>📝 Latest Session Minutes</h2>
+    <p style="font-size:0.88rem; color:#374151; margin:0 0 12px 0;">
+      Our first in-person accountability setup occurred on <strong>July 2, 2026</strong>. 
+    </p>
+    <button class="submit-btn action-trigger" onclick="openModal('minutesModal')" style="margin-top:0;">🔍 Read Session Details & Highlights</button>
+  </div>
+
+
+  <div class="card" style="background:#fcfdfc; border-top: 3px solid var(--pitch);">
+    <h2>🎯 Group Mission & Cadence</h2>
+    <p style="font-size: 0.92rem; margin: 0 0 12px 0;">
+      <strong>Bay Area Accountability Buddies</strong><br>
+      The goal is to help each other make consistent weekly progress on goals. We coordinate smaller clusters based on location and schedules. This is a non-judgmental tracking dynamic designed around honest progress disclosure.
+    </p>
+    
+    <div id="cadenceAgendaContainer" style="background: #fff; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size:0.88rem; margin-bottom: 6px;">
+      <strong>Weekly Core Session Info:</strong>
+      <ul style="margin-top: 6px;">
+        <li style="font-size:0.85rem;">Sessions run at standard 11:00 consistency parameters across iterations.</li>
+        <li style="font-size:0.85rem;">Pod focuses on collaborative coworking alignment blocks following tracker updates.</li>
+      </ul>
+    </div>
+
+    <div style="margin-top: 14px; display: flex; gap: 12px; font-size: 0.85rem;">
+      <a href="https://chat.whatsapp.com/AccountabilityPeninsulaSouthBay" target="_blank" style="color: #25d366; font-weight: 600; text-decoration: none;">💬 WhatsApp Group</a>
+      <a href="https://discord.com/channels/1497468492322967604/1517618871169716447" target="_blank" style="color: #5865F2; font-weight: 600; text-decoration: none;">🎮 Discord Hub</a>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
+    <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
+    <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
+  </div>
+
+  <footer>
+    <div>unPTO Accountability Tracker · Updated July 2, 2026</div>
+    <div class="disclaimer-text">
+      <strong>Important Public Availability Disclaimer:</strong> This workspace operates as a public GitHub Pages dashboard configuration utilized openly for shared reporting metrics and peer accountability. By interacting or logging parameter updates here, you acknowledge and agree that your data submissions are routed transparently and can be accessed online. <strong>Strictly refrain from submitting confidential info, proprietary system targets, full family surnames, or exact identifying data.</strong>
+    </div>
+  </footer>
+
+<!-- Github Stamp 20260706_111618 CS -->
+
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
+
+  <div id="minutesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:620px;">
+      <button class="modal-close" onclick="closeModal('minutesModal')">×</button>
+      <h3 style="margin-top:0; color:#111827;">📝 Meeting Minutes: July 2, 2026</h3>
+      <p style="font-size:0.82rem; color:var(--muted); margin:-8px 0 12px 0;">Peninsula/South Bay Accountability Group</p>
+      <hr style="border:0; border-top:1px solid var(--border); margin:12px 0;">
+      
+      <div class="minutes-highlight-box">
+        <strong>High-Level Overview:</strong>
+        <p style="font-size:0.88rem; margin:6px 0 0 0;">
+          Started at 11:00. The first hour focused on icebreakers, background introductions, and ongoing projects. Shifted to a structured master sheet review covering last week's goals, results, blockers, and next steps. Group decided to consistently run future iterations on Thursdays at 11:00 to ensure momentum.
+        </p>
+      </div>
+
+      <div style="margin: 18px 0 10px; padding: 12px; background: var(--sky-light); border-radius: 8px; border: 1px dashed var(--sky); text-align: center;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #1e64b0; display: block; margin-bottom: 6px;">📂 Detailed Log Directory</span>
+        <a href="https://docs.google.com/document/d/1GrsHvwo6CNk0OsbvY6XzByY2Zp-kVsymmTE4VFL4kKY/edit?usp=sharing" target="_blank" style="font-size: 0.88rem; color: var(--sky); font-weight: 700; text-decoration: underline; word-break: break-all;">Open Full Session Artifact & Member Outputs Document ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('dueModal')">×</button>
+      <h3>📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
+      <p style="font-size: 0.82rem; color: var(--muted); margin: -10px 0 14px 0;">Complete the fields below to sync parameters quietly via backend framing logic.</p>
+      
+      <form id="weeklyReportForm" method="POST" onsubmit="handleReportSubmit(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="repName" readonly style="background:#f3f4f6; font-weight:600;">
+        </div>
+        <div class="form-group">
+          <label>Report Date</label>
+          <input type="date" id="repDate" required>
+        </div>
+        <div class="form-group">
+          <label>Last Week's Goal</label>
+          <textarea id="repLast" rows="2" placeholder="What did you work on?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Result</label>
+          <textarea id="repResult" rows="2" placeholder="e.g. Done, Partial, In progress" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Blockers (If Any)</label>
+          <input type="text" id="repBlock" placeholder="e.g. None">
+        </div>
+        <div class="form-group">
+          <label>This Week's Goal</label>
+          <textarea id="repThis" rows="2" placeholder="What are your targets for this iteration?" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>First Next Step</label>
+          <input type="text" id="repNext" placeholder="Immediate action item" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn primary" style="margin-top:8px;">Securely Submit Update Row</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+let intervals = {};
+
+function startCountdown(elId, targetISO){
+  if (intervals[elId]) clearInterval(intervals[elId]);
+  const el = document.getElementById(elId);
+  function update(){
+    const diff = new Date(targetISO) - new Date();
+    if(diff <= 0){ el.textContent = "Ended"; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    el.textContent = d + "d " + h + "h " + m + "m";
+  }
+  update();
+  intervals[elId] = setInterval(update, 60000);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Fallback defaults — used only if config.json can't be loaded
+  let nextMeetingISO = '2026-07-09T11:00:00-07:00';
+  let nextReportISO = '2026-07-06T17:00:00-07:00';
+
+  fetch('config.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
+    .then(cfg => {
+      if (cfg) {
+        if (cfg.nextMeetingISO) nextMeetingISO = cfg.nextMeetingISO;
+        if (cfg.nextReportISO) nextReportISO = cfg.nextReportISO;
+        applyStatuses(cfg.statuses);
+        applyAgenda(cfg.agenda);
+      }
+    })
+    .catch(() => { /* config.json missing or unreachable — use fallback defaults */ })
+    .finally(() => {
+      startCountdown('meetingCountdown', nextMeetingISO);
+      startCountdown('dueCountdown', nextReportISO);
+    });
+});
+
+function applyStatuses(statuses) {
+  if (!statuses) return;
+  const pillLabel = { progress: 'In Progress', done: 'Done', due: 'Due', blank: '' };
+  document.querySelectorAll('.player[data-key]').forEach(card => {
+    const key = card.getAttribute('data-key');
+    const status = statuses[key];
+    if (!status) return;
+    const pill = card.querySelector('.pill');
+    if (!pill) return;
+    pill.className = 'pill ' + status;
+    pill.textContent = pillLabel[status] ?? '';
+  });
+}
+
+function applyAgenda(agendaText) {
+  if (!agendaText || !agendaText.trim()) return; // keep existing default bullets
+  const container = document.getElementById('cadenceAgendaContainer');
+  if (!container) return;
+  const lines = agendaText.split('\n').map(l => l.trim()).filter(Boolean);
+  if (!lines.length) return;
+  container.innerHTML = '<strong>Weekly Core Session Info:</strong><ul style="margin-top: 6px;">' +
+    lines.map(l => `<li style="font-size:0.85rem;">${l.replace(/</g, '<')}</li>`).join('') +
+    '</ul>';
+}
+
+let formSubmittedType = ''; 
+let currentActiveUser = '';
+
+function openModal(modalId, userName = '') {
+  document.getElementById(modalId).style.display = 'flex';
+  if(userName) {
+    currentActiveUser = userName;
+    document.getElementById('modalTargetName').textContent = userName;
+    document.getElementById('repName').value = userName;
+    document.getElementById('repDate').value = new Date().toISOString().split('T')[0];
+    ['repLast','repResult','repBlock','repThis','repNext'].forEach(id => document.getElementById(id).value = '');
+  }
+}
+
+function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal-overlay')) e.target.style.display = 'none'; }
+function handleRSVP(e) { formSubmittedType = 'rsvp'; }
+
+function handleReportSubmit(e) {
+  formSubmittedType = 'report';
+  const form = document.getElementById('weeklyReportForm');
+  form.target = 'hidden_iframe';
+  form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse';
+  
+  document.getElementById('repName').name   = 'entry.896357741'; 
+  document.getElementById('repLast').name   = 'entry.1215668338'; 
+  document.getElementById('repDate').name   = 'entry.1215668338'; 
+  document.getElementById('repResult').name = 'entry.389766965'; 
+  document.getElementById('repBlock').name  = 'entry.1878513647'; 
+  document.getElementById('repThis').name   = 'entry.1643524566'; 
+  document.getElementById('repNext').name   = 'entry.222324075'; 
+}
+
+function handleFormDone() {
+  if (formSubmittedType === 'rsvp') {
+    alert("RSVP securely synced to our tracking spreadsheet!");
+  } else if (formSubmittedType === 'report') {
+    alert("Your weekly report has been uploaded and structured safely!");
+    closeModal('dueModal');
+    document.getElementById('weeklyReportForm').reset();
+    ['repName','repDate','repLast','repResult','repBlock','repThis','repNext'].forEach(id => {
+      document.getElementById(id).removeAttribute('name');
+    });
+  }
+  formSubmittedType = '';
+}
+</script>
+</body>
+</html>
