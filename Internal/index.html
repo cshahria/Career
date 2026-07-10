@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
 });
 
-// Converts time string (e.g., "2:00 PM", "02:00:00 PM", "14:00") to strict 24h format (e.g., "1400")
+// Converts time string (e.g., "9:15:00 AM", "2:00 PM", "14:00") to strict 24h format (e.g., "0915")
 function cleanTo24h(timeStr) {
   if (!timeStr) return "";
   
@@ -421,13 +421,14 @@ function cleanTo24h(timeStr) {
   const isPM = str.includes("PM");
   const isAM = str.includes("AM");
   
-  // Strip out AM/PM and any seconds if present
+  // Strip out AM/PM and any trailing spaces
   let clean = str.replace(/(AM|PM)/g, '').trim();
   let parts = clean.split(':');
   
   if (parts.length >= 2) {
     let hh = parseInt(parts[0], 10);
-    let mm = parts[1].padStart(2, '0');
+    // Secure just the minute digits by parsing it as an integer first, then padding
+    let mm = parseInt(parts[1], 10).toString().padStart(2, '0');
     
     if (isPM && hh < 12) hh += 12;
     if (isAM && hh === 12) hh = 0;
