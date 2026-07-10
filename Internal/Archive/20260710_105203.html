@@ -411,11 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function fetchAndRenderSchedule() {
   const container = document.getElementById("dayViewContainer");
-  const selectedDate = document.getElementById("scheduleDateFilter").value; // Formatted as YYYY-MM-DD
-
-  // Parse YYYY-MM-DD and rebuild into M/D/YYYY to match the Google Sheet CSV output format
-  const [year, month, day] = selectedDate.split('-');
-  const targetCsvDate = `${parseInt(month)}/${parseInt(day)}/${year}`;
+  const selectedDate = document.getElementById("scheduleDateFilter").value;
 
   try {
     const response = await fetch(MEETINGS_CSV_URL + "&t=" + new Date().getTime());
@@ -432,7 +428,7 @@ async function fetchAndRenderSchedule() {
       endTime: row[3]?.replace(/^"|"$/g, '').trim(),
       title: row[4]?.replace(/^"|"$/g, '').trim(),
       details: row[5]?.replace(/^"|"$/g, '').trim()
-    })).filter(m => m.date === targetCsvDate);
+    })).filter(m => m.date === selectedDate);
 
     meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
 
@@ -560,7 +556,6 @@ function toggleDictation(btn, targetId) {
   recognition.start();
 }
 
-// Global dictation engine stops
 function stopDictation() {
   if (recognition) {
     recognition.stop();
