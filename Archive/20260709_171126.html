@@ -361,7 +361,7 @@
         <div class="avatar">K</div>
         <div class="name">Kar</div>
         <div class="initials">(KB)</div>
-        <span class="pill due" style="margin-top:4px;">Pending</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
       <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
         <div class="avatar">A</div>
@@ -426,12 +426,12 @@
     <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
     <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
     <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
-    <a href="https://cshahria.github.io/Career/civic.html" style="font-weight:700; color:var(--pitch);">📊 Civic Dashboard ↗</a>
+    <a href="https://cshahria.github.io/CivicDashboard/index.html" style="font-weight:700; color:var(--pitch);">📊 Civic Dashboard ↗</a>
   </div>
 
   <!-- Compact Footer & Shortened Disclaimer -->
   <footer>
-    <div>unPTO Accountability · Updated: 2026-07-09 17:09:46 PDT</div>
+    <div>unPTO Accountability · Updated July 9, 2026</div>
     <div class="disclaimer-text">
       Public tracker configuration. Do not upload confidential metrics or sensitive personal parameters.
     </div>
@@ -577,9 +577,9 @@ function startCountdown(elId, targetISO){
 window.addEventListener('DOMContentLoaded', () => {
   let nextMeetingISO = '2026-07-16T11:00:00-07:00';
   let nextReportISO  = '2026-07-13T17:00:00-07:00';
-  let coworkStartISO  = '2026-07-10T09:00:00-07:00';
+  let coworkStartISO  = '2026-07-10T09:00:00-07:00'; // Hardcoded Fri July 10 at 09:00
 
-  fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
+  fetch('config.json', { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
     .then(cfg => {
       if (cfg) {
@@ -598,7 +598,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function applyStatuses(statuses) {
   if (!statuses) return;
-  const pillLabel = { progress: 'In Progress', done: 'Done', due: 'Pending', blank: '' };
+  const pillLabel = { progress: 'In Progress', done: 'Done', due: 'Due', blank: '' };
   document.querySelectorAll('.player[data-key]').forEach(card => {
     const key = card.getAttribute('data-key');
     const status = statuses[key];
