@@ -413,23 +413,34 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
 });
 
-// Helper to convert time string to a clean 24h format (HH:MM) without seconds or AM/PM markers
+// Converts time string (e.g., "2:00 PM", "02:00:00 PM", "14:00") to strict 24h format (e.g., "1400")
 function cleanTo24h(timeStr) {
   if (!timeStr) return "";
-  let clean = timeStr.replace(/(AM|PM|am|pm)/g, '').trim();
+  
+  let str = timeStr.trim().toUpperCase();
+  const isPM = str.includes("PM");
+  const isAM = str.includes("AM");
+  
+  // Strip out AM/PM and any seconds if present
+  let clean = str.replace(/(AM|PM)/g, '').trim();
   let parts = clean.split(':');
+  
   if (parts.length >= 2) {
-    let hh = parts[0].padStart(2, '0');
+    let hh = parseInt(parts[0], 10);
     let mm = parts[1].padStart(2, '0');
-    return `${hh}:${mm}`;
+    
+    if (isPM && hh < 12) hh += 12;
+    if (isAM && hh === 12) hh = 0;
+    
+    return `${hh.toString().padStart(2, '0')}${mm}`;
   }
-  return clean;
+  
+  return clean.replace(':', '');
 }
 
 async function fetchAndRenderSchedule() {
   const container = document.getElementById("dayViewContainer");
 
-  // Generate target array for the next 7 days in M/D/YYYY layouts
   const dayList = [];
   const options = { weekday: 'long', month: 'short', day: 'numeric' };
   
@@ -623,7 +634,7 @@ function viewVideoDemo() {
 function viewDiagramImage() {
   document.getElementById('videoPlayerBox').style.display = 'none';
   document.getElementById('demoVideoSource').src = '';
-  document.getElementById('diagramImageBox').style.display = 'block';
+  document.getElementById('diagramImageBox').style.block';
 }
 </script>
 
