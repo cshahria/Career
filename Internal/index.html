@@ -366,11 +366,6 @@
         <div class="name">Notes</div>
       </div>
 
-      <div class="tile" onclick="openModal('civicModal')">
-        <div class="icon">⚖️</div>
-        <div class="name">Civic</div>
-      </div>
-
       <div class="tile" onclick="openModal('meetingsModal')">
         <div class="icon">📅</div>
         <div class="name">Meetings</div>
@@ -630,86 +625,7 @@ function viewDiagramImage() {
 }
 </script>
 
-<!-- MODAL: CIVIC ENGAGEMENT TRACKER -->
-<div id="civicModal" class="modal-overlay">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('civicModal')">×</button>
-    <h3>Log Civic Entry</h3>
-    
-    <div class="disclaimer-box">
-      <p>⚠️ SAFETY DISCLAIMER: For data collection only. Do not engage, confront, or follow reckless drivers. If you are in immediate danger, call 911.</p>
-    </div>
 
-    <form method="POST" action="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
-      <div class="form-group">
-        <label>Submitter Name</label>
-        <input type="text" name="entry.1232054633" placeholder="Your name" required>
-      </div>
-      <div class="form-group">
-        <label>Submitter Email Address</label>
-        <input type="email" name="entry.1952343127" placeholder="your.email@example.com" required>
-      </div>
-      <div class="form-group">
-        <label>Date of Incident</label>
-        <input type="date" name="entry.1262461747" required>
-      </div>
-      <div class="form-group">
-        <label>Time of Incident</label>
-        <input type="time" name="entry.1102918059" required>
-      </div>
-      <div class="form-group">
-        <label>Specific Location</label>
-        <select name="entry.339123240" required>
-          <option value="" disabled selected>Select location...</option>
-          <option value="Highway 9">Highway 9</option>
-          <option value="Downtown Saratoga">Downtown Saratoga</option>
-          <option value="Bear Creek Woods / Mountains">Bear Creek Woods / Mountains</option>
-          <option value="Monte Sereno">Monte Sereno</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Vehicle Type</label>
-        <select name="entry.1698807134" required>
-          <option value="" disabled selected>Select vehicle type...</option>
-          <option value="Single Motorcycle">Single Motorcycle</option>
-          <option value="Motorcycle Pack">Motorcycle Pack</option>
-          <option value="Racing Car">Racing Car</option>
-          <option value="Multiple Racing Cars">Multiple Racing Cars</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Vehicle Description</label>
-        <div class="input-with-mic">
-          <textarea id="civicVehicleDesc" name="entry.635571651" rows="3" placeholder="Color, distinct modifications, features..." required></textarea>
-          <button type="button" class="mic-btn" onclick="toggleDictation(this, 'civicVehicleDesc')">🎙️</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Type of Disturbance</label>
-        <select name="entry.711127616" required>
-          <option value="" disabled selected>Select primary disturbance...</option>
-          <option value="Excessive Speed / Racing">Excessive Speed / Racing</option>
-          <option value="Loud Exhaust / Disturbing the Peace">Loud Exhaust / Disturbing the Peace</option>
-          <option value="Reckless Driving">Reckless Driving</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Did you report this to the Sheriff's non-emergency line?</label>
-        <div class="radio-group">
-          <label class="radio-option">
-            <input type="radio" name="entry.2018181231" value="Yes" required> Yes
-          </label>
-          <label class="radio-option">
-            <input type="radio" name="entry.2018181231" value="No"> No
-          </label>
-        </div>
-      </div>
-      <button type="submit" class="submit-btn">Save Entry</button>
-    </form>
-  </div>
-</div>
 
 <!-- MODAL: MEETINGS QUICK INPUT -->
 <div id="meetingsModal" class="modal-overlay">
