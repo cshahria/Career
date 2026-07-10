@@ -276,16 +276,19 @@
 <body>
 <div class="wrap">
 
+  <!-- 1. Header On Top (More Compact) -->
   <header>
     <h1>unPTO ACCOUNTABILITY · Week 29 · 2026 Check-In</h1>
     <p>July 13 – July 19, 2026</p>
   </header>
 
+  <!-- Countdown Grid Displays -->
   <div class="dashboard-grid">
+    <!-- Tile 1: Next Meeting -->
     <div class="panel-meeting">
       <div>
         <div style="font-size:0.65rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING</div>
-        <div id="meetingCountdown" style="font-size:1.2rem; color:#ea580c; font-weight:800; margin: 2px 0;">6d 14h</div>
+        <div id="meetingCountdown" style="font-size:1.2rem; color:#111827; font-weight:800; margin: 2px 0;">--</div>
         <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 11:00 – 14:00</div>
       </div>
       <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;">
@@ -294,19 +297,21 @@
       </div>
     </div>
 
+    <!-- Tile 2: Report Due -->
     <div class="panel-due">
       <div>
         <div style="font-size:0.65rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
-        <div id="dueCountdown" style="font-size:1.2rem; color:#ea580c; font-weight:800; margin: 2px 0;">3d 20h</div>
+        <div id="dueCountdown" style="font-size:1.2rem; color:#111827; font-weight:800; margin: 2px 0;">--</div>
         <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Mon Jul 13 @ 17:00 Pacific</div>
       </div>
       <div style="font-size:0.72rem; color:#78350f; margin-top:4px;">Parameter sync window</div>
     </div>
 
+    <!-- Tile 3: Co-Work Zoom -->
     <div class="panel-cowork">
       <div>
         <div style="font-size:0.65rem; color:#4b5563; font-weight:800; letter-spacing:0.04em;">💻 CO-WORK ZOOM (OPTIONAL)</div>
-        <div id="coworkCountdown" style="font-size:1.2rem; color:#ea580c; font-weight:800; margin: 2px 0;">0d 12h</div>
+        <div id="coworkCountdown" style="font-size:1.2rem; color:#111827; font-weight:800; margin: 2px 0;">--</div>
         <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Fri 7/10 · 09:00 - 11:00</div>
       </div>
       <div style="font-size:0.72rem; margin-top:4px;">
@@ -315,9 +320,11 @@
     </div>
   </div>
   
+  <!-- 3. Team Board Section -->
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <h2 style="margin:0;">🟢 Our Team Board</h2>
+      <!-- Immediate assistance feedback routing button -->
       <a href="mailto:cyrus.shahriari@gmail.com?subject=unPTO%20Accountability%20Support%20-%20Immediate%20Assistance" class="submit-btn help-trigger" style="font-size:0.72rem; padding:4px 8px; text-decoration:none;">⚠️ Help / Feedback</a>
     </div>
     
@@ -364,11 +371,13 @@
       </div>
     </div>
 
+    <!-- 4. The Master Sheet (Simplified & Word-reduced) -->
     <div style="background: #fff8eb; border: 1px solid #ffe4b3; padding: 10px; border-radius: 8px; margin-top:12px; text-align: center;">
       <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="color:#b45309; font-weight:700; font-size:0.85rem; text-decoration:none;">📊 Go to Master Sheet Workspace ↗</a>
     </div>
   </div>
 
+  <!-- 5. RSVP Section placed right underneath the Ledger -->
   <div class="card" style="background: var(--sky-light); border: 1px solid #b9d5f7;">
     <h3 style="margin: 0 0 6px 0; font-size: 0.9rem; color: #1e64b0; display:flex; align-items:center; gap:6px;">📅 Weekly Attendance RSVP</h3>
     <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
@@ -385,6 +394,7 @@
     </form>
   </div>
 
+  <!-- 6. Minutes Card Section -->
   <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
     <h2>📝 Meeting Minutes</h2>
     <div style="display: flex; flex-direction: column; gap: 8px;">
@@ -400,6 +410,7 @@
     </div>
   </div>
 
+  <!-- 7. Other Details Compact Configuration (Group Mission & Cadence) -->
   <div class="card" style="background:#fcfdfc; border-top: 2px solid var(--pitch); padding: 10px 14px;">
     <p style="font-size: 0.85rem; margin: 0 0 6px 0;">
       <strong>Bay Area Accountability Buddies</strong> · Peer progress framework.
@@ -410,6 +421,7 @@
     </div>
   </div>
 
+  <!-- Compact Nav Bar including requested Civic Dashboard link -->
   <div class="bottom-nav">
     <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
     <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
@@ -417,6 +429,7 @@
     <a href="https://cshahria.github.io/Career/civic.html" style="font-weight:700; color:var(--pitch);">📊 Civic Dashboard ↗</a>
   </div>
 
+  <!-- Compact Footer & Shortened Disclaimer -->
   <footer>
     <div>unPTO Accountability · Updated: 2026-07-09 17:09:46 PDT</div>
     <div class="disclaimer-text">
@@ -428,6 +441,7 @@
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
+  <!-- POPUP MODAL: July 2 Minutes -->
   <div id="minutesModalJuly2" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:620px;">
       <button class="modal-close" onclick="closeModal('minutesModalJuly2')">×</button>
@@ -442,6 +456,7 @@
     </div>
   </div>
 
+  <!-- POPUP MODAL: July 9 Detailed Minutes -->
   <div id="minutesModalJuly9" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:620px;">
       <button class="modal-close" onclick="closeModal('minutesModalJuly9')">×</button>
@@ -475,12 +490,12 @@
             <li>CS clarified that mock interviews are no longer considered a blocker.</li>
             <li>CS identified current blockers as: remaining FIFA volunteer commitments, time management, and spending excessive time on lower-priority activities rather than transition objectives.</li>
             <li>CS mentioned receiving the FIFA volunteer certificate.</li>
-            <li>CS completed the "20-Minute Networking Meeting" career coaching material and summarized its framework.</li>
+            <li>CS completed the "20-Minute Networking Meeting" career coaching material and summarized its framework: create a strong first impression, deliver a concise one-minute professional introduction, research the individual and company beforehand, end the conversation professionally while respecting the 20-minute limit, and focus on expanding the network and obtaining referrals rather than expecting immediate job opportunities.</li>
             <li>CS discussed targeting financially healthy, growing companies rather than applying indiscriminately.</li>
             <li>CS shared lessons learned from previous employer restructuring, emphasizing the importance of evaluating company stability.</li>
             <li>CS reflected on Art's rescinded job offer and reminded the team to remain realistic until employment officially begins.</li>
             <li>CS complimented Tina on her noticeably positive energy and improved health focus.</li>
-            <li>CS announced the next accountability meeting: Date: July 16, Time: 11:00 AM–2:00 PM, Location: T&T Supermarket, Westgate Mall.</li>
+            <li>CS announced the next accountability meeting: Date: July 16, Time: 11:00 AM–2:00 PM, Location: T&T Supermarket, Westgate Mall. Team members may arrive beginning at 10:30 AM.</li>
             <li>CS will check anticipated store traffic before the meeting.</li>
             <li>CS confirmed there will be no FIFA scheduling conflicts after the following week, allowing greater focus on accountability activities.</li>
             <li>CS proposed organizing optional co-working sessions via Zoom or voice call and plans to send invitations.</li>
@@ -548,6 +563,7 @@
     </div>
   </div>
 
+  <!-- POPUP MODAL: Progress Reporting Form -->
   <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('dueModal')">×</button>
@@ -588,15 +604,43 @@
   </div>
 
 <script>
+let intervals = {};
+
+function startCountdown(elId, targetISO){
+  if (intervals[elId]) clearInterval(intervals[elId]);
+  const el = document.getElementById(elId);
+  function update(){
+    const diff = new Date(targetISO) - new Date();
+    if(diff <= 0){ el.textContent = "Ended"; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    el.textContent = d + "d " + h + "h " + m + "m";
+  }
+  update();
+  intervals[elId] = setInterval(update, 60000);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+  let nextMeetingISO = '2026-07-16T11:00:00-07:00';
+  let nextReportISO  = '2026-07-13T17:00:00-07:00';
+  let coworkStartISO  = '2026-07-10T09:00:00-07:00';
+
   fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
     .then(cfg => {
-      if (cfg && cfg.statuses) {
+      if (cfg) {
+        if (cfg.nextMeetingISO) nextMeetingISO = cfg.nextMeetingISO;
+        if (cfg.nextReportISO) nextReportISO = cfg.nextReportISO;
         applyStatuses(cfg.statuses);
       }
     })
-    .catch(() => {});
+    .catch(() => {})
+    .finally(() => {
+      startCountdown('meetingCountdown', nextMeetingISO);
+      startCountdown('dueCountdown', nextReportISO);
+      startCountdown('coworkCountdown', coworkStartISO);
+    });
 });
 
 function applyStatuses(statuses) {
