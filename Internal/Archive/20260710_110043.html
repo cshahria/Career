@@ -291,6 +291,7 @@
     line-height: 1.4;
   }
 
+  /* Blueprint Container Styling Consolidated */
   .blueprint-container {
     max-width: 760px;
     margin: 50px auto 0;
@@ -319,19 +320,6 @@
       padding-left: 24px;
       padding-right: 24px;
     }
-  }
-
-  .day-block {
-    margin-bottom: 20px;
-  }
-  .day-header {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text);
-    background: #edf2f0;
-    padding: 6px 10px;
-    border-radius: 6px;
-    margin-bottom: 8px;
   }
 </style>
 </head>
@@ -391,7 +379,10 @@
   </div>
 
   <div class="card" style="margin-top: 24px;">
-    <h3 style="margin: 0 0 16px 0; font-size: 1.2rem; font-weight: 700; color: #111827;">7-Day Schedule Outlook</h3>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">Daily Schedule</h3>
+      <input type="date" id="scheduleDateFilter" style="padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 0.9rem; color: var(--text);">
+    </div>
     <div id="dayViewContainer">
       <p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 10px 0;">Loading schedule entries...</p>
     </div>
@@ -410,38 +401,21 @@ let currentMicButton = null;
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetchAndRenderSchedule();
-});
+  const dateInput = document.getElementById("scheduleDateFilter");
+  const today = new Date().toLocaleDateString('en-CA');
+  dateInput.value = today;
 
-// Helper to convert time string to a clean 24h format (HH:MM) without seconds or AM/PM markers
-function cleanTo24h(timeStr) {
-  if (!timeStr) return "";
-  let clean = timeStr.replace(/(AM|PM|am|pm)/g, '').trim();
-  let parts = clean.split(':');
-  if (parts.length >= 2) {
-    let hh = parts[0].padStart(2, '0');
-    let mm = parts[1].padStart(2, '0');
-    return `${hh}:${mm}`;
-  }
-  return clean;
-}
+  fetchAndRenderSchedule();
+  dateInput.addEventListener("change", fetchAndRenderSchedule);
+});
 
 async function fetchAndRenderSchedule() {
   const container = document.getElementById("dayViewContainer");
+  const selectedDate = document.getElementById("scheduleDateFilter").value; // Formatted as YYYY-MM-DD
 
-  // Generate target array for the next 7 days in M/D/YYYY layouts
-  const dayList = [];
-  const options = { weekday: 'long', month: 'short', day: 'numeric' };
-  
-  for (let i = 0; i < 7; i++) {
-    const d = new Date();
-    d.setDate(d.getDate() + i);
-    
-    const key = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-    const displayLabel = d.toLocaleDateString('en-US', options);
-    
-    dayList.push({ csvKey: key, label: displayLabel, meetings: [] });
-  }
+  // Parse YYYY-MM-DD and rebuild into M/D/YYYY to match the Google Sheet CSV output format
+  const [year, month, day] = selectedDate.split('-');
+  const targetCsvDate = `${parseInt(month)}/${parseInt(day)}/${year}`;
 
   try {
     const response = await fetch(MEETINGS_CSV_URL + "&t=" + new Date().getTime());
@@ -452,50 +426,38 @@ async function fetchAndRenderSchedule() {
       return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     }).slice(1);
     
-    rows.forEach(row => {
-      const dateKey = row[1]?.replace(/^"|"$/g, '').trim();
-      const matchDay = dayList.find(d => d.csvKey === dateKey);
-      
-      if (matchDay) {
-        matchDay.meetings.push({
-          startTime: cleanTo24h(row[2]?.replace(/^"|"$/g, '').trim()),
-          endTime: cleanTo24h(row[3]?.replace(/^"|"$/g, '').trim()),
-          title: row[4]?.replace(/^"|"$/g, '').trim(),
-          details: row[5]?.replace(/^"|"$/g, '').trim()
-        });
-      }
-    });
+    const meetings = rows.map(row => ({
+      date: row[1]?.replace(/^"|"$/g, '').trim(),
+      startTime: row[2]?.replace(/^"|"$/g, '').trim(),
+      endTime: row[3]?.replace(/^"|"$/g, '').trim(),
+      title: row[4]?.replace(/^"|"$/g, '').trim(),
+      details: row[5]?.replace(/^"|"$/g, '').trim()
+    })).filter(m => m.date === targetCsvDate);
 
-    let outputHtml = "";
+    meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
 
-    dayList.forEach(day => {
-      outputHtml += `<div class="day-block">`;
-      outputHtml += `<div class="day-header">${day.label}</div>`;
+    if (meetings.length === 0) {
+      container.innerHTML = `<p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 16px 0;">🎉 No meetings scheduled for this day.</p>`;
+      return;
+    }
 
-      if (day.meetings.length === 0) {
-        outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 6px 12px;">No meetings scheduled.</p>`;
-      } else {
-        day.meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
-        
-        day.meetings.forEach(m => {
-          const timeRange = m.endTime ? `${m.startTime} - ${m.endTime}` : `${m.startTime}`;
-          const titleText = m.title ? `<strong>${m.title}</strong>` : `<em>No Title</em>`;
-          const detailsText = m.details ? ` — ${m.details}` : "";
+    container.innerHTML = meetings.map(m => {
+      const displayTitle = m.title ? `<strong>${m.title}</strong>` : `<em>No Title</em>`;
+      const timeRange = m.endTime ? `${m.startTime} - ${m.endTime}` : `${m.startTime}`;
+      return `
+        <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px 4px; border-bottom: 1px solid var(--border);">
+          <div style="font-weight: 700; color: var(--sky); font-size: 0.92rem; min-width: 95px; padding-top: 1px; white-space: nowrap;">
+            ⏰ ${timeRange}
+          </div>
+          <div style="font-size: 0.92rem; color: var(--text); flex-grow: 1;">
+            <div style="margin-bottom: 3px; color: #111827;">${displayTitle}</div>
+            <div style="color: var(--muted); font-size: 0.88rem; white-space: pre-wrap;">${m.details}</div>
+          </div>
+        </div>
+      `;
+    }).join("");
 
-          outputHtml += `
-            <div style="display: flex; align-items: flex-start; gap: 14px; padding: 8px 12px; border-bottom: 1px solid var(--border);">
-              <div style="font-weight: 700; color: var(--sky); font-size: 0.9rem; min-width: 85px; white-space: nowrap;">
-                ${timeRange}
-              </div>
-              <div style="font-size: 0.9rem; color: var(--text); flex-grow: 1; white-space: pre-wrap;">${titleText}${detailsText}</div>
-            </div>
-          `;
-        });
-      }
-      outputHtml += `</div>`;
-    });
-
-    container.innerHTML = outputHtml;
+    if(container.lastElementChild) container.lastElementChild.style.borderBottom = "none";
 
   } catch (error) {
     console.error("Error processing tracking pipeline:", error);
@@ -598,6 +560,7 @@ function toggleDictation(btn, targetId) {
   recognition.start();
 }
 
+// Global dictation engine stops
 function stopDictation() {
   if (recognition) {
     recognition.stop();
@@ -638,22 +601,27 @@ function viewDiagramImage() {
     </div>
 
     <form method="POST" action="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
+      
       <div class="form-group">
         <label>Submitter Name</label>
         <input type="text" name="entry.1232054633" placeholder="Your name" required>
       </div>
+      
       <div class="form-group">
         <label>Submitter Email Address</label>
         <input type="email" name="entry.1952343127" placeholder="your.email@example.com" required>
       </div>
+      
       <div class="form-group">
         <label>Date of Incident</label>
         <input type="date" name="entry.1262461747" required>
       </div>
+      
       <div class="form-group">
         <label>Time of Incident</label>
         <input type="time" name="entry.1102918059" required>
       </div>
+      
       <div class="form-group">
         <label>Specific Location</label>
         <select name="entry.339123240" required>
@@ -665,6 +633,7 @@ function viewDiagramImage() {
           <option value="Other">Other</option>
         </select>
       </div>
+
       <div class="form-group">
         <label>Vehicle Type</label>
         <select name="entry.1698807134" required>
@@ -676,6 +645,7 @@ function viewDiagramImage() {
           <option value="Other">Other</option>
         </select>
       </div>
+      
       <div class="form-group">
         <label>Vehicle Description</label>
         <div class="input-with-mic">
@@ -683,6 +653,7 @@ function viewDiagramImage() {
           <button type="button" class="mic-btn" onclick="toggleDictation(this, 'civicVehicleDesc')">🎙️</button>
         </div>
       </div>
+
       <div class="form-group">
         <label>Type of Disturbance</label>
         <select name="entry.711127616" required>
@@ -692,6 +663,7 @@ function viewDiagramImage() {
           <option value="Reckless Driving">Reckless Driving</option>
         </select>
       </div>
+
       <div class="form-group">
         <label>Did you report this to the Sheriff's non-emergency line?</label>
         <div class="radio-group">
@@ -703,6 +675,7 @@ function viewDiagramImage() {
           </label>
         </div>
       </div>
+      
       <button type="submit" class="submit-btn">Save Entry</button>
     </form>
   </div>
