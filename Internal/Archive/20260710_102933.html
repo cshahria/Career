@@ -47,6 +47,7 @@
     box-shadow:0 2px 8px rgba(0,0,0,0.04);
   }
   
+  /* Grid updated to support exactly 3 tiles per row on wider viewports */
   .tile-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -81,11 +82,13 @@
   }
   .tile .name{font-weight:700;font-size:1rem;color:#111827;}
 
+  /* Unique style rule for docs button */
   .tile.docs-tile .icon {
     background: #f3f4f6;
     color: var(--muted);
   }
 
+  /* Sheet Pill Link Component */
   .sheet-pill-container {
     text-align: center;
     margin-top: 20px;
@@ -112,6 +115,7 @@
     transform: translateY(-1px);
   }
 
+  /* Modal System */
   .modal-overlay {
     position: fixed;
     top:0; left:0; right:0; bottom:0;
@@ -158,6 +162,7 @@
   }
   .submit-btn:hover { background: #176839; }
 
+  /* Form Styling */
   .form-group { margin-bottom: 14px; }
   .form-group label {
     display: block;
@@ -213,6 +218,7 @@
     font-size: 0.9rem;
   }
 
+  /* Speech Container Styling */
   .input-with-mic {
     position: relative;
     display: block;
@@ -247,6 +253,7 @@
     100% { transform: scale(1); }
   }
 
+  /* Documentation Specific Layout Rules */
   .docs-list {
     display: flex;
     flex-direction: column;
@@ -328,6 +335,7 @@
         <div class="name">Civic</div>
       </div>
 
+      <!-- New Meetings Tile positioned neatly within grid layout structure -->
       <div class="tile" onclick="openModal('meetingsModal')">
         <div class="icon">📅</div>
         <div class="name">Meetings</div>
@@ -347,6 +355,7 @@
     </div>
   </div>
 
+  <!-- Day View Container component layered cleanly beneath main action array layout -->
   <div class="card" style="margin-top: 24px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
       <h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">Daily Schedule</h3>
@@ -367,11 +376,13 @@ let recognition = null;
 let currentTargetInput = null;
 let currentMicButton = null;
 
-// Updated automatically to your correct data export link ending in output=csv
-const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?output=csv"; 
+// Replace with your actual Published CSV link derived from Sheet configurations
+const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pubhtml"; 
 
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("scheduleDateFilter");
+  
+  // Enforce local timeline defaults without standard timezone shifts
   const today = new Date().toLocaleDateString('en-CA');
   dateInput.value = today;
 
@@ -383,17 +394,23 @@ async function fetchAndRenderSchedule() {
   const container = document.getElementById("dayViewContainer");
   const selectedDate = document.getElementById("scheduleDateFilter").value;
 
+  if (MEETINGS_CSV_URL === "YOUR_PUBLISHED_CSV_LINK_HERE") {
+    container.innerHTML = `<p style="color: var(--muted); font-size: 0.88rem; text-align: center; margin: 16px 0;">⚠️ Please update MEETINGS_CSV_URL variable inside the script tag to view active data pipelines.</p>`;
+    return;
+  }
+
   try {
-    const response = await fetch(MEETINGS_CSV_URL + "&t=" + new Date().getTime());
+    const response = await fetch(MEETINGS_CSV_URL + "?t=" + new Date().getTime());
     const data = await response.text();
     
-    // Split into clean array string rows
-    const lines = data.split(/\r?\n/);
-    const rows = lines.map(row => {
+    // Parse dynamic rows skipping structural tracking spreadsheet configurations
+    const rows = data.split("\n").map(row => {
+      // Basic CSV parser logic matching array indices accurately
       return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     }).slice(1);
     
-    // Index mapping securely matching your precise column alignment definitions
+    // Index Mapping matching column layout criteria: 
+    // row[1]=Date, row[2]=Start Time, row[3]=End Time, row[4]=Title, row[5]=Details
     const meetings = rows.map(row => ({
       date: row[1]?.replace(/^"|"$/g, '').trim(),
       startTime: row[2]?.replace(/^"|"$/g, '').trim(),
@@ -402,6 +419,7 @@ async function fetchAndRenderSchedule() {
       details: row[5]?.replace(/^"|"$/g, '').trim()
     })).filter(m => m.date === selectedDate);
 
+    // Keep schedule sequences completely sorted on a 24h timeline
     meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
 
     if (meetings.length === 0) {
@@ -528,7 +546,6 @@ function toggleDictation(btn, targetId) {
   recognition.start();
 }
 
-// Global scope initialization cleanup
 function stopDictation() {
   if (recognition) {
     recognition.stop();
@@ -695,7 +712,7 @@ function viewDiagramImage() {
           <option value="" disabled selected>Select a type...</option>
           <option value="Networking">Network</option>
           <option value="Applicaton">Applicaton</option>
-          <option value="Job Fair">Job Fair</option>
+          <option value="Job Fair<">Job Fair</option>
           <option value="Recruiter">Recruit</option>
           <option value="E-Mail">E-Mail</option>
           <option value="Call">Call</option>
@@ -704,7 +721,7 @@ function viewDiagramImage() {
           <option value="Information">Info</option>
           <option value="Other">Other</option>
           <option value="Research">Research</option>
-          <option value="In Person">In Person</option>
+          <option value="Other">In Person</option>
         </select>
       </div>
       <div class="form-group">
