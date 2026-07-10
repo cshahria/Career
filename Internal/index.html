@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
 });
 
-// Converts time string (e.g., "9:15:00 AM", "2:00 PM", "14:00") to strict 24h format (e.g., "0915")
+// Robust cleanup: Handles "9:15:00 AM", "09:15", "2:00 PM", "14:45" -> strict "0915" or "1445"
 function cleanTo24h(timeStr) {
   if (!timeStr) return "";
   
@@ -421,37 +421,34 @@ function cleanTo24h(timeStr) {
   const isPM = str.includes("PM");
   const isAM = str.includes("AM");
   
-  // Strip out AM/PM and any trailing spaces
+  // Remove AM/PM and split by colons
   let clean = str.replace(/(AM|PM)/g, '').trim();
   let parts = clean.split(':');
   
   if (parts.length >= 2) {
     let hh = parseInt(parts[0], 10);
-    // Secure just the minute digits by parsing it as an integer first, then padding
-    let mm = parseInt(parts[1], 10).toString().padStart(2, '0');
+    let mm = parseInt(parts[1], 10);
     
     if (isPM && hh < 12) hh += 12;
     if (isAM && hh === 12) hh = 0;
     
-    return `${hh.toString().padStart(2, '0')}${mm}`;
+    // Format to strict HHMM layout
+    return hh.toString().padStart(2, '0') + mm.toString().padStart(2, '0');
   }
   
-  return clean.replace(':', '');
+  return clean.replace(/[^0-9]/g, '').padStart(4, '0');
 }
 
 async function fetchAndRenderSchedule() {
   const container = document.getElementById("dayViewContainer");
-
   const dayList = [];
   const options = { weekday: 'long', month: 'short', day: 'numeric' };
   
   for (let i = 0; i < 7; i++) {
     const d = new Date();
     d.setDate(d.getDate() + i);
-    
     const key = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
     const displayLabel = d.toLocaleDateString('en-US', options);
-    
     dayList.push({ csvKey: key, label: displayLabel, meetings: [] });
   }
 
@@ -460,9 +457,7 @@ async function fetchAndRenderSchedule() {
     const data = await response.text();
     
     const lines = data.split(/\r?\n/);
-    const rows = lines.map(row => {
-      return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-    }).slice(1);
+    const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
     
     rows.forEach(row => {
       const dateKey = row[1]?.replace(/^"|"$/g, '').trim();
@@ -487,6 +482,7 @@ async function fetchAndRenderSchedule() {
       if (day.meetings.length === 0) {
         outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 6px 12px;">No meetings scheduled.</p>`;
       } else {
+        // Numeric sorting works seamlessly now that times are pure strings like "0915"
         day.meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
         
         day.meetings.forEach(m => {
@@ -568,7 +564,6 @@ function toggleDictation(btn, targetId) {
   }
 
   const targetInput = document.getElementById(targetId);
-
   if (currentMicButton === btn) {
     stopDictation();
     return;
@@ -588,16 +583,13 @@ function toggleDictation(btn, targetId) {
     btn.classList.add('listening');
     btn.textContent = '🛑';
   };
-
   recognition.onerror = function(e) {
     console.error(e);
     stopDictation();
   };
-
   recognition.onend = function() {
     stopDictation();
   };
-
   recognition.onresult = function(event) {
     const transcript = event.results[0][0].transcript;
     if (targetInput.value) {
@@ -606,7 +598,6 @@ function toggleDictation(btn, targetId) {
       targetInput.value = transcript;
     }
   };
-
   recognition.start();
 }
 
@@ -732,11 +723,11 @@ function viewDiagramImage() {
       </div>
       <div class="form-group">
         <label>Start Time</label>
-        <input type="time" name="entry.441391688" required>
+        <input type="time" name="entry.441391688" step="900" required>
       </div>
       <div class="form-group">
         <label>End Time (Optional)</label>
-        <input type="time" name="entry.1413391410">
+        <input type="time" name="entry.1413391410" step="900">
       </div>
       <div class="form-group">
         <label>Title (Optional)</label>
