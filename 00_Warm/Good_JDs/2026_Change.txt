@@ -1,0 +1,65 @@
+Looking for:        Change Management Administrator
+
+Job Type:            Fulltime
+
+Location:             San Francisco, CA (Hybrid)
+
+Description:
+
+The Change Management Administrator is the operational owner of the enterprise change process within IT Service Management. Sitting on the Technology Operations team, this role facilitates the daily and weekly change review forums, governs the quality and risk posture of every change request, and protects production stability through rigorous collision avoidance, scheduling discipline, and production turnover review. The role operates at the intersection of process governance, ServiceNow platform administration, and stakeholder facilitation in a regulated, high-availability financial services environment where change-related disruption carries direct business and client impact.
+
+This is a governance and facilitation role as much as an administrative one. Success requires the credibility and judgment to challenge diverse teams on risk, completeness, and timing — and the platform skill to make the right behavior the easy behavior in ServiceNow.
+
+Key Responsibilities
+
+• Run change review meetings — Lead the daily change review and weekly Change Advisory Board (CAB), and coordinate emergency change reviews. Hold internal teams and outside vendors to clear standards for risk, testing, and rollback plans.
+
+• Administer change in ServiceNow — Manage normal, standard, and emergency changes end to end in ServiceNow, including request forms, workflows, approval rules, and the risk/impact assessment process.
+
+• Run the production readiness (turnover) review — Confirm each change is ready to deploy — testing complete, approvals in place, rollback plan validated, monitoring and runbooks ready — and ensure a clean handover to the operations and application support teams.
+
+• Manage the change schedule and prevent conflicts — Own the change calendar, prevent overlapping or competing changes using the configuration database (CMDB), and manage freeze and blackout periods around business-critical windows, including vendor and cloud maintenance.
+
+• Enforce change controls and quality — Review risk and rollback plans, enforce approval and separation-of-duties rules, maintain the change policy and exceptions, and identify changes made outside the process.
+
+• Coordinate major and high-risk changes — Lead large changes such as cloud migrations through pre-review, go/no-go decisions, and coordinated execution at cutover.
+
+• Report on change performance — Build executive reporting and dashboards in ServiceNow Performance Analytics covering change volume, success rate, and change-related incidents.
+
+• Improve and connect the process — Link change with incident and problem management, align with release management and Agile/SAFe planning, support disaster recovery readiness, and keep records audit-ready.
+
+• Train and communicate — Coach teams on submitting and approving changes, and notify business stakeholders ahead of high-impact changes, especially to trading and fund-pricing systems.
+
+ 
+
+Required Qualifications
+
+• 7-10 years of IT experience, including 3+ years of change management experience in an enterprise, regulated environment.
+
+• ITIL 4 Foundation certification.
+
+• Hands-on ServiceNow administration of the Change module — workflows (Flow Designer), change approval policies, update sets, and reporting / Performance Analytics.
+
+• Strong reporting and data analytics skills, including building dashboards and presenting to senior leaders.
+
+• Working knowledge of the CMDB / CSDM and configuration item (CI) relationships for impact analysis.
+
+• Strong facilitation and communication skills, including conducting meetings with senior technical leaders.
+
+ 
+
+Preferred / Nice-to-Have
+
+• Knowledge of Azure architecture and networking — VNets, NSGs, VNet peering, hub-and-spoke, ExpressRoute, and Azure Local / Azure Stack HCI.
+
+• Familiarity with Cisco networking and Palo Alto firewalls, including in Azure.
+
+• Familiarity with VMware and VxBlock, .
+
+• Financial services or asset management experience, including trading technology and applications.
+
+• Disaster recovery / business continuity coordination experience.
+
+• SAFe or Agile delivery experience.
+
+• ServiceNow certifications: Certified System Administrator (CSA) and CIS-ITSM.
