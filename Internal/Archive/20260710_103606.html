@@ -290,37 +290,6 @@
     color: #9ca3af;
     line-height: 1.4;
   }
-
-  /* Blueprint Container Styling Consolidated */
-  .blueprint-container {
-    max-width: 760px;
-    margin: 50px auto 0;
-    padding-top: 24px;
-    border-top: 1px dashed #e5e7eb;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
-  .blueprint-flex {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .blueprint-col {
-    flex: 1;
-    padding: 10px;
-    text-align: left;
-  }
-  @media (min-width: 640px) {
-    .blueprint-flex {
-      flex-direction: row;
-      gap: 12px;
-    }
-    .blueprint-col-middle {
-      border-left: 1px solid #e5e7eb;
-      border-right: 1px solid #e5e7eb;
-      padding-left: 24px;
-      padding-right: 24px;
-    }
-  }
 </style>
 </head>
 <body>
@@ -398,6 +367,7 @@ let recognition = null;
 let currentTargetInput = null;
 let currentMicButton = null;
 
+// Updated automatically to your correct data export link ending in output=csv
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?output=csv"; 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -417,11 +387,13 @@ async function fetchAndRenderSchedule() {
     const response = await fetch(MEETINGS_CSV_URL + "&t=" + new Date().getTime());
     const data = await response.text();
     
+    // Split into clean array string rows
     const lines = data.split(/\r?\n/);
     const rows = lines.map(row => {
       return row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     }).slice(1);
     
+    // Index mapping securely matching your precise column alignment definitions
     const meetings = rows.map(row => ({
       date: row[1]?.replace(/^"|"$/g, '').trim(),
       startTime: row[2]?.replace(/^"|"$/g, '').trim(),
@@ -442,7 +414,7 @@ async function fetchAndRenderSchedule() {
       const timeRange = m.endTime ? `${m.startTime} - ${m.endTime}` : `${m.startTime}`;
       return `
         <div style="display: flex; align-items: flex-start; gap: 16px; padding: 12px 4px; border-bottom: 1px solid var(--border);">
-          <div style="font-weight: 700; color: var(--sky); font-size: 0.92rem; min-width: 95px; padding-top: 1px; white-space: nowrap;">
+          <div style="font-weight: 700; color: var(--sky); font-size: 0.92rem; min-width: 95px; pt: 1px; white-space: nowrap;">
             ⏰ ${timeRange}
           </div>
           <div style="font-size: 0.92rem; color: var(--text); flex-grow: 1;">
@@ -556,6 +528,7 @@ function toggleDictation(btn, targetId) {
   recognition.start();
 }
 
+// Global scope initialization cleanup
 function stopDictation() {
   if (recognition) {
     recognition.stop();
@@ -710,7 +683,7 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- MODAL: CAREER ENTRY -->
+<!-- OTHER CORE APP MODALS -->
 <div id="careerModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('careerModal')">×</button>
@@ -721,7 +694,7 @@ function viewDiagramImage() {
         <select name="entry.1364379988">
           <option value="" disabled selected>Select a type...</option>
           <option value="Networking">Network</option>
-          <option value="Application">Application</option>
+          <option value="Applicaton">Applicaton</option>
           <option value="Job Fair">Job Fair</option>
           <option value="Recruiter">Recruit</option>
           <option value="E-Mail">E-Mail</option>
@@ -754,7 +727,6 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- MODAL: TRANSPORT ENTRY -->
 <div id="transportModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('transportModal')">×</button>
@@ -790,7 +762,6 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- MODAL: HEALTH ENTRY -->
 <div id="healthModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('healthModal')">×</button>
@@ -833,7 +804,6 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- MODAL: NOTES ENTRY -->
 <div id="notesModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('notesModal')">×</button>
@@ -855,7 +825,6 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- MODAL: DOCUMENTATION RESOURCES -->
 <div id="docsModal" class="modal-overlay">
   <div class="modal-content" style="max-width: 550px;">
     <button class="modal-close" onclick="closeModal('docsModal')">×</button>
@@ -891,7 +860,38 @@ function viewDiagramImage() {
   </div>
 </div>
 
-<!-- BLUEPRINT FOOTER COMPONENT -->
+<style>
+  .blueprint-container {
+    max-width: 760px;
+    margin: 50px auto 0;
+    padding-top: 24px;
+    border-top: 1px dashed #e5e7eb;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  .blueprint-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .blueprint-col {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+  }
+  @media (min-width: 640px) {
+    .blueprint-flex {
+      flex-direction: row;
+      gap: 12px;
+    }
+    .blueprint-col-middle {
+      border-left: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+</style>
+
 <div class="blueprint-container">
   <div class="blueprint-flex">
     <div class="blueprint-col">
