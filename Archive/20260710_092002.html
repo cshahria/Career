@@ -72,7 +72,7 @@
   }
   @media (min-width: 640px) {
     .dashboard-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -89,6 +89,17 @@
   .panel-due {
     background: var(--amber-light);
     border: 1px solid #f9dfb1;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  .panel-cowork {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
     border-radius: 12px;
     padding: 12px;
     display: flex;
@@ -274,7 +285,7 @@
     <div class="panel-meeting">
       <div>
         <div style="font-size:0.65rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING</div>
-        <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">6d 14h</div>
+        <div id="meetingCountdown" style="font-size:1.2rem; color:#ea580c; font-weight:800; margin: 2px 0;">6d 14h</div>
         <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 11:00 – 14:00</div>
       </div>
       <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;">
@@ -286,8 +297,20 @@
     <div class="panel-due">
       <div>
         <div style="font-size:0.65rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
-        <div id="dueCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">3d 20h</div>
+        <div id="dueCountdown" style="font-size:1.2rem; color:#ea580c; font-weight:800; margin: 2px 0;">3d 20h</div>
         <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Mon Jul 13 @ 17:00 Pacific</div>
+      </div>
+      <div style="font-size:0.72rem; color:#78350f; margin-top:4px;">Parameter sync window</div>
+    </div>
+
+    <div class="panel-cowork">
+      <div>
+        <div style="font-size:0.65rem; color:#4b5563; font-weight:800; letter-spacing:0.04em;">💻 CO-WORK ZOOM (OPTIONAL)</div>
+        <div id="coworkCountdown" style="font-size:1.2rem; color:#ea580c; font-weight:800; margin: 2px 0;">0d 12h</div>
+        <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Fri 7/10 · 09:00 - 11:00</div>
+      </div>
+      <div style="font-size:0.72rem; margin-top:4px;">
+        <a href="https://meet.google.com/esq-owuc-ujy" target="_blank" style="color:var(--sky); font-weight:700; text-decoration:none;">Join Google Meet ↗</a>
       </div>
     </div>
   </div>
@@ -327,17 +350,17 @@
         <div class="initials">(TN)</div>
         <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
+      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
+        <div class="avatar">K</div>
+        <div class="name">Kar</div>
+        <div class="initials">(KB)</div>
+        <span class="pill due" style="margin-top:4px;">Pending</span>
+      </div>
       <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
         <div class="avatar">A</div>
         <div class="name">Art</div>
         <div class="initials">(AT)</div>
         <span class="pill progress" style="margin-top:4px;">In Progress</span>
-      </div>
-      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
-        <div class="avatar" style="background:var(--amber-light); color:var(--amber);">K</div>
-        <div class="name">Kar</div>
-        <div class="initials">(KB)</div>
-        <span class="pill due" style="margin-top:4px;">Pending</span>
       </div>
     </div>
 
@@ -397,7 +420,7 @@
   <footer>
     <div>unPTO Accountability · Updated: 2026-07-09 17:09:46 PDT</div>
     <div class="disclaimer-text">
-      By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
+      Public tracker configuration. Do not upload confidential metrics or sensitive personal parameters.
     </div>
   </footer>
 
