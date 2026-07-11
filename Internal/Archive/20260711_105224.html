@@ -81,11 +81,13 @@
   }
   .tile .name{font-weight:700;font-size:1rem;color:#111827;}
 
+  .tile.docs-tile .icon {
+    background: #f3f4f6;
+    color: var(--muted);
+  }
+
   .sheet-pill-container {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+    text-align: center;
     margin-top: 20px;
     margin-bottom: 8px;
   }
@@ -97,27 +99,17 @@
     background: var(--sky-light);
     color: var(--sky);
     border: 1px solid #b9d5f7;
-    padding: 10px 20px;
+    padding: 10px 24px;
     border-radius: 30px;
     font-size: 0.92rem;
     font-weight: 700;
     text-decoration: none;
     transition: background 0.15s ease, transform 0.15s ease;
     box-shadow: 0 2px 6px rgba(43,127,214,0.08);
-    cursor: pointer;
   }
   .sheet-pill:hover {
     background: #dbeafc;
     transform: translateY(-1px);
-  }
-  .sheet-pill.docs-pill {
-    background: #f3f4f6;
-    color: #4b5563;
-    border: 1px solid #d1d5db;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-  }
-  .sheet-pill.docs-pill:hover {
-    background: #e5e7eb;
   }
 
   .modal-overlay {
@@ -150,7 +142,6 @@
     font-size: 1.4rem;
     cursor: pointer;
     color: var(--muted);
-    z-index: 1010;
   }
   .submit-btn {
     display: block;
@@ -220,22 +211,6 @@
     gap: 6px;
     cursor: pointer;
     font-size: 0.9rem;
-  }
-
-  .checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 6px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #374151;
-  }
-  .checkbox-group input {
-    width: auto;
-    cursor: pointer;
   }
 
   .input-with-mic {
@@ -311,13 +286,13 @@
     text-align: center;
     font-size: 0.7rem;
     color: #9ca3af;
-    margin-top: 24px;
+    margin-bottom: 16px;
     line-height: 1.4;
   }
 
   .blueprint-container {
     max-width: 760px;
-    margin: 40px auto 0;
+    margin: 50px auto 0;
     padding-top: 24px;
     border-top: 1px dashed #e5e7eb;
     font-family: system-ui, -apple-system, sans-serif;
@@ -408,7 +383,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    padding-right: 32px; /* Prevent overlap with Close X button */
   }
   .cal-nav-btn {
     background: none;
@@ -455,6 +429,10 @@
     <h1>Unified Tracking Dashboard</h1>
   </header>
 
+  <div class="inline-disclaimer">
+    <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. Downstream pipeline data integrity, connectivity failures, or system configurations are not warranted.
+  </div>
+
   <div class="card">
     <div class="tile-grid">
       <!-- Row 1 -->
@@ -484,9 +462,10 @@
         <div class="name">Meetings</div>
       </div>
 
-      <div class="tile" onclick="openModal('developModal')">
-        <div class="icon">⚙️</div>
-        <div class="name">Develop</div>
+      <!-- Row 3 -->
+      <div class="tile docs-tile" onclick="openModal('docsModal')" style="grid-column: span 1;">
+        <div class="icon">📂</div>
+        <div class="name">Docs</div>
       </div>
     </div>
     
@@ -494,9 +473,6 @@
       <a href="https://docs.google.com/spreadsheets/d/1KV17LNudhMbEEJuz68gGrn7-wl7VbRnQ_2MefTblWQ0/edit?usp=sharing" target="_blank" class="sheet-pill">
         📊 Open Tracking Sheet ↗
       </a>
-      <div class="sheet-pill docs-pill" onclick="openModal('docsModal')">
-        📂 View Docs
-      </div>
     </div>
   </div>
 
@@ -609,7 +585,7 @@ async function fetchAndRenderSchedule() {
     let outputHtml = "";
 
     dayList.forEach(day => {
-      const isExpanded = false;
+      const isExpanded = false; // Uniformly collapse all days on load
       const blockClass = isExpanded ? "day-block expanded" : "day-block";
       const arrowIcon = isExpanded ? "&#9662;" : "&#9656;";
 
@@ -691,20 +667,6 @@ function updatePsiHint(selectElement) {
     'Specialized': 'Target: 73 rear / 68 front'
   };
   hintElement.textContent = targets[selectElement.value] || '';
-}
-
-function handleDroveCarCheckbox(checkbox) {
-  const detailsBox = document.getElementById('transportDetails');
-  const noteText = "Drove car on this day.";
-  if (checkbox.checked) {
-    if (detailsBox.value.trim() === "") {
-      detailsBox.value = noteText;
-    } else if (!detailsBox.value.includes(noteText)) {
-      detailsBox.value += "\n" + noteText;
-    }
-  } else {
-    detailsBox.value = detailsBox.value.replace(noteText, "").replace(/^\s+|\s+$/g, "");
-  }
 }
 
 function updateLbsHint(inputElement) {
@@ -942,12 +904,6 @@ function renderVisualCalendar() {
         </select>		
       </div>
       <div class="form-group">
-        <label class="checkbox-group">
-          <input type="checkbox" id="droveCarCheck" onchange="handleDroveCarCheckbox(this)">
-          Drove car on this day
-        </label>
-      </div>
-      <div class="form-group">
         <label>Odometer</label>
         <input type="number" name="entry.1502509449" placeholder="Current mileage">
       </div>
@@ -959,7 +915,7 @@ function renderVisualCalendar() {
       <div class="form-group">
         <label>Details</label>
         <div class="input-with-mic">
-          <textarea id="transportDetails" name="entry.1590632152" rows="4" placeholder="Add service details, driving notes, etc..."></textarea>
+          <textarea id="transportDetails" name="entry.1590632152" rows="4" placeholder="Add service details, notes, etc..."></textarea>
           <button type="button" class="mic-btn" onclick="toggleDictation(this, 'transportDetails')">🎙️</button>
         </div>
       </div>      
@@ -1033,47 +989,6 @@ function renderVisualCalendar() {
   </div>
 </div>
 
-<!-- MODAL: DEVELOP ENTRY -->
-<div id="developModal" class="modal-overlay">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal('developModal')">×</button>
-    <h3>Log Develop Entry</h3>
-    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSeZmqETCYBE-7sV-TKN97AX5yCgzYJIvF5lqdTtB2U36V_yaQ/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
-      <div class="form-group">
-        <label>Type</label>
-        <select name="entry.1181449836" required>
-          <option value="" disabled selected>Select a type...</option>
-          <option value="New Feature">New Feature</option>
-          <option value="Existing">Existing</option>
-          <option value="Bug">Bug</option>
-          <option value="Issue">Issue</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="entry.1158348035" placeholder="Brief summary of the idea" required>
-      </div>
-      <div class="form-group">
-        <label>Details</label>
-        <div class="input-with-mic">
-          <textarea id="developDetails" name="entry.2018232389" rows="4" placeholder="Detailed logs or general observations..."></textarea>
-          <button type="button" class="mic-btn" onclick="toggleDictation(this, 'developDetails')">🎙️</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Priority</label>
-        <select name="entry.1186066081">
-          <option value="" disabled selected>Select priority...</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-      </div>
-      <button type="submit" class="submit-btn">Save Entry</button>
-    </form>
-  </div>
-</div>
-
 <!-- MODAL: DOCUMENTATION RESOURCES -->
 <div id="docsModal" class="modal-overlay">
   <div class="modal-content" style="max-width: 550px;">
@@ -1103,6 +1018,9 @@ function renderVisualCalendar() {
     </div>
     <div id="diagramImageBox" class="docs-viewer-box">
       <img src="Data_Flow.png" alt="Architecture Flow Layer" style="width:100%; height:auto; border-radius:4px; display:block;">
+    </div>
+    <div class="docs-disclaimer" style="text-align: center; font-size: 0.7rem; color: #9ca3af; margin-top: 16px; line-height: 1.4;">
+      <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.
     </div>
   </div>
 </div>
@@ -1136,10 +1054,6 @@ function renderVisualCalendar() {
         By securing pristine, formatted timestamps and structured raw arrays without manual sheets formatting, this ledger acts as an optimized downstream fuel source for AI code-interpreters to handle automated pattern analysis, anomaly hunting, and instant executive reporting.
       </p>
     </div>
-  </div>
-
-  <div class="inline-disclaimer">
-    <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.
   </div>
 </div>
 
