@@ -362,62 +362,6 @@
   .event-row.passed .time-slot {
     color: #dc2626 !important;
   }
-
-  /* Visual Calendar Reference Styles */
-  .cal-btn {
-    background: #f3f4f6;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 8px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 600;
-    color: #4b5563;
-  }
-  .cal-btn:hover { background: #e5e7eb; }
-  .cal-header-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .cal-nav-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  .cal-nav-btn:hover { background: #f3f4f6; }
-  .cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    text-align: center;
-  }
-  .cal-weekday {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--muted);
-    padding-bottom: 6px;
-  }
-  .cal-day {
-    padding: 8px 4px;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    border: 1px solid transparent;
-  }
-  .cal-day.today {
-    background: var(--sky-light);
-    color: var(--sky);
-    font-weight: 700;
-    border-color: #b9d5f7;
-  }
-  .cal-day.empty { background: none; border: none; }
 </style>
 <script data-goatcounter="https://cshahria.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
@@ -428,10 +372,6 @@
   <header>
     <h1>Unified Tracking Dashboard</h1>
   </header>
-
-  <div class="inline-disclaimer">
-    <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. Downstream pipeline data integrity, connectivity failures, or system configurations are not warranted.
-  </div>
 
   <div class="card">
     <div class="tile-grid">
@@ -477,10 +417,7 @@
   </div>
 
   <div class="card" style="margin-top: 24px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">7-Day Schedule Outlook</h3>
-      <button class="cal-btn" onclick="openCalendarModal()">📅 View Month</button>
-    </div>
+    <h3 style="margin: 0 0 16px 0; font-size: 1.2rem; font-weight: 700; color: #111827;">7-Day Schedule Outlook</h3>
     <div id="dayViewContainer">
       <p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 10px 0;">Loading schedule entries...</p>
     </div>
@@ -495,8 +432,6 @@ let submitted = false;
 let recognition = null;
 let currentTargetInput = null;
 let currentMicButton = null;
-
-let calCurrentDate = new Date();
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 
@@ -752,63 +687,9 @@ function viewDiagramImage() {
   document.getElementById('demoVideoSource').src = '';
   document.getElementById('diagramImageBox').style.display = 'block';
 }
-
-/* Visual Calendar Logic */
-function openCalendarModal() {
-  calCurrentDate = new Date();
-  renderVisualCalendar();
-  openModal('calendarModal');
-}
-
-function changeMonth(direction) {
-  calCurrentDate.setMonth(calCurrentDate.getMonth() + direction);
-  renderVisualCalendar();
-}
-
-function renderVisualCalendar() {
-  const year = calCurrentDate.getFullYear();
-  const month = calCurrentDate.getMonth();
-  
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  document.getElementById("calMonthLabel").textContent = `${monthNames[month]} ${year}`;
-  
-  const firstDayIndex = new Date(year, month, 1).getDay();
-  const totalDays = new Date(year, month + 1, 0).getDate();
-  
-  const today = new Date();
-  
-  let gridHtml = `
-    <div class="cal-weekday">Su</div><div class="cal-weekday">Mo</div><div class="cal-weekday">Tu</div>
-    <div class="cal-weekday">We</div><div class="cal-weekday">Th</div><div class="cal-weekday">Fr</div><div class="cal-weekday">Sa</div>
-  `;
-  
-  for (let i = 0; i < firstDayIndex; i++) {
-    gridHtml += `<div class="cal-day empty"></div>`;
-  }
-  
-  for (let day = 1; day <= totalDays; day++) {
-    const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
-    const dayClass = isToday ? "cal-day today" : "cal-day";
-    gridHtml += `<div class="${dayClass}">${day}</div>`;
-  }
-  
-  document.getElementById("calendarGrid").innerHTML = gridHtml;
-}
 </script>
 
 
-<!-- MODAL: VISUAL CALENDAR REFERENCE -->
-<div id="calendarModal" class="modal-overlay">
-  <div class="modal-content" style="max-width: 360px;">
-    <button class="modal-close" onclick="closeModal('calendarModal')">×</button>
-    <div class="cal-header-nav">
-      <button class="cal-nav-btn" onclick="changeMonth(-1)">&lt;</button>
-      <strong id="calMonthLabel" style="font-size: 1.1rem; color: #111827;"></strong>
-      <button class="cal-nav-btn" onclick="changeMonth(1)">&gt;</button>
-    </div>
-    <div class="cal-grid" id="calendarGrid"></div>
-  </div>
-</div>
 
 <!-- MODAL: MEETINGS QUICK INPUT -->
 <div id="meetingsModal" class="modal-overlay">
@@ -1019,7 +900,7 @@ function renderVisualCalendar() {
     <div id="diagramImageBox" class="docs-viewer-box">
       <img src="Data_Flow.png" alt="Architecture Flow Layer" style="width:100%; height:auto; border-radius:4px; display:block;">
     </div>
-    <div class="docs-disclaimer" style="text-align: center; font-size: 0.7rem; color: #9ca3af; margin-top: 16px; line-height: 1.4;">
+    <div class="docs-disclaimer">
       <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.
     </div>
   </div>
@@ -1056,6 +937,10 @@ function renderVisualCalendar() {
     </div>
   </div>
 </div>
+
+  <div class="inline-disclaimer">
+    <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. Downstream pipeline data integrity, connectivity failures, or system configurations are not warranted.
+  </div>
 
 </body>
 </html>
