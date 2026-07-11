@@ -33,10 +33,10 @@
     margin-top:12px;
   }
   header h1{
-    font-size:1.4rem;
+    font-size:2rem;
     margin:0;
-    color:#4b5563;
-    font-weight: 400;
+    color:#111827;
+    font-weight: 800;
   }
   .card{
     background:var(--card);
@@ -282,11 +282,12 @@
     background: #fafafa;
     display: none;
   }
-  .inline-disclaimer {
-    text-align: center;
-    font-size: 0.7rem;
+  .docs-disclaimer {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 0.76rem;
     color: #9ca3af;
-    margin-bottom: 16px;
     line-height: 1.4;
   }
 
@@ -363,8 +364,6 @@
     color: #dc2626 !important;
   }
 </style>
-<script data-goatcounter="https://cshahria.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -372,10 +371,6 @@
   <header>
     <h1>Unified Tracking Dashboard</h1>
   </header>
-
-  <div class="inline-disclaimer">
-    <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. Downstream pipeline data integrity, connectivity failures, or system configurations are not warranted.
-  </div>
 
   <div class="card">
     <div class="tile-grid">
@@ -524,7 +519,7 @@ async function fetchAndRenderSchedule() {
     let outputHtml = "";
 
     dayList.forEach(day => {
-      const isExpanded = false; // Uniformly collapse all days on load
+      const isExpanded = day.isToday || day.isTomorrow;
       const blockClass = isExpanded ? "day-block expanded" : "day-block";
       const arrowIcon = isExpanded ? "&#9662;" : "&#9656;";
 

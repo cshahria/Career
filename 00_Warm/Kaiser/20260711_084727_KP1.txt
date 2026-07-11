@@ -1,0 +1,413 @@
+Go to the main content section.
+Kaiser Permanente Careers
+Who We Are
+Life & Culture
+Career Areas
+Our Hiring Process
+Talent Network
+Job Search
+
+My Account
+Cyrus Shahriari, you are signed in. |My Account Options|Sign Out
+My Job Page
+Submitting for: IT Consultant IV (Application Licensing & Lifecycle Management) (Job Number: 1428610) 
+Step 11 out of 11 |Print/Email
+Section allowing navigation through the pages of the job submission flowPersonal Information Work Experience Education & Certifications Pre-Employment Questions Pre-Screening Questions Profile Questions Attach A File Race/Gender Veteran Disability Review and Submit 
+Beginning of the main content section.
+Review and Submit
+ 
+The following information will be submitted after you click the Submit button. Where an Edit link is displayed, you can modify the corresponding information. 
+Personal Information |Edit 
+Source Tracking 
+Source Type 
+Careers Website
+ 
+Source 
+Career Section
+ 
+ 
+Full Name 
+Cyrus Shahriari
+ 
+Primary Phone Number 
+6692516243
+ 
+Secondary Phone Number 
+6692516243
+ 
+Email Address 
+cyrus.cti@gmail.com
+ 
+Zip/Postal Code 
+95130
+ 
+Have you served in the U.S. Armed Forces? 
+No
+ 
+Are you bilingual in any of the following languages? 
+I am not bilingual in any of the above languages
+ 
+Social Security Number 
+******
+ 
+What are your pronouns? 
+He/him/his
+ 
+National Provider Identification 
+ 
+Taxonomy 1 
+ 
+Taxonomy 2 
+ 
+Taxonomy 3 
+ 
+Taxonomy 4 
+ 
+Taxonomy 5 
+ 
+Have you ever been sanctioned by or otherwise excluded from participation in Medicare, Medicaid or any other federal or state health care program? 
+No
+ 
+Are you also interested in applying for temporary contract opportunities with approved staffing suppliers who hire and place staff at Kaiser Permanente? 
+Yes
+ 
+Work Experience |Edit 
+ 
+Enter Employer 
+ServiceNow
+ 
+Job Title 
+Product Manager
+ 
+Start Date 
+Jan 2025
+ 
+End Date 
+May 2026
+ 
+Reason For Leaving 
+Position eliminated due to organizational restructuring.
+ 
+Responsibilities and Achievements 
+- Partnered with architecture, engineering, product, risk, and business stakeholders to translate operational requirements into scalable enterprise platform capabilities supporting Audit, Regulatory Change, Policy, and Risk Management.
+- Performed current-state and future-state process analysis, identifying capability gaps and recommending AI-enabled operational improvements that increased efficiency by 30%.
+- Provided operational support working closely with the Incident Command Operations Center L1, L2, L3.
+- Applied AI and Generative AI technologies across the full BSA lifecycle including problem framing, process break down, requirements gathering, and acceptance criteria generation as internal "Customer Zero" achieving a 30%
+improvement in operational efficiency for a multi-million dollar product portfolio.
+- Developed business requirements, functional specifications, user stories, epics, and acceptance criteria while supporting solution design, backlog prioritization, and Agile delivery across multiple enterprise products.
+- Served as primary communication lead for platform issues, conducting root cause analysis and delivering clear, data-driven insights and dashboards
+to executive and cross-functional audiences.
+- Facilitated client and stakeholder workshops to capture functional and non-functional requirements, ensuring delivered solutions aligned with enterprise business objectives.
+- Partnered with cross-functional teams to standardize operational
+processes, improve governance visibility, and support consistent enterprise decision making across multiple technology domains.
+- Supported solution design sessions with architects and engineering teams translating business requirements into scalable enterprise capabilities.
+ 
+Enter Employer 
+Cypress HCM at ServiceNow
+ 
+Job Title 
+Business Systems Analyst
+ 
+Start Date 
+May 2023
+ 
+End Date 
+Jan 2025
+ 
+Reason For Leaving 
+Accepted full-time position with ServiceNow.
+ 
+Responsibilities and Achievements 
+- Established governance standards and operational processes for the Occupational Health & Safety platform, improving consistency across enterprise deployments.
+- Owned and optimized the ServiceNow Visitor Management application across 20+ global locations, directing mobile version upgrades, hardware integration, and multi-region system deployments.
+- Managed the inaugural deployment of the Occupational Health & Safety application module, establishing functional specifications, operational metrics, and enterprise data governance.
+- Reduced open incidents and system service requests by 40% within a three-month period through systematic backlog prioritization, Agile methodologies, and proactive stakeholder engagement.
+ 
+Enter Employer 
+First Republic Bank
+ 
+Job Title 
+Sr. IT Infrastructure Change Analyst
+ 
+Start Date 
+May 2020
+ 
+End Date 
+May 2023
+ 
+Reason For Leaving 
+Accepted a career advancement opportunity with Cypress HCM at ServiceNow.
+ 
+Responsibilities and Achievements 
+- Assessed 1,200+ monthly change records, applying ITIL change management principles to mitigate organizational risk and reduce emergency/expedited changes by 50%.
+- Increased standard, pre-approved automated changes by 15% through
+workflow automation initiatives and targeted reporting systems.
+- Led bi-weekly Change Advisory Board (CAB) meetings involving infrastructure, application, security, and architecture stakeholders to evaluate implementation risk and support enterprise operational stability.
+- Investigated failed implementation records, delivering detailed root cause analysis reports and technical remediation strategies to minimize repeat operational incidents.
+ 
+Enter Employer 
+Randstad at Lumentum
+ 
+Job Title 
+ITIL Process Manager
+ 
+Start Date 
+Jan 2020
+ 
+End Date 
+Jul 2020
+ 
+Reason For Leaving 
+Accepted a career advancement opportunity with First Republic Bank.
+ 
+Responsibilities and Achievements 
+- Led ITIL system process development, oversight, and configuration tracking with a primary focus on Incident, Change, Configuration, and Problem Management across three global regions.
+- Designed and implemented the Configuration Management Database (CMDB) on
+the ServiceNow CSDM model, successfully aiding the corporate platform
+migration from Jira Service Desk to ServiceNow.
+ 
+Enter Employer 
+Park Computer Systems at AbbVie
+ 
+Job Title 
+ServiceNow Business Analyst
+ 
+Start Date 
+Aug 2018
+ 
+End Date 
+Dec 2019
+ 
+Reason For Leaving 
+Accepted a career advancement opportunity with Park Computer Systems at AbbVie.
+ 
+Responsibilities and Achievements 
+- Delivered end-to-end business systems analysis for a global
+pharmaceutical organization, eliciting and documenting regulatory
+requirements for platform implementations in a compliance-driven
+environment.
+- Mapped complex As-Is/To-Be HR process flows and authored functional specs
+to support a validated Workday-to-ServiceNow system integration, serving
+as the core liaison between business teams and technical engineers.
+ 
+Enter Employer 
+Rose International at Kaiser Permanente
+ 
+Job Title 
+Business Systems Analyst
+ 
+Start Date 
+Nov 2017
+ 
+End Date 
+Aug 2018
+ 
+Reason For Leaving 
+Accepted a Business Systems Analyst opportunity with AbbVie via Park Computer Systems.
+ 
+Responsibilities and Achievements 
+- Supported enterprise Software Asset Management (SAM) and IT Asset Management (ITAM) initiatives through business analysis, process optimization, software licensing governance, and enterprise reporting.
+- Designed enterprise software licensing workflows and reporting dashboards supporting operational governance, compliance visibility, and audit
+readiness.
+- Member of the IT Asset Management (ITAM) and Software Asset Management (SAM) project (Matrix42 Suite).
+ 
+Enter Employer 
+TEKsystems, Inc.
+ 
+Job Title 
+Business / Data Analyst
+ 
+Start Date 
+Apr 2016
+ 
+End Date 
+Nov 2017
+ 
+Reason For Leaving 
+Accepted a Business Systems Analyst opportunity with Park Computer Systems at Kaiser Permanente.
+ 
+Responsibilities and Achievements 
+- Supported ServiceNow integration projects at a global telecom provider, gathering business requirements and capturing functional specifications across multiple teams.
+- Validated and cleansed enterprise data sets, identified system inefficiencies, and recommended process improvements to management.
+ 
+Education & Certifications |Edit 
+ 
+Enter Institution 
+Menlo College
+ 
+Enter Program 
+Management Information Systems
+ 
+Degree Earned at this Institution 
+bachelor's degree (16 years)
+ 
+ 
+Enter Certification 
+ITIL v3 Certified
+ 
+Number/ID 
+020721
+ 
+Issue Date 
+ 
+Expiration Date 
+ 
+Issuing Organization 
+APM Group
+ 
+Enter Certification 
+Microsoft Certified Technology Specialist (MCTS)
+ 
+Number/ID 
+ 
+Issue Date 
+ 
+Expiration Date 
+ 
+Issuing Organization 
+Microsoft
+ 
+Enter Certification 
+CERT Program Manager
+ 
+Number/ID 
+1.4 IACET CEU
+ 
+Issue Date 
+ 
+Expiration Date 
+ 
+Issuing Organization 
+Emergency Management Institute (FEMA)
+ 
+Enter Certification 
+CERT Train-the-Trainer
+ 
+Number/ID 
+1.9 IACET CEU
+ 
+Issue Date 
+ 
+Expiration Date 
+ 
+Issuing Organization 
+Emergency Management Institute (FEMA)
+ 
+ 
+Volunteer experience, unpaid internships, or other unpaid experience in the last 10 years, including name of the organization, dates, and duties. 
+Volunteer - Fan Operations | FIFA World Cup 2026 | Oct 2025 - Jul 2026
+- Supported venue logistics, crowd flow, and fan experience at the Bay Area Stadium.
+- Managed mobility lines and broadcasted safety announcements in English and German.
+
+CERT Volunteer | City of San Jose | Jun 2019 - May 2023
+- Served with the District 1 Community Emergency Response Team under the Office of Emergency Management.
+- Contributed to regional disaster readiness and neighborhood emergency planning.
+
+Carpool Beta Tester | Waze | Sep 2016 - Mar 2019
+- Partnered with the US Masters team to provide feedback on application features.
+ 
+Education in progress or education that did not result in a degree or diploma. Include name of institution, area of study, and number of completed credit hours. 
+University of Freiburg
+Area of Study: Medical Program (Human Medicine)
+Completed: 4 semesters / 2 academic years (2004 - 2006)
+ 
+Pre-Employment Questions |Edit 
+ 
+Are you 18 years or older? 
+Yes
+ 
+Do you now require employer sponsorship or completion of any immigration-related forms to obtain or maintain US work authorization? For example: H-1B, TN, E-3, O-1, permanent residency (any green card related sponsorship documentation), I-983 F-1 STEM OPT training plan. 
+No
+ 
+Principles of Responsibility:
+
+Employees of Kaiser Permanente are expected to model and reinforce ethical behavior in accordance with the Principles of Responsibility (Kaiser Permanente’s code of conduct). This includes maintaining the privacy and confidentiality of information; protecting the assets of the organization; acting with ethics and integrity; conducting business with honesty; following through on commitments; admitting mistakes and showing consistency in words and actions; supporting compliance initiatives and reporting noncompliance; and adhering to applicable federal, state, and local laws and regulations, accreditation and licensure requirements (if applicable), and Kaiser Permanente’s policies, guidelines, and procedures.
+
+Have you read the above statement and understand that agreement to abide by the Principles of Responsibility is a condition of employment? 
+Yes
+ 
+Will you in the future potentially require employer sponsorship or completion of any immigration-related forms to obtain or maintain US work authorization? For example: H-1B, TN, E-3, O-1, permanent residency (any green card related documentation), I-983 F-1 STEM OPT training plan. 
+No
+ 
+Pre-Screening Questions |Edit 
+ 
+How many years of experience do you have in software or system testing across multiple IT environments? 
+15 years or more
+ 
+How many years of experience do you have with software or application development? 
+15 years or more
+ 
+Do you have a bachelor's degree or higher in business administration, computer science, CIS or related field AND a minimum six (6) years of experience in IT consulting, business analysis, or a related field OR, in lieu of the degree requirement, do you have a minimum nine (9) years of experience in IT consulting, business analysis, or a related field? 
+Yes
+ 
+Profile Questions |Edit 
+Questionnaire 
+Have you ever been employed by any entity within the Kaiser Permanente organization? 
+No
+ 
+If "Yes", please indicate when, where, positions held, name used, and name of facility or organization. If "No", enter N/A in the text box below. 
+N/A
+ 
+If “Yes,” did you retire from Kaiser Permanente? 
+No, I have not retired from Kaiser Permanente.
+ 
+Do you have any relatives who are currently employed by any entity within the Kaiser Permanente organization? 
+No
+ 
+If "Yes", please indicate your relative's name, relationship, department, and location. If "No", enter N/A in the text box below. 
+N/A
+ 
+Attach A File |Edit 
+ 
+Relevant Files 	Resume 	File Name 	Date 	Comments 
+Yes 	Yes 	Cyrus_Shahriari_IT_Consultant.docx	7/10/26 	This file includes a resume from which basic candidate information has been extracted. 
+Yes 	No 	2026_Cover_Letter.pdf	7/10/26 	Cover Letter 
+Race/Gender |Edit 
+ 
+Race 
+******
+ 
+Gender 
+******
+ 
+Sexual Orientation 
+******
+ 
+Gender Identity 
+******
+ 
+ 
+Veteran |Edit 
+Please provide the information requested in the fields below regarding veteran status. 
+Diversity - Veteran Submit 
+No, I did NOT serve in the military.
+ 
+Disability |Edit 
+Form 
+Disability 
+*****
+ 
+Today's Date 
+*****
+ 
+Your Name 
+*****
+ 
+ 
+Connect With Us
+Visit us on Twitter
+Visit us on Glassdoor
+Visit us on LinkedIn
+Visit us on YouTube
+Visit us on Facebook
+
+©2021 Kaiser Permanente
+
+Accommodation Info
+Terms & Conditions
+Privacy Practices
+EEO Statement
+Technical Information
+Fraud Notice
+Sitemap
+Contact Web Manager
