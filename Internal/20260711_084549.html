@@ -322,46 +322,16 @@
   }
 
   .day-block {
-    margin-bottom: 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
+    margin-bottom: 20px;
   }
   .day-header {
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--text);
     background: #edf2f0;
-    padding: 10px 14px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-  }
-  .day-header:hover {
-    background: #e2eae6;
-  }
-  .day-content {
-    display: none;
-    padding: 4px 0;
-    background: #ffffff;
-  }
-  .day-block.expanded .day-content {
-    display: block;
-  }
-  .day-header .arrow {
-    font-size: 0.8rem;
-    color: var(--muted);
-    transition: transform 0.15s ease;
-  }
-  .event-row.passed {
-    color: #dc2626 !important;
-    text-decoration: line-through;
-    opacity: 0.7;
-  }
-  .event-row.passed .time-slot {
-    color: #dc2626 !important;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
   }
 </style>
 </head>
@@ -438,17 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
 });
 
-function toggleDay(element) {
-  const block = element.parentElement;
-  block.classList.toggle('expanded');
-  const arrow = element.querySelector('.arrow');
-  if (block.classList.contains('expanded')) {
-    arrow.innerHTML = '&#9662;';
-  } else {
-    arrow.innerHTML = '&#9656;';
-  }
-}
-
+// Robust cleanup: Handles "9:15:00 AM", "09:15", "2:00 PM", "14:45" -> strict "0915" or "1445"
 function cleanTo24h(timeStr) {
   if (!timeStr) return "";
   
@@ -456,6 +416,7 @@ function cleanTo24h(timeStr) {
   const isPM = str.includes("PM");
   const isAM = str.includes("AM");
   
+  // Remove AM/PM and split by colons
   let clean = str.replace(/(AM|PM)/g, '').trim();
   let parts = clean.split(':');
   
@@ -466,6 +427,7 @@ function cleanTo24h(timeStr) {
     if (isPM && hh < 12) hh += 12;
     if (isAM && hh === 12) hh = 0;
     
+    // Format to strict HHMM layout
     return hh.toString().padStart(2, '0') + mm.toString().padStart(2, '0');
   }
   
@@ -477,22 +439,12 @@ async function fetchAndRenderSchedule() {
   const dayList = [];
   const options = { weekday: 'long', month: 'short', day: 'numeric' };
   
-  const now = new Date();
-  const currentHourMinStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
-
   for (let i = 0; i < 7; i++) {
     const d = new Date();
     d.setDate(d.getDate() + i);
     const key = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
     const displayLabel = d.toLocaleDateString('en-US', options);
-    dayList.push({ 
-      csvKey: key, 
-      label: displayLabel, 
-      meetings: [],
-      isToday: i === 0,
-      isTomorrow: i === 1,
-      isPastDay: i < 0
-    });
+    dayList.push({ csvKey: key, label: displayLabel, meetings: [] });
   }
 
   try {
@@ -519,17 +471,13 @@ async function fetchAndRenderSchedule() {
     let outputHtml = "";
 
     dayList.forEach(day => {
-      const isExpanded = day.isToday || day.isTomorrow;
-      const blockClass = isExpanded ? "day-block expanded" : "day-block";
-      const arrowIcon = isExpanded ? "&#9662;" : "&#9656;";
-
-      outputHtml += `<div class="${blockClass}">`;
-      outputHtml += `<div class="day-header" onclick="toggleDay(this)"><span>${day.label}</span><span class="arrow">${arrowIcon}</span></div>`;
-      outputHtml += `<div class="day-content">`;
+      outputHtml += `<div class="day-block">`;
+      outputHtml += `<div class="day-header">${day.label}</div>`;
 
       if (day.meetings.length === 0) {
-        outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 12px 14px;">No meetings scheduled.</p>`;
+        outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 6px 12px;">No meetings scheduled.</p>`;
       } else {
+        // Numeric sorting works seamlessly now that times are pure strings like "0915"
         day.meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
         
         day.meetings.forEach(m => {
@@ -537,28 +485,17 @@ async function fetchAndRenderSchedule() {
           const titleText = m.title ? `<strong>${m.title}</strong>` : `<em>No Title</em>`;
           const detailsText = m.details ? ` — ${m.details}` : "";
 
-          let isPassed = false;
-          if (day.isPastDay) {
-            isPassed = true;
-          } else if (day.isToday) {
-            if (m.startTime && m.startTime < currentHourMinStr) {
-              isPassed = true;
-            }
-          }
-
-          const rowClass = isPassed ? "event-row passed" : "event-row";
-
           outputHtml += `
-            <div class="${rowClass}" style="display: flex; align-items: flex-start; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--border);">
-              <div class="time-slot" style="font-weight: 700; color: var(--sky); font-size: 0.9rem; min-width: 85px; white-space: nowrap;">
+            <div style="display: flex; align-items: flex-start; gap: 14px; padding: 8px 12px; border-bottom: 1px solid var(--border);">
+              <div style="font-weight: 700; color: var(--sky); font-size: 0.9rem; min-width: 85px; white-space: nowrap;">
                 ${timeRange}
               </div>
-              <div style="font-size: 0.9rem; flex-grow: 1; white-space: pre-wrap;">${titleText}${detailsText}</div>
+              <div style="font-size: 0.9rem; color: var(--text); flex-grow: 1; white-space: pre-wrap;">${titleText}${detailsText}</div>
             </div>
           `;
         });
       }
-      outputHtml += `</div></div>`;
+      outputHtml += `</div>`;
     });
 
     container.innerHTML = outputHtml;

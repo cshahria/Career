@@ -1,0 +1,80 @@
+Enterprise Architecture Collaboration Business Process Analysis Current-State/Future-State Modeling Operational Standards Architecture Governance Product Ownership Business Case Development Requirements Lifecycle Operational Excellence
+
+
+CYRUS SHAHRIARI
+4644 Mossbrook Circle, San Jose, CA | 669-251-6243
+cyrus.shahriari@gmail.com | linkedin.com/in/cyrusshahriari
+
+BUSINESS SYSTEMS ANALYST • PRODUCT MANAGEMENT • ENTERPRISE GOVERNANCE • AI ENABLEMENT
+Results-driven Business Systems Analyst and Product Manager with 10+ years of experience translating business strategy into scalable enterprise technology solutions across healthcare, financial services, and SaaS environments. Experienced partnering with Enterprise Architecture, Product, Engineering, and Operations teams to define requirements, improve operational standards, reduce technology risk, and deliver enterprise-wide process improvements through Agile methodologies and AI-enabled workflows.
+ 
+CORE COMPETENCIES
+Business Analysis: 
+Enterprise Architecture Collaboration, Business Process Analysis, Current-State/Future-State Modeling, Operational Standards, Architecture Governance, Product Ownership, Business Case Development, Requirements Lifecycle, Operational Excellence,
+Requirements Lifecycle Management, BRD & Functional Specification Authoring, User Story & Epic Generation, Acceptance Criteria Drafting, Backlog Management, Gap & Impact Analysis, As-Is/To-Be Process Mapping, User Acceptance Testing (UAT).
+AI-Enabled Product Development: Google Gemini, ChatGPT, Microsoft Copilot, Claude Enterprise, Agentic AI.
+Enterprise Applications & Tools: ServiceNow, Jira, Confluence, Workday, PowerShell, Linux, Windows, SharePoint, AD.
+Methodologies & Leadership: Agile/Scrum, ITIL Framework, Cross-Functional Team Collaboration, Stakeholder Engagement, Change Management, Training & End-User Support.
+PROFESSIONAL EXPERIENCE
+
+SERVICENOW, Santa Clara, CA January 2025 - May 2026
+Cloud-based software platform that automates digital business workflows and powers enterprise operations. 
+Product Manager
+§	Partnered with architecture, engineering, product, risk, and business stakeholders to translate operational requirements into scalable enterprise platform capabilities supporting Audit, Regulatory Change, Policy, and Risk Management.
+§	Performed current-state and future-state process analysis, identifying capability gaps and recommending AI-enabled operational improvements that increased efficiency by 30%.
+§	Provided operational support working closely with the Incident Command Operations Center L1, L2, L3.
+§	Applied AI and Generative AI technologies across the full BSA lifecycle—including problem framing, process break down, requirements gathering, and acceptance criteria generation—as internal ‘Customer Zero’ achieving a 30% improvement in operational efficiency for a multi-million dollar product portfolio.
+§	Developed business requirements, functional specifications, user stories, epics, and acceptance criteria while supporting solution design, backlog prioritization, and Agile delivery across multiple enterprise products.
+§	Served as primary communication lead for platform issues, conducting root cause analysis and delivering clear, data-driven insights and dashboards to executive and cross-functional audiences.
+§	Facilitated client and stakeholder workshops to capture functional and non-functional requirements, ensuring delivered solutions aligned with enterprise business objectives.
+§	Partnered with cross-functional teams to standardize operational processes, improve governance visibility, and support consistent enterprise decision making across multiple technology domains.
+§	Supported solution design sessions with architects and engineering teams translating business requirements into scalable enterprise capabilities.
+ 
+CYPRESS HCM AT SERVICENOW, Santa Clara, CA May 2023 - January 2025
+Cloud-based software platform that automates digital business workflows and powers enterprise operations. 
+Business Systems Analyst
+§	Established governance standards and operational processes for the Occupational Health & Safety platform, improving consistency across enterprise deployments.
+§	Owned and optimized the ServiceNow Visitor Management application across 20+ global locations, directing mobile version upgrades, hardware integration, and multi-region system deployments.
+§	Managed the inaugural deployment of the Occupational Health & Safety application module, establishing functional specifications, operational metrics, and enterprise data governance.
+§	Reduced open incidents and system service requests by 40% within a three-month period through systematic backlog prioritization, Agile methodologies, and proactive stakeholder engagement.
+ 
+FIRST REPUBLIC BANK, San Francisco, CA May 2020 - May 2023
+Commercial bank and wealth management firm catering to high-net-worth individuals. 
+Sr. IT Infrastructure Change Analyst
+§	Assessed 1,200+ monthly change records, applying ITIL change management principles to mitigate organizational risk and reduce emergency/expedited changes by 50%.
+§	Increased standard, pre-approved automated changes by 15% through workflow automation initiatives and targeted reporting systems.
+§	Led bi-weekly Change Advisory Board (CAB) meetings involving infrastructure, application, security, and architecture stakeholders to evaluate implementation risk and support enterprise operational stability.
+§	Investigated failed implementation records, delivering detailed root cause analysis reports and technical remediation strategies to minimize repeat operational incidents.
+
+LUMENTUM, San Jose, CA (Contract with Randstad)  January 2020 - July 2020
+Leading provider of optical, photonic, and commercial laser products 
+ITIL Process Manager
+§	Led ITIL system process development, oversight, and configuration tracking with a primary focus on Incident, Change, Configuration, and Problem Management across three global regions.
+§	Designed and implemented the Configuration Management Database (CMDB) on the ServiceNow CSDM model, successfully aiding the corporate platform migration from Jira Service Desk to ServiceNow.
+ 
+ABBVIE, Sunnyvale, CA (Contract with Park Computer Systems)  August 2018 - December 2019
+Global biopharmaceutical company discovering and delivering innovative medicines.
+ServiceNow Business Analyst
+§	Delivered end-to-end business systems analysis for a global pharmaceutical organization, eliciting and documenting regulatory requirements for platform implementations in a compliance-driven environment.
+§	Mapped complex As-Is/To-Be HR process flows and authored functional specs to support a validated Workday-to-ServiceNow system integration, serving as the core liaison between business teams and technical engineers.
+ 
+KAISER PERMANENTE, Pleasanton, CA (Contract with Rose International)  November 2017 - August 2018
+One of the largest not-for-profit health plans in the U.S., operating on an integrated care model.
+Business Systems Analyst
+§	Supported enterprise Software Asset Management (SAM) and IT Asset Management (ITAM) initiatives through business analysis, process optimization, software licensing governance, and enterprise reporting.
+§	Designed enterprise software licensing workflows and reporting dashboards supporting operational governance, compliance visibility, and audit readiness.
+§	Member of the IT Asset Management (ITAM) and Software Asset Management (SAM) project (Matrix42 Suite)
+ 
+DIMENSION DATA, Santa Clara, CA April 2016 - November 2017
+ITSM Data / Business Analyst
+ 
+COOPER TECHNOLOGIES, Santa Cruz, CA June 2015 - March 2016
+IT Service Consultant
+ 
+HEALTH SHARED SERVICES BC, Vancouver, Canada January 2013 - June 2014
+Sr. Coordinator / Business Analyst, January 2013 - June 2014
+ 
+EDUCATION
+Management, Information Systems, Menlo College, Atherton, CA
+ITIL v3 Certified - APM Group Foundation | Microsoft Certified Technology Specialist (MCTS)
+FEMA CERT Train-the-Trainer / Program Manager | Bilingual: English (Native) | German (Fluent)

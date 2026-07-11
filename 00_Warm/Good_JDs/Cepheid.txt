@@ -1,0 +1,380 @@
+Shekhar Agrawal: 	Director, Global IT ops ( Infra and Ops)
+Manish Thakkar: 	Sr Manager, IAM and PKI 
+Jason Escano: 		Sr. Manager IT Client Services 
+
+
+Shekhar Agrawal: Director, Global IT ops ( Infra and Ops)
+Manish Thakkar: Sr Manager, IAM and PKI 
+Jason Escano: Sr. Manager IT Client Services 
+
+
+https://www.linkedin.com/in/shekhar-agrawal/
+Director, IT Infrastructure and Operations | NetDevOps | Cloud Technologies 
+Experience
+
+
+Cepheid
+Full-time · 5 yrs 11 mos
+Sunnyvale, California, United States
+Director, Global IT Infrastructure and Operations
+Jan 2025 - Present · 1 yr 7 mos
+Senior Manager, NetDevOps
+Sep 2020 - Jan 2025 · 4 yrs 5 mos
+Transformation from project focused team to product focused team. Implementation of SASE and network automation. Deployed monitoring as a product for infrastructure and operations domain. Lead data center migration to aws cloud.
+Skills: Routing, Internet Protocol (IP), +5 skills
+
+
+
+AWS Cloud Network Engineer
+Amazon Web Services (AWS) · Full-time
+Nov 2018 - Sep 2020 · 1 yr 11 mos
+Seattle, Washington
+Routing, Internet Protocol (IP) and +5 skills
+
+
+
+IT Engineer
+MediaTek
+Jul 2016 - Nov 2018 · 2 yrs 5 mos
+San Diego County, California, United States
+•Customer and user technical troubleshooting, system and network administration and support via email, chat, phone.Linux (Ubuntu and Redhat) and shell scripting
+•Developed a Python program to monitor computing server’s resources and LSF job status.Created dashboard to analyze and turn on/off 180 virtual and/or physical servers and created API’s to monitor the servers
+•LDAP Authentication script for internal users in Python. Automate emails from various servers in case of specific needs
+•Used various tools for DevOps practices (GIT, JIRA, Jenkins and Chef). Flask Web Application for HR to facilitate the automation of dinner order for internal employees
+•Perform automatic power on/off computing servers based on jobs requirement (in Python) saving 40% of computing resources for the company
+•Troubleshooting (VPN, Switches, Routers, Firewall, WebEx, slow connections, Active directory), configuration and maintenance of Switches (Cisco 2960, 3850), routers, IP phones, SharePoint
+•Monitored network (NOC) through PRTG and Netflow. Network optimization and throughput monitoring using SCP and subnet wise testing. Configured Viptela vEdge device to bring new WAN solution at various sites
+•Worked with vendors to triage and troubleshoot services and applications as and when required. Configured and maintained various servers and services such as DNS, DHCP, Access Control Lists, etc
+•Set up the network (Server room) for a new office at Irvine. Tested the network and fail-over functionality at new site
+•Device (Fortinet/Palo Alto/Cisco/Riverbed/Aruba/Meraki) firmware upgrades for US and Europe regions and responsible to keep it up to date. Created and managed ftp/tftp servers
+•Monitored incidents and events on SIEM and performed further analysis and triage wherever required. Performed regular Vulnerability Assessments on network elements and coordinated patches across network.Provided security awareness to users, created phishing email exercises
+Routing, Internet Protocol (IP) and +5 skills
+
+
+Research Intern
+Toyota ITC
+Sep 2015 - May 2016 · 9 mos
+Mountain View
+•	Windows, Linux and network Administration and responsible to maintain server room
+•	Configured Cisco Switches and Routers. Managed the network devices for the office
+•	Managed SIEM and served as point of contact for any network/Security issue for the site
+•	Developed communication using sockets between Unity and Dymola by writing scripts in C# based on UDP protocol. Developed a JSON parser to facilitate internetworking and created new protocol to receive data from Dymola
+•	Created models in Simulink and Dymola to test and validate Virtual Vehicle dynamics
+ •	Exchange of data carried out by using Perforce and Github
+•	Managed interactions with Vanderbilt University and coordinated with various Professors to monitor implementation progress and deliverables
+Internet Protocol (IP)
+
+
+
+Student Assistant
+San Jose State University
+Sep 2015 - May 2016 · 9 mos
+San Jose
+Graded various exams of students for different subjects and managed the day to day interactions and workshops for students
+
+
+
+Intern
+L&T Technology Services Limited
+Jan 2014 - Apr 2014 · 4 mos
+India
+•Developed project on “monitoring real time testing parameters including intervention (response) via GSM module’’, worked on MCCB and test bench.
+•Made use of LabVIEW software to create an alternate to test MCCB’s.
+•Field experience of the vast L&T facility and used a variety of equipment.
+
+
+
+Internship
+Vodafone India
+Jun 2013 - Jul 2013 · 2 mos
+India
+•Extensive field experience in Vodafone network and systems.
+•Detailed exposure and learning in field of optical fibers and associated various components such as DWDM, SDH etc. which form the backbone of a network.
+
+
+
+Intern
+Matrix Comsec
+Jun 2012 - Jul 2012 · 2 mos
+India
+•Exposure to and learning in different types of devices in the field of networking and communication, especially all types of modems.
+•Introduction to Matrix product range, mostly all types of communication modems.
+•Basic part was the exposure to how modems are formed.
+
+
+
+Jason Escano
+· 2nd
+Senior Manager, IT Client Services at Cepheid
+San Francisco Bay Area
+·
+Contact info
+
+Experience
+
+Cepheid
+14 yrs 4 mos
+Senior Manager, IT Client Services
+Full-time
+Mar 2021 - Present · 5 yrs 5 mos
+Sunnyvale, California, United States
+IT Manager
+Aug 2016 - Mar 2021 · 4 yrs 8 mos
+Sunnyvale
+•	 Manage IT Client Services staff, including scheduling work assignments, expectations, reporting on team performance and project tracking.
+
+•	 Support department financial management, including IT budgeting, purchasing and vendor management. Develop business case justifications and cost/benefits for IT spending and initiatives.
+
+•	Ensure team resolves and escalates user problems, maintaining a high quality of service through calls, e-mail and ticketing system.
+
+•	Collaborate with partner teams to achieve shared objectives, provide strategic insight and lead continuous improvement efforts in customer service and operations.
+
+•	Drive results by tracking operational metrics, identify process improvement opportunities and deliver on strategic initiatives.
+
+ •	Communicate procedures and guidelines to team to improve efficiency and enforce IT policies.
+… more
+IT Support Lead
+Apr 2012 - Jul 2016 · 4 yrs 4 mos
+Sunnyvale, CA
+
+
+
+Yahoo
+5 yrs 9 mos
+Technical Services Project Lead
+Dec 2011 - Apr 2012 · 5 mos
+Santa Clara, Ca.
+•  Support Domain and Exchange migrations.
+
+•  Provided Technical Support for Corp IT Projects.
+
+•  Led QA testing for pilot programs (PC & MAC)
+
+•  Provided Global Tier 2 Support - Problem Management and Root Cause Analysis
+
+•  Developed and maintained technical resources to assist with projects and company goals
+
+•  Maintained the integrity of established IT security polices, practices and procedures.
+
+•  Evaluated new IT technologies, methodologies to ensure that computing Infrastructure met the current and future needs for the IT organization.
+… more
+Escalations Tier II Support Technician
+Jan 2009 - Dec 2011 · 3 yrs
+Sunnvyale, Ca
+•  Provide Tier II support for all issues related to Windows 7, XP, Mac OS X, Linux.
+
+•  Microsoft Exchange 2003/2007 systems administration. Add, move, create and edit all exchange mailboxes on both platforms.
+
+ •  Troubleshoot all Exchange issues involving Outlook, Entourage, Mac Mail, Thunderbird, PDA devices. Provide backup restore support for lost e-mail and corrupt mailboxes
+
+•  Took over key responsibilities from Tier III group including Exchange migrations, maintenance and permissions validation for existing corporate shares, validating all Finance, Legal DNS share access, internal distribution list access and ownership
+
+•  Windows Server 2003: Manage file shares/permissions. Create, modify and add shares on all Windows File Servers, globally.  
+
+ •  Assist the Global Service Desk with proper training and documentation.
+
+•  Successfully migrated over 3000 employees from Americas, APAC  
+ & EMEA regions to Microsoft’s adCenter platform & Extranet tools while remaining SOX compliant. Created documentation and trained the Global Service desk for supporting Microsoft tools.
+
+ •  Managed the gathering and resolution of bugs for global Windows 7 OS and Domain re-build
+
+•  Served as a liaison between the Network Operations Center and Global Service Desk to report incidents, alerts & updates that impact the business.
+… more
+IT Support Technician
+Aug 2006 - Dec 2008 · 2 yrs 5 mos
+Sunnyvale, CA
+• Handle all software requests, data backup & retrieval, hardware drive reimaging, OS upgrades. Virus, spyware & malware removal, VM configuration, RSA (VPN) troubleshooting.
+
+• Troubleshoot/Configure all Hardware issues on HP Desktops/Lenovo Laptops; this includes all HD (IDE, SATA), Memory, Optical Drive, Motherboard, configuration/upgrades/shell-swaps
+
+• Networking: Troubleshoot all client side networking issues (DHCP, TCP/IP). Ability to troubleshoot issues from client side, to network port on switches.
+
+• Printer Troubleshooting: IP Configuration, printer mapping, Hardware Troubleshooting.
+
+• Deploy all peripheral upgrades: LCD monitors (setup dual LCD display), KVM, Mice, Keyboard, Firewire, VGA/DVI adapters, Hub integration (configuring all attached systems to same Subnet)
+… more
+
+
+
+Technical Support Specialist
+United Site Services
+Sep 2002 - Jul 2006 · 3 yrs 11 mos
+San Jose, CA
+• Provide employee support and technical issue resolution via e-mail, phone and in-person
+
+• Set up equipment for employee use, performing proper installation of cable, phones, printers and appropriate software
+
+• Trained employees on new applications, configurations, and procedures
+
+• Configure and maintain intranet applications
+
+• Perform creation of new accounts using company provide software tools.
+
+ • Automate installation of desktop operating systems and applications.
+
+• Refer major hardware/software problems or defective products to vendors for service.
+
+• Evaluate software or hardware and recommend improvements/upgrades to management.
+… more
+
+
+
+Remote Access Technician
+SGI
+Aug 2000 - Feb 2002 · 1 yr 7 mos
+Mountain View, CA
+• Maintained and supported day-to-day operations of Safeword services, account setup & trouble-shooting
+
+• Evaluated customers needs for remote network connectivity, determined the most efficient, cost-effective Remote Access solutions.
+
+• Deployed Virtual Private Network technology from BETA to operational use over the Internet through SGI firewalls to intranet network
+
+• Configured Cisco VPN 3000 Hardware/Software to users specifications
+
+• Analyzed and updated Remote Access Class C IP networks for host requirements and scalability
+
+• Tracked and de-activated terminated employees remote access services using company specific tools
+
+• Provisioned DSL services for users, tracked & followed up on all orders & installations
+
+• Coordinated ILEC commitment dates & vendor meets and local phone companies to meet end user’s needs
+
+• Provided DSL order, installation, disconnect, and credit reports to management
+
+• Maintained & updated internal Remote Access admin pages
+… more
+
+Licenses & certifications (18)
+
+
+Trust & Inspire
+FranklinCovey
+Issued Mar 2026
+Credential ID 31068ee6-144b-4f80-9d4b-29e017ef52ba
+Show credential
+
+
+
+Problem Solving Process
+Danaher
+Issued Nov 2019
+
+Show all 18 licenses
+Skills (50)
+System Administration
+
+
+Endorsed by Everett Kamlley and 1 other who is highly skilled at this
+
+
+Endorsed by 10 colleagues at Cepheid
+39 endorsements
+
+Troubleshooting
+
+
+Endorsed by Jun Dacasin and 3 others who are highly skilled at this
+
+
+Endorsed by 12 colleagues at Cepheid
+47 endorsements
+
+Show all
+Recommendations
+Received (52)
+Given (20)
+
+
+Cynthia Silva
+· 3rd
+Sr. Global HR Business Partner - People Strategy Expert | SaaS | Entertainment-Video Games | Medical Diagnostics | Software Dev | Start-up to Big Tech | Private & Public
+November 25, 2025, Cynthia worked with Jason but on different teams
+I had the opportunity to partner closely with Jason, and he consistently demonstrated exceptional leadership and strategic thinking. He has vision to execution abilities, thoughtful of the process and stakeholders. His approach to leadership is inclusive, thoughtful, and empowering, resulting in strong engagement and trust across teams.  I hope to have another chance to work with Jason again; amazing leader!
+Vincent M. Contreras
+· 2nd
+Sr. Manager HR Operations - Americas Service Center
+November 17, 2025, Vincent M. worked with Jason but on different teams
+I have had the privilege of working with Jason Escano, Sr. Manager of IT at Cepheid, for the past four years, and he has consistently been an outstanding business partner. Jason brings a unique ability to balance the employee experience with the need for standardization and process discipline within the IT organization.
+Throughout our collaboration, Jason has demonstrated a forward-thinking approach, ensuring that technology solutions not only meet operational requirements but also enhance the overall employee experience. Together, we have implemented processes that improved efficiency and usability, resulting in measurable gains for both empl
+
+
+
+<< Back to all jobs
+  Print
+ITSM Lead
+ (Sunnyvale, CA, 94085) | 06/08/26
+Easy ApplyShare Job 
+Job Description
+
+MatchPoint Solutions is a fast-growing, young, energetic global IT-Engineering services company with clients across the US. We provide technology solutions to various clients like Uber, Robinhood, Netflix, Airbnb, Google, Sephora, and more! More recently, we have expanded to working internationally in Canada, China, Ireland, UK, Brazil, and India. Through our culture of innovation, we inspire, build, and deliver business results, from idea to outcome. We keep our clients on the cutting edge of the latest technologies and provide solutions by using industry-specific best practices and expertise.
+
+We are excited to be continuously expanding our team. If you are interested in this position, please send over your updated resume. We look forward to hearing from you!
+
+ 
+
+Job Title: ITSM Lead 
+
+Location: Hybrid 
+
+Employment Type: Contract
+
+Pay Range: USD75/hr 
+
+ 
+
+We are seeking an experienced ITSM Lead to drive IT Service Management initiatives, process transformation, and ServiceNow migration programs. The ideal candidate will have strong expertise in ITSM frameworks, hands-on experience with leading ITSM platforms, and a proven track record of migrating legacy service management tools to ServiceNow. This role will work closely with business stakeholders, infrastructure teams, application owners, and leadership to standardize and optimize IT service delivery processes.
+
+Key Responsibilities
+Lead ITSM strategy, governance, and operational excellence initiatives across the organization.
+Drive migration projects from existing ITSM platforms ( Jira Service Management,  Freshservice,  etc.) to ServiceNow.
+Gather business requirements, conduct process assessments, and define target-state ServiceNow solutions.
+Design and implement ITIL-aligned processes including Incident Management, Problem Management, Change Management, Request Fulfillment, Asset Management, and Knowledge Management.
+Collaborate with ServiceNow architects, developers, and business stakeholders during migration and transformation programs.
+Develop migration roadmaps, data mapping strategies, testing plans, and cutover activities.
+Establish KPIs, SLAs, and service reporting frameworks to improve operational performance.
+Lead workshops, stakeholder meetings, and user adoption initiatives.
+Provide governance over service management processes and ensure compliance with organizational standards.
+Mentor support teams and process owners on ITSM best practices.
+Required Qualifications
+8+ years of experience in IT Service Management.
+Strong understanding of ITIL processes and ITSM best practices.
+Experience working with one or more ITSM tools such as:
+ServiceNow
+BMC Remedy
+Freshservice
+Hands-on experience leading or participating in ITSM platform migrations to ServiceNow.
+Experience with requirements gathering, process design, workflow mapping, and service transformation initiatives.
+Strong stakeholder management and communication skills.
+Experience managing cross-functional teams and vendor engagements.
+Preferred Qualifications
+ServiceNow implementation or administration experience.
+ITIL Foundation, ITIL 4 Managing Professional, or similar certification.
+ServiceNow certifications (CSA, CIS, CAD, or equivalent).
+Experience with CMDB, Asset Management, Discovery, Service Catalog, and IT Operations Management (ITOM).
+Experience in enterprise environments supporting thousands of users.
+Nice to Have
+Experience with Agile/Scrum methodologies.
+Knowledge of cloud platforms such as Amazon Web Services, Microsoft Azure, or Google Cloud.
+Experience integrating ITSM platforms with monitoring, HR, security, and DevOps tools.
+ 
+ 
+
+MatchPoint Solutions provides equal employment opportunities to all employees and applicants for employment and prohibits discrimination and harassment of any type without regard to race, color, religion, age, sex, national origin, disability status, genetics, protected veteran status, sexual orientation, gender identity or expression, or any other characteristic protected by federal, state or local laws.
+
+This policy applies to all terms and conditions of employment, including recruiting, hiring, placement, promotion, termination, layoff, recall, transfer, leaves of absence, compensation, and training.
+
+
+Jeff Kraskouskas
+
+
+Project Manager Capacity Manager, Program Manager UCaaS, CCaaS
+Cepheid · Contract
+Apr 2021 - Jun 2022 · 1 yr 3 mos
+Sunnyvale, California, United States
+Managed projects to enable Covid test kits to people throughout the world saving lives.
+Capacity Expansion projects for medium to large manufacturing and logistics facilities in US, EMEA, and APAC.
+I have the ability to multi task and lead multiple diverse projects.
+Cisco Call Manager to Microsoft Teams migration for HQ, including porting of all numbers to cloud based Teams.
+CCaaS - Call Center as a Service for multiple countries such as Canada, Brazil, Australia, EMEA countries.  PM of 8x8 integration with Salesforce.
+Capacity Management, IT Infrastructure Management and +18 skills
+
