@@ -156,61 +156,6 @@
   .player .name{font-weight:700;font-size:0.85rem;margin-bottom:2px;}
   .player .initials{font-size:0.72rem; color:var(--muted); font-weight:600;}
 
-  /* Agenda & Timer Custom Elements */
-  .agenda-list {
-    margin: 0;
-    padding-left: 20px;
-    font-size: 0.88rem;
-  }
-  .agenda-list li {
-    margin-bottom: 8px;
-  }
-  .timer-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f9fafb;
-    padding: 10px 14px;
-    border-radius: 8px;
-    margin-top: 12px;
-    border: 1px solid var(--border);
-  }
-  .timer-display {
-    font-family: monospace;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: var(--text);
-    padding: 2px 8px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  .timer-display.alert-red {
-    background-color: #fee2e2;
-    color: #dc2626;
-  }
-  .timer-display.blink-red {
-    background-color: #dc2626;
-    color: #ffffff;
-    animation: pulse-blink 1s infinite alternate;
-  }
-  @keyframes pulse-blink {
-    0% { opacity: 1; }
-    100% { opacity: 0.4; }
-  }
-  .timer-btn {
-    background: var(--sky);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-  .timer-btn:hover { background: #1d6fa5; }
-  .timer-btn.reset { background: #9ca3af; margin-left: 4px; }
-  .timer-btn.reset:hover { background: #4b5563; }
-
   /* Modals */
   .modal-overlay {
     position: fixed;
@@ -332,16 +277,12 @@
       <div style="display: flex; gap: 10px; align-items: flex-start;">
         <div style="flex: 1;">
           <div style="font-size:0.85rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING</div>
-          <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">2d 18h</div>
-          <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 12:00 – 15:00</div>
+          <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">6d 14h</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 11:00 – 14:00</div>
           <div style="font-size:0.75rem; color:var(--muted); margin-top:4px; line-height: 1.3;">
             T&T Market @ Westgate (95130)<br>
             <span style="font-size: 0.7rem; color: #374151; font-weight: 500;">Spot: Tables right after checkout cashiers.</span><br>
             <a href="https://maps.google.com/?q=TNT+Market,+Westgate+Mall,+95130" target="_blank" style="color:var(--sky); font-weight:700; text-decoration:none; font-size: 0.72rem;">Open Map Location ↗</a>
-          </div>
-          <div style="margin-top: 8px;">
-            <button class="submit-btn action-trigger" onclick="openModal('hostAgendaModal')" style="padding: 3px 8px; font-size: 0.72rem; background: var(--sky);">📋 View Host Agenda</button>
-            <button class="submit-btn" onclick="openModal('aiAnalysisModal')" style="padding: 3px 8px; font-size: 0.72rem; background: var(--pitch); margin-left: 4px;">✨ AI Analysis</button>
           </div>
         </div>
         <div style="width: 54px; height: 40px; background: #1a6b4a; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
@@ -370,12 +311,14 @@
       <div style="display: flex; gap: 10px; align-items: flex-start;">
         <div style="flex: 1;">
           <div style="font-size:0.85rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
-          <div style="font-size:0.95rem; color:#dc2626; font-weight:800; margin: 2px 0;">⏰ OVERDUE</div>
-          <div style="font-size:0.78rem; color:#1f2937; font-weight:600; margin-bottom: 8px;">Was Due: Mon Jul 13 @ 17:00 Pacific</div>
+          <div id="dueCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">3d 20h</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600; margin-bottom: 8px;">Mon Jul 13 @ 17:00 Pacific</div>
         </div>
-        <!-- Google Sheets Asset Icon -->
+        <!-- Google Sheets Asset Icon rendered via custom CSS from screenshot -->
         <div style="width: 32px; height: 42px; background: #107c41; border-radius: 4px; position: relative; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15); overflow: hidden;">
+          <!-- Top Right Fold -->
           <div style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #0a5c30; border-bottom-left-radius: 3px;"></div>
+          <!-- Grid Emblem inside Icon -->
           <div style="position: absolute; top: 16px; left: 6px; width: 20px; height: 16px; background: #ffffff; padding: 2px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;">
             <div style="background: #107c41;"></div><div style="background: #107c41;"></div>
             <div style="background: #107c41;"></div><div style="background: #107c41;"></div>
@@ -443,12 +386,12 @@
     <div style="display: flex; flex-direction: column; gap: 8px;">
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 9, 2026</span>
-        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly9')", style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
+        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly9')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
       </div>
 	  
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f4; padding-bottom: 6px;">
         <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 2, 2026</span>
-        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly2')", style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
+        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly2')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
       </div>
     </div>
   </div>
@@ -471,7 +414,7 @@
   </div>
 
   <footer>
-    <div>unPTO Accountability · Updated: 2026-07-13 16:55:36 PDT</div>
+    <div>unPTO Accountability · Updated: 2026-07-09 17:09:46 PDT</div>
     <div class="disclaimer-text">
       By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
     </div>
@@ -480,73 +423,6 @@
 </div>
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
-
-  <!-- Host Agenda Modal with Stopwatch Functionality Embedded inside -->
-  <div id="hostAgendaModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content" style="max-width:560px;">
-      <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda · July 16 Session</h3>
-      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <ol class="agenda-list" style="padding-left: 16px; font-size: 0.9rem;">
-        <li style="margin-bottom: 8px;"><strong>Roundtable Check-in (5 mins per person):</strong> Focus completely on reviewing last week's goals and this week's strategic goals.</li>
-        <li style="margin-bottom: 8px;"><strong>Blocker Diagnostic:</strong> Open floor to map solutions for any surfaced constraints.</li>
-        <li style="margin-bottom: 8px;"><strong>Structured Co-working Segment:</strong> Deep dive work focus blocks.</li>
-        <li style="margin-bottom: 8px;"><strong>Daily Dashboard Presentation:</strong> Cyrus to share daily dashboard prototype for personal use to help structure the day.</li>
-        <li style="margin-bottom: 8px;"><strong>WIOA Research:</strong> Cyrus to share updates on WIOA research paths and certification opportunities.</li>
-      </ol>
-      
-      <!-- Relocated Stopwatch Logic to reside inside the popup view -->
-      <div class="timer-box">
-        <div>
-          <div style="font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
-          <div style="font-size: 0.7rem; color: #4b5563;">5:00 limit · Turns red at limit · Blinks at 10:00</div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div id="speakTimer" class="timer-display">05:00</div>
-          <div>
-            <button id="timerToggleBtn" class="timer-btn" onclick="toggleTimer()">Start</button>
-            <button class="timer-btn reset" onclick="resetTimer()">Reset</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- AI Analysis Modal with Full Claude Logic Restored on Light Schema Background -->
-  <div id="aiAnalysisModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content" style="max-width:620px; background: #ffffff; color: var(--text);">
-      <button class="modal-close" onclick="closeModal('aiAnalysisModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">✨ AI Analysis Trend Analytics &amp; Suggestions</h3>
-      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div style="font-size:0.88rem; display:flex; flex-direction:column; gap:14px; max-height:60vh; overflow-y:auto; padding-right:4px;">
-        
-        <div style="background: #fdf2f2; padding: 12px; border-radius: 8px; border-left: 4px solid #dc2626;">
-          <strong style="color: #b91c1c; font-size:0.9rem; display:block; margin-bottom:4px;">⏳ Stalled Blockers (Art &amp; Siddharth)</strong>
-          Key constraints on testing documentation and programmatic communication pathways have stayed open since 6/29. Group needs to address foundational roadblocks directly.[cite: 2]
-        </div>
-
-        <div style="background: #f9fafb; padding: 12px; border-radius: 8px; border-left: 4px solid #6b7280;">
-          <strong style="color: #374151; font-size:0.9rem; display:block; margin-bottom:4px;">🛰️ Activity Gaps (Kar)</strong>
-          No status updates filed since 6/29. Recommended proactive verification step ahead of Thursday sync loops.[cite: 2]
-        </div>
-
-        <div style="background: #fffbeb; padding: 12px; border-radius: 8px; border-left: 4px solid #d97706;">
-          <strong style="color: #b45309; font-size:0.9rem; display:block; margin-bottom:4px;">🔁 Iterative Carry-overs (Tina)</strong>
-          Target items running identical pathways for multiple cycles. Committing to a single asset closure milestone during co-working sprints could create consistent velocity breakouts.[cite: 2]
-        </div>
-
-        <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
-          <strong style="color: #15803d; font-size:0.9rem; display:block; margin-bottom:4px;">✅ Strategic Progress (Cyrus &amp; Felice)</strong>
-          Clear target conclusions achieved (World Cup closing out and dual structural SOP completions).[cite: 2]
-        </div>
-
-        <div style="background: #eff6ff; padding: 12px; border-radius: 8px; border-left: 4px solid #2563eb;">
-          <strong style="color: #1d4ed8; font-size:0.9rem; display:block; margin-bottom:4px;">🧭 Pivot Trajectory Observations</strong>
-          With structural tracking targets morphing to core recruitment pipelines, evaluating the operational scope definitions prevents milestone inflation during rigorous preparation cycles.[cite: 2]
-        </div>
-      </div>
-    </div>
-  </div>
 
   <div id="minutesModalJuly2" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:620px;">
@@ -567,8 +443,103 @@
       <button class="modal-close" onclick="closeModal('minutesModalJuly9')">×</button>
       <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📝 Meeting Minutes: July 9, 2026</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      
       <div style="font-size:0.82rem; color:#374151; display:flex; flex-direction:column; gap:12px; max-height:55vh; overflow-y:auto; padding-right:6px;">
-        <div><strong style="color:var(--pitch);">Agenda Archive Summary:</strong> Review complete records via shared ledger workspace docs or via system backups.</div>
+        <div>
+          <strong style="color:var(--pitch);">Tina (TN)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>TN hosted the second accountability session and kept the meeting running on schedule.</li>
+            <li>TN reviewed progress since the previous week.</li>
+            <li>TN completed additional intake forms and continued work on the BTG application.</li>
+            <li>TN made progress on home improvement projects, including purchasing required materials.</li>
+            <li>TN is preparing to begin the University of San Francisco marketing seminar.</li>
+            <li>TN focused heavily on building healthy habits by: tracking food intake, measuring portion sizes, improving overall nutrition, and establishing a stronger long-term health foundation.</li>
+            <li>TN discussed planning for the next 12 months, including upcoming EDD activities.</li>
+            <li>TN reported no current blockers.</li>
+            <li>TN initiated a broader team discussion around health, wellness, and establishing sustainable routines.</li>
+            <li>TN did an excellent job managing meeting time, prompting discussion on introducing visual timekeeping signals for future meetings.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Cyrus (CS)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>CS reviewed the accountability master spreadsheet.</li>
+            <li>CS shared that FIFA World Cup volunteer activities are wrapping up on July 19, reducing a major time commitment.</li>
+            <li>CS left the meeting early due to volunteer commitments and was available until approximately 1:00 PM.</li>
+            <li>CS discussed: recent onsite interview experience, "Tell me about yourself" interview question, recruiter feedback received, and waiting for agency responses.</li>
+            <li>CS clarified that mock interviews are no longer considered a blocker.</li>
+            <li>CS identified current blockers as: remaining FIFA volunteer commitments, time management, and spending excessive time on lower-priority activities rather than transition objectives.</li>
+            <li>CS mentioned receiving the FIFA volunteer certificate.</li>
+            <li>CS completed the "20-Minute Networking Meeting" career coaching material and summarized its framework.</li>
+            <li>CS discussed targeting financially healthy, growing companies rather than applying indiscriminately.</li>
+            <li>CS shared lessons learned from previous employer restructuring, emphasizing the importance of evaluating company stability.</li>
+            <li>CS reflected on Art's rescinded job offer and reminded the team to remain realistic until employment officially begins.</li>
+            <li>CS complimented Tina on her noticeably positive energy and improved health focus.</li>
+            <li>CS announced the next accountability meeting: Date: July 16, Time: 11:00 AM–2:00 PM, Location: T&T Supermarket, Westgate Mall.</li>
+            <li>CS will check anticipated store traffic before the meeting.</li>
+            <li>CS confirmed there will be no FIFA scheduling conflicts after the following week, allowing greater focus on accountability activities.</li>
+            <li>CS proposed organizing optional co-working sessions via Zoom or voice call and plans to send invitations.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Felice (FT)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>FT provided updates on ongoing video production work across multiple channels.</li>
+            <li>FT continued post-production activities and content development.</li>
+            <li>FT is documenting Standard Operating Procedures (SOPs) to enable knowledge transfer to the overseas team.</li>
+            <li>FT experienced approximately a two-hour outage due to subscription limitations with an image generation tool.</li>
+            <li>FT and Sarah evaluated alternative tools while balancing consistency and subscription costs.</li>
+            <li>FT continued updating content plans for multiple channels.</li>
+            <li>FT shared a personal productivity strategy of completing at least one training course each week.</li>
+            <li>FT recommended establishing recurring weekly routines, such as assigning dedicated days for training and structured work.</li>
+            <li>FT suggested extending accountability meetings from 60 minutes to approximately 90 minutes to allow additional discussion and follow-up questions.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Siddharth (ST)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>ST provided updates on the MIT coursework and product assignment.</li>
+            <li>ST focused on identifying the Minimum Viable Product (MVP) for the team project.</li>
+            <li>ST volunteered to lead follow-up activities after no other team member stepped forward.</li>
+            <li>ST identified current challenges as: communication, professionalism, time management, and balancing networking with job applications.</li>
+            <li>ST shared that discussing goals regularly with friends and family helps maintain accountability.</li>
+            <li>ST completed: assignment work and resume review.</li>
+            <li>ST described the mock interview process available through the transition program.</li>
+            <li>ST identified lack of information and communication as ongoing constraints.</li>
+            <li>ST plans to: continue collaborating with MIT classmates, complete additional mock interviews, and submit additional job applications.</li>
+            <li>ST and CS discussed organizing optional co-working sessions.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Art (AT)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>AT completed quality assurance reviews for nine videos.</li>
+            <li>AT continues serving as the final reviewer for generated video content.</li>
+            <li>AT tested the AI video creation platform.</li>
+            <li>AT partially completed testing activities during the previous week.</li>
+            <li>AT identified current blockers as: competing priorities and multiple simultaneous projects.</li>
+            <li>AT is continuing work on: video platform evaluation, editing, and documentation.</li>
+            <li>AT shared the experience of accepting a position, receiving company equipment, and then having the role eliminated before the official start date, requiring the equipment to be returned.</li>
+            <li>This experience prompted discussion about remaining realistic until employment officially begins.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Team Discussion & General Notes</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>Team members discussed establishing consistent weekly routines to improve accountability and productivity.</li>
+            <li>Health and wellness remained a major theme throughout the meeting.</li>
+            <li>The team agreed that maintaining physical health contributes positively to motivation and job search success.</li>
+            <li>Optional co-working sessions will continue to be explored.</li>
+            <li>Future meetings may incorporate visual countdown signals (three fingers, two fingers, one finger) to improve time management.</li>
+            <li>The team discussed extending future meetings to allow additional discussion after accountability updates.</li>
+            <li>The next accountability meeting is scheduled for Thursday, July 16, at T&T Supermarket (Westgate Mall) from 11:00 AM to 2:00 PM. Members may arrive as early as 10:30 AM.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -613,61 +584,6 @@
   </div>
 
 <script>
-// Timer Logic
-let totalSeconds = 300; 
-let timerInterval = null;
-let timerRunning = false;
-
-function displayTimerValue(seconds) {
-  const displayElement = document.getElementById('speakTimer');
-  if(!displayElement) return;
-  const isNegative = seconds < 0;
-  const absoluteSeconds = Math.abs(seconds);
-  
-  const mins = Math.floor(absoluteSeconds / 60);
-  const secs = absoluteSeconds % 60;
-  
-  const formattedTime = (isNegative ? "-" : "") + 
-                        String(mins).padStart(2, '0') + ":" + 
-                        String(secs).padStart(2, '0');
-                        
-  displayElement.textContent = formattedTime;
-
-  const elapsedSeconds = 300 - seconds; 
-  if (elapsedSeconds >= 600) { 
-    displayElement.className = "timer-display blink-red";
-  } else if (seconds <= 0) { 
-    displayElement.className = "timer-display alert-red";
-  } else {
-    displayElement.className = "timer-display";
-  }
-}
-
-function toggleTimer() {
-  const toggleBtn = document.getElementById('timerToggleBtn');
-  if (timerRunning) {
-    clearInterval(timerInterval);
-    toggleBtn.textContent = "Start";
-    timerRunning = false;
-  } else {
-    timerInterval = setInterval(() => {
-      totalSeconds--;
-      displayTimerValue(totalSeconds);
-    }, 1000);
-    toggleBtn.textContent = "Pause";
-    timerRunning = true;
-  }
-}
-
-function resetTimer() {
-  clearInterval(timerInterval);
-  totalSeconds = 300;
-  timerRunning = false;
-  const toggleBtn = document.getElementById('timerToggleBtn');
-  if(toggleBtn) toggleBtn.textContent = "Start";
-  displayTimerValue(totalSeconds);
-}
-
 window.addEventListener('DOMContentLoaded', () => {
   fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
