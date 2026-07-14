@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community & Engagement Board</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --warning-color:#e74c3c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:24px 16px 60px;
+    line-height:1.55;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  header{
+    text-align:center;
+    margin-bottom:24px;
+    margin-top:12px;
+  }
+  header h1{
+    font-size:2rem;
+    margin:0;
+    color:#111827;
+    font-weight: 800;
+  }
+  .objective-text {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 10px auto 0;
+    line-height: 1.6;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:24px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:12px;
+  }
+  @media (min-width:520px){
+    .tile-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  
+  .tile, .tile-link {
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px 14px;
+    text-align:center;
+    background:#fafbfa;
+    cursor:pointer;
+    text-decoration:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .tile:hover, .tile-link:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+  }
+  .tile .icon, .tile-link .icon{
+    width:46px;height:46px;
+    border-radius:50%;
+    background:var(--sky-light);
+    color:var(--sky);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;
+    margin:0 auto 10px;
+    flex-shrink:0;
+  }
+  .tile .name, .tile-link .name{font-weight:700;font-size:1rem;color:#111827;margin-bottom:4px;}
+  
+  .tile .desc, .tile-link .desc{
+    font-size:0.78rem;
+    color:var(--muted);
+    line-height:1.3;
+    font-weight:400;
+  }
+
+  /* Modal System */
+  .modal-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 14px;
+    max-width: 500px;
+    width: 100%;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .submit-btn {
+    display: block;
+    background: var(--pitch);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:hover { background: #176839; }
+
+  /* Form Styling */
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--sky);
+  }
+
+  /* Speech Input Styling */
+  .input-with-mic {
+    position: relative;
+    display: block;
+  }
+  .mic-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: #f3f4f6;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 0;
+    transition: background 0.1s;
+    user-select: none;
+  }
+  .mic-btn:hover { background: #e5e7eb; }
+  .mic-btn.listening {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+
+  /* Boards Detail Styling */
+  .board-section {
+    margin-top: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .board-section:last-of-type {
+    border-bottom: none;
+  }
+  .board-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--sky);
+    margin-bottom: 4px;
+  }
+  .board-desc {
+    font-size: 0.88rem;
+    color: #4b5563;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Community & Engagement Board</h1>
+    <p class="objective-text">
+      A collaborative directory for engagement initiatives.
+    </p>
+  </header>
+
+  <div class="card">
+    <div class="tile-grid">
+      
+      <!-- Row 1: Operations, Code, & Architecture Maps -->
+      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
+        <div class="icon">🌲</div>
+        <div class="name">unPTO Accountability</div>
+        <div class="desc">Track shared project milestones & deliverables</div>
+      </a>
+	  
+	  <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
+        <div class="icon">⚽</div>
+        <div class="name">WC Journal</div>
+        <div class="desc">Read personal logs from tournament fan ops</div>
+      </a>
+	  
+      <a href="https://www.linkedin.com/groups/37040080/" target="_blank" class="tile-link">
+        <div class="icon">🌐</div>
+        <div class="name">Fan Ops Group</div>
+        <div class="desc">Connect with professional venue operators</div>
+      </a>
+
+
+
+      <!-- Row 2: Portfolios & Networks -->
+	  
+	    <div class="tile" onclick="openModal('boardsModal')">
+        <div class="icon">📋</div>
+        <div class="name">Boards</div>
+        <div class="desc">Review architectural vision & environment scopes</div>
+      </div>
+
+      <div class="tile" onclick="openModal('developModal')">
+        <div class="icon">⚙️</div>
+        <div class="name">Develop</div>
+        <div class="desc">Log system feature concepts, bugs, or roadmap ideas</div>
+      </div>
+
+
+
+
+      <a href="https://cshahria.github.io/Career/index.html" target="_blank" class="tile-link">
+        <div class="icon">💼</div>
+        <div class="name">Career Site</div>
+        <div class="desc">Browse professional background & portfolio</div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Hidden Iframe to hold responses without page redirection -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
+
+<script>
+let submitted = false;
+let recognition = null;
+let currentTargetInput = null;
+let currentMicButton = null;
+
+function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+function closeModal(modalId) { 
+  stopDictation();
+  document.getElementById(modalId).style.display = 'none'; 
+}
+function handleFormSubmit() { submitted = true; }
+function handleFormResponse() {
+  alert("Entry successfully processed!");
+  submitted = false;
+  document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+  document.querySelectorAll('form').forEach(f => f.reset());
+  stopDictation();
+}
+
+function toggleDictation(btn, targetId) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Voice dictation is not natively supported in this browser viewport.");
+    return;
+  }
+
+  const targetInput = document.getElementById(targetId);
+  if (currentMicButton === btn) {
+    stopDictation();
+    return;
+  }
+
+  stopDictation();
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  currentTargetInput = targetInput;
+  currentMicButton = btn;
+
+  recognition.onstart = function() {
+    btn.classList.add('listening');
+    btn.textContent = '🛑';
+  };
+  recognition.onerror = function(e) {
+    console.error(e);
+    stopDictation();
+  };
+  recognition.onend = function() {
+    stopDictation();
+  };
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    targetInput.value = targetInput.value ? targetInput.value + ' ' + transcript : transcript;
+  };
+  recognition.start();
+}
+
+function stopDictation() {
+  if (recognition) { recognition.stop(); recognition = null; }
+  if (currentMicButton) {
+    currentMicButton.classList.remove('listening');
+    currentMicButton.textContent = '🎙️';
+    currentMicButton = null;
+  }
+  currentTargetInput = null;
+}
+</script>
+
+<!-- MODAL: DEVELOP ENTRY -->
+<div id="developModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('developModal')">×</button>
+    <h3>Log Develop Entry</h3>
+    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSeZmqETCYBE-7sV-TKN97AX5yCgzYJIvF5lqdTtB2U36V_yaQ/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
+      <div class="form-group">
+        <label>Type</label>
+        <select name="entry.1181449836" required>
+          <option value="" disabled selected>Select a type...</option>
+          <option value="New Feature">New Feature</option>
+          <option value="Existing">Existing</option>
+          <option value="Bug">Bug</option>
+          <option value="Issue">Issue</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="entry.1158348035" placeholder="Brief summary of the idea" required>
+      </div>
+      <div class="form-group">
+        <label>Details</label>
+        <div class="input-with-mic">
+          <textarea id="developDetails" name="entry.2018232389" rows="4" placeholder="Detailed logs or general observations..."></textarea>
+          <button type="button" class="mic-btn" onclick="toggleDictation(this, 'developDetails')">🎙️</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select name="entry.1186066081">
+          <option value="" disabled selected>Select priority...</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">Save Entry</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: BOARDS OBJECTIVES & SYSTEMS STRATEGY -->
+<div id="boardsModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('boardsModal')">×</button>
+    <h3>System Environment Roadmap</h3>
+    
+    <div class="board-section">
+      <div class="board-title">🔒 Internal Unified Dashboard</div>
+      <p class="board-desc">
+        A private environment dedicated to organizing operational metrics on a day-to-day basis to preserve peak professional and personal productivity.
+      </p>
+    </div>
+
+    <div class="board-section">
+      <div class="board-title">🤝 Community & Engagement Board</div>
+      <p class="board-desc">
+        A public-facing navigational interface designed to map resources and directory pathways for coordinated teams, such as unPTO, WC26, and incoming collaborative micro-modules.
+      </p>
+    </div>
+
+    <div class="board-section" style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 14px;">
+      <div class="board-title" style="color: var(--pitch);">🤖 Data Collection & AI Vision Loop</div>
+      <p class="board-desc" style="font-size: 0.85rem; line-height: 1.5;">
+        As un-manipulated raw metrics stream smoothly through these decoupled panels, they systematically organize target datasets into pristine structures. This structured foundation fuels downstream AI engines, executing real-time pattern isolation, anomaly discovery, and instant predictive analysis without the layout friction of traditional sheet frameworks.
+      </p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

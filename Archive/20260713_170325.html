@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>unPTO Accountability · Week 29, 2026</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --amber:#c8870a;
+    --amber-light:#fdf2df;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:16px 16px 40px;
+    line-height:1.5;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  header{
+    text-align:center;
+    margin-bottom:16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom:12px;
+  }
+  header h1{
+    font-size:1.4rem;
+    margin:0 0 4px;
+    color:#111827;
+  }
+  header p{
+    color:var(--muted);
+    margin:0;
+    font-size:0.88rem;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:14px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.03);
+  }
+  .card h2{
+    margin:0 0 10px;
+    font-size:1rem;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#111827;
+  }
+
+  /* Dashboard Grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  @media (min-width: 640px) {
+    .dashboard-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .panel-meeting {
+    background: var(--sky-light);
+    border: 1px solid #b9d5f7;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .panel-due {
+    background: var(--amber-light);
+    border: 1px solid #f9dfb1;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    gap: 10px;
+  }
+
+  .process-box {
+    background: #f9fafb;
+    border-left: 4px solid var(--amber);
+    padding: 8px 12px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.82rem;
+    color: #4b5563;
+    margin-bottom: 10px;
+  }
+
+  .pill{
+    display:inline-block;
+    padding:2px 10px;
+    border-radius:20px;
+    font-size:0.75rem;
+    font-weight:700;
+  }
+  .pill.progress{background:var(--sky-light);color:var(--sky);}
+  .pill.done{background:var(--pitch-light);color:var(--pitch);}
+  .pill.due{background:var(--amber-light);color:var(--amber);}
+
+  /* Team grid */
+  .team-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:10px;
+  }
+  @media (min-width:520px){
+    .team-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  .player{
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px;
+    text-align:center;
+    background:#fafbfa;
+    cursor:pointer;
+    transition:transform 0.12s ease;
+  }
+  .player:hover{
+    transform:translateY(-1px);
+  }
+  .player .avatar{
+    width:36px;height:36px;
+    border-radius:50%;
+    background:var(--pitch-light);
+    color:var(--pitch);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;
+    font-size:0.9rem;
+    margin:0 auto 6px;
+  }
+  .player.me .avatar{background:var(--sky-light);color:var(--sky);}
+  .player .name{font-weight:700;font-size:0.85rem;margin-bottom:2px;}
+  .player .initials{font-size:0.72rem; color:var(--muted); font-weight:600;}
+
+  /* Modals */
+  .modal-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 580px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .submit-btn {
+    display: inline-block;
+    background: var(--pitch);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+  }
+  .submit-btn.action-trigger {
+    background: #1f8a4c;
+    color: #fff;
+  }
+  .submit-btn.help-trigger {
+    background: #e5e7eb;
+    color: #374151;
+    font-weight: 500;
+  }
+  .submit-btn.help-trigger:hover {
+    background: #d1d5db;
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.85rem;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:24px;
+    color:var(--muted);
+    font-size:0.75rem;
+  }
+  .disclaimer-text {
+    font-size: 0.68rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 8px auto 0;
+    line-height: 1.3;
+  }
+  .bottom-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+  }
+  .bottom-nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .bottom-nav a:hover {
+    color: var(--text);
+  }
+</style>
+  <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>unPTO ACCOUNTABILITY · Week 29 · 2026 Check-In</h1>
+    <p>July 13 – July 19, 2026</p>
+  </header>
+
+  <div class="dashboard-grid">
+    <div class="panel-meeting">
+      <div style="display: flex; gap: 10px; align-items: flex-start;">
+        <div style="flex: 1;">
+          <div style="font-size:0.85rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING</div>
+          <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">6d 14h</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 11:00 – 14:00</div>
+          <div style="font-size:0.75rem; color:var(--muted); margin-top:4px; line-height: 1.3;">
+            T&T Market @ Westgate (95130)<br>
+            <span style="font-size: 0.7rem; color: #374151; font-weight: 500;">Spot: Tables right after checkout cashiers.</span><br>
+            <a href="https://maps.google.com/?q=TNT+Market,+Westgate+Mall,+95130" target="_blank" style="color:var(--sky); font-weight:700; text-decoration:none; font-size: 0.72rem;">Open Map Location ↗</a>
+          </div>
+        </div>
+        <div style="width: 54px; height: 40px; background: #1a6b4a; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
+          <span style="color: white; font-family: 'Georgia', serif; font-weight: bold; font-size: 1.15rem; letter-spacing: -1px;">T&amp;T</span>
+        </div>
+      </div>
+
+      <!-- Single line inline RSVP Section inside Next Meeting Tile -->
+      <div style="border-top: 1px dashed #b9d5f7; padding-top: 8px; margin-top: 4px;">
+        <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Name" style="padding: 4px 6px; border: 1px solid #b9d5f7; border-radius: 4px; flex: 1; font-size: 0.75rem; min-width: 0;" required>
+            <select id="rsvpStatus" name="entry.502351350" style="padding: 4px 6px; border: 1px solid #b9d5f7; border-radius: 4px; font-family:inherit; font-size: 0.75rem; width: 110px; min-width: 0;" required>
+              <option value="Attending Both Sessions">Both</option>
+              <option value="Check-In Only">Check-in</option>
+              <option value="Coworking Only">Cowork</option>
+              <option value="Cannot attend this week">Absent</option>
+            </select>
+            <button type="submit" style="background: var(--sky); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-weight: 700; cursor: pointer; font-family:inherit; font-size:0.75rem; flex-shrink: 0;">RSVP</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel-due">
+      <div style="display: flex; gap: 10px; align-items: flex-start;">
+        <div style="flex: 1;">
+          <div style="font-size:0.85rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
+          <div id="dueCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">3d 20h</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600; margin-bottom: 8px;">Mon Jul 13 @ 17:00 Pacific</div>
+        </div>
+        <!-- Google Sheets Asset Icon rendered via custom CSS from screenshot -->
+        <div style="width: 32px; height: 42px; background: #107c41; border-radius: 4px; position: relative; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15); overflow: hidden;">
+          <!-- Top Right Fold -->
+          <div style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #0a5c30; border-bottom-left-radius: 3px;"></div>
+          <!-- Grid Emblem inside Icon -->
+          <div style="position: absolute; top: 16px; left: 6px; width: 20px; height: 16px; background: #ffffff; padding: 2px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;">
+            <div style="background: #107c41;"></div><div style="background: #107c41;"></div>
+            <div style="background: #107c41;"></div><div style="background: #107c41;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="background: #fff; border: 1px solid #f9dfb1; padding: 6px; border-radius: 6px; text-align: center;">
+        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="color:#b45309; font-weight:700; font-size:0.78rem; text-decoration:none;">📊 Go to Master Sheet Workspace ↗</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <h2 style="margin:0;">🟢 Our Team Board</h2>
+      <a href="mailto:cyrus.shahriari@gmail.com?subject=unPTO%20Accountability%20Support%20-%20Immediate%20Assistance" class="submit-btn help-trigger" style="font-size:0.72rem; padding:4px 8px; text-decoration:none;">⚠️ Help / Feedback</a>
+    </div>
+    
+    <div class="process-box">
+      Select your name card below to update your weekly targets directly to our ledger workspace.
+    </div>
+
+    <div class="team-grid">
+      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus">
+        <div class="avatar">C</div>
+        <div class="name">Cyrus</div>
+        <div class="initials">(CS)</div>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth">
+        <div class="avatar">S</div>
+        <div class="name">Siddharth</div>
+        <div class="initials">(ST)</div>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice">
+        <div class="avatar">F</div>
+        <div class="name">Felice</div>
+        <div class="initials">(FT)</div>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina">
+        <div class="avatar">T</div>
+        <div class="name">Tina</div>
+        <div class="initials">(TN)</div>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
+        <div class="avatar">A</div>
+        <div class="name">Art</div>
+        <div class="initials">(AT)</div>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
+      </div>
+      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
+        <div class="avatar" style="background:var(--sky-light); color:var(--sky);">K</div>
+        <div class="name">Kar</div>
+        <div class="initials">(KB)</div>
+        <span class="pill progress" style="margin-top:4px;">TBD</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
+    <h2>📝 Meeting Minutes</h2>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 9, 2026</span>
+        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly9')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
+      </div>
+	  
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f4; padding-bottom: 6px;">
+        <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 2, 2026</span>
+        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly2')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fcfdfc; border-top: 2px solid var(--pitch); padding: 10px 14px;">
+    <p style="font-size: 0.85rem; margin: 0 0 6px 0;">
+      <strong>Bay Area Accountability Buddies</strong> · Peer progress framework.
+    </p>
+    <div style="display: flex; gap: 12px; font-size: 0.8rem;">
+      <a href="https://chat.whatsapp.com/AccountabilityPeninsulaSouthBay" target="_blank" style="color: #25d366; font-weight: 600; text-decoration: none;">💬 WhatsApp</a>
+      <a href="https://discord.com/channels/1497468492322967604/1517618871169716447" target="_blank" style="color: #5865F2; font-weight: 600; text-decoration: none;">🎮 Discord</a>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
+    <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
+    <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
+    <a href="https://cshahria.github.io/Career/civic.html" style="font-weight:700; color:var(--pitch);">📊 Civic Dashboard ↗</a>
+  </div>
+
+  <footer>
+    <div>unPTO Accountability · Updated: 2026-07-09 17:09:46 PDT</div>
+    <div class="disclaimer-text">
+      By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
+    </div>
+  </footer>
+
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
+
+  <div id="minutesModalJuly2" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:620px;">
+      <button class="modal-close" onclick="closeModal('minutesModalJuly2')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📝 Meeting Minutes: July 2, 2026</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <div style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 0.85rem;">
+        Started at 11:00. The first hour focused on icebreakers, background introductions, and ongoing projects. Shifted to a structured master sheet review covering last week's goals, results, blockers, and next steps. Group decided to consistently run future iterations on Thursdays at 11:00 to ensure momentum.
+      </div>
+      <div style="margin-top:14px; text-align: center;">
+        <a href="https://docs.google.com/document/d/1GrsHvwo6CNk0OsbvY6XzByY2Zp-kVsymmTE4VFL4kKY/edit?usp=sharing" target="_blank" style="font-size: 0.8rem; color: var(--sky); font-weight: 700;">Open Full Output Document ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="minutesModalJuly9" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:620px;">
+      <button class="modal-close" onclick="closeModal('minutesModalJuly9')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📝 Meeting Minutes: July 9, 2026</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      
+      <div style="font-size:0.82rem; color:#374151; display:flex; flex-direction:column; gap:12px; max-height:55vh; overflow-y:auto; padding-right:6px;">
+        <div>
+          <strong style="color:var(--pitch);">Tina (TN)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>TN hosted the second accountability session and kept the meeting running on schedule.</li>
+            <li>TN reviewed progress since the previous week.</li>
+            <li>TN completed additional intake forms and continued work on the BTG application.</li>
+            <li>TN made progress on home improvement projects, including purchasing required materials.</li>
+            <li>TN is preparing to begin the University of San Francisco marketing seminar.</li>
+            <li>TN focused heavily on building healthy habits by: tracking food intake, measuring portion sizes, improving overall nutrition, and establishing a stronger long-term health foundation.</li>
+            <li>TN discussed planning for the next 12 months, including upcoming EDD activities.</li>
+            <li>TN reported no current blockers.</li>
+            <li>TN initiated a broader team discussion around health, wellness, and establishing sustainable routines.</li>
+            <li>TN did an excellent job managing meeting time, prompting discussion on introducing visual timekeeping signals for future meetings.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Cyrus (CS)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>CS reviewed the accountability master spreadsheet.</li>
+            <li>CS shared that FIFA World Cup volunteer activities are wrapping up on July 19, reducing a major time commitment.</li>
+            <li>CS left the meeting early due to volunteer commitments and was available until approximately 1:00 PM.</li>
+            <li>CS discussed: recent onsite interview experience, "Tell me about yourself" interview question, recruiter feedback received, and waiting for agency responses.</li>
+            <li>CS clarified that mock interviews are no longer considered a blocker.</li>
+            <li>CS identified current blockers as: remaining FIFA volunteer commitments, time management, and spending excessive time on lower-priority activities rather than transition objectives.</li>
+            <li>CS mentioned receiving the FIFA volunteer certificate.</li>
+            <li>CS completed the "20-Minute Networking Meeting" career coaching material and summarized its framework.</li>
+            <li>CS discussed targeting financially healthy, growing companies rather than applying indiscriminately.</li>
+            <li>CS shared lessons learned from previous employer restructuring, emphasizing the importance of evaluating company stability.</li>
+            <li>CS reflected on Art's rescinded job offer and reminded the team to remain realistic until employment officially begins.</li>
+            <li>CS complimented Tina on her noticeably positive energy and improved health focus.</li>
+            <li>CS announced the next accountability meeting: Date: July 16, Time: 11:00 AM–2:00 PM, Location: T&T Supermarket, Westgate Mall.</li>
+            <li>CS will check anticipated store traffic before the meeting.</li>
+            <li>CS confirmed there will be no FIFA scheduling conflicts after the following week, allowing greater focus on accountability activities.</li>
+            <li>CS proposed organizing optional co-working sessions via Zoom or voice call and plans to send invitations.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Felice (FT)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>FT provided updates on ongoing video production work across multiple channels.</li>
+            <li>FT continued post-production activities and content development.</li>
+            <li>FT is documenting Standard Operating Procedures (SOPs) to enable knowledge transfer to the overseas team.</li>
+            <li>FT experienced approximately a two-hour outage due to subscription limitations with an image generation tool.</li>
+            <li>FT and Sarah evaluated alternative tools while balancing consistency and subscription costs.</li>
+            <li>FT continued updating content plans for multiple channels.</li>
+            <li>FT shared a personal productivity strategy of completing at least one training course each week.</li>
+            <li>FT recommended establishing recurring weekly routines, such as assigning dedicated days for training and structured work.</li>
+            <li>FT suggested extending accountability meetings from 60 minutes to approximately 90 minutes to allow additional discussion and follow-up questions.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Siddharth (ST)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>ST provided updates on the MIT coursework and product assignment.</li>
+            <li>ST focused on identifying the Minimum Viable Product (MVP) for the team project.</li>
+            <li>ST volunteered to lead follow-up activities after no other team member stepped forward.</li>
+            <li>ST identified current challenges as: communication, professionalism, time management, and balancing networking with job applications.</li>
+            <li>ST shared that discussing goals regularly with friends and family helps maintain accountability.</li>
+            <li>ST completed: assignment work and resume review.</li>
+            <li>ST described the mock interview process available through the transition program.</li>
+            <li>ST identified lack of information and communication as ongoing constraints.</li>
+            <li>ST plans to: continue collaborating with MIT classmates, complete additional mock interviews, and submit additional job applications.</li>
+            <li>ST and CS discussed organizing optional co-working sessions.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Art (AT)</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>AT completed quality assurance reviews for nine videos.</li>
+            <li>AT continues serving as the final reviewer for generated video content.</li>
+            <li>AT tested the AI video creation platform.</li>
+            <li>AT partially completed testing activities during the previous week.</li>
+            <li>AT identified current blockers as: competing priorities and multiple simultaneous projects.</li>
+            <li>AT is continuing work on: video platform evaluation, editing, and documentation.</li>
+            <li>AT shared the experience of accepting a position, receiving company equipment, and then having the role eliminated before the official start date, requiring the equipment to be returned.</li>
+            <li>This experience prompted discussion about remaining realistic until employment officially begins.</li>
+          </ul>
+        </div>
+
+        <div>
+          <strong style="color:var(--pitch);">Team Discussion & General Notes</strong>
+          <ul style="margin:2px 0 0 0; padding-left:14px; list-style-type:disc;">
+            <li>Team members discussed establishing consistent weekly routines to improve accountability and productivity.</li>
+            <li>Health and wellness remained a major theme throughout the meeting.</li>
+            <li>The team agreed that maintaining physical health contributes positively to motivation and job search success.</li>
+            <li>Optional co-working sessions will continue to be explored.</li>
+            <li>Future meetings may incorporate visual countdown signals (three fingers, two fingers, one finger) to improve time management.</li>
+            <li>The team discussed extending future meetings to allow additional discussion after accountability updates.</li>
+            <li>The next accountability meeting is scheduled for Thursday, July 16, at T&T Supermarket (Westgate Mall) from 11:00 AM to 2:00 PM. Members may arrive as early as 10:30 AM.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('dueModal')">×</button>
+      <h3 style="font-size:1rem;">📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
+      
+      <form id="weeklyReportForm" method="POST" onsubmit="handleReportSubmit(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="repName" readonly style="background:#f3f4f6; font-weight:600;">
+        </div>
+        <div class="form-group">
+          <label>Report Date</label>
+          <input type="date" id="repDate" required>
+        </div>
+        <div class="form-group">
+          <label>Last Week's Goal</label>
+          <textarea id="repLast" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Result</label>
+          <textarea id="repResult" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Blockers</label>
+          <input type="text" id="repBlock" placeholder="None">
+        </div>
+        <div class="form-group">
+          <label>This Week's Goal</label>
+          <textarea id="repThis" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>First Next Step</label>
+          <input type="text" id="repNext" required>
+        </div>
+        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px;">Submit Update Row</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
+    .then(cfg => {
+      if (cfg && cfg.statuses) {
+        applyStatuses(cfg.statuses);
+      }
+    })
+    .catch(() => {});
+});
+
+function applyStatuses(statuses) {
+  if (!statuses) return;
+  const pillLabel = { progress: 'In Progress', done: 'Done', due: 'Pending', blank: '' };
+  document.querySelectorAll('.player[data-key]').forEach(card => {
+    const key = card.getAttribute('data-key');
+    const status = statuses[key];
+    if (!status) return;
+    const pill = card.querySelector('.pill');
+    if (!pill) return;
+    pill.className = 'pill ' + status;
+    if(key === 'Kar') {
+      pill.textContent = 'TBD';
+    } else {
+      pill.textContent = pillLabel[status] ?? '';
+    }
+  });
+}
+
+let formSubmittedType = ''; 
+let currentActiveUser = '';
+
+function openModal(modalId, userName = '') {
+  document.getElementById(modalId).style.display = 'flex';
+  if(userName) {
+    currentActiveUser = userName;
+    document.getElementById('modalTargetName').textContent = userName;
+    document.getElementById('repName').value = userName;
+    document.getElementById('repDate').value = new Date().toISOString().split('T')[0];
+    ['repLast','repResult','repBlock','repThis','repNext'].forEach(id => document.getElementById(id).value = '');
+  }
+}
+
+function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal-overlay')) e.target.style.display = 'none'; }
+function handleRSVP(e) { formSubmittedType = 'rsvp'; }
+
+function handleReportSubmit(e) {
+  formSubmittedType = 'report';
+  const form = document.getElementById('weeklyReportForm');
+  form.target = 'hidden_iframe';
+  form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse';
+  
+  document.getElementById('repName').name   = 'entry.896357741'; 
+  document.getElementById('repLast').name   = 'entry.1215668338'; 
+  document.getElementById('repDate').name   = 'entry.1215668338'; 
+  document.getElementById('repResult').name = 'entry.389766965'; 
+  document.getElementById('repBlock').name  = 'entry.1878513647'; 
+  document.getElementById('repThis').name   = 'entry.1643524566'; 
+  document.getElementById('repNext').name   = 'entry.222324075'; 
+}
+
+function handleFormDone() {
+  if (formSubmittedType === 'rsvp') {
+    alert("RSVP synced successfully!");
+  } else if (formSubmittedType === 'report') {
+    alert("Weekly report submitted successfully!");
+    closeModal('dueModal');
+    document.getElementById('weeklyReportForm').reset();
+    ['repName','repDate','repLast','repResult','repBlock','repThis','repNext'].forEach(id => {
+      document.getElementById(id).removeAttribute('name');
+    });
+  }
+  formSubmittedType = '';
+}
+</script>
+</body>
+</html>

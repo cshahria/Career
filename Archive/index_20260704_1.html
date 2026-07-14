@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cyrus Shahriari – Enterprise Product & ITSM Strategist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --navy: #0b1b33;
+      --navy-light: #12284a;
+      --accent: #1f5fbf;
+      --bg: #f4f5f7;
+      --card-bg: #ffffff;
+      --text-main: #222222;
+      --text-muted: #666666;
+      --border-soft: #dde1e7;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(11, 27, 51, 0.96);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+    .navbar-brand {
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+    }
+    .navbar-nav {
+      display: flex;
+      gap: 24px;
+    }
+    .navbar-nav a {
+      color: #e4e8f2;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .navbar-nav a:hover {
+      color: #ffffff;
+    }
+    /* HERO */
+    .hero {
+      margin-top: 64px;
+      background: radial-gradient(circle at top left, #1f5fbf 0, #0b1b33 45%, #050a14 100%);
+      color: #ffffff;
+      padding: 80px 20px 60px;
+    }
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr);
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-main h1 {
+      font-size: 2.6rem;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+    .hero-main h2 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #c7d2e8;
+      margin-bottom: 18px;
+    }
+    .hero-main p {
+      font-size: 0.98rem;
+      color: #d7e0f2;
+      max-width: 620px;
+      margin-bottom: 24px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+        transform 0.1s ease;
+    }
+    .btn-primary {
+      background: #ffffff;
+      color: var(--navy);
+      border-color: #ffffff;
+    }
+    .btn-primary:hover {
+      background: #e9edf7;
+      border-color: #e9edf7;
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: #ffffff;
+      border-color: #c7d2e8;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .hero-meta {
+      font-size: 0.85rem;
+      color: #aeb9d4;
+      margin-top: 10px;
+    }
+    .hero-card {
+      background: rgba(9, 20, 43, 0.9);
+      border-radius: 12px;
+      padding: 22px;
+      border: 1px solid rgba(111, 143, 201, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .hero-profile-img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .hero-card-content {
+      width: 100%;
+      text-align: left;
+    }
+    .hero-card-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9fb3e0;
+      margin-bottom: 8px;
+    }
+    .hero-card p {
+      font-size: 0.9rem;
+      color: #dde5f7;
+    }
+    /* LAYOUT */
+    .section {
+      max-width: 1100px;
+      margin: 26px auto;
+      padding: 0 20px;
+      scroll-margin-top: 80px;
+    }
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 24px 26px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      border: 1px solid var(--border-soft);
+    }
+    .section-title {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--navy-light);
+      margin-bottom: 14px;
+    }
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+    /* EXPERIENCE ACCORDIONS */
+    .experience-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .exp-item {
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      overflow: hidden;
+    }
+    .exp-item details {
+      width: 100%;
+    }
+    .exp-item summary {
+      list-style: none;
+      outline: none;
+      cursor: pointer;
+      padding: 16px 18px;
+      transition: background 0.15s ease;
+    }
+    .exp-item summary::-webkit-details-marker {
+      display: none;
+    }
+    .exp-item summary:hover {
+      background: #f8fafc;
+    }
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      padding-right: 24px;
+    }
+    .exp-header::after {
+      content: '▸';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+    .exp-item details[open] summary .exp-header::after {
+      transform: translateY(-50%) rotate(90deg);
+    }
+    .exp-main-title {
+      display: flex;
+      flex-direction: column;
+    }
+    .exp-role {
+      font-weight: 600;
+      color: var(--navy-light);
+      font-size: 0.98rem;
+    }
+    .exp-company {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .exp-dates {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .exp-content {
+      padding: 4px 18px 18px 18px;
+      border-top: 1px dashed var(--border-soft);
+      background: #fafbfc;
+    }
+    .exp-bullets {
+      padding-left: 18px;
+      margin-top: 8px;
+    }
+    .exp-bullets li {
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+    /* SKILLS PILLARS WITH ICONS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .skill-group {
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      padding: 14px;
+      background: #ffffff;
+    }
+    .skill-group h4 {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--navy-light);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-icon {
+      font-size: 1.1rem;
+      display: inline-block;
+    }
+    .skill-group p {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 0;
+    }
+
+    /* CERTIFICATIONS GALLERY */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .cert-item {
+      border: 1px solid var(--border-soft);
+      border-radius: 8px;
+      background: #ffffff;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .cert-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+    .cert-thumb-wrapper {
+      background: #eaecef;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .cert-thumb-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .cert-pdf-placeholder {
+      font-size: 2.2rem;
+      color: #b32424;
+      font-weight: bold;
+    }
+    .cert-caption {
+      padding: 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-main);
+      text-align: center;
+      border-top: 1px solid var(--border-soft);
+      background: #fafafa;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* POPUP LIGHTBOX MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(11, 27, 51, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-wrapper {
+      background: #ffffff;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .modal-header {
+      padding: 14px 20px;
+      background: #f8f9fa;
+      border-bottom: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy-light);
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      line-height: 1;
+    }
+    .modal-close-btn:hover {
+      color: #000000;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f2f5;
+      min-height: 300px;
+    }
+    .modal-body img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-radius: 4px;
+    }
+    .modal-pdf-box {
+      text-align: center;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-soft);
+    }
+    .modal-pdf-box p {
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    /* CONTACT */
+    .contact-list {
+      list-style: none;
+      font-size: 0.95rem;
+    }
+    .contact-list li {
+      margin-bottom: 6px;
+    }
+    /* FOOTER */
+    footer {
+      margin-top: 30px;
+      background: var(--navy);
+      color: #c7d2e8;
+      text-align: center;
+      padding: 16px 10px 20px;
+      font-size: 0.85rem;
+    }
+    /* RESPONSIVE */
+    @media (max-width: 800px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+      }
+      .navbar {
+        padding: 0 16px;
+      }
+      .navbar-nav {
+        gap: 14px;
+      }
+      .hero {
+        padding: 70px 16px 40px;
+      }
+      .hero-card {
+        flex-direction: row;
+        text-align: left;
+      }
+      .hero-profile-img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+    @media (max-width: 600px) {
+      .navbar-nav {
+        display: none;
+      }
+      .hero-main h1 {
+        font-size: 2.1rem;
+      }
+      .hero-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+  <script data-goatcounter="https://cshahria.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">CYRUS SHAHRIARI</div>
+    <div class="navbar-nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#certs">ITIL Documentation</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="hero">
+    <div class="hero-inner">
+      <div class="hero-main">
+        <h1>CYRUS SHAHRIARI</h1>
+        <h2>IT Service Management (ITSM) & Change Control Manager</h2>
+        <p>
+          IT Service Management leader with a 10+ year background optimizing infrastructure operations, establishing rigorous change control guardrails, and managing complex incident cycles. Expert at facilitating cross-functional alignment, stabilizing multi-platform environments, and leveraging modern service technologies to reduce operational friction and safeguard delivery continuity.
+        </p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank">
+            View LinkedIn Profile
+          </a>
+          <a class="btn btn-outline" href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank">
+            View Public Resume (PDF)
+          </a>
+        </div>
+        <div class="hero-meta">
+          San Jose, CA • English (Fluent), German (Native)
+        </div>
+      </div>
+      <aside class="hero-card">
+        <img src="2026_Profile.jpeg" alt="Cyrus Shahriari" class="hero-profile-img" />
+        <div class="hero-card-content">
+          <div class="hero-card-title">Current Focus</div>
+          <p>
+            Recently concluded my FIFA Fan Operations volunteer assignment after successfully delivering the Integrated Risk Management, Regulatory Change, and Audit Management portfolios at ServiceNow. During Q3 2026, I am focused on my career transition through LHH and CalJOBS while leveraging GitHub and AI-powered tools to document projects, showcase progress, and continuously expand my skills. I also participate in the unPTO accountability group to stay engaged, maintain momentum, and support fellow job seekers.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+<!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="section-card" style="text-align: center; padding: 24px 20px;">
+      <h3 class="section-title" style="margin-bottom: 18px;">Get in Touch</h3>
+      
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 800px; margin: 0 auto;">
+        
+        <!-- Email Link -->
+        <a href="mailto:cyrus.shahriari@gmail.com" class="btn btn-outline" 
+           style="color: var(--text-main); border-color: var(--border-soft); background: #fafafa; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='#f0f4fa'; this.style.borderColor='var(--accent)';" 
+           onmouseout="this.style.background='#fafafa'; this.style.borderColor='var(--border-soft)';">
+          <span style="font-size: 1.1rem; margin-right: 6px;">✉️</span> Email Me
+        </a>
+
+        <!-- LinkedIn Link -->
+        <a href="https://www.linkedin.com/in/cyrusshahriari/" target="_blank" class="btn btn-outline" 
+           style="color: var(--text-main); border-color: var(--border-soft); background: #fafafa; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='#f0f4fa'; this.style.borderColor='var(--accent)';" 
+           onmouseout="this.style.background='#fafafa'; this.style.borderColor='var(--border-soft)';">
+          <span style="font-size: 1.1rem; margin-right: 6px;">💼</span> LinkedIn
+        </a>
+
+        <!-- Resume Link -->
+        <a href="https://drive.google.com/file/d/14wM53nA5FkWUB0uM7VlkbH4SPaELU3xi/view?usp=sharing" target="_blank" class="btn btn-outline" 
+           style="color: var(--text-main); border-color: var(--border-soft); background: #fafafa; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; transition: all 0.15s ease;"
+           onmouseover="this.style.background='#f0f4fa'; this.style.borderColor='var(--accent)';" 
+           onmouseout="this.style.background='#fafafa'; this.style.borderColor='var(--border-soft)';">
+          <span style="font-size: 1.1rem; margin-right: 6px;">📄</span> Public Resume
+        </a>
+
+        <!-- Location Badge (Non-clickable) -->
+        <div class="btn" 
+             style="color: var(--text-muted); border: 1px dashed var(--border-soft); background: transparent; border-radius: 8px; font-weight: 500; font-size: 0.88rem; flex: 1; min-width: 160px; cursor: default;">
+          <span style="font-size: 1.1rem; margin-right: 6px;">📍</span> San Jose, CA
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  
+ 
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Experience</h3>
+      <p class="section-subtitle">
+        Selected roles and achievements across enterprise product management, IT service management, and governance. Click an entry to expand architectural project breakdowns.
+      </p>
+
+      <div class="experience-grid">
+
+        <!-- ServiceNow -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">Product Manager</span>
+                  <span class="exp-company">ServiceNow, Santa Clara, CA</span>
+                </div>
+                <div class="exp-dates">January 2025 – May 2026</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Managed the Integrated Risk Management (IRM) portfolio, including Audit Management, Regulatory Change Management, Policy & Compliance, and Risk Management.</li>
+                <li>Led Agentic AI deployment for the IRM platform as "Customer Zero," driving a 30% improvement in operational efficiency across a multi‑million‑dollar product portfolio.</li>
+                <li>Owned end‑to‑end incident management for IRM, performing root cause analysis and serving as primary stakeholder communication lead for all platform incidents and resolutions.</li>
+                <li>Defined and prioritized product backlog items, authored user stories, and drove sprint ceremonies in close partnership with Level 2/3 engineering teams for continuous platform improvements.</li>
+                <li>Integrated Zoom Agentic AI into the ServiceNow platform to optimize scheduling, record management, and cross‑functional engagement workflows.</li>
+                <li>Delivered compliance oversight for Audit, Regulatory Change, and Policy Management products, ensuring alignment with internal controls and regulatory frameworks.</li>
+                <li>Championed workflow enhancements across approval flows and notification systems, increasing change compliance and audit readiness for internal business stakeholders.</li>
+                <li>Resolved complex platform incidents (e.g., eSignature plugin failure) through cross‑functional collaboration and hands‑on technical analysis, restoring functionality and improving user experience.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- Cypress HCM at ServiceNow -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">Business Systems Analyst</span>
+                  <span class="exp-company">Cypress HCM at ServiceNow, Santa Clara, CA</span>
+                </div>
+                <div class="exp-dates">May 2023 – January 2025</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Owned the Visitor Management application across 20+ global locations, including mobile version upgrades, hardware integration, and multi‑region deployment coordination.</li>
+                <li>Managed the inaugural deployment of the Occupational Health & Safety application module, establishing baseline processes and governance standards.</li>
+                <li>Reduced open incidents and service requests by 40% within three months through systematic backlog prioritization and proactive stakeholder engagement.</li>
+                <li>Developed an internal operational dashboard providing real‑time visibility into application health and escalation metrics for leadership.</li>
+                <li>Coordinated with global development and QA teams (50+ hours/week), authoring user stories, defect reports, and conducting knowledge transfer sessions.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- First Republic Bank -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">Sr. IT Infrastructure Change Analyst</span>
+                  <span class="exp-company">First Republic Bank, San Francisco, CA</span>
+                </div>
+                <div class="exp-dates">May 2020 – May 2023</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Assessed 1,200+ monthly change records, applying ITIL change management principles to reduce emergency/expedited changes by 50%, significantly lowering organizational risk.</li>
+                <li>Increased standard (pre‑approved) changes by 15% through automation initiatives and targeted training programs for change submitters.</li>
+                <li>Chaired bi‑weekly Change Advisory Board (CAB) meetings, facilitating cross‑functional risk discussions and approvals across infrastructure, applications, and security teams.</li>
+                <li>Investigated failed changes and post‑implementation incidents, delivering root cause analysis reports and remediation training to reduce repeat failures.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- Lumentum -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">ITIL Process Manager</span>
+                  <span class="exp-company">Lumentum, San Jose, CA</span>
+                </div>
+                <div class="exp-dates">January 2020 – July 2020</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Led ITIL process development and oversight focusing on Incident, Change, Configuration, and Problem Management.</li>
+                <li>Organized bi‑weekly Change Advisory Board (CAB) meetings covering three regions.</li>
+                <li>Designed and implemented the Configuration Management Database (CMDB) on the ServiceNow CSDM model.</li>
+                <li>Assisted with the migration from Jira Service Desk to ServiceNow in the first quarter of 2020.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- AbbVie -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">ServiceNow Business Analyst</span>
+                  <span class="exp-company">AbbVie, Sunnyvale, CA</span>
+                </div>
+                <div class="exp-dates">August 2018 – December 2019</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Performed domain architecture activities in ServiceNow for a leading pharmaceutical organization.</li>
+                <li>Analyzed and mapped the "As‑Is" Human Resources (HR) process via Workday to ServiceNow.</li>
+                <li>Supported HR hire, termination, and organizational change workflows in the ITSM platform.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- Kaiser Permanente -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">Business Systems Analyst</span>
+                  <span class="exp-company">Kaiser Permanente, Pleasanton, CA</span>
+                </div>
+                <div class="exp-dates">November 2017 – August 2018</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Supported IT Asset Management (ITAM) and Software Asset Management (SAM) projects using the Matrix42 Suite.</li>
+                <li>Implemented server licensing provisioning processes and tracked software utilization to ensure compliance.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- Dimension Data -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">ITSM Data / Business Analyst</span>
+                  <span class="exp-company">Dimension Data, Santa Clara, CA</span>
+                </div>
+                <div class="exp-dates">April 2016 – November 2017</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Supported ITSM data analysis and business analysis activities across enterprise service management initiatives.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- Cooper Technologies -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">IT Service Consultant</span>
+                  <span class="exp-company">Cooper Technologies, Santa Cruz, CA</span>
+                </div>
+                <div class="exp-dates">June 2015 – March 2016</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Delivered IT service consulting and process improvement support for small to mid‑sized organizations.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+        <!-- Health Shared Services BC -->
+        <article class="exp-item">
+          <details>
+            <summary>
+              <div class="exp-header">
+                <div class="exp-main-title">
+                  <span class="exp-role">Sr. Coordinator / Business Analyst</span>
+                  <span class="exp-company">Health Shared Services BC, Vancouver, Canada</span>
+                </div>
+                <div class="exp-dates">January 2013 – June 2014</div>
+              </div>
+            </summary>
+            <div class="exp-content">
+              <ul class="exp-bullets">
+                <li>Coordinated and analyzed business processes in a large healthcare shared services environment.</li>
+              </ul>
+            </div>
+          </details>
+        </article>
+
+      </div>
+    </div>
+  </section>
+  
+<!-- SKILLS -->
+  <section id="skills" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Skills</h3>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h4><span class="skill-icon">⚙️</span>ITSM & Governance</h4>
+          <p>
+            IT Service Management, IT Change Management, ITIL Process Design, Governance, Regulatory & Compliance,
+            Incident & Root Cause Analysis, Change Advisory Board (CAB) Facilitation, Request for Change (RFC) Assessment.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4><span class="skill-icon">💻</span>Platforms & Tools</h4>
+          <p>
+            ServiceNow (Incident, Request, Change, Integrated Risk Management, Workplace Services, Visitor Management),
+            HP Service Manager, Matrix42, Jira.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4><span class="skill-icon">🤖</span>AI & Agentic Workflows</h4>
+          <p>
+            Agentic AI (ServiceNow), Claude Enterprise, Google Gemini, Microsoft Copilot, DeepSeek, AI‑enabled workflows
+            for governance, risk, and compliance.
+          </p>
+        </div>
+        <div class="skill-group">
+          <h4><span class="skill-icon">📊</span>Business Analysis</h4>
+          <p>
+            Requirements Gathering, User Story Authoring, Gap Analysis, Process Mapping, UAT/QA, Operational Dashboards,
+            Cross‑functional Stakeholder Engagement.
+          </p>
+        </div>
+
+  </section>
+  
+  <!-- ITIL DOCUMENTATION -->
+  <section id="certs" class="section">
+    <div class="section-card">
+      <h3 class="section-title">ITIL Certifications</h3>
+      <p class="section-subtitle">Select ITIL framework verifications, scans, and verified examination portfolios.</p>
+      
+      <div class="cert-grid">
+        <!-- Scan 1 -->
+        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_1.png', 'ITIL Certificate Scan - Page 1')">
+          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_1.png" alt="Scan 1" /></div>
+          <div class="cert-caption">ITIL v4 - Alison </div>
+        </div>
+        <!-- Scan 2 -->
+        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_2.png', 'ITIL Certificate Scan - Page 2')">
+          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_2.png" alt="Scan 2" /></div>
+          <div class="cert-caption">ITIL v4 Foundation - APM Group</div>
+        </div>
+        <!-- Scan 3 -->
+        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_7.png', 'ITIL Certificate Scan - Page 7')">
+          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_7.png" alt="Scan 7" /></div>
+          <div class="cert-caption">ITIL Foundation v3 - Exagon </div>
+        </div>
+        <!-- Scan 4 -->
+        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_9.png', 'ITIL Certificate Scan - Page 9')">
+          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_9.png" alt="Scan 9" /></div>
+          <div class="cert-caption">ITIL v3 Capability - Maxpert</div>
+        </div>
+        <!-- Scan 5 -->
+        <div class="cert-item" onclick="openLightbox('image', './ITIL_4/2026_070311_10.png', 'ITIL Certificate Scan - Page 10')">
+          <div class="cert-thumb-wrapper"><img src="./ITIL_4/2026_070311_10.png" alt="Scan 10" /></div>
+          <div class="cert-caption">ITIL Overview for Techs OpSys</div>
+        </div>
+        <!-- PDF 1 -->
+        <div class="cert-item" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4.pdf', 'ITIL v4 Framework Syllabus / Core Document')">
+          <div class="cert-thumb-wrapper"><span class="cert-pdf-placeholder">PDF</span></div>
+          <div class="cert-caption">ITIL v4 Core Document</div>
+        </div>
+        <!-- PDF 2 -->
+        <div class="cert-item" onclick="openLightbox('pdf', './ITIL_4/2026_ITIL_v4_Allison-7588-59437053.pdf', 'ITIL v4 Official Examination Certificate Summary')">
+          <div class="cert-thumb-wrapper"><span class="cert-pdf-placeholder">PDF</span></div>
+          <div class="cert-caption">ITIL Certificate File</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- VOLUNTEER SERVICE & COMMUNITY LEADERSHIP -->
+  <section id="volunteer" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Volunteer Service & Community Leadership</h3>
+      <p class="section-subtitle">Active community engagement, public safety support, and large-scale operational logistics.</p>
+      
+      <div class="cert-grid">
+        <!-- World Cup 2026 -->
+        <div class="cert-item" onclick="openWorldCupModal()">
+          <div class="cert-thumb-wrapper">
+            <img src="./2026_World_Cup/2026_World_Cup_USA.png" alt="World Cup 2026" />
+          </div>
+          <div class="cert-caption">
+            <div>
+              <strong>World Cup 2026 - Fan Operations</strong><br>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Santa Clara, CA • Jun 2025 - Jul 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEMA CERT -->
+        <div class="cert-item" onclick="openLightbox('image', './FEMA/CERT.png', 'Community Emergency Response Team (CERT) Verification')">
+          <div class="cert-thumb-wrapper">
+            <img src="./FEMA/CERT.png" alt="FEMA CERT" />
+          </div>
+          <div class="cert-caption">
+            <div>
+              <strong>Community Emergency Response Team</strong><br>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">San Jose, CA • Jun 2019 – May 2023</span>
+            </div>
+          </div>
+        </div>
+
+<!-- Moreland West Neighborhood Association -->
+        <a class="cert-item" href="https://morelandwestneighborhood.wordpress.com/" target="_blank" style="text-decoration: none; display: flex; flex-direction: column;">
+          <div class="cert-thumb-wrapper">
+            <span class="cert-pdf-placeholder" style="color: var(--accent); font-size: 1.8rem;">🔗</span>
+          </div>
+          <div class="cert-caption">
+            <div style="text-align: center; width: 100%;">
+              <strong style="color: var(--text-main);">Moreland West Neighborhood</strong><br>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">San Jose, CA • Jan 2019 - Present</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- EMERGENCY MANAGEMENT INSTITUTE DOCUMENTATION -->
+  <section id="fema-certs" class="section">
+    <div class="section-card">
+      <h3 class="section-title">Emergency Management Institute Documentation</h3>
+      <p class="section-subtitle">Federal Emergency Management Agency (FEMA) certifications and specialized training validation.</p>
+      
+      <p style="margin-top: 14px; margin-bottom: 16px; font-style: italic; color: var(--navy-light); font-weight: 500;">
+        Exclusively invited to high-level, in-person training from January 30 – February 3, 2023, at the Emergency Management Institute (EMI) in Emmitsburg, MD. This unique residency provided intensive, hands-on crisis management simulations and advanced collaborative disaster planning alongside senior regional operations leaders.
+      </p>
+
+      <div class="cert-grid">
+        <!-- Scan 1 -->
+        <div class="cert-item" onclick="openLightbox('image', './FEMA/2026_070310_1.png', 'FEMA Certificate - ')">
+          <div class="cert-thumb-wrapper"><img src="./FEMA/2026_070310_1.png" alt="FEMA Cert 1" /></div>
+          <div class="cert-caption">FEMA Verification (1.9)</div>
+        </div>
+        <!-- Scan 2 -->
+        <div class="cert-item" onclick="openLightbox('image', './FEMA/2026_070310_2.png', 'FEMA Certificate Scan - Page 2')">
+          <div class="cert-thumb-wrapper"><img src="./FEMA/2026_070310_2.png" alt="FEMA Cert 2" /></div>
+          <div class="cert-caption">FEMA Verification (1.4)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+  <!-- INFOGRAPHIC (Moved & Scaled Down) -->
+  <section id="infographic" class="section" style="margin-top: 10px; margin-bottom: 20px;">
+    <div style="text-align: center;">
+      <img src="mission.png" alt="Strategic Mission Breakdown"
+           style="max-width: 400px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); opacity: 0.85;" />
+    </div>
+  </section>
+
+  <!-- LIGHTBOX MODAL OVERLAY -->
+  <div id="lightboxModal" class="modal-overlay" onclick="closeLightbox(event)">
+    <div class="modal-wrapper" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div id="modalTitle" class="modal-title">Certificate Document View</div>
+        <button class="modal-close-btn" onclick="toggleModal(false)">&times;</button>
+      </div>
+      <div id="modalBody" class="modal-body">
+        <!-- Content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 Cyrus Shahriari • Enterprise Product & ITSM Strategist • ServiceNow Platform
+  </footer>
+
+  <!-- INTERACTIVE GALLERY SCRIPT -->
+  <script>
+    const modal = document.getElementById('lightboxModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    function toggleModal(show) {
+      if(show) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function openLightbox(type, source, title) {
+      modalTitle.textContent = title;
+      modalBody.innerHTML = '';
+
+      if (type === 'image') {
+        const img = document.createElement('img');
+        img.src = source;
+        img.alt = title;
+        modalBody.appendChild(img);
+      } else if (type === 'pdf') {
+        modalBody.innerHTML = `
+          <div class="modal-pdf-box">
+            <p><strong>${title}</strong></p>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">PDF documents can be opened cleanly in a focused environment or downloaded directly below.</p>
+            <a class="btn btn-primary" href="${source}" target="_blank" style="background: var(--accent); color: white; border-radius: 6px; padding: 8px 16px;">
+              Open PDF File
+            </a>
+          </div>
+        `;
+      }
+      toggleModal(true);
+    }
+
+    function closeLightbox(event) {
+      if (event.target === modal) {
+        toggleModal(false);
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        toggleModal(false);
+      }
+    });
+  </script>
+
+</body>
+</html>
