@@ -1,0 +1,405 @@
+Brittany Kolhagen
+Jul 14, 2026, 2:45 PM (2 days ago)
+to me
+
+Hi Cyrus,
+
+ 
+
+Congratulation on your first interview with Adobe for the ServiceNow HRSD Product Analyst position.
+
+ 
+
+Date: Thursday 7/16/26 9:00- 9:30 AM PT
+
+Duration: 30 Minutes
+
+Mode: Video Conference
+
+Call Instructions: Microsoft Teams meeting
+
+
+Join:
+
+https://teams.microsoft.com/meet/23739341071111?p=yhhzeWGrO2gPGUA10h
+
+ 
+
+Meeting ID:
+
+237 393 410 711 11
+
+
+Passcode:
+
+6mX3f6EN
+
+Type: One on One
+
+Interviewers: Matthew Scott (hiring manager)
+
+ 
+
+We shared your resume at $75/hr and the contract duration for this role is through the end of November with a strong chance of extension.
+
+ 
+
+The office is located in San Jose, CA and this will be a hybrid role.
+
+ 
+
+About the Role:
+
+ 
+
+This position will support HR Service Delivery initiatives across core Employee Experience functions including Payroll, Benefits, Equity, HR Operations, Leave, and Global Mobility. This role will partner closely with HR stakeholders and technical teams to support both run-the-business activities and ongoing HRSD projects within the ServiceNow Employee Workflows ecosystem.
+
+ 
+
+Responsibilities
+
+ 
+
+Co-lead discovery sessions with HR COEs including Payroll, Benefits, Leave, Employee Relations, and Mobility to map current and future state processes, intake models, and SLAs
+Rationalize HR services and workflows across business functions
+Co-author PRDs, epics, user stories, and detailed acceptance criteria
+ 
+
+Configure HRSD service components including:
+
+Catalog items
+Record producers
+Case and task templates
+SLAs
+Notifications
+Quick Messages
+Workspace layouts
+Build and optimize routing models using:
+
+AWA queues
+Skills-based routing
+Capacity planning
+Schedules
+Exception and overflow logic
+ 
+
+Write functional specifications for HRSD and HR Agent Workspace including UI Builder pages, related lists, side panels, and record headers
+Partner with integration teams supporting Workday, Payroll, Equity, and Identity systems
+Define field mappings, source-of-truth logic, error handling, and observability requirements
+Author ATF test cases for critical workflows
+Define Instance Scan rules and support UAT activities including accessibility testing
+Support reporting and dashboard maintenance
+Support hypercare activities post-release
+Operate within CI/CD and maintain update set and source control hygiene
+Maintain RAID logs and support business stakeholder communications
+Translate business requirements into technical requirements for development teams
+ 
+
+Required Qualifications
+
+4+ years of Product Analyst or Business Analyst experience
+2+ years of hands-on ServiceNow HRSD experience
+Strong HRSD architecture and configuration experience
+Experience writing epics, user stories, functional requirements, and acceptance criteria
+Experience with Jira
+ServiceNow System Administrator Certification
+Hands-on HRSD configuration experience required
+ 
+
+Preferred Qualifications
+
+ServiceNow HRSD Implementation Certification
+Experience supporting enterprise HR operations environments
+Experience partnering with HR COEs in large organizations
+ 
+
+Notes from the call with the team:
+
+Manager Matthew Scott
+Work closely with HR, gather their requirements, then work with offshore technical teams to define their technical requirements.
+Monitoring the Testing and UAT process, releasing to production, draft documentations, guiding stakeholders on capabilities.
+Interview process will likely be video call with Matthew, 2nd interview with engineers from HR department, an interview including doing some basic configurations.
+ 
+
+ 
+
+Area’s I’d highlight from your background that align to this role:
+
+Extensive ServiceNow experience across Employee Experience, Workplace Services, and ITSM, with hands-on configuration of catalog items, record producers, SLAs, notifications, and workspace layouts in enterprise environments
+Strong HRSD-aligned workflow design experience including AWA routing, skills-based assignment, capacity planning, and automated task distribution to improve service efficiency and case handling
+Proven ability to lead discovery sessions with cross-functional stakeholders, mapping current and future state processes and translating them into PRDs, epics, user stories, and functional requirements
+Experience supporting enterprise HR service delivery initiatives including case management enhancements, workflow automation, reporting, and UAT/ATF testing across global implementations
+ 
+
+They might bring up a ServiceNow System Admin certification. I’d mention your willingness to obtain it if offered.
+
+ 
+
+Please let me know if you have any questions prior to Thursday!
+
+ 
+
+Thank you,
+
+Brittany
+
+ 
+
+
+
+Brittany Kolhagen| Senior Technical & Creative Recruiter
+
+Cypress, Technology & Creative Recruiting
+
+e: bkolhagen@cypresshcm.com 
+p: (585) 360-0084
+
+facebook icon linkedin icon 
+
+
+
+0 notifications
+
+I'm looking for…
+
+Home
+My Network
+Jobs
+Messaging
+Notifications
+
+
+Me
+
+For Business
+Try Premium for $0
+
+
+Matthew Scott
+
+Product Manager, HR Services
+
+
+More
+Message
+Connect
+
+Experience
+
+Adobe logo
+Product Manager, HR Services
+
+Adobe · Full-time
+
+Mar 2020 - Present · 6 yrs 5 mos
+
+Vienna, Austria
+
+The HRSD Technology Partner is responsible for the management and governance of the ServiceNow HRSD product, to include but not limited to release, upgrade and defect/enhancement planning, data security governance structure, facilitating design workshops between business stakeholders and technical teams for requirements gathering, writing user stories for technical engineers, creating test scripts and scenarios per audience, and managing executive communications. 
+
+ Product Management
+
+Deloitte logo
+ServiceNow HRSD Technical Lead
+
+Deloitte
+
+Oct 2018 - Mar 2020 · 1 yr 6 mos
+
+San Francisco Bay Area
+
+The HRSD architect is responsible for the day-to-day technical delivery of work items and deliverables, including managing the sprint planning and overall agile process during development iterations, as well as ensuring the testing and governance measures are in place to ensure platform health and availability to end users. Overall deliverables include a custom built Case Management application integrated with a document management system for the accurate intake, routing, and resolution of employee inquiries and requests, and a user-friendly Knowledge Management application. 
+
+ Product Management
+
+KPMG US logo
+ServiceNow Solutions Architect
+
+KPMG US
+
+Jan 2018 - Oct 2018 · 10 mos
+
+San Francisco Bay Area
+
+As a solutions architect, Matt will play a critical role in customizing and implementing the ServiceNow HRSD platform (Case Mgmt, Knowledge Mgmt, and Portal) that will be a key component of the client's transformed target HR operating model. Additionally, we will integrate with PeopleSoft, Workday, and Laserfiche, a document repository system, to ensure a seamless user experience across all HR systems. This technology will enhance HR’s strategic, organizational, operational, and fiscal performance.
+
+Operate as project Scrum Master utilizing the ServiceNow SDLC application, responsible for maintaining a groomed backlog of requirements,  facilitating Sprint cadences, recording any enhancements or defects, managing the issue/risk tracker, and providing real-time status updates to leadership via Agile/Scrum KPI reports and weekly project milestone meetings.
+
+ Product Management
+
+Accenture logo
+Infrastructure Sr. Analyst
+
+Accenture
+
+Feb 2016 - Jan 2018 · 2 yrs
+
+San Francisco Bay Area
+
+Define the processes and requirements for ServiceNow developemnt to interlock with other tools in a horizontal, cross-functional Visio process maps and collaborated with multiple senior level on-shore and off-shore resources to obtain and vaidate requirements for a fututre state environment. 
+
+Document and validate user guides for how new business users can best navigate the ServiceNow platform for day-to-day operations, as well as maintain the Catalog of ServiceNow reports consisting of over 400 reports, which can be leveraged by multiple administrator and ITIL user roles within the platform.
+
+Perform tasks at a junior developer level by re-creating the Order Guide's Complex Service Request front-end form during a redesign workshop and assisted with the implementation of the prototype and its future releases. 
+
+Became both System Adminstrator and Scrum Master certified and implemented the Scrum framework/methodologes inside Accenture's SPARK SDLC Agile environment to effectively and accurately reflect team progress throughout each Sprint using burndowns and the Scrum board.
+
+Accenture logo
+Security Analyst Intern
+
+Accenture
+
+Jun 2015 - Aug 2015 · 3 mos
+
+Dallas/Fort Worth Area
+
+Support a multi-year, appliction support, development, and testing enagement at a large energy company.The objective of the implementation is to support IT operations while bringing continuous improvement ideas to the IT organization. 
+
+My tasks and projects consist of data analysis on local KPI/CPI's, compile service delivery meterials, create service management process documentation while supporting the execution of Service Management processes, and client presenation developments and executive messaging.
+
+Daily tasks are completed on Microsoft Excel, PowerPoint, Word, and Visio; advanced SQL querying, SAP, and BODS (Business Objects Data Services).
+
+SAP Modules executed: :
+-Testing 
+-CS CRM 
+-Billing 
+-FICA
+-Web 
+-BI/BW
+
+Supply Chain Management Intern
+
+Specialty Fashion Group
+
+Jun 2014 - Jul 2014 · 2 mos
+
+Shanghai City, China
+
+As an intern I was shuffled around to multiple departments to get a full picture of the entire supply chain process. From sourcing to logistics, I was given an opportunity to use my knowledge from university and apply that to real world applications.
+
+Logisitics: Assisted planning and ordering PO shipments (air and sea) from China and Bangladesh, to Australia and New Zealand. Learned to build supplier/carrier relations and how beneficial the outcomes can potentially be.
+
+Sourcing: Worked alongside the GM preparing vendor relation databases on Access. Visited vendor factories for QC measurements, and to understand how business tansactions are done in China. 
+
+Project Management: Assissted in developing, executing, and approving new business cases 
+
+Merchandising: I mainly constructed pivot tables on Excel for analysis of inventory, current work flows, and tried to identify any bottlenecked areas that needed attention.
+
+Whole Foods Market logo
+Customer Services
+
+Whole Foods Market
+
+Jul 2012 - Dec 2013 · 1 yr 6 mos
+
+Resolves product or service problems by clarifying the customer's complaint; determining the cause of the problem; selecting and explaining the best solution to solve the problem; expediting correction or adjustment; following up to ensure resolution
+
+Recommends potential products or services to management by collecting customer information and analyzing customer needs.
+
+US Army logo
+US Army
+
+4 yrs 5 mos
+
+Infantry
+
+Feb 2007 - Jun 2011 · 4 yrs 5 mos
+
+S-3 Air Operations
+
+Oct 2010 - May 2011 · 8 mos
+
+Assisted with the successful completion of over 1500 air resupply missions and 63 combat operations. Prepared and marked landing zones, managed the rigging of materials and resupply operating procedures with a team of five, and coordinated personnel movements.
+
+
+More profiles for you
+
+Lindsay Wilson
+
+· 3rd
+
+Quality Leader | Quality Control | Biopharmaceutical manufacturing
+
+Message
+Amy Venable
+
+· 3rd+
+
+Domestic Goddess at Venable Family
+
+Message
+Amy Venable
+
+· 3rd+
+
+--
+
+
+Connect
+Amy Venable
+
+· 3rd+
+
+--
+
+
+Connect
+Amy Venable
+
+· 3rd
+
+CEO  at Essentially Amy
+
+Message
+
+Show more
+
+About
+
+Accessibility
+
+Talent Solutions
+
+Community Guidelines
+
+Careers
+
+Marketing Solutions 
+
+Privacy & Terms
+
+Ad Choices
+
+Advertising
+
+Sales Solutions
+
+Mobile
+
+Small Business
+
+Safety Center
+
+LinkedIn Corporation © 2026
+
+Questions?
+
+Visit our Help Center.
+
+Manage your account and privacy
+
+Go to your Settings.
+
+Recommendation transparency
+
+Learn more about Recommended Content.
+
+Select language
+
+
+English (English)
+Cyrus Shahriari
+MessagingYou are on the messaging overlay. Press enter to open the list of conversations.
+
+Compose message
+You are on the messaging overlay. Press enter to open the list of conversations.

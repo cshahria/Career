@@ -1,1 +1,248 @@
+1. Why are you interested in this position?
+
+> I'm excited to contribute to AI and robotics, learn new technology, and do meaningful hands-on work.
+
+2. You seem overqualified. Why this role?
+
+> I'm intentionally seeking meaningful work, stability, and the opportunity to contribute without focusing on title.
+
+3. Won't you leave if a better opportunity comes along?
+
+> I'm looking for stability and would like to grow with the team if it's a good mutual fit.
+
+4. Tell me about yourself.
+
+> I bring enterprise technology, operations, and AI experience with a reputation for reliability, quality, and teamwork.
+
+5. Are you comfortable being active all day?
+
+> Yes. I'm comfortable with physical activity, following procedures, and maintaining consistent performance.
+
+6. Are you comfortable wearing VR and sensor equipment?
+
+> Absolutely. I'm comfortable with new technology and enjoy learning innovative tools.
+
+7. What is your greatest strength?
+
+> Attention to detail, reliability, and consistently following established processes while communicating issues clearly.
+
+---
+
+## Questions for the interviewer
+
+1. Campbell location
+
+> I noticed openings in Campbell, San Jose, and Santa Clara. Since I live near Campbell, could I be considered for that location?
+
+2. Compensation
+
+> Based on my experience, I'd be looking toward the top of the posted range, around $33 per hour.
+
+3. Growth opportunities
+
+> If someone consistently performs well, what growth opportunities are available over time?
+
+4. Contract-to-hire
+
+> What distinguishes employees who are offered permanent positions after the contract period?
+
+
+
+* Interested in AI and robotics beyond traditional enterprise software.
+* Excited to contribute to next-generation AI training.
+* Seeking meaningful, hands-on work with emerging technology.
+* Comfortable working onsite and flexible with shift schedules.
+* Reliable, punctual, and committed to workplace safety.
+* Strong attention to detail and process adherence.
+* Experienced identifying issues and communicating clear feedback.
+* Thrive in structured, procedure-driven environments.
+* Comfortable wearing motion capture sensors and VR equipment.
+* Enjoy learning new technologies and adapting quickly.
+* Background in AI products provides valuable industry perspective.
+* Believe quality data is the foundation of successful AI.
+* Looking for stability and an opportunity to contribute immediately.
+* Happy to be an individual contributor focused on team success.
+* Ready to learn, perform consistently, and grow with the organization.
+
+
+I actually think this interview is more straightforward than some of the senior Product Manager and Business Systems Analyst interviews we've prepared for.
+
+Based on the job description and your resume, your biggest risk is not being underqualified—it's convincing them that you'll genuinely enjoy the work and won't leave after a month. The technical requirements are very simple compared to your background. 
+
+## What they're looking for
+
+They're trying to answer questions like:
+
+* Will this person reliably show up?
+* Can they follow instructions exactly?
+* Are they physically comfortable moving around for an entire shift?
+* Will they pay attention to detail?
+* Can they identify problems and communicate them clearly?
+* Will they be easy to work with?
+
+Notice what's not on that list.
+
+They aren't looking for:
+
+* AI engineers
+* Product Managers
+* Architects
+* ServiceNow experts
+
+They need dependable people who can generate high-quality training data.
+
+---
+
+# The positive story
+
+I would avoid saying:
+
+> "I'm just taking this until I find something better."
+
+Instead, tell a story that is completely truthful but emphasizes why this role actually interests you.
+
+Something like this:
+
+> I've spent most of my career supporting enterprise technology and AI-enabled products. While my background has been largely analytical and operational, this opportunity gives me exposure to another side of AI—how high-quality training data is actually created. I enjoy learning new technology, staying active, and contributing to innovative projects. At this point I'm looking for meaningful work where I can contribute immediately while continuing to broaden my experience.
+
+That sounds much stronger than saying you're "between jobs."
+
+---
+
+# If they ask:
+
+## "Why are you interested in this position?"
+
+I'd answer something like:
+
+> My career has been centered around technology, operations, and AI-enabled products. At ServiceNow I worked with AI initiatives from a product perspective, but this role offers an opportunity to contribute at the foundation level where quality data is created. I enjoy learning new technology, I'm detail-oriented, and I appreciate hands-on work. I'm also local to San Jose, comfortable working onsite, and available for the shifts you're hiring for.
+
+---
+
+## "You seem overqualified."
+
+This will almost certainly come up.
+
+Don't argue.
+
+Agree with them.
+
+Then redirect.
+
+Try something like:
+
+> I understand why it may look that way. My previous roles were certainly more senior. However, I'm intentionally looking for an opportunity where I can stay engaged, continue working with emerging AI technology, and contribute without necessarily having management responsibilities. I don't view every position as needing to be a step up in title. Right now I'm focused on doing good work with a strong team.
+
+That removes their biggest concern.
+
+---
+
+## "Won't you leave as soon as another opportunity comes along?"
+
+Probably the hardest question.
+
+A good answer:
+
+> I understand the concern. I'm looking for stability just as much as employers are looking for reliable employees. If we both find it's a good fit, I'd like to stay and contribute. I wouldn't have applied if I wasn't genuinely interested in the work.
+
+Notice you don't promise anything unrealistic.
+
+---
+
+# They may ask
+
+> Tell me about yourself.
+
+Keep it around two minutes.
+
+> I have a background in business systems analysis, product management, and IT operations, primarily supporting large organizations in healthcare, financial services, and enterprise software. Most recently I worked at ServiceNow helping improve operational processes and AI-enabled workflows, partnering with engineering and product teams to solve business problems. Before that I worked in IT change management at First Republic Bank and in several ServiceNow implementation roles. Throughout my career I've enjoyed technology, process improvement, and working with cross-functional teams. What attracted me to this opportunity is that it combines technology with hands-on work in AI and robotics. I'm excited about learning something different while contributing to a project that's helping shape the next generation of AI systems.
+
+---
+
+# Questions about the work
+
+They'll probably ask something like:
+
+> Can you stand and move for eight hours?
+
+Easy answer.
+
+> Yes. I'm comfortable being active throughout the day. I understand this role involves repeated movements, following defined procedures, and wearing motion capture equipment, and I'm comfortable with that.
+
+---
+
+> Are you comfortable wearing VR equipment?
+
+> Yes. I've worked around technology throughout my career, so wearing sensors or VR equipment doesn't concern me. I'd simply follow the procedures and make sure the data collection is accurate.
+
+---
+
+> Tell me about your attention to detail.
+
+This is where your resume actually helps.
+
+Instead of talking about Product Management, use your Change Management experience.
+
+For example:
+
+> At First Republic Bank I reviewed more than 1,200 infrastructure change records each month. Accuracy was critical because errors could impact production systems. I became very comfortable following procedures, checking details carefully, identifying issues, and communicating findings clearly. 
+
+That directly translates to this job.
+
+---
+
+# Strengths that actually matter
+
+I'd emphasize these five.
+
+* Reliability
+* Attention to detail
+* Ability to follow procedures
+* Strong communication
+* Interest in AI technology
+
+Those are exactly what the job description emphasizes. 
+
+---
+
+# Don't oversell your AI experience
+
+One temptation is to spend ten minutes discussing Agentic AI.
+
+Don't.
+
+Instead say:
+
+> My previous work exposed me to AI from the software and product side. What interests me here is seeing how the training data is created. Every successful AI system starts with quality data, so I think it'll be fascinating to contribute to that process.
+
+That demonstrates enthusiasm without making it sound like the work is beneath you.
+
+---
+
+# Questions you should ask them
+
+Toward the end of the interview, consider asking:
+
+1. "How is success measured during the first month?"
+
+2. "How long does the training typically take before someone is fully independent?"
+
+3. "What qualities separate your top performers?"
+
+4. "What kinds of robots or AI systems are these motion datasets ultimately supporting?" (If they're able to share.)
+
+5. "What does the contract-to-hire decision usually depend on?"
+
+These questions show genuine curiosity about the work rather than just the paycheck.
+
+## My overall assessment
+
+I think you have a very good chance of getting this position if you focus on fit rather than credentials.
+
+Your resume demonstrates years of following structured processes, documenting accurately, identifying issues, collaborating with teams, and working with advanced technology. Those are valuable strengths for this role. 
+
+The key is to make the interviewer feel comfortable that you're applying because you're genuinely interested in the opportunity, not because you're reluctantly settling for it while waiting for something else. If you communicate curiosity, reliability, and enthusiasm for contributing to AI development, your background becomes an asset rather than a concern.
+
+
+
  Saved jobs 0 Aerotek header logo CAREER PATHS SPECIALIZATIONS INSIGHTS ABOUT US CONTACT US LOCATIONS - Security Alert: Be aware of an increase in fraudulent activity involving people impersonating Aerotek recruiters and requesting payment in exchange for job opportunities. We advise that you do not respond to these requests. Click here to learn how to protect yourself from recruitment scams. Close Covid-19 banner JobDescriptionHeaderv2 AI Robot Data Collector locationSan Jose, California, USA 28 USD - 33 USD/hour Save Job Share via email Share via Facebook Share via LinkedIn Share via twitter Data Collector San Jose, CA, US Job Description As a Data Collector/Helix Creator, you will play a pivotal role in guiding the robot through human-like motions by wearing sensor equipment. Your efforts will contribute to the collection of high-quality motion data essential for training AI models. You will also be responsible for identifying and flagging any issues or bugs during data collection and providing daily feedback to the team. Maintaining a safe and organized workspace is crucial during all operations. ⏰ Shift Hours Shift 1: 2:30 PM – 10:00 PM Shift 2: 10:00 PM – 7:30 AM Shift 3: 6:30AM-3:00PM 📅 Shift Day Patterns You can pair your chosen shift with one of these weekly rotations: Wednesday – Sunday Thursday – Monday Friday – Tuesday Saturday – Wednesday (You’ll need to choose one of these shifts) Responsibilities Guide the robot through human-like motions using sensor equipment. Collect high-quality motion data for AI model training. Identify and flag issues or bugs during data collection. Share daily feedback with the team. Maintain a safe and organized workspace. Job Type & Location This is a Contract to Hire position based out of San Jose, CA. Pay and Benefits The pay range for this position is $28.00 - $33.00/hr. Eligibility requirements apply to some benefits and may depend on your job classification and length of employment. Benefits are subject to change and may be subject to specific elections, plan, or program terms. If eligible, the benefits available for this temporary role may include the following: • Medical, dental & vision • Critical Illness, Accident, and Hospital • 401(k) Retirement Plan – Pre-tax and Roth post-tax contributions available • Life Insurance (Voluntary Life & AD&D for the employee and dependents) • Short and long-term disability • Health Spending Account (HSA) • Transportation benefits • Employee Assistance Program • Time Off/Leave (PTO, Vacation or Sick Leave) Workplace Type This is a fully onsite position in San Jose,CA. Application Deadline This position is anticipated to close on Jul 23, 2026. About Aerotek Aerotek® Inc. provides staffing and services solutions in manufacturing, logistics, construction, aviation, facilities and maintenance. We provide the expertise, solutions and people required to rise to the challenges of North American industry. Headquartered in Hanover, Md., Aerotek operates a unified network of over 200 offices across North America, supporting more than 18,000 clients each year. Aerotek is an Allegis Group company, the global leader in workforce and business solutions. To learn more, visit: Aerotek.com | 1-888-AEROTEK. Aerotek offers weekly pay, employee benefits including medical, dental & vision, life insurance, health advocacy and employee assistance programs, a 401(k) plan, and employee discounts. The company is an equal opportunity employer and will consider all applications without regards to race, sex, age, color, religion, national origin, veteran status, disability, sexual orientation, gender identity, genetic information or any characteristic protected by law. San Francisco Fair Chance Ordinance: Pursuant to the San Francisco Fair Chance Ordinance, for all positions located in the city and county of San Francisco, we will consider for employment qualified applicants with arrest and conviction records. Massachusetts Lie Detector: It is unlawful in Massachusetts to require or administer a lie detector test as a condition of employment or continued employment. An employer who violates this law shall be subject to criminal penalties and civil liability. Use of Artificial Intelligence (AI): We may use Artificial Intelligence (AI) to support parts of our hiring process, including sourcing, screening, and evaluating candidates. AI helps assess applications and qualifications, but final decisions are made by our hiring team. By applying, you acknowledge and agree that your application may be reviewed using AI tools. Receive notifications about similar jobs I’d like to receive Job Alerts and other marketing emails from Aerotek to assist me with my job search. I understand that I may opt out at any time. Enter Email address (Required) your@email.com Manage alerts Similar Jobs Robot Data Collector LocationCampbell, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationCampbell, California, USA CategoryManufacturing & Production man in glasses with ear protection around neck Let jobs find you Sign up to receive personalized job recommendations I’d like to receive Job Alerts and other marketing emails from Aerotek to assist me with my job search. I understand that I may opt out at any time. Sign Up Aerotek logo COMPANY WEBSITE social share facebook social share linkedin social share youtube social share twitter social share instagram © 2026 Aerotek, Inc. All rights reserved. Saved jobs 0 Aerotek header logo CAREER PATHS SPECIALIZATIONS INSIGHTS ABOUT US CONTACT US LOCATIONS - Security Alert: Be aware of an increase in fraudulent activity involving people impersonating Aerotek recruiters and requesting payment in exchange for job opportunities. We advise that you do not respond to these requests. Click here to learn how to protect yourself from recruitment scams. Close Covid-19 banner JobDescriptionHeaderv2 AI Robot Data Collector locationSan Jose, California, USA 28 USD - 33 USD/hour Save Job Share via email Share via Facebook Share via LinkedIn Share via twitter Data Collector San Jose, CA, US Job Description As a Data Collector/Helix Creator, you will play a pivotal role in guiding the robot through human-like motions by wearing sensor equipment. Your efforts will contribute to the collection of high-quality motion data essential for training AI models. You will also be responsible for identifying and flagging any issues or bugs during data collection and providing daily feedback to the team. Maintaining a safe and organized workspace is crucial during all operations. ⏰ Shift Hours Shift 1: 2:30 PM – 10:00 PM Shift 2: 10:00 PM – 7:30 AM Shift 3: 6:30AM-3:00PM 📅 Shift Day Patterns You can pair your chosen shift with one of these weekly rotations: Wednesday – Sunday Thursday – Monday Friday – Tuesday Saturday – Wednesday (You’ll need to choose one of these shifts) Responsibilities Guide the robot through human-like motions using sensor equipment. Collect high-quality motion data for AI model training. Identify and flag issues or bugs during data collection. Share daily feedback with the team. Maintain a safe and organized workspace. Job Type & Location This is a Contract to Hire position based out of San Jose, CA. Pay and Benefits The pay range for this position is $28.00 - $33.00/hr. Eligibility requirements apply to some benefits and may depend on your job classification and length of employment. Benefits are subject to change and may be subject to specific elections, plan, or program terms. If eligible, the benefits available for this temporary role may include the following: • Medical, dental & vision • Critical Illness, Accident, and Hospital • 401(k) Retirement Plan – Pre-tax and Roth post-tax contributions available • Life Insurance (Voluntary Life & AD&D for the employee and dependents) • Short and long-term disability • Health Spending Account (HSA) • Transportation benefits • Employee Assistance Program • Time Off/Leave (PTO, Vacation or Sick Leave) Workplace Type This is a fully onsite position in San Jose,CA. Application Deadline This position is anticipated to close on Jul 23, 2026. About Aerotek Aerotek® Inc. provides staffing and services solutions in manufacturing, logistics, construction, aviation, facilities and maintenance. We provide the expertise, solutions and people required to rise to the challenges of North American industry. Headquartered in Hanover, Md., Aerotek operates a unified network of over 200 offices across North America, supporting more than 18,000 clients each year. Aerotek is an Allegis Group company, the global leader in workforce and business solutions. To learn more, visit: Aerotek.com | 1-888-AEROTEK. Aerotek offers weekly pay, employee benefits including medical, dental & vision, life insurance, health advocacy and employee assistance programs, a 401(k) plan, and employee discounts. The company is an equal opportunity employer and will consider all applications without regards to race, sex, age, color, religion, national origin, veteran status, disability, sexual orientation, gender identity, genetic information or any characteristic protected by law. San Francisco Fair Chance Ordinance: Pursuant to the San Francisco Fair Chance Ordinance, for all positions located in the city and county of San Francisco, we will consider for employment qualified applicants with arrest and conviction records. Massachusetts Lie Detector: It is unlawful in Massachusetts to require or administer a lie detector test as a condition of employment or continued employment. An employer who violates this law shall be subject to criminal penalties and civil liability. Use of Artificial Intelligence (AI): We may use Artificial Intelligence (AI) to support parts of our hiring process, including sourcing, screening, and evaluating candidates. AI helps assess applications and qualifications, but final decisions are made by our hiring team. By applying, you acknowledge and agree that your application may be reviewed using AI tools. Receive notifications about similar jobs I’d like to receive Job Alerts and other marketing emails from Aerotek to assist me with my job search. I understand that I may opt out at any time. Enter Email address (Required) your@email.com Manage alerts Similar Jobs Robot Data Collector LocationCampbell, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationCampbell, California, USA CategoryManufacturing & Production man in glasses with ear protection around neck Let jobs find you Sign up to receive personalized job recommendations I’d like to receive Job Alerts and other marketing emails from Aerotek to assist me with my job search. I understand that I may opt out at any time. Sign Up Aerotek logo COMPANY WEBSITE social share facebook social share linkedin social share youtube social share twitter social share instagram © 2026 Aerotek, Inc. All rights reserved. Saved jobs 0 Aerotek header logo CAREER PATHS SPECIALIZATIONS INSIGHTS ABOUT US CONTACT US LOCATIONS - Security Alert: Be aware of an increase in fraudulent activity involving people impersonating Aerotek recruiters and requesting payment in exchange for job opportunities. We advise that you do not respond to these requests. Click here to learn how to protect yourself from recruitment scams. Close Covid-19 banner JobDescriptionHeaderv2 Robot Data Collector locationCampbell, California, USA 28 USD - 33 USD/hour Save Job Share via email Share via Facebook Share via LinkedIn Share via twitter Robot/Data Collector $30–$33/hr | No Experience Required | Day, Swing & Overnight Shifts Available Help Train the Next Generation of AI & Robotics We're looking for motivated individuals to join our team as Robot Operators / AI Data Collectors. In this unique, hands-on role, you'll wear motion-capture sensors and VR equipment to perform everyday movements that help train advanced AI and robotic systems. No previous experience is required—we provide training. Responsibilities Perform human-like movements while wearing sensor equipment Collect motion data used to train AI models Ensure data quality and follow established procedures Report equipment, software, or process issues Provide feedback to help improve operations Qualifications Comfortable being physically active for up to 8 hours per shift Comfortable wearing a VR headset and sensor equipment Basic computer skills Reliable, detail-oriented, and able to follow directions Interest in technology, robotics, or AI is a plus Why Apply? $30–$33 per hour No experience required Paid training provided Multiple shifts available Gain experience working with cutting-edge AI and robotics technology Apply today and be part of the future of artificial intelligence. Job Type & Location This is a Contract to Hire position based out of Campbell, CA. Pay and Benefits The pay range for this position is $28.00 - $33.00/hr. Eligibility requirements apply to some benefits and may depend on your job classification and length of employment. Benefits are subject to change and may be subject to specific elections, plan, or program terms. If eligible, the benefits available for this temporary role may include the following: • Medical, dental & vision • Critical Illness, Accident, and Hospital • 401(k) Retirement Plan – Pre-tax and Roth post-tax contributions available • Life Insurance (Voluntary Life & AD&D for the employee and dependents) • Short and long-term disability • Health Spending Account (HSA) • Transportation benefits • Employee Assistance Program • Time Off/Leave (PTO, Vacation or Sick Leave) Workplace Type This is a fully onsite position in Campbell,CA. Application Deadline This position is anticipated to close on Jul 24, 2026. About Aerotek Aerotek® Inc. provides staffing and services solutions in manufacturing, logistics, construction, aviation, facilities and maintenance. We provide the expertise, solutions and people required to rise to the challenges of North American industry. Headquartered in Hanover, Md., Aerotek operates a unified network of over 200 offices across North America, supporting more than 18,000 clients each year. Aerotek is an Allegis Group company, the global leader in workforce and business solutions. To learn more, visit: Aerotek.com | 1-888-AEROTEK. Aerotek offers weekly pay, employee benefits including medical, dental & vision, life insurance, health advocacy and employee assistance programs, a 401(k) plan, and employee discounts. The company is an equal opportunity employer and will consider all applications without regards to race, sex, age, color, religion, national origin, veteran status, disability, sexual orientation, gender identity, genetic information or any characteristic protected by law. San Francisco Fair Chance Ordinance: Pursuant to the San Francisco Fair Chance Ordinance, for all positions located in the city and county of San Francisco, we will consider for employment qualified applicants with arrest and conviction records. Massachusetts Lie Detector: It is unlawful in Massachusetts to require or administer a lie detector test as a condition of employment or continued employment. An employer who violates this law shall be subject to criminal penalties and civil liability. Use of Artificial Intelligence (AI): We may use Artificial Intelligence (AI) to support parts of our hiring process, including sourcing, screening, and evaluating candidates. AI helps assess applications and qualifications, but final decisions are made by our hiring team. By applying, you acknowledge and agree that your application may be reviewed using AI tools. Receive notifications about similar jobs I’d like to receive Job Alerts and other marketing emails from Aerotek to assist me with my job search. I understand that I may opt out at any time. Enter Email address (Required) your@email.com Manage alerts Similar Jobs Robot Operator/Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production AI Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector/Operator LocationSan Jose, California, USA CategoryManufacturing & Production Robot Data Collector LocationCampbell, California, USA CategoryManufacturing & Production Robot Data Collector LocationSan Jose, California, USA CategoryManufacturing & Production man in glasses with ear protection around neck Let jobs find you Sign up to receive personalized job recommendations I’d like to receive Job Alerts and other marketing emails from Aerotek to assist me with my job search. I understand that I may opt out at any time. Sign Up Aerotek logo COMPANY WEBSITE social share facebook social share linkedin social share youtube social share twitter social share instagram © 2026 Aerotek, Inc. All rights reserved. 
