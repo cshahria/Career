@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>unPTO Roundtable — July 16</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF9F5;
+    --ink:#22293B;
+    --table:#2B3A55;
+    --table-edge:#1C2740;
+    --line:#C9C4B6;
+    --felice:#E0A03C;
+    --art:#3F9488;
+    --kar:#D2543F;
+    --siddharth:#3F6FA6;
+    --tina:#6E8F4E;
+    --cyrus:#6B5B95;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Mono', monospace;
+  }
+  .board{
+    max-width:1080px;
+    margin:0 auto;
+    padding:28px 24px 20px;
+  }
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    border-bottom:3px solid var(--ink);
+    padding-bottom:14px;
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Archivo',sans-serif;
+    font-weight:800;
+    font-size:30px;
+    letter-spacing:-0.5px;
+    margin:0;
+    text-transform:uppercase;
+  }
+  header .meta{
+    text-align:right;
+    font-size:12px;
+    line-height:1.6;
+    color:#5B5342;
+  }
+  header .meta b{color:var(--ink);}
+
+  .stage{
+    position:relative;
+    width:100%;
+    max-width:1000px;
+    margin:10px auto 0;
+    aspect-ratio:1000/800;
+  }
+  svg.lines{position:absolute;inset:0;width:100%;height:100%;}
+
+  .table{
+    position:absolute;
+    left:50%; top:47%;
+    transform:translate(-50%,-50%);
+    width:27%; height:27%;
+    background:radial-gradient(ellipse at 35% 30%, #34456A 0%, var(--table) 55%, var(--table-edge) 100%);
+    border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:#F4F1E6;
+    text-align:center;
+    box-shadow:0 8px 22px rgba(27,34,54,0.28);
+    border:1px solid #17203A;
+  }
+  .table .eyebrow{font-size:10px;letter-spacing:2px;opacity:0.7;font-family:'Archivo',sans-serif;font-weight:700;}
+  .table .name{font-family:'Archivo',sans-serif;font-weight:800;font-size:16px;letter-spacing:0.5px;margin:4px 0;}
+  .table .sub{font-size:10px;opacity:0.85;}
+  .table .host{margin-top:6px;font-size:10px;background:rgba(244,241,230,0.14);padding:3px 8px;border-radius:10px;}
+
+  .seat{
+    position:absolute;
+    width:23%;
+    padding:10px 12px 12px;
+    background:#FFFFFC;
+    border:1.5px solid var(--ink);
+    box-shadow:3px 3px 0 rgba(34,41,59,0.12);
+    font-size:11px;
+  }
+  .seat .top{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:6px;
+  }
+  .seat .num{
+    font-family:'Archivo',sans-serif; font-weight:800; font-size:11px;
+    width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+  }
+  .seat .name{
+    font-family:'Archivo',sans-serif; font-weight:700; font-size:14px; text-transform:uppercase;
+  }
+  .seat .role{
+    font-size:9.5px; color:#6B6455; margin:-4px 0 6px; letter-spacing:0.3px;
+  }
+  .seat .time{
+    font-size:9px; font-family:'Archivo',sans-serif; font-weight:700;
+    padding:2px 6px; border-radius:8px; color:#fff;
+  }
+  .seat ul{margin:0; padding-left:14px;}
+  .seat li{margin-bottom:3px; line-height:1.35;}
+  .seat .blocker{color:#8A4130; font-weight:700;}
+  .seat .status{
+    margin-top:6px; font-size:9.5px; font-weight:700;
+    padding-top:5px; border-top:1px dashed var(--line);
+  }
+  .seat.flagged{border-style:dashed; border-color:var(--kar); background:#FFFBF9;}
+  .seat.flagged .status{color:var(--kar);}
+
+  .s1{left:38.5%; top:2%;}
+  .s2{left:63%; top:22%;}
+  .s3{left:63%; top:56%;}
+  .s4{left:38.5%; top:75%;}
+  .s5{left:14%; top:56%;}
+  .s6{left:14%; top:22%;}
+
+  footer{
+    max-width:1000px;
+    margin:10px auto 0;
+    border-top:2px solid var(--ink);
+    padding-top:10px;
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:11px;
+    flex-wrap:wrap; gap:8px;
+  }
+  footer .threads span{
+    display:inline-block; margin-right:14px;
+  }
+  footer .threads b{font-family:'Archivo',sans-serif;}
+  footer .ref{color:#8A8371;}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <header>
+    <h1>unPTO Roundtable</h1>
+    <div class="meta">
+      <div><b>Thursday, July 16</b> · T&amp;T · hosted by Cyrus</div>
+      <div>6 speakers · 5 min each · ~30 min total</div>
+    </div>
+  </header>
+
+  <div class="stage">
+    <svg class="lines" viewBox="0 0 1000 800" preserveAspectRatio="none">
+      <line x1="500" y1="400" x2="500" y2="130" stroke="#C9C4B6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="500" y1="400" x2="760" y2="280" stroke="#C9C4B6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="500" y1="400" x2="760" y2="580" stroke="#C9C4B6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="500" y1="400" x2="500" y2="720" stroke="#C9C4B6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="500" y1="400" x2="240" y2="580" stroke="#C9C4B6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="500" y1="400" x2="240" y2="280" stroke="#C9C4B6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <path d="M 500 120 A 305 300 0 1 1 300 250" fill="none" stroke="#8A8371" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z" fill="#8A8371"/>
+        </marker>
+      </defs>
+    </svg>
+
+    <div class="table">
+      <div class="eyebrow">SPEAKING ORDER</div>
+      <div class="name">unPTO Sync</div>
+      <div class="sub">6 seats · clockwise</div>
+      <div class="host">Host: Cyrus</div>
+    </div>
+
+    <!-- 1 Felice -->
+    <div class="seat s1">
+      <div class="top">
+        <span class="num" style="background:var(--felice)">1</span>
+        <span class="name">Felice</span>
+        <span class="time" style="background:var(--felice)">5 min</span>
+      </div>
+      <div class="role">Content / Video Ops</div>
+      <ul>
+        <li>Branding refresh — Ch 3, 4, 5</li>
+        <li>New channel research</li>
+        <li class="blocker">Blocker: SOP mix-up, wrong-channel uploads</li>
+      </ul>
+      <div class="status" style="color:var(--felice)">SOPs done · strong momentum</div>
+    </div>
+
+    <!-- 2 Art -->
+    <div class="seat s2">
+      <div class="top">
+        <span class="num" style="background:var(--art)">2</span>
+        <span class="name">Art</span>
+        <span class="time" style="background:var(--art)">5 min</span>
+      </div>
+      <div class="role">Video Platform / QA</div>
+      <ul>
+        <li>Trello cleanup + QA 9 videos</li>
+        <li>Train editor · 2 training videos</li>
+        <li class="blocker">Blocker: time allocation</li>
+      </ul>
+      <div class="status" style="color:var(--art)">Platform testing 100%</div>
+    </div>
+
+    <!-- 3 Kar -->
+    <div class="seat s3 flagged">
+      <div class="top">
+        <span class="num" style="background:var(--kar)">3</span>
+        <span class="name">Kar</span>
+        <span class="time" style="background:var(--kar)">5 min</span>
+      </div>
+      <div class="role">Product / Wireframes</div>
+      <ul>
+        <li>Last update: 6/29 (2+ wks quiet)</li>
+        <li>Last goal: wireframes + PRD, 20%</li>
+        <li class="blocker">Flag: no check-in — reach out</li>
+      </ul>
+      <div class="status">Status unknown — needs update</div>
+    </div>
+
+    <!-- 4 Siddharth -->
+    <div class="seat s4">
+      <div class="top">
+        <span class="num" style="background:var(--siddharth)">4</span>
+        <span class="name">Siddharth</span>
+        <span class="time" style="background:var(--siddharth)">5 min</span>
+      </div>
+      <div class="role">Job Search / Career</div>
+      <ul>
+        <li>Mock interview — Sony (w/ Lorrie)</li>
+        <li>Resume submissions, other cos</li>
+        <li class="blocker">Blocker: comms / class channels</li>
+      </ul>
+      <div class="status" style="color:var(--siddharth)">90% on last goal</div>
+    </div>
+
+    <!-- 5 Tina -->
+    <div class="seat s5">
+      <div class="top">
+        <span class="num" style="background:var(--tina)">5</span>
+        <span class="name">Tina</span>
+        <span class="time" style="background:var(--tina)">5 min</span>
+      </div>
+      <div class="role">Home / Career Transition</div>
+      <ul>
+        <li>Consulting case study</li>
+        <li>Tax forms → CPA</li>
+        <li class="blocker">Blocker: time (reno + passport)</li>
+      </ul>
+      <div class="status" style="color:var(--tina)">Most items 100% · taxes pending</div>
+    </div>
+
+    <!-- 6 Cyrus -->
+    <div class="seat s6">
+      <div class="top">
+        <span class="num" style="background:var(--cyrus)">6</span>
+        <span class="name">Cyrus</span>
+        <span class="time" style="background:var(--cyrus)">5 min</span>
+      </div>
+      <div class="role">Job Search / unPTO Lead</div>
+      <ul>
+        <li>Host session · share dashboard</li>
+        <li>MatchPoint follow-up · W2F intake</li>
+        <li class="blocker">Blocker: confidential — discuss live</li>
+      </ul>
+      <div class="status" style="color:var(--cyrus)">30% · interviews pending</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="threads">
+      <span><b>Cross-team:</b></span>
+      <span>⏱ time squeeze</span>
+      <span>🔧 tool / process hiccups</span>
+      <span>⏳ pending decisions</span>
+      <span>🚩 Kar check-in</span>
+    </div>
+    <div class="ref">Full detail → shared spreadsheet</div>
+  </footer>
+
+</div>
+</body>
+</html>
