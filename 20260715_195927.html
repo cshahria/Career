@@ -333,7 +333,7 @@
       <div style="display: flex; gap: 10px; align-items: flex-start;">
         <div style="flex: 1;">
           <div style="font-size:0.85rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING</div>
-          <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">Calculating...</div>
+          <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">2d 18h</div>
           <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 12:00 – 15:00</div>
           <div style="font-size:0.75rem; color:var(--muted); margin-top:4px; line-height: 1.3;">
             T&T Market @ Westgate (95130)<br>
@@ -342,6 +342,7 @@
           </div>
           <div style="margin-top: 8px;">
             <button class="submit-btn action-trigger" onclick="openModal('hostAgendaModal')" style="padding: 3px 8px; font-size: 0.72rem; background: var(--sky);">📋 View Host Agenda</button>
+            <!-- Direct External Link to the Interactive Mind Map -->
             <a href="https://cshahria.github.io/Career/unPTO/unpto_roundtable_board.html" target="_blank" class="submit-btn" style="padding: 3px 8px; font-size: 0.72rem; background: var(--pitch); margin-left: 4px; text-decoration: none; display: inline-block;">✨ AI Analysis ↗</a>
           </div>
         </div>
@@ -370,10 +371,9 @@
     <div class="panel-due">
       <div style="display: flex; gap: 10px; align-items: flex-start;">
         <div style="flex: 1;">
-          <div style="font-size:0.85rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT TRACKING</div>
-          <div style="font-size:0.95rem; color:#1e64b0; font-weight:800; margin: 2px 0;">🗓️ UPCOMING</div>
-          <div style="font-size:0.78rem; color:#1f2937; font-weight:600; margin-bottom: 2px;">Last Report: Mon Jul 13</div>
-          <div style="font-size:0.78rem; color:#dc2626; font-weight:700; margin-bottom: 8px;">Next Report Due: Mon Jul 20 @ 17:00 Pacific</div>
+          <div style="font-size:0.85rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT DUE DEADLINE</div>
+          <div style="font-size:0.95rem; color:#dc2626; font-weight:800; margin: 2px 0;">⏰ OVERDUE</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600; margin-bottom: 8px;">Was Due: Mon Jul 13 @ 17:00 Pacific</div>
         </div>
         <!-- Google Sheets Asset Icon -->
         <div style="width: 32px; height: 42px; background: #107c41; border-radius: 4px; position: relative; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15); overflow: hidden;">
@@ -473,7 +473,7 @@
   </div>
 
   <footer>
-    <div>unPTO Accountability · Updated: 2026-07-15 19:57:36 PDT</div>
+    <div>unPTO Accountability · Updated: 2026-07-13 16:55:36 PDT</div>
     <div class="disclaimer-text">
       By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
     </div>
@@ -577,35 +577,6 @@
   </div>
 
 <script>
-// Live Countdown Logic for the Next Meeting (Thu Jul 16, 2026 @ 12:00 PDT)
-function startMeetingCountdown() {
-  const targetDate = new Date("July 16, 2026 12:00:00 PDT").getTime();
-  const display = document.getElementById("meetingCountdown");
-
-  if (!display) return;
-
-  function updateCountdown() {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
-
-    if (distance < 0) {
-      display.textContent = "Meeting in progress or completed!";
-      display.style.color = "var(--pitch)";
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    display.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  }
-
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-}
-
 // Timer Logic
 let totalSeconds = 300; 
 let timerInterval = null;
@@ -662,7 +633,6 @@ function resetTimer() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  startMeetingCountdown();
   fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
     .then(cfg => {
