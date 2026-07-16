@@ -393,7 +393,7 @@
     background: #f3f4f6;
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 6px 10px;
+    padding: 4px 8px;
     font-size: 0.85rem;
     cursor: pointer;
     display: inline-flex;
@@ -444,22 +444,6 @@
     border-color: #b9d5f7;
   }
   .cal-day.empty { background: none; border: none; }
-
-  /* Search Input Field Style */
-  .search-input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 0.9rem;
-    margin-bottom: 16px;
-    box-sizing: border-box;
-    font-family: inherit;
-  }
-  .search-input:focus {
-    outline: none;
-    border-color: var(--sky);
-  }
 </style>
 <script data-goatcounter="https://cshahria.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
@@ -517,17 +501,10 @@
   </div>
 
   <div class="card" style="margin-top: 24px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-      <h3 id="outlookHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">7-Day Schedule Outlook</h3>
-      <div style="display: flex; gap: 8px;">
-        <button id="weekToggleBtn" class="cal-btn" onclick="toggleWeekOffset()">📅 Next Week</button>
-        <button class="cal-btn" onclick="openCalendarModal()">📅 View Month</button>
-      </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+      <h3 style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">7-Day Schedule Outlook</h3>
+      <button class="cal-btn" onclick="openCalendarModal()">📅 View Month</button>
     </div>
-    
-    <!-- Search Bar after Tiles & inside Calendar Outlook card -->
-    <input type="text" id="scheduleSearch" class="search-input" placeholder="Search schedule (e.g., INT)..." oninput="handleSearch(this.value)">
-
     <div id="dayViewContainer">
       <p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 10px 0;">Loading schedule entries...</p>
     </div>
@@ -544,8 +521,6 @@ let currentTargetInput = null;
 let currentMicButton = null;
 
 let calCurrentDate = new Date();
-let scheduleOffsetDays = 0; // Tracks whether viewing "This Week" (0) or "Next Week" (7)
-let cachedDayList = [];     // Stores currently loaded schedule data to support search queries locally
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 
@@ -587,48 +562,26 @@ function cleanTo24h(timeStr) {
   return clean.replace(/[^0-9]/g, '').padStart(4, '0');
 }
 
-// Switches calendar view to next week or back to this week
-function toggleWeekOffset() {
-  const toggleBtn = document.getElementById("weekToggleBtn");
-  const header = document.getElementById("outlookHeader");
-  
-  if (scheduleOffsetDays === 0) {
-    scheduleOffsetDays = 7;
-    toggleBtn.innerHTML = "📅 This Week";
-    header.textContent = "Following 7-Day Outlook";
-  } else {
-    scheduleOffsetDays = 0;
-    toggleBtn.innerHTML = "📅 Next Week";
-    header.textContent = "7-Day Schedule Outlook";
-  }
-  
-  fetchAndRenderSchedule();
-}
-
 async function fetchAndRenderSchedule() {
   const container = document.getElementById("dayViewContainer");
-  cachedDayList = [];
+  const dayList = [];
   const options = { weekday: 'long', month: 'short', day: 'numeric' };
   
-  const today = new Date();
-  today.setHours(0,0,0,0);
+  const now = new Date();
+  const currentHourMinStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
 
-  // Generate date array depending on active offset
   for (let i = 0; i < 7; i++) {
     const d = new Date();
-    d.setDate(d.getDate() + i + scheduleOffsetDays);
+    d.setDate(d.getDate() + i);
     const key = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
     const displayLabel = d.toLocaleDateString('en-US', options);
-    
-    const targetDate = new Date(d);
-    targetDate.setHours(0,0,0,0);
-
-    cachedDayList.push({ 
+    dayList.push({ 
       csvKey: key, 
       label: displayLabel, 
       meetings: [],
-      isToday: targetDate.getTime() === today.getTime(),
-      isPastDay: targetDate < today
+      isToday: i === 0,
+      isTomorrow: i === 1,
+      isPastDay: i < 0
     });
   }
 
@@ -641,7 +594,7 @@ async function fetchAndRenderSchedule() {
     
     rows.forEach(row => {
       const dateKey = row[1]?.replace(/^"|"$/g, '').trim();
-      const matchDay = cachedDayList.find(d => d.csvKey === dateKey);
+      const matchDay = dayList.find(d => d.csvKey === dateKey);
       
       if (matchDay) {
         matchDay.meetings.push({
@@ -653,96 +606,57 @@ async function fetchAndRenderSchedule() {
       }
     });
 
-    // Populate UI based on current search input value
-    const searchVal = document.getElementById("scheduleSearch").value;
-    renderScheduleList(searchVal);
+    let outputHtml = "";
+
+    dayList.forEach(day => {
+      const isExpanded = false;
+      const blockClass = isExpanded ? "day-block expanded" : "day-block";
+      const arrowIcon = isExpanded ? "&#9662;" : "&#9656;";
+
+      outputHtml += `<div class="${blockClass}">`;
+      outputHtml += `<div class="day-header" onclick="toggleDay(this)"><span>${day.label}</span><span class="arrow">${arrowIcon}</span></div>`;
+      outputHtml += `<div class="day-content">`;
+
+      if (day.meetings.length === 0) {
+        outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 12px 14px;">No meetings scheduled.</p>`;
+      } else {
+        day.meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
+        
+        day.meetings.forEach(m => {
+          const timeRange = m.endTime ? `${m.startTime} - ${m.endTime}` : `${m.startTime}`;
+          const titleText = m.title ? `<strong>${m.title}</strong>` : `<em>No Title</em>`;
+          const detailsText = m.details ? ` — ${m.details}` : "";
+
+          let isPassed = false;
+          if (day.isPastDay) {
+            isPassed = true;
+          } else if (day.isToday) {
+            if (m.startTime && m.startTime < currentHourMinStr) {
+              isPassed = true;
+            }
+          }
+
+          const rowClass = isPassed ? "event-row passed" : "event-row";
+
+          outputHtml += `
+            <div class="${rowClass}" style="display: flex; align-items: flex-start; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--border);">
+              <div class="time-slot" style="font-weight: 700; color: var(--sky); font-size: 0.9rem; min-width: 85px; white-space: nowrap;">
+                ${timeRange}
+              </div>
+              <div style="font-size: 0.9rem; flex-grow: 1; white-space: pre-wrap;">${titleText}${detailsText}</div>
+            </div>
+          `;
+        });
+      }
+      outputHtml += `</div></div>`;
+    });
+
+    container.innerHTML = outputHtml;
 
   } catch (error) {
     console.error("Error processing tracking pipeline:", error);
     container.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem; text-align: center;">Error loading dynamic schedule matrix feed.</p>`;
   }
-}
-
-// Separated rendering loop to allow immediate client-side query filtering
-function renderScheduleList(searchTerm = "") {
-  const container = document.getElementById("dayViewContainer");
-  const now = new Date();
-  const currentHourMinStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
-  const query = searchTerm.trim().toLowerCase();
-  
-  let outputHtml = "";
-  let matchesFoundTotal = 0;
-
-  cachedDayList.forEach(day => {
-    // Filter out meetings matching search query
-    const matchedMeetings = day.meetings.filter(m => {
-      if (!query) return true;
-      const tMatch = m.title && m.title.toLowerCase().includes(query);
-      const dMatch = m.details && m.details.toLowerCase().includes(query);
-      return tMatch || dMatch;
-    });
-
-    // If searching, hide days with zero hits
-    if (query && matchedMeetings.length === 0) {
-      return;
-    }
-
-    if (query) {
-      matchesFoundTotal += matchedMeetings.length;
-    }
-
-    // Auto expand all match groups during a search query
-    const isExpanded = query !== "";
-    const blockClass = isExpanded ? "day-block expanded" : "day-block";
-    const arrowIcon = isExpanded ? "&#9662;" : "&#9656;";
-
-    outputHtml += `<div class="${blockClass}">`;
-    outputHtml += `<div class="day-header" onclick="toggleDay(this)"><span>${day.label}</span><span class="arrow">${arrowIcon}</span></div>`;
-    outputHtml += `<div class="day-content">`;
-
-    if (matchedMeetings.length === 0) {
-      outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 12px 14px;">No meetings scheduled.</p>`;
-    } else {
-      matchedMeetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
-      
-      matchedMeetings.forEach(m => {
-        const timeRange = m.endTime ? `${m.startTime} - ${m.endTime}` : `${m.startTime}`;
-        const titleText = m.title ? `<strong>${m.title}</strong>` : `<em>No Title</em>`;
-        const detailsText = m.details ? ` — ${m.details}` : "";
-
-        let isPassed = false;
-        if (day.isPastDay) {
-          isPassed = true;
-        } else if (day.isToday) {
-          if (m.startTime && m.startTime < currentHourMinStr) {
-            isPassed = true;
-          }
-        }
-
-        const rowClass = isPassed ? "event-row passed" : "event-row";
-
-        outputHtml += `
-          <div class="${rowClass}" style="display: flex; align-items: flex-start; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--border);">
-            <div class="time-slot" style="font-weight: 700; color: var(--sky); font-size: 0.9rem; min-width: 85px; white-space: nowrap;">
-              ${timeRange}
-            </div>
-            <div style="font-size: 0.9rem; flex-grow: 1; white-space: pre-wrap;">${titleText}${detailsText}</div>
-          </div>
-        `;
-      });
-    }
-    outputHtml += `</div></div>`;
-  });
-
-  if (query && matchesFoundTotal === 0) {
-    outputHtml = `<p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 24px 0;">No meetings match "${searchTerm}".</p>`;
-  }
-
-  container.innerHTML = outputHtml;
-}
-
-function handleSearch(val) {
-  renderScheduleList(val);
 }
 
 function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
