@@ -170,19 +170,18 @@
     align-items: center;
     justify-content: space-between;
     background: #f9fafb;
-    padding: 12px 16px;
+    padding: 10px 14px;
     border-radius: 8px;
-    margin-top: 14px;
+    margin-top: 12px;
     border: 1px solid var(--border);
   }
   .timer-display {
     font-family: monospace;
-    font-size: 2.4rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: var(--text);
-    padding: 4px 12px;
+    padding: 2px 8px;
     border-radius: 4px;
-    line-height: 1;
     transition: background-color 0.3s, color 0.3s;
   }
   .timer-display.alert-red {
@@ -202,10 +201,10 @@
     background: var(--sky);
     color: white;
     border: none;
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 4px;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     cursor: pointer;
   }
   .timer-btn:hover { background: #1d6fa5; }
@@ -342,8 +341,7 @@
           </div>
           <div style="margin-top: 8px;">
             <button class="submit-btn action-trigger" onclick="openModal('hostAgendaModal')" style="padding: 3px 8px; font-size: 0.72rem; background: var(--sky);">📋 View Host Agenda</button>
-            <!-- Direct External Link to the Interactive Mind Map -->
-            <a href="https://cshahria.github.io/Career/unPTO/unpto_roundtable_board.html" target="_blank" class="submit-btn" style="padding: 3px 8px; font-size: 0.72rem; background: var(--pitch); margin-left: 4px; text-decoration: none; display: inline-block;">✨ AI Analysis ↗</a>
+            <button class="submit-btn" onclick="openModal('aiAnalysisModal')" style="padding: 3px 8px; font-size: 0.72rem; background: var(--pitch); margin-left: 4px;">✨ AI Analysis</button>
           </div>
         </div>
         <div style="width: 54px; height: 40px; background: #1a6b4a; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
@@ -351,7 +349,7 @@
         </div>
       </div>
 
-      <!-- Single line RSVP Section -->
+      <!-- Single line inline RSVP Section inside Next Meeting Tile -->
       <div style="border-top: 1px dashed #b9d5f7; padding-top: 8px; margin-top: 4px;">
         <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
           <div style="display: flex; gap: 4px; align-items: center;">
@@ -492,21 +490,59 @@
       <ol class="agenda-list" style="padding-left: 16px; font-size: 0.9rem;">
         <li style="margin-bottom: 8px;"><strong>Roundtable Check-in (5 mins per person):</strong> Focus completely on reviewing last week's goals and this week's strategic goals.</li>
         <li style="margin-bottom: 8px;"><strong>Blocker Diagnostic:</strong> Open floor to map solutions for any surfaced constraints.</li>
+        <li style="margin-bottom: 8px;"><strong>Structured Co-working Segment:</strong> Deep dive work focus blocks.</li>
+        <li style="margin-bottom: 8px;"><strong>Daily Dashboard Presentation:</strong> Cyrus to share daily dashboard prototype for personal use to help structure the day.</li>
         <li style="margin-bottom: 8px;"><strong>WIOA Research:</strong> Cyrus to share updates on WIOA research paths and certification opportunities.</li>
       </ol>
       
-      <!-- Stopwatch with Larger Counter Display -->
+      <!-- Relocated Stopwatch Logic to reside inside the popup view -->
       <div class="timer-box">
         <div>
           <div style="font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
           <div style="font-size: 0.7rem; color: #4b5563;">5:00 limit · Turns red at limit · Blinks at 10:00</div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
           <div id="speakTimer" class="timer-display">05:00</div>
-          <div style="display: flex; flex-direction: column; gap: 4px;">
+          <div>
             <button id="timerToggleBtn" class="timer-btn" onclick="toggleTimer()">Start</button>
-            <button class="timer-btn reset" onclick="resetTimer()" style="margin-left:0;">Reset</button>
+            <button class="timer-btn reset" onclick="resetTimer()">Reset</button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Analysis Modal with Full Claude Logic Restored on Light Schema Background -->
+  <div id="aiAnalysisModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:620px; background: #ffffff; color: var(--text);">
+      <button class="modal-close" onclick="closeModal('aiAnalysisModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">✨ AI Analysis Trend Analytics &amp; Suggestions</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <div style="font-size:0.88rem; display:flex; flex-direction:column; gap:14px; max-height:60vh; overflow-y:auto; padding-right:4px;">
+        
+        <div style="background: #fdf2f2; padding: 12px; border-radius: 8px; border-left: 4px solid #dc2626;">
+          <strong style="color: #b91c1c; font-size:0.9rem; display:block; margin-bottom:4px;">⏳ Stalled Blockers (Art &amp; Siddharth)</strong>
+          Key constraints on testing documentation and programmatic communication pathways have stayed open since 6/29. Group needs to address foundational roadblocks directly.[cite: 2]
+        </div>
+
+        <div style="background: #f9fafb; padding: 12px; border-radius: 8px; border-left: 4px solid #6b7280;">
+          <strong style="color: #374151; font-size:0.9rem; display:block; margin-bottom:4px;">🛰️ Activity Gaps (Kar)</strong>
+          No status updates filed since 6/29. Recommended proactive verification step ahead of Thursday sync loops.[cite: 2]
+        </div>
+
+        <div style="background: #fffbeb; padding: 12px; border-radius: 8px; border-left: 4px solid #d97706;">
+          <strong style="color: #b45309; font-size:0.9rem; display:block; margin-bottom:4px;">🔁 Iterative Carry-overs (Tina)</strong>
+          Target items running identical pathways for multiple cycles. Committing to a single asset closure milestone during co-working sprints could create consistent velocity breakouts.[cite: 2]
+        </div>
+
+        <div style="background: #f0fdf4; padding: 12px; border-radius: 8px; border-left: 4px solid #16a34a;">
+          <strong style="color: #15803d; font-size:0.9rem; display:block; margin-bottom:4px;">✅ Strategic Progress (Cyrus &amp; Felice)</strong>
+          Clear target conclusions achieved (World Cup closing out and dual structural SOP completions).[cite: 2]
+        </div>
+
+        <div style="background: #eff6ff; padding: 12px; border-radius: 8px; border-left: 4px solid #2563eb;">
+          <strong style="color: #1d4ed8; font-size:0.9rem; display:block; margin-bottom:4px;">🧭 Pivot Trajectory Observations</strong>
+          With structural tracking targets morphing to core recruitment pipelines, evaluating the operational scope definitions prevents milestone inflation during rigorous preparation cycles.[cite: 2]
         </div>
       </div>
     </div>
