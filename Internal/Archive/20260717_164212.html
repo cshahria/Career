@@ -339,68 +339,62 @@
     margin: 0 0 14px 0;
   }
 
-  /* RE-DESIGNED NOTES CARD VIEW STYLES */
-  .notes-card-view {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-    margin-top: 20px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-  }
-  .notes-card-header {
+  /* CAROUSEL STYLES */
+  .carousel-container {
+    background: #fafafa;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-top: 18px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #f1f5f9;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
   }
-  .notes-card-title {
-    font-size: 0.85rem;
+  .carousel-header {
+    display: flex;
+    justify-between: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .carousel-title {
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--sky);
+    color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .notes-card-controls {
+  .carousel-controls {
     display: flex;
     gap: 6px;
   }
-  .notes-card-arrow {
-    background: #f8fafc;
+  .carousel-arrow {
+    background: #fff;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    width: 28px;
-    height: 28px;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     cursor: pointer;
     user-select: none;
-    font-weight: bold;
-    color: #4b5563;
   }
-  .notes-card-arrow:hover { 
-    background: #f1f5f9; 
-    color: #111827;
+  .carousel-arrow:hover { background: #f3f4f6; }
+  .carousel-content {
+    min-height: 48px;
   }
-  .notes-card-content {
-    min-height: 80px;
-    padding: 4px 0;
-  }
-  .notes-large-title {
+  .carousel-note-title {
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 0.9rem;
     color: #111827;
-    margin-bottom: 6px;
   }
-  .notes-large-text {
-    font-size: 1.1rem;
-    color: #374151;
+  .carousel-note-text {
+    font-size: 0.85rem;
+    color: #4b5563;
     white-space: pre-wrap;
-    line-height: 1.5;
+    margin-top: 2px;
   }
 
   .outlook-nav-bar {
@@ -732,24 +726,24 @@
       <p style="color: var(--muted); font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
     </div>
 
-    <!-- Direct Source Matrix Sheet Link[cite: 1, 2] -->
+    <!-- UI Action to open the source matrix sheet directly under the grid days[cite: 1, 2] -->
     <div class="source-sheet-box">
       <a href="https://docs.google.com/spreadsheets/d/1yY53aj7S8H1Q5koADSo8Kd49SowQx3JWDbV98_-Hr6Q/edit?usp=sharing" target="_blank" class="source-sheet-pill">
         🔗 Open Source Sheet ↗
       </a>
     </div>
 
-    <!-- NEW NOTE CARD VIEW -->
-    <div class="notes-card-view">
-      <div class="notes-card-header">
-        <div class="notes-card-title">📝 Recent Streams (Notes)</div>
-        <div class="notes-card-controls">
-          <button class="notes-card-arrow" onclick="rotateNotesCard(-1)">◀</button>
-          <button class="notes-card-arrow" onclick="rotateNotesCard(1)">▶</button>
+    <!-- RELOCATED CONTENT CAROUSEL CONTAINER (NOW AT THE BOTTOM) -->
+    <div class="carousel-container">
+      <div class="carousel-header">
+        <div class="carousel-title">📝 Recent Streams (Notes)</div>
+        <div class="carousel-controls">
+          <button class="carousel-arrow" onclick="rotateCarousel(-1)">◀</button>
+          <button class="carousel-arrow" onclick="rotateCarousel(1)">▶</button>
         </div>
       </div>
-      <div class="notes-card-content" id="notesCardContentBox">
-        <div style="color: var(--muted); font-size: 1rem; font-style: italic;">Fetching latest notes...</div>
+      <div class="carousel-content" id="carouselContentBox">
+        <div style="color: var(--muted); font-size: 0.85rem; font-style: italic;">Fetching latest updates...</div>
       </div>
     </div>
   </div>
@@ -768,15 +762,15 @@ let calCurrentDate = new Date();
 let scheduleBaseOffset = 0; 
 let currentViewDays = 3;     
 let cachedDayList = [];     
-let notesCardData = [];
-let activeNotesIndex = 0;
+let notesCarouselData = [];
+let activeCarouselIndex = 0;
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=1743122072&single=true&output=csv";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
-  fetchAndRenderNotesCard();
+  fetchAndRenderNotesCarousel();
 });
 
 function cleanTo24h(timeStr) {
@@ -837,15 +831,15 @@ function add30MinutesToEndTime() {
   endInput.value = `${paddedHours}:${paddedMinutes}`;
 }
 
-async function fetchAndRenderNotesCard() {
-  const container = document.getElementById("notesCardContentBox");
+async function fetchAndRenderNotesCarousel() {
+  const container = document.getElementById("carouselContentBox");
   try {
     const response = await fetch(NOTES_CSV_URL + "&t=" + new Date().getTime());
     const data = await response.text();
     const lines = data.split(/\r?\n/);
     const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
     
-    notesCardData = [];
+    notesCarouselData = [];
     for (let i = rows.length - 1; i >= 0; i--) {
       if (rows[i].length >= 3) {
         const timestamp = rows[i][0]?.replace(/^"|"$/g, '').trim();
@@ -853,40 +847,40 @@ async function fetchAndRenderNotesCard() {
         const fullDesc = rows[i][2]?.replace(/^"|"$/g, '').trim();
         
         if (shortDesc || fullDesc) {
-          notesCardData.push({ timestamp, shortDesc, fullDesc });
+          notesCarouselData.push({ timestamp, shortDesc, fullDesc });
         }
       }
-      if (notesCardData.length >= 10) break; // Cache up to 10 recent notes for scanning
+      if (notesCarouselData.length >= 5) break;
     }
 
-    activeNotesIndex = 0;
-    renderNotesCardSlide();
+    activeCarouselIndex = 0;
+    renderCarouselSlide();
   } catch (err) {
     console.error("Error piping isolated notes metrics:", err);
-    container.innerHTML = `<div style="color: #e74c3c; font-size: 1rem;">Failed to fetch stream entries securely.</div>`;
+    container.innerHTML = `<div style="color: #e74c3c; font-size: 0.85rem;">Failed to fetch stream entries securely.</div>`;
   }
 }
 
-function renderNotesCardSlide() {
-  const container = document.getElementById("notesCardContentBox");
-  if (notesCardData.length === 0) {
-    container.innerHTML = `<div style="color: var(--muted); font-size: 1rem; font-style: italic;">No recent history logs available.</div>`;
+function renderCarouselSlide() {
+  const container = document.getElementById("carouselContentBox");
+  if (notesCarouselData.length === 0) {
+    container.innerHTML = `<div style="color: var(--muted); font-size: 0.85rem; font-style: italic;">No recent history logs available.</div>`;
     return;
   }
   
-  const item = notesCardData[activeNotesIndex];
+  const item = notesCarouselData[activeCarouselIndex];
   container.innerHTML = `
-    <div class="notes-large-title">${item.shortDesc || "Untitled Entry"} <span style="font-weight:normal; font-size:0.85rem; color:var(--muted); margin-left:8px;">(${item.timestamp.split(' ')[0]})</span></div>
-    <div class="notes-large-text">${item.fullDesc || ""}</div>
+    <div class="carousel-note-title">${item.shortDesc || "Untitled Entry"} <span style="font-weight:normal; font-size:0.75rem; color:var(--muted); margin-left:6px;">(${item.timestamp.split(' ')[0]})</span></div>
+    <div class="carousel-note-text">${item.fullDesc || ""}</div>
   `;
 }
 
-function rotateNotesCard(direction) {
-  if (notesCardData.length === 0) return;
-  activeNotesIndex += direction;
-  if (activeNotesIndex >= notesCardData.length) activeNotesIndex = 0;
-  if (activeNotesIndex < 0) activeNotesIndex = notesCardData.length - 1;
-  renderNotesCardSlide();
+function rotateCarousel(direction) {
+  if (notesCarouselData.length === 0) return;
+  activeCarouselIndex += direction;
+  if (activeCarouselIndex >= notesCarouselData.length) activeCarouselIndex = 0;
+  if (activeCarouselIndex < 0) activeCarouselIndex = notesCarouselData.length - 1;
+  renderCarouselSlide();
 }
 
 async function fetchAndRenderSchedule() {
@@ -1049,7 +1043,7 @@ function handleFormResponse() {
   document.querySelectorAll('form').forEach(f => f.reset());
   setTimeout(() => {
     fetchAndRenderSchedule();
-    fetchAndRenderNotesCard();
+    fetchAndRenderNotesCarousel();
   }, 1500);
 }
 
@@ -1447,7 +1441,7 @@ function renderVisualCalendar() {
       <img src="Data_Flow.png" alt="Architecture Flow Layer" style="width:100%; height:auto; border-radius:4px; display:block;">
     </div>
 
-    <!-- Project Blueprint Elements[cite: 2] -->
+    <!-- Relocated Project Blueprint Elements[cite: 2] -->
     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--border);">
       <div class="modal-section-title">🎯 Objective</div>
       <p class="modal-section-body">
