@@ -339,7 +339,7 @@
     margin: 0 0 14px 0;
   }
 
-  /* RE-DESIGNED MULTI-CARD NOTES ROW STYLES */
+  /* RE-DESIGNED NOTES CARD VIEW STYLES */
   .notes-card-view {
     background: #ffffff;
     border: 1px solid var(--border);
@@ -386,36 +386,21 @@
     background: #f1f5f9; 
     color: #111827;
   }
-  .notes-multi-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  @media (min-width: 768px) {
-    .notes-multi-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-  .individual-note-card {
-    background: #fafbfa;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    min-height: 120px;
+  .notes-card-content {
+    min-height: 80px;
+    padding: 4px 0;
   }
   .notes-large-title {
     font-weight: 700;
     font-size: 1.15rem;
     color: #111827;
     margin-bottom: 6px;
-    border-bottom: 1px dashed #e5e7eb;
-    padding-bottom: 4px;
   }
   .notes-large-text {
     font-size: 1.1rem;
     color: #374151;
     white-space: pre-wrap;
-    line-height: 1.45;
+    line-height: 1.5;
   }
 
   .outlook-nav-bar {
@@ -749,22 +734,22 @@
 
     <!-- Direct Source Matrix Sheet Link[cite: 1, 2] -->
     <div class="source-sheet-box">
-      <a href="https://docs.google.com/spreadsheets/d/1yY53aj7S8H1Q5koADSo8Hr6Q/edit?usp=sharing" target="_blank" class="source-sheet-pill">
+      <a href="https://docs.google.com/spreadsheets/d/1yY53aj7S8H1Q5koADSo8Kd49SowQx3JWDbV98_-Hr6Q/edit?usp=sharing" target="_blank" class="source-sheet-pill">
         🔗 Open Source Sheet ↗
       </a>
     </div>
 
-    <!-- RE-DESIGNED 3-CARD ROW VIEW FOR NOTES -->
+    <!-- NEW NOTE CARD VIEW -->
     <div class="notes-card-view">
       <div class="notes-card-header">
         <div class="notes-card-title">📝 Recent Streams (Notes)</div>
         <div class="notes-card-controls">
-          <button class="notes-card-arrow" onclick="rotateNotesCard(-1)">◀ Prev</button>
-          <button class="notes-card-arrow" onclick="rotateNotesCard(1)">Next ▶</button>
+          <button class="notes-card-arrow" onclick="rotateNotesCard(-1)">◀</button>
+          <button class="notes-card-arrow" onclick="rotateNotesCard(1)">▶</button>
         </div>
       </div>
-      <div class="notes-multi-grid" id="notesCardContentBox">
-        <div style="color: var(--muted); font-size: 1rem; font-style: italic; grid-column: 1/-1; text-align: center;">Fetching latest notes...</div>
+      <div class="notes-card-content" id="notesCardContentBox">
+        <div style="color: var(--muted); font-size: 1rem; font-style: italic;">Fetching latest notes...</div>
       </div>
     </div>
   </div>
@@ -784,7 +769,7 @@ let scheduleBaseOffset = 0;
 let currentViewDays = 3;     
 let cachedDayList = [];     
 let notesCardData = [];
-let activeNotesIndex = 0; // Tracks the starting offset index for the 3 visible notes
+let activeNotesIndex = 0;
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=1743122072&single=true&output=csv";
@@ -871,54 +856,36 @@ async function fetchAndRenderNotesCard() {
           notesCardData.push({ timestamp, shortDesc, fullDesc });
         }
       }
+      if (notesCardData.length >= 10) break; // Cache up to 10 recent notes for scanning
     }
 
     activeNotesIndex = 0;
     renderNotesCardSlide();
   } catch (err) {
     console.error("Error piping isolated notes metrics:", err);
-    container.innerHTML = `<div style="color: #e74c3c; font-size: 1rem; grid-column: 1/-1; text-align: center;">Failed to fetch stream entries securely.</div>`;
+    container.innerHTML = `<div style="color: #e74c3c; font-size: 1rem;">Failed to fetch stream entries securely.</div>`;
   }
 }
 
 function renderNotesCardSlide() {
   const container = document.getElementById("notesCardContentBox");
   if (notesCardData.length === 0) {
-    container.innerHTML = `<div style="color: var(--muted); font-size: 1rem; font-style: italic; grid-column: 1/-1; text-align: center;">No recent history logs available.</div>`;
+    container.innerHTML = `<div style="color: var(--muted); font-size: 1rem; font-style: italic;">No recent history logs available.</div>`;
     return;
   }
   
-  let gridHtml = "";
-  // Render up to 3 individual notes cards starting from activeNotesIndex
-  for (let i = 0; i < 3; i++) {
-    const targetIdx = activeNotesIndex + i;
-    if (targetIdx < notesCardData.length) {
-      const item = notesCardData[targetIdx];
-      gridHtml += `
-        <div class="individual-note-card">
-          <div class="notes-large-title">${item.shortDesc || "Untitled Entry"} <span style="font-weight:normal; font-size:0.85rem; color:var(--muted); margin-left:8px;">(${item.timestamp.split(' ')[0]})</span></div>
-          <div class="notes-large-text">${item.fullDesc || ""}</div>
-        </div>
-      `;
-    }
-  }
-  container.innerHTML = gridHtml;
+  const item = notesCardData[activeNotesIndex];
+  container.innerHTML = `
+    <div class="notes-large-title">${item.shortDesc || "Untitled Entry"} <span style="font-weight:normal; font-size:0.85rem; color:var(--muted); margin-left:8px;">(${item.timestamp.split(' ')[0]})</span></div>
+    <div class="notes-large-text">${item.fullDesc || ""}</div>
+  `;
 }
 
 function rotateNotesCard(direction) {
   if (notesCardData.length === 0) return;
-  
-  // Shift window by 3 elements at a time
-  activeNotesIndex += (direction * 3);
-  
-  // Boundary constraints wrapping logic
-  if (activeNotesIndex >= notesCardData.length) {
-    activeNotesIndex = 0;
-  } else if (activeNotesIndex < 0) {
-    // Round down to the nearest multiple of 3 matching end array size range
-    activeNotesIndex = Math.floor((notesCardData.length - 1) / 3) * 3;
-  }
-  
+  activeNotesIndex += direction;
+  if (activeNotesIndex >= notesCardData.length) activeNotesIndex = 0;
+  if (activeNotesIndex < 0) activeNotesIndex = notesCardData.length - 1;
   renderNotesCardSlide();
 }
 
