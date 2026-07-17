@@ -26,7 +26,7 @@
     padding:24px 16px 60px;
     line-height:1.55;
   }
-  .wrap{max-width:1100px;margin:0 auto; transition: max-width 0.2s;} /* Widened container for better calendar rendering */
+  .wrap{max-width:760px;margin:0 auto;}
   header{
     text-align:center;
     margin-bottom:24px;
@@ -316,7 +316,7 @@
   }
 
   .blueprint-container {
-    max-width: 1100px;
+    max-width: 760px;
     margin: 40px auto 0;
     padding-top: 24px;
     border-top: 1px dashed #e5e7eb;
@@ -345,110 +345,47 @@
     }
   }
 
-  /* Dynamic Outlook Calendar Matrix Layout Components */
-  .outlook-nav-bar {
+  .day-block {
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .day-header {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    background: #edf2f0;
+    padding: 10px 14px;
+    cursor: pointer;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    user-select: none;
   }
-  .outlook-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .day-header:hover {
+    background: #e2eae6;
   }
-  .outlook-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  @media (min-width: 768px) {
-    .outlook-grid.view-3 { grid-template-columns: repeat(3, 1fr); }
-    .outlook-grid.view-5 { grid-template-columns: repeat(5, 1fr); }
-    .outlook-grid.view-7 { grid-template-columns: repeat(7, 1fr); }
-  }
-  .outlook-day-card {
+  .day-content {
+    display: none;
+    padding: 4px 0;
     background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 250px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
   }
-  .outlook-day-card.today {
-    border-color: var(--sky);
-    box-shadow: 0 0 0 1px var(--sky);
+  .day-block.expanded .day-content {
+    display: block;
   }
-  .outlook-day-header {
-    padding: 10px;
-    background: #f8fafc;
-    border-bottom: 1px solid var(--border);
-    font-weight: 700;
-    font-size: 0.88rem;
-    text-align: center;
-    color: #374151;
-  }
-  .outlook-day-card.today .outlook-day-header {
-    background: var(--sky-light);
-    color: var(--sky);
-  }
-  .outlook-day-content {
-    padding: 8px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    background: #ffffff;
-    overflow-y: auto;
-    max-height: 380px;
-  }
-  .outlook-item {
-    background: #f1f5f9;
-    border-left: 3px solid #cbd5e1;
-    padding: 6px 8px;
-    border-radius: 4px;
+  .day-header .arrow {
     font-size: 0.8rem;
-    line-height: 1.3;
-  }
-  .outlook-item.passed {
-    opacity: 0.55;
-    text-decoration: line-through;
-    border-left-color: #94a3b8;
-  }
-  .outlook-item.active-meeting {
-    background: var(--sky-light);
-    border-left-color: var(--sky);
-  }
-  .outlook-time {
-    font-weight: 700;
-    color: var(--sky);
-    font-size: 0.75rem;
-    margin-bottom: 2px;
-  }
-  .outlook-item.passed .outlook-time {
-    color: #6b7280;
-  }
-  .outlook-title {
-    font-weight: 600;
-    color: #1f2937;
-  }
-  .outlook-details {
-    color: #4b5563;
-    font-size: 0.75rem;
-    margin-top: 1px;
-    white-space: pre-wrap;
-  }
-  .no-events-text {
     color: var(--muted);
-    font-size: 0.8rem;
-    text-align: center;
-    margin: auto 0;
-    padding: 16px 0;
-    font-style: italic;
+    transition: transform 0.15s ease;
+  }
+  .event-row.passed {
+    color: #dc2626 !important;
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+  .event-row.passed .time-slot {
+    color: #dc2626 !important;
   }
 
   /* Visual Calendar Reference Styles */
@@ -471,7 +408,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
-    padding-right: 32px;
+    padding-right: 32px; /* Prevent overlap with Close X button */
   }
   .cal-nav-btn {
     background: none;
@@ -508,6 +445,7 @@
   }
   .cal-day.empty { background: none; border: none; }
 
+  /* Search Input Field Style */
   .search-input {
     width: 100%;
     padding: 10px 12px;
@@ -518,17 +456,9 @@
     box-sizing: border-box;
     font-family: inherit;
   }
-  .search-input:focus { outline: none; border-color: var(--sky); }
-  
-  .view-select {
-    padding: 6px 8px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.85rem;
-    background: #fff;
-    font-weight: 600;
-    color: #4b5563;
-    cursor: pointer;
+  .search-input:focus {
+    outline: none;
+    border-color: var(--sky);
   }
 </style>
 <script data-goatcounter="https://cshahria.goatcounter.com/count"
@@ -586,27 +516,20 @@
     </div>
   </div>
 
-  <!-- OUTLOOK SCHEDULE MATRIX CARD -->
   <div class="card" style="margin-top: 24px;">
-    <div class="outlook-nav-bar">
-      <h3 id="outlookHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">Schedule Matrix</h3>
-      <div class="outlook-controls">
-        <select id="daysRangeSelect" class="view-select" onchange="handleViewRangeChange(this.value)">
-          <option value="3">3 Days</option>
-          <option value="5">5 Days</option>
-          <option value="7" selected>7 Days</option>
-        </select>
-        <button class="cal-btn" onclick="navigateSchedule(-1)">◀ Prev</button>
-        <button class="cal-btn" onclick="navigateSchedule(0)">Today</button>
-        <button class="cal-btn" onclick="navigateSchedule(1)">Next ▶</button>
-        <button class="cal-btn" onclick="openCalendarModal()">📅 Month</button>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <h3 id="outlookHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">7-Day Schedule Outlook</h3>
+      <div style="display: flex; gap: 8px;">
+        <button id="weekToggleBtn" class="cal-btn" onclick="toggleWeekOffset()">📅 Next Week</button>
+        <button class="cal-btn" onclick="openCalendarModal()">📅 View Month</button>
       </div>
     </div>
     
+    <!-- Search Bar after Tiles & inside Calendar Outlook card -->
     <input type="text" id="scheduleSearch" class="search-input" placeholder="Search schedule (e.g., INT)..." oninput="handleSearch(this.value)">
 
-    <div id="outlookGridContainer" class="outlook-grid view-7">
-      <p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 10px 0;">Loading schedule metrics stream...</p>
+    <div id="dayViewContainer">
+      <p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 10px 0;">Loading schedule entries...</p>
     </div>
   </div>
 
@@ -621,9 +544,8 @@ let currentTargetInput = null;
 let currentMicButton = null;
 
 let calCurrentDate = new Date();
-let scheduleBaseOffset = 0; // Tracks sliding calendar windows dynamically
-let currentViewDays = 7;     // Default column step metrics allocation
-let cachedDayList = [];     
+let scheduleOffsetDays = 0; // Tracks whether viewing "This Week" (0) or "Next Week" (7)
+let cachedDayList = [];     // Stores currently loaded schedule data to support search queries locally
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 
@@ -631,53 +553,72 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
 });
 
+function toggleDay(element) {
+  const block = element.parentElement;
+  block.classList.toggle('expanded');
+  const arrow = element.querySelector('.arrow');
+  if (block.classList.contains('expanded')) {
+    arrow.innerHTML = '&#9662;';
+  } else {
+    arrow.innerHTML = '&#9656;';
+  }
+}
+
 function cleanTo24h(timeStr) {
   if (!timeStr) return "";
+  
   let str = timeStr.trim().toUpperCase();
   const isPM = str.includes("PM");
   const isAM = str.includes("AM");
+  
   let clean = str.replace(/(AM|PM)/g, '').trim();
   let parts = clean.split(':');
+  
   if (parts.length >= 2) {
     let hh = parseInt(parts[0], 10);
     let mm = parseInt(parts[1], 10);
+    
     if (isPM && hh < 12) hh += 12;
     if (isAM && hh === 12) hh = 0;
+    
     return hh.toString().padStart(2, '0') + mm.toString().padStart(2, '0');
   }
+  
   return clean.replace(/[^0-9]/g, '').padStart(4, '0');
 }
 
-function handleViewRangeChange(val) {
-  currentViewDays = parseInt(val, 10);
-  const container = document.getElementById("outlookGridContainer");
-  container.className = `outlook-grid view-${currentViewDays}`;
-  fetchAndRenderSchedule();
-}
-
-function navigateSchedule(direction) {
-  if (direction === 0) {
-    scheduleBaseOffset = 0;
+// Switches calendar view to next week or back to this week
+function toggleWeekOffset() {
+  const toggleBtn = document.getElementById("weekToggleBtn");
+  const header = document.getElementById("outlookHeader");
+  
+  if (scheduleOffsetDays === 0) {
+    scheduleOffsetDays = 7;
+    toggleBtn.innerHTML = "📅 This Week";
+    header.textContent = "Following 7-Day Outlook";
   } else {
-    scheduleBaseOffset += (direction * currentViewDays);
+    scheduleOffsetDays = 0;
+    toggleBtn.innerHTML = "📅 Next Week";
+    header.textContent = "7-Day Schedule Outlook";
   }
+  
   fetchAndRenderSchedule();
 }
 
 async function fetchAndRenderSchedule() {
-  const container = document.getElementById("outlookGridContainer");
+  const container = document.getElementById("dayViewContainer");
   cachedDayList = [];
-  const headerOpts = { weekday: 'short', month: 'numeric', day: 'numeric' };
+  const options = { weekday: 'long', month: 'short', day: 'numeric' };
   
   const today = new Date();
   today.setHours(0,0,0,0);
 
-  // Generate localized date columns array dynamically
-  for (let i = 0; i < currentViewDays; i++) {
+  // Generate date array depending on active offset
+  for (let i = 0; i < 7; i++) {
     const d = new Date();
-    d.setDate(d.getDate() + i + scheduleBaseOffset);
+    d.setDate(d.getDate() + i + scheduleOffsetDays);
     const key = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-    const displayLabel = d.toLocaleDateString('en-US', headerOpts);
+    const displayLabel = d.toLocaleDateString('en-US', options);
     
     const targetDate = new Date(d);
     targetDate.setHours(0,0,0,0);
@@ -712,24 +653,28 @@ async function fetchAndRenderSchedule() {
       }
     });
 
+    // Populate UI based on current search input value
     const searchVal = document.getElementById("scheduleSearch").value;
-    renderScheduleMatrix(searchVal);
+    renderScheduleList(searchVal);
 
   } catch (error) {
-    console.error("Error processing tracking matrix pipeline:", error);
-    container.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Error loading downstream schedule array matrix.</p>`;
+    console.error("Error processing tracking pipeline:", error);
+    container.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem; text-align: center;">Error loading dynamic schedule matrix feed.</p>`;
   }
 }
 
-function renderScheduleMatrix(searchTerm = "") {
-  const container = document.getElementById("outlookGridContainer");
+// Separated rendering loop to allow immediate client-side query filtering
+function renderScheduleList(searchTerm = "") {
+  const container = document.getElementById("dayViewContainer");
   const now = new Date();
   const currentHourMinStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
   const query = searchTerm.trim().toLowerCase();
   
   let outputHtml = "";
+  let matchesFoundTotal = 0;
 
   cachedDayList.forEach(day => {
+    // Filter out meetings matching search query
     const matchedMeetings = day.meetings.filter(m => {
       if (!query) return true;
       const tMatch = m.title && m.title.toLowerCase().includes(query);
@@ -737,53 +682,67 @@ function renderScheduleMatrix(searchTerm = "") {
       return tMatch || dMatch;
     });
 
-    const cardClass = day.isToday ? "outlook-day-card today" : "outlook-day-card";
-    
-    outputHtml += `<div class="${cardClass}">`;
-    outputHtml += `<div class="outlook-day-header">${day.label}</div>`;
-    outputHtml += `<div class="outlook-day-content">`;
+    // If searching, hide days with zero hits
+    if (query && matchedMeetings.length === 0) {
+      return;
+    }
+
+    if (query) {
+      matchesFoundTotal += matchedMeetings.length;
+    }
+
+    // Auto expand all match groups during a search query
+    const isExpanded = query !== "";
+    const blockClass = isExpanded ? "day-block expanded" : "day-block";
+    const arrowIcon = isExpanded ? "&#9662;" : "&#9656;";
+
+    outputHtml += `<div class="${blockClass}">`;
+    outputHtml += `<div class="day-header" onclick="toggleDay(this)"><span>${day.label}</span><span class="arrow">${arrowIcon}</span></div>`;
+    outputHtml += `<div class="day-content">`;
 
     if (matchedMeetings.length === 0) {
-      outputHtml += `<div class="no-events-text">Clear</div>`;
+      outputHtml += `<p style="color: var(--muted); font-size: 0.88rem; margin: 12px 14px;">No meetings scheduled.</p>`;
     } else {
       matchedMeetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
       
       matchedMeetings.forEach(m => {
-        const timeRange = m.endTime ? `${m.startTime}-${m.endTime}` : `${m.startTime}`;
-        const titleText = m.title ? m.title : "Untitled";
+        const timeRange = m.endTime ? `${m.startTime} - ${m.endTime}` : `${m.startTime}`;
+        const titleText = m.title ? `<strong>${m.title}</strong>` : `<em>No Title</em>`;
+        const detailsText = m.details ? ` — ${m.details}` : "";
 
         let isPassed = false;
         if (day.isPastDay) {
           isPassed = true;
-        } else if (day.isToday && m.startTime && m.startTime < currentHourMinStr) {
-          isPassed = true;
+        } else if (day.isToday) {
+          if (m.startTime && m.startTime < currentHourMinStr) {
+            isPassed = true;
+          }
         }
 
-        let itemClass = "outlook-item";
-        if (isPassed) {
-          itemClass += " passed";
-        } else {
-          itemClass += " active-meeting";
-        }
+        const rowClass = isPassed ? "event-row passed" : "event-row";
 
         outputHtml += `
-          <div class="${itemClass}">
-            <div class="outlook-time">${timeRange}</div>
-            <div class="outlook-title">${titleText}</div>
-            ${m.details ? `<div class="outlook-details">${m.details}</div>` : ""}
+          <div class="${rowClass}" style="display: flex; align-items: flex-start; gap: 14px; padding: 10px 14px; border-bottom: 1px solid var(--border);">
+            <div class="time-slot" style="font-weight: 700; color: var(--sky); font-size: 0.9rem; min-width: 85px; white-space: nowrap;">
+              ${timeRange}
+            </div>
+            <div style="font-size: 0.9rem; flex-grow: 1; white-space: pre-wrap;">${titleText}${detailsText}</div>
           </div>
         `;
       });
     }
-    
     outputHtml += `</div></div>`;
   });
+
+  if (query && matchesFoundTotal === 0) {
+    outputHtml = `<p style="color: var(--muted); font-size: 0.9rem; text-align: center; margin: 24px 0;">No meetings match "${searchTerm}".</p>`;
+  }
 
   container.innerHTML = outputHtml;
 }
 
 function handleSearch(val) {
-  renderScheduleMatrix(val);
+  renderScheduleList(val);
 }
 
 function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
@@ -802,6 +761,11 @@ function handleFormResponse() {
   submitted = false;
   document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
   document.querySelectorAll('form').forEach(f => f.reset());
+  const psiHint = document.getElementById('psiTargetHint');
+  if(psiHint) psiHint.textContent = '';
+  const lbsHint = document.getElementById('weightLbsHint');
+  if(lbsHint) lbsHint.textContent = '';
+  stopDictation();
   setTimeout(fetchAndRenderSchedule, 1500);
 }
 
@@ -843,21 +807,26 @@ function updateLbsHint(inputElement) {
 function toggleDictation(btn, targetId) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    alert("Voice dictation is not natively supported in this browser.");
+    alert("Voice dictation is not natively supported in this browser. Please use your standard mobile keyboard mic button.");
     return;
   }
+
   const targetInput = document.getElementById(targetId);
   if (currentMicButton === btn) {
     stopDictation();
     return;
   }
+
   stopDictation();
+
   recognition = new SpeechRecognition();
   recognition.continuous = false;
   recognition.interimResults = false;
   recognition.lang = 'en-US';
+
   currentTargetInput = targetInput;
   currentMicButton = btn;
+
   recognition.onstart = function() {
     btn.classList.add('listening');
     btn.textContent = '🛑';
@@ -866,7 +835,9 @@ function toggleDictation(btn, targetId) {
     console.error(e);
     stopDictation();
   };
-  recognition.onend = function() { stopDictation(); };
+  recognition.onend = function() {
+    stopDictation();
+  };
   recognition.onresult = function(event) {
     const transcript = event.results[0][0].transcript;
     if (targetInput.value) {
@@ -906,6 +877,7 @@ function viewDiagramImage() {
   document.getElementById('diagramImageBox').style.display = 'block';
 }
 
+/* Visual Calendar Logic */
 function openCalendarModal() {
   calCurrentDate = new Date();
   renderVisualCalendar();
@@ -920,25 +892,34 @@ function changeMonth(direction) {
 function renderVisualCalendar() {
   const year = calCurrentDate.getFullYear();
   const month = calCurrentDate.getMonth();
+  
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   document.getElementById("calMonthLabel").textContent = `${monthNames[month]} ${year}`;
+  
   const firstDayIndex = new Date(year, month, 1).getDay();
   const totalDays = new Date(year, month + 1, 0).getDate();
+  
   const today = new Date();
   
   let gridHtml = `
     <div class="cal-weekday">Su</div><div class="cal-weekday">Mo</div><div class="cal-weekday">Tu</div>
     <div class="cal-weekday">We</div><div class="cal-weekday">Th</div><div class="cal-weekday">Fr</div><div class="cal-weekday">Sa</div>
   `;
-  for (let i = 0; i < firstDayIndex; i++) { gridHtml += `<div class="cal-day empty"></div>`; }
+  
+  for (let i = 0; i < firstDayIndex; i++) {
+    gridHtml += `<div class="cal-day empty"></div>`;
+  }
+  
   for (let day = 1; day <= totalDays; day++) {
     const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
     const dayClass = isToday ? "cal-day today" : "cal-day";
     gridHtml += `<div class="${dayClass}">${day}</div>`;
   }
+  
   document.getElementById("calendarGrid").innerHTML = gridHtml;
 }
 </script>
+
 
 <!-- MODAL: VISUAL CALENDAR REFERENCE -->
 <div id="calendarModal" class="modal-overlay">
