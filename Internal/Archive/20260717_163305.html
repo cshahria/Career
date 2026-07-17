@@ -345,7 +345,7 @@
     border: 1px dashed var(--border);
     border-radius: 10px;
     padding: 12px 14px;
-    margin-top: 18px;
+    margin-bottom: 16px;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -353,7 +353,7 @@
   }
   .carousel-header {
     display: flex;
-    justify-between: space-between;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
   }
@@ -722,18 +722,7 @@
     
     <input type="text" id="scheduleSearch" class="search-input" placeholder="Search schedule (e.g., INT)..." oninput="handleSearch(this.value)">
 
-    <div id="outlookGridContainer" class="outlook-grid view-3">
-      <p style="color: var(--muted); font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
-    </div>
-
-    <!-- UI Action to open the source matrix sheet directly under the grid days[cite: 1, 2] -->
-    <div class="source-sheet-box">
-      <a href="https://docs.google.com/spreadsheets/d/1yY53aj7S8H1Q5koADSo8Kd49SowQx3JWDbV98_-Hr6Q/edit?usp=sharing" target="_blank" class="source-sheet-pill">
-        🔗 Open Source Sheet ↗
-      </a>
-    </div>
-
-    <!-- RELOCATED CONTENT CAROUSEL CONTAINER (NOW AT THE BOTTOM) -->
+    <!-- NEW CONTENT CAROUSEL CONTAINER -->
     <div class="carousel-container">
       <div class="carousel-header">
         <div class="carousel-title">📝 Recent Streams (Notes)</div>
@@ -745,6 +734,17 @@
       <div class="carousel-content" id="carouselContentBox">
         <div style="color: var(--muted); font-size: 0.85rem; font-style: italic;">Fetching latest updates...</div>
       </div>
+    </div>
+
+    <div id="outlookGridContainer" class="outlook-grid view-3">
+      <p style="color: var(--muted); font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
+    </div>
+
+    <!-- UI Action to open the source matrix sheet directly under the grid days[cite: 1, 2] -->
+    <div class="source-sheet-box">
+      <a href="https://docs.google.com/spreadsheets/d/1yY53aj7S8H1Q5koADSo8Kd49SowQx3JWDbV98_-Hr6Q/edit?usp=sharing" target="_blank" class="source-sheet-pill">
+        🔗 Open Source Sheet ↗
+      </a>
     </div>
   </div>
 
@@ -766,6 +766,7 @@ let notesCarouselData = [];
 let activeCarouselIndex = 0;
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
+// Replace this URL template with your standalone Notes tab CSV export parameters if necessary
 const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=1743122072&single=true&output=csv";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -840,6 +841,7 @@ async function fetchAndRenderNotesCarousel() {
     const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
     
     notesCarouselData = [];
+    // Reads backwards from bottom to top to pull the 5 most recently appended entries
     for (let i = rows.length - 1; i >= 0; i--) {
       if (rows[i].length >= 3) {
         const timestamp = rows[i][0]?.replace(/^"|"$/g, '').trim();

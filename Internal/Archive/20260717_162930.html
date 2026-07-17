@@ -322,79 +322,34 @@
     line-height: 1.4;
   }
 
-  .modal-section-title {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #111827;
-    margin-top: 20px;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  .blueprint-container {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    padding-top: 24px;
+    border-top: 1px dashed #e5e7eb;
+    font-family: system-ui, -apple-system, sans-serif;
   }
-  .modal-section-body {
-    font-size: 0.9rem;
-    color: #4b5563;
-    line-height: 1.55;
-    margin: 0 0 14px 0;
-  }
-
-  /* CAROUSEL STYLES */
-  .carousel-container {
-    background: #fafafa;
-    border: 1px dashed var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-top: 18px;
+  .blueprint-flex {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    position: relative;
+    gap: 24px;
   }
-  .carousel-header {
-    display: flex;
-    justify-between: space-between;
-    align-items: center;
-    margin-bottom: 4px;
+  .blueprint-col {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
   }
-  .carousel-title {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .carousel-controls {
-    display: flex;
-    gap: 6px;
-  }
-  .carousel-arrow {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    cursor: pointer;
-    user-select: none;
-  }
-  .carousel-arrow:hover { background: #f3f4f6; }
-  .carousel-content {
-    min-height: 48px;
-  }
-  .carousel-note-title {
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #111827;
-  }
-  .carousel-note-text {
-    font-size: 0.85rem;
-    color: #4b5563;
-    white-space: pre-wrap;
-    margin-top: 2px;
+  @media (min-width: 640px) {
+    .blueprint-flex {
+      flex-direction: row;
+      gap: 12px;
+    }
+    .blueprint-col-middle {
+      border-left: 1px solid #e5e7eb;
+      border-right: 1px solid #e5e7eb;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
   }
 
   .outlook-nav-bar {
@@ -623,30 +578,6 @@
     color: #4b5563;
     cursor: pointer;
   }
-
-  .source-sheet-box {
-    display: flex;
-    justify-content: center;
-    margin-top: 18px;
-  }
-  .source-sheet-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #fff;
-    color: #107c41;
-    border: 1px solid #107c41;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.1s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .source-sheet-pill:hover {
-    background: #f3faf6;
-  }
 </style>
 <script data-goatcounter="https://cshahria.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
@@ -660,10 +591,26 @@
 
   <div class="card">
     <div class="tile-grid">
-      <!-- Row 1[cite: 1, 2] -->
+      <!-- Row 1 -->
       <div class="tile" onclick="openModal('careerModal')">
         <div class="icon">💼</div>
         <div class="name">Career</div>
+      </div>
+
+      <div class="tile" onclick="openModal('transportModal')">
+        <div class="icon">🚗</div>
+        <div class="name">Transport</div>
+      </div>
+	  
+      <div class="tile" onclick="openModal('healthModal')">
+        <div class="icon">🏥</div>
+        <div class="name">Health</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="tile" onclick="openModal('notesModal')">
+        <div class="icon">📝</div>
+        <div class="name">Notes</div>
       </div>
 
       <div class="tile" onclick="openModal('meetingsModal')">
@@ -674,22 +621,6 @@
       <div class="tile" onclick="openModal('developModal')">
         <div class="icon">⚙️</div>
         <div class="name">Develop</div>
-      </div>
-
-      <!-- Row 2[cite: 1, 2] -->
-      <div class="tile" onclick="openModal('healthModal')">
-        <div class="icon">🏥</div>
-        <div class="name">Health</div>
-      </div>
-
-      <div class="tile" onclick="openModal('notesModal')">
-        <div class="icon">📝</div>
-        <div class="name">Notes</div>
-      </div>
-
-      <div class="tile" onclick="openModal('transportModal')">
-        <div class="icon">🚗</div>
-        <div class="name">Transport</div>
       </div>
     </div>
     
@@ -725,27 +656,6 @@
     <div id="outlookGridContainer" class="outlook-grid view-3">
       <p style="color: var(--muted); font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
     </div>
-
-    <!-- UI Action to open the source matrix sheet directly under the grid days[cite: 1, 2] -->
-    <div class="source-sheet-box">
-      <a href="https://docs.google.com/spreadsheets/d/1yY53aj7S8H1Q5koADSo8Kd49SowQx3JWDbV98_-Hr6Q/edit?usp=sharing" target="_blank" class="source-sheet-pill">
-        🔗 Open Source Sheet ↗
-      </a>
-    </div>
-
-    <!-- RELOCATED CONTENT CAROUSEL CONTAINER (NOW AT THE BOTTOM) -->
-    <div class="carousel-container">
-      <div class="carousel-header">
-        <div class="carousel-title">📝 Recent Streams (Notes)</div>
-        <div class="carousel-controls">
-          <button class="carousel-arrow" onclick="rotateCarousel(-1)">◀</button>
-          <button class="carousel-arrow" onclick="rotateCarousel(1)">▶</button>
-        </div>
-      </div>
-      <div class="carousel-content" id="carouselContentBox">
-        <div style="color: var(--muted); font-size: 0.85rem; font-style: italic;">Fetching latest updates...</div>
-      </div>
-    </div>
   </div>
 
 </div>
@@ -760,17 +670,13 @@ let currentMicButton = null;
 
 let calCurrentDate = new Date();
 let scheduleBaseOffset = 0; 
-let currentViewDays = 3;     
+let currentViewDays = 3;     // Reset default metric matrix loading index to 3
 let cachedDayList = [];     
-let notesCarouselData = [];
-let activeCarouselIndex = 0;
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
-const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=1743122072&single=true&output=csv";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderSchedule();
-  fetchAndRenderNotesCarousel();
 });
 
 function cleanTo24h(timeStr) {
@@ -829,58 +735,6 @@ function add30MinutesToEndTime() {
   const paddedHours = hours.toString().padStart(2, '0');
   const paddedMinutes = minutes.toString().padStart(2, '0');
   endInput.value = `${paddedHours}:${paddedMinutes}`;
-}
-
-async function fetchAndRenderNotesCarousel() {
-  const container = document.getElementById("carouselContentBox");
-  try {
-    const response = await fetch(NOTES_CSV_URL + "&t=" + new Date().getTime());
-    const data = await response.text();
-    const lines = data.split(/\r?\n/);
-    const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
-    
-    notesCarouselData = [];
-    for (let i = rows.length - 1; i >= 0; i--) {
-      if (rows[i].length >= 3) {
-        const timestamp = rows[i][0]?.replace(/^"|"$/g, '').trim();
-        const shortDesc = rows[i][1]?.replace(/^"|"$/g, '').trim();
-        const fullDesc = rows[i][2]?.replace(/^"|"$/g, '').trim();
-        
-        if (shortDesc || fullDesc) {
-          notesCarouselData.push({ timestamp, shortDesc, fullDesc });
-        }
-      }
-      if (notesCarouselData.length >= 5) break;
-    }
-
-    activeCarouselIndex = 0;
-    renderCarouselSlide();
-  } catch (err) {
-    console.error("Error piping isolated notes metrics:", err);
-    container.innerHTML = `<div style="color: #e74c3c; font-size: 0.85rem;">Failed to fetch stream entries securely.</div>`;
-  }
-}
-
-function renderCarouselSlide() {
-  const container = document.getElementById("carouselContentBox");
-  if (notesCarouselData.length === 0) {
-    container.innerHTML = `<div style="color: var(--muted); font-size: 0.85rem; font-style: italic;">No recent history logs available.</div>`;
-    return;
-  }
-  
-  const item = notesCarouselData[activeCarouselIndex];
-  container.innerHTML = `
-    <div class="carousel-note-title">${item.shortDesc || "Untitled Entry"} <span style="font-weight:normal; font-size:0.75rem; color:var(--muted); margin-left:6px;">(${item.timestamp.split(' ')[0]})</span></div>
-    <div class="carousel-note-text">${item.fullDesc || ""}</div>
-  `;
-}
-
-function rotateCarousel(direction) {
-  if (notesCarouselData.length === 0) return;
-  activeCarouselIndex += direction;
-  if (activeCarouselIndex >= notesCarouselData.length) activeCarouselIndex = 0;
-  if (activeCarouselIndex < 0) activeCarouselIndex = notesCarouselData.length - 1;
-  renderCarouselSlide();
 }
 
 async function fetchAndRenderSchedule() {
@@ -1028,6 +882,8 @@ function openModal(modalId) {
 function closeModal(modalId) { 
   stopDictation();
   if(modalId === 'docsModal') {
+    document.getElementById('videoPlayerBox').style.display = 'none';
+    document.getElementById('demoVideoSource').src = '';
     document.getElementById('diagramImageBox').style.display = 'none';
   }
   if(modalId === 'meetingsModal') {
@@ -1041,10 +897,7 @@ function handleFormResponse() {
   submitted = false;
   document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
   document.querySelectorAll('form').forEach(f => f.reset());
-  setTimeout(() => {
-    fetchAndRenderSchedule();
-    fetchAndRenderNotesCarousel();
-  }, 1500);
+  setTimeout(fetchAndRenderSchedule, 1500);
 }
 
 function updatePsiHint(selectElement) {
@@ -1133,7 +986,18 @@ function stopDictation() {
   currentTargetInput = null;
 }
 
+function viewVideoDemo() {
+  document.getElementById('diagramImageBox').style.display = 'none';
+  const vBox = document.getElementById('videoPlayerBox');
+  const player = document.getElementById('demoVideoSource');
+  player.src = "2026_Demo.mp4";
+  vBox.style.display = "block";
+  document.getElementById('demoVideoControl').load();
+}
+
 function viewDiagramImage() {
+  document.getElementById('videoPlayerBox').style.display = 'none';
+  document.getElementById('demoVideoSource').src = '';
   document.getElementById('diagramImageBox').style.display = 'block';
 }
 
@@ -1413,19 +1277,17 @@ function renderVisualCalendar() {
   </div>
 </div>
 
-<!-- MODAL: DOCUMENTATION RESOURCES[cite: 2] -->
+<!-- MODAL: DOCUMENTATION RESOURCES -->
 <div id="docsModal" class="modal-overlay">
   <div class="modal-content" style="max-width: 550px;">
     <button class="modal-close" onclick="closeModal('docsModal')">×</button>
     <h3>Project Documentation</h3>
     <p style="font-size:0.88rem; color:var(--muted); margin:-8px 0 16px;">Select a resource artifact below to review or present.</p>
-    
-    <!-- Relocated Disclaimer[cite: 2] -->
-    <div class="disclaimer-box">
-      <p>Disclaimer & MIT License Terms: All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.</p>
-    </div>
-
     <div class="docs-list">
+      <button type="button" class="docs-btn" onclick="viewVideoDemo()">
+        <span style="font-size:1.2rem;">🎬</span>
+        <span>Demo Recording <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(2026_Demo.mp4)</code></span>
+      </button>
       <a href="readme.html" target="_blank" class="docs-btn">
         <span style="font-size:1.2rem;">📄</span>
         <span style="flex-grow:1;">Documentation Manual <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(readme.html)</code></span>
@@ -1436,30 +1298,51 @@ function renderVisualCalendar() {
         <span>System Architecture Diagram <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(Data_Flow.png)</code></span>
       </button>
     </div>
-
+    <div id="videoPlayerBox" class="docs-viewer-box">
+      <video id="demoVideoControl" controls style="width:100%; height:auto; border-radius:4px; display:block;">
+        <source id="demoVideoSource" type="video/mp4">
+        Your device viewport does not support embedded media elements.
+      </video>
+    </div>
     <div id="diagramImageBox" class="docs-viewer-box">
       <img src="Data_Flow.png" alt="Architecture Flow Layer" style="width:100%; height:auto; border-radius:4px; display:block;">
     </div>
+  </div>
+</div>
 
-    <!-- Relocated Project Blueprint Elements[cite: 2] -->
-    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--border);">
-      <div class="modal-section-title">🎯 Objective</div>
-      <p class="modal-section-body">
+<!-- BLUEPRINT FOOTER COMPONENT -->
+<div class="blueprint-container">
+  <div class="blueprint-flex">
+    <div class="blueprint-col">
+      <div style="font-size: 1.1rem; font-weight: 800; color: #111827; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+        🎯 <span>Objective</span>
+      </div>
+      <p style="font-size: 0.92rem; color: #4b5563; line-height: 1.6; margin: 0;">
         A decoupled input layer built to bypass mobile spreadsheet layout friction. Utilizing an asynchronous <code>POST</code> mechanism, it pipes data cleanly into isolated, secure database streams—keeping records raw, un-manipulated, and fast.
       </p>
-
-      <div class="modal-section-title">⚡ Pipeline Steps</div>
-      <p class="modal-section-body">
-        1. Select tracking category tile.<br>
-        2. Fill fields or dictate text via voice.<br>
-        3. Tap Save to blinds-push to Sheets.
-      </p>
-
-      <div class="modal-section-title">🤖 AI Vision Loop</div>
-      <p class="modal-section-body">
+    </div>
+    <div class="blueprint-col blueprint-col-middle">
+      <div style="font-size: 1.1rem; font-weight: 800; color: #111827; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+        ⚡ <span>Pipeline Steps</span>
+      </div>
+      <ol style="font-size: 0.92rem; color: #4b5563; line-height: 1.6; margin: 0; padding-left: 18px;">
+        <li style="margin-bottom: 4px;">Select tracking category tile.</li>
+        <li style="margin-bottom: 4px;">Fill fields or dictate text via voice.</li>
+        <li>Tap Save to blinds-push to Sheets.</li>
+      </ol>
+    </div>
+    <div class="blueprint-col">
+      <div style="font-size: 1.1rem; font-weight: 800; color: #111827; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+        🤖 <span>AI Vision Loop</span>
+      </div>
+      <p style="font-size: 0.92rem; color: #4b5563; line-height: 1.6; margin: 0;">
         By securing pristine, formatted timestamps and structured raw arrays without manual sheets formatting, this ledger acts as an optimized downstream fuel source for AI code-interpreters to handle automated pattern analysis, anomaly hunting, and instant executive reporting.
       </p>
     </div>
+  </div>
+
+  <div class="inline-disclaimer">
+    <strong>Disclaimer & MIT License Terms:</strong> All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.
   </div>
 </div>
 
