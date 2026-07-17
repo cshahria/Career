@@ -352,6 +352,7 @@
     }
   }
 
+  /* Modified Outlook Layout Variables */
   .outlook-nav-bar {
     display: flex;
     flex-wrap: wrap;
@@ -371,6 +372,7 @@
     gap: 16px;
   }
   @media (min-width: 768px) {
+    /* Adjusted layout style configurations to center 3 tiles natively */
     .outlook-grid.view-3 { grid-template-columns: repeat(3, 1fr); }
     .outlook-grid.view-5 { grid-template-columns: repeat(3, 1fr); }
     .outlook-grid.view-7 { grid-template-columns: repeat(3, 1fr); }
@@ -382,7 +384,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 280px;
+    min-height: 280px; /* Enhanced physical profile scales */
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
   }
   .outlook-day-card.today {
@@ -420,6 +422,7 @@
     line-height: 1.35;
   }
   
+  /* Status Color Styles Engine Modifications without strikethroughs */
   .outlook-item.passed {
     background: #fdf2f2;
     border-left-color: #f87171;
@@ -477,6 +480,7 @@
     font-style: italic;
   }
   
+  /* Day Inline Entry Elements */
   .day-add-action-box {
     padding: 8px 10px;
     border-top: 1px dashed var(--border);
@@ -640,9 +644,9 @@
       <h3 id="outlookHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">Schedule Matrix</h3>
       <div class="outlook-controls">
         <select id="daysRangeSelect" class="view-select" onchange="handleViewRangeChange(this.value)">
-          <option value="3" selected>3 Days</option>
+          <option value="3">3 Days</option>
           <option value="5">5 Days</option>
-          <option value="7">7 Days</option>
+          <option value="7" selected>7 Days</option>
         </select>
         <button class="cal-btn" onclick="navigateSchedule(-1)">◀ Prev</button>
         <button class="cal-btn" onclick="navigateSchedule(0)">Today</button>
@@ -653,7 +657,7 @@
     
     <input type="text" id="scheduleSearch" class="search-input" placeholder="Search schedule (e.g., INT)..." oninput="handleSearch(this.value)">
 
-    <div id="outlookGridContainer" class="outlook-grid view-3">
+    <div id="outlookGridContainer" class="outlook-grid view-7">
       <p style="color: var(--muted); font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
     </div>
   </div>
@@ -670,7 +674,7 @@ let currentMicButton = null;
 
 let calCurrentDate = new Date();
 let scheduleBaseOffset = 0; 
-let currentViewDays = 3;     // Reset default metric matrix loading index to 3
+let currentViewDays = 7;     
 let cachedDayList = [];     
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
@@ -698,8 +702,6 @@ function cleanTo24h(timeStr) {
 
 function handleViewRangeChange(val) {
   currentViewDays = parseInt(val, 10);
-  const container = document.getElementById("outlookGridContainer");
-  container.className = `outlook-grid view-${currentViewDays}`;
   fetchAndRenderSchedule();
 }
 
