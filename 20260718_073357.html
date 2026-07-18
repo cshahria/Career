@@ -77,7 +77,6 @@
     align-items:center;
     justify-content:flex-start;
     transition:transform 0.15s ease, box-shadow 0.15s ease;
-    position: relative;
   }
   .tile:hover, .tile-link:hover{
     transform:translateY(-2px);
@@ -100,54 +99,6 @@
     color:var(--muted);
     line-height:1.3;
     font-weight:400;
-  }
-
-  .tile .copy-container, .tile-link .copy-container {
-    margin-top:8px;
-    border-top: 1px dotted var(--border);
-    padding-top: 6px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .tile .copy-text, .tile-link .copy-text {
-    font-size:0.68rem;
-    color:#8c939e;
-    word-break:break-all;
-    line-height:1.25;
-    font-weight:normal;
-  }
-
-  .copy-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 2px 4px;
-    font-size: 0.75rem;
-    color: var(--sky);
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.1s;
-  }
-  .copy-btn:hover {
-    background: var(--sky-light);
-  }
-
-  .footer-info {
-    margin-top: 32px;
-    text-align: center;
-    padding: 0 16px;
-  }
-  .footer-text {
-    font-size: 0.8rem;
-    color: var(--muted);
-    line-height: 1.5;
-    margin-bottom: 8px;
   }
 
   /* Modal System */
@@ -292,19 +243,19 @@
       <!-- Row 1: Operations, Code, & Architecture Maps -->
       <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
         <div class="icon">🌲</div>
-        <div class="name">Transition</div>
-        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
+        <div class="name">unPTO Accountability</div>
+        <div class="desc">Track shared project milestones & deliverables</div>
       </a>
 	  
 	  <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
         <div class="icon">⚽</div>
-        <div class="name">World Cup 2026</div>
+        <div class="name">WC Journal</div>
         <div class="desc">Read personal logs from tournament fan ops</div>
       </a>
 	  
       <a href="https://www.linkedin.com/groups/37040080/" target="_blank" class="tile-link">
         <div class="icon">🌐</div>
-        <div class="name">LinkedIn Fan Group</div>
+        <div class="name">Fan Ops Group</div>
         <div class="desc">Connect with professional venue operators</div>
       </a>
 
@@ -335,42 +286,20 @@
         <div class="desc">Book a 30-minute sync directly on Cal.com</div>
       </a>
 
-      <div class="tile-link" style="cursor: default;">
-        <a href="https://us05web.zoom.us/j/9784979838?pwd=T3FkNTM3M2ZTWXJOaWVSSWVLeHFGQT09" target="_blank" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; width: 100%;">
-          <div class="icon">📹</div>
-          <div class="name">Zoom Room</div>
-          <div class="desc">Launch virtual video space for live syncs</div>
-        </a>
-        <div class="copy-container">
-          <div class="copy-text">ID: 978 497 9838<br>tinyurl.com/2026CyrusZoom</div>
-          <button class="copy-btn" onclick="copyToClipboard('Meeting ID: 978 497 9838\nhttps://tinyurl.com/2026CyrusZoom', this)" title="Copy details">📋</button>
-        </div>
-      </div>
+      <a href="https://us05web.zoom.us/j/9784979838?pwd=T3FkNTM3M2ZTWXJOaWVSSWVLeHFGQT09" target="_blank" class="tile-link">
+        <div class="icon">📹</div>
+        <div class="name">Zoom Room</div>
+        <div class="desc">Launch virtual video space for live syncs</div>
+      </a>
 
-      <div class="tile-link" style="cursor: default;">
-        <a href="sms:4086690813" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; width: 100%;">
-          <div class="icon">💬</div>
-          <div class="name">SMS Text</div>
-          <div class="desc">Send a direct message via mobile network</div>
-        </a>
-        <div class="copy-container">
-          <div class="copy-text">408-669-0813</div>
-          <button class="copy-btn" onclick="copyToClipboard('408-669-0813', this)" title="Copy number">📋</button>
-        </div>
-      </div>
+      <a href="sms:6692516243" class="tile-link">
+        <div class="icon">💬</div>
+        <div class="name">SMS Text</div>
+        <div class="desc">Send a direct message via mobile network</div>
+      </a>
 
     </div>
   </div>
-
-  <!-- Objective and Disclaimer Section -->
-  <footer class="footer-info">
-    <p class="footer-text">
-      <strong>Objective:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency.
-    </p>
-    <p class="footer-text" style="font-style: italic; font-size: 0.75rem;">
-      <strong>Disclaimer:</strong> Intended for internal coordination and designated stakeholder reference. Information linked within external tools is subject to their respective privacy controls and security frameworks.
-    </p>
-  </footer>
 
 </div>
 
@@ -382,16 +311,6 @@ let submitted = false;
 let recognition = null;
 let currentTargetInput = null;
 let currentMicButton = null;
-
-function copyToClipboard(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const originalText = btn.textContent;
-    btn.textContent = '✓';
-    setTimeout(() => { btn.textContent = originalText; }, 1500);
-  }).catch(err => {
-    console.error('Failed to copy text: ', err);
-  });
-}
 
 function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
 function closeModal(modalId) { 
