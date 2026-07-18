@@ -126,59 +126,6 @@
     line-height: 1.2;
   }
 
-  /* Calendar 7-Day View Matrix */
-  .calendar-week {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 6px;
-    margin-top: 10px;
-  }
-  .calendar-day {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #fafbfa;
-    padding: 6px;
-    text-align: center;
-    min-height: 85px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-  .calendar-day.active-meet {
-    background: var(--sky-light);
-    border-color: #b9d5f7;
-  }
-  .calendar-day.active-social {
-    background: var(--pitch-light);
-    border-color: #b2dfdb;
-  }
-  .calendar-day.active-standup {
-    background: var(--amber-light);
-    border-color: #f9dfb1;
-  }
-  .cal-date {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-  .cal-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    line-height: 1.1;
-    word-break: break-word;
-  }
-  .active-meet .cal-label { color: #1e64b0; }
-  .active-social .cal-label { color: #0f766e; }
-  .active-standup .cal-label { color: #b45309; }
-  
-  .cal-time {
-    font-size: 0.62rem;
-    color: var(--text);
-    margin-top: auto;
-    font-weight: 500;
-  }
-
   .process-box {
     background: #f9fafb;
     border-left: 4px solid var(--amber);
@@ -502,44 +449,6 @@
     </div>
   </div>
 
-  <!-- Calendar Matrix Card (7-Day View 7/19 - 7/26) -->
-  <div class="card">
-    <h2>📅 Look-Ahead Matrix (7/19 – 7/26)</h2>
-    <div class="calendar-week">
-      <div class="calendar-day active-social">
-        <div class="cal-date">Sun 7/19</div>
-        <div class="cal-label">🏆 Social Match</div>
-        <div class="cal-time">12:00 PT</div>
-      </div>
-      <div class="calendar-day">
-        <div class="cal-date">Mon 7/20</div>
-        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
-      </div>
-      <div class="calendar-day active-standup">
-        <div class="cal-date">Tue 7/21</div>
-        <div class="cal-label">⏱️ Stand-up (Art)</div>
-        <div class="cal-time">08:00 PT</div>
-      </div>
-      <div class="calendar-day">
-        <div class="cal-date">Wed 7/22</div>
-        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
-      </div>
-      <div class="calendar-day active-meet">
-        <div class="cal-date">Thu 7/23</div>
-        <div class="cal-label">🗺️ unPTO Session</div>
-        <div class="cal-time">12:00 PT</div>
-      </div>
-      <div class="calendar-day">
-        <div class="cal-date">Fri 7/24</div>
-        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
-      </div>
-      <div class="calendar-day">
-        <div class="cal-date">Sat 7/25</div>
-        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
-      </div>
-    </div>
-  </div>
-
   <!-- Single line RSVP Section -->
   <div class="card" style="padding: 10px 16px; margin-bottom: 14px;">
     <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
@@ -645,7 +554,7 @@
   </div>
 
   <footer>
-    <div>unPTO Accountability · Updated: 2026-07-17 19:15:00 PDT</div>
+    <div>unPTO Accountability · Updated: 2026-07-17 19:10:00 PDT</div>
     <div class="disclaimer-text">
       By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
     </div>
@@ -821,7 +730,8 @@ function startMeetingCountdown() {
         const d = Math.floor(distMeeting / (1000 * 60 * 60 * 24));
         const h = Math.floor((distMeeting % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((distMeeting % (1000 * 60 * 60)) / (1000 * 60));
-        meetingDisplay.textContent = `${d}d ${h}h ${m}m`;
+        const s = Math.floor((distMeeting % (1000 * 60)) / 1000);
+        meetingDisplay.textContent = `${d}d ${h}h ${m}m ${s}s`;
       }
     }
 
@@ -835,7 +745,8 @@ function startMeetingCountdown() {
         const d = Math.floor(distSocial / (1000 * 60 * 60 * 24));
         const h = Math.floor((distSocial % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((distSocial % (1000 * 60 * 60)) / (1000 * 60));
-        socialDisplay.textContent = `${d}d ${h}h ${m}m`;
+        const s = Math.floor((distSocial % (1000 * 60)) / 1000);
+        socialDisplay.textContent = `${d}d ${h}h ${m}m ${s}s`;
       }
     }
   }
