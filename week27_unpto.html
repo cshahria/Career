@@ -458,8 +458,8 @@
 <div class="wrap">
 
   <header>
-    <h1>unPTO ACCOUNTABILITY · Week 29 · 2026 Check-In</h1>
-    <p>July 13 – July 19, 2026</p>
+    <h1>unPTO ACCOUNTABILITY</h1>
+    <p>7/13 – 7/19, 2026</p>
   </header>
 
   <div class="dashboard-grid">
@@ -468,8 +468,8 @@
       <div>
         <div class="tile-title">🗺️ NEXT MEETING</div>
         <div id="meetingCountdown" class="tile-countdown">Calculating...</div>
-        <div class="tile-details">Thu Jul 23 @ 12:00</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:2px;">Starbucks, Coronado Pl</div>
+        <div class="tile-details">Thu Jul 23 @ 11:00</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:2px;">3253 Coronado Pl, Santa Clara, CA 95054</div>
       </div>
       <div>
         <button class="tile-btn" onclick="openModal('hostAgendaModal')">📋 View Agenda</button>
@@ -693,9 +693,9 @@
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
       <div style="font-size: 0.85rem; line-height: 1.4; color: #374151; max-height:60vh; overflow-y:auto; padding-right:4px;">
         <div style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom:12px;">
-          Generic check-in meeting completed. Time management and weekly check-ups remain highly relevant to current milestones. The team continues to observe active progress through recurring synchronization and by holding each other accountable. 
+          Check-in meeting completed. Time management and weekly check-ups remain highly relevant to current milestones. The team continues to observe active progress through recurring synchronization and by holding each other accountable. 
           <br><br>
-          Tina recommended strict adherence to the structured host agenda to maintain focus. Felice recommended allowing for operational flexibility after concluding the core roundtable updates. Kar attended for the first time, bringing perspectives with executive education in sight.
+          Tina recommended adherence to the structured host agenda to maintain focus. Felice added operational flexibility after concluding the core roundtable updates. Kar attended for the first time, bringing perspectives with executive education in sight. Kar is also focusing on two apps with monetizaton planned. Art offered to host the next session in Santa Clara. Agreed with Cyrus to schedule a Tuesday check-in on completed actions. Siddharth will report back next week.
         </div>
         
         <div style="border-top:1px dashed var(--border); padding-top:10px; margin-top:10px;">
@@ -755,7 +755,14 @@
       <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📝 Meeting Minutes: July 9, 2026</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
       <div style="font-size:0.82rem; color:#374151; display:flex; flex-direction:column; gap:12px; max-height:55vh; overflow-y:auto; padding-right:6px;">
-        <div><strong style="color:var(--pitch);">Agenda Archive Summary:</strong> Review complete records via shared ledger workspace docs or via system backups.</div>
+        <div><strong style="color:var(--pitch);">Agenda Archive Summary:</strong>Here's a polished version that reads well as a status update:
+
+| Tina| hosted this week's session in Foster City. The foundation including health continues to be a top priority for TW, with a structured two-hour session format planned going forward.
+| Felice remains focused on developing the Standard Operating Procedures (SOPs) while continuing to lead weekly training sessions.
+| Art is making solid progress on the Quality Assurance initiative and is helping ensure the offshore team remains aligned and on schedule.
+| Siddharth has advanced the mock interview program and is planning to join virtual co-working sessions through Discord to increase collaboration and accountability.
+| Cyrus continues exploring GitHub and AI tools through hands-on experimentation. While these efforts have not yet converged into a single high-value outcome, they remain a valuable learning initiative. The current focus is on narrowing priorities and channeling these experiments into more tangible deliverables.
+</div>
       </div>
     </div>
   </div>
@@ -848,7 +855,7 @@ function startMeetingCountdown() {
 let slideIndex = 0;
 function showSlides(n) {
   const slides = document.getElementsByClassName("carousel-slide");
-  if (!slides || slides.length === 0) return;
+  if (!slides |slides.length === 0) return;
   if (n >= slides.length) { slideIndex = 0; }
   if (n < 0) { slideIndex = slides.length - 1; }
   for (let i = 0; i < slides.length; i++) {
