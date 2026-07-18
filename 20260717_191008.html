@@ -63,7 +63,7 @@
     color:#111827;
   }
 
-  /* Dashboard Grid - 3 Column Layout */
+  /* Dashboard Grid */
   .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -72,58 +72,31 @@
   }
   @media (min-width: 640px) {
     .dashboard-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
-  }
-
-  .panel-tile {
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 8px;
-    min-height: 140px;
   }
 
   .panel-meeting {
     background: var(--sky-light);
     border: 1px solid #b9d5f7;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .panel-due {
     background: var(--amber-light);
     border: 1px solid #f9dfb1;
-  }
-
-  .panel-social {
-    background: var(--pitch-light);
-    border: 1px solid #b2dfdb;
-  }
-
-  .tile-title {
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-  }
-  .panel-meeting .tile-title { color: #1e64b0; }
-  .panel-due .tile-title { color: #b45309; }
-  .panel-social .tile-title { color: #115e59; }
-
-  .tile-countdown {
-    font-size: 0.95rem;
-    font-weight: 800;
-    margin: 2px 0;
-  }
-  .panel-meeting .tile-countdown { color: #000080; }
-  .panel-due .tile-countdown { color: #dc2626; }
-  .panel-social .tile-countdown { color: #0f766e; }
-
-  .tile-details {
-    font-size: 0.76rem;
-    color: #1f2937;
-    font-weight: 600;
-    line-height: 1.2;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    gap: 10px;
   }
 
   .process-box {
@@ -239,43 +212,6 @@
   .timer-btn.reset { background: #9ca3af; margin-left: 4px; }
   .timer-btn.reset:hover { background: #4b5563; }
 
-  /* Carousel */
-  .carousel-container {
-    position: relative;
-    width: 100%;
-    margin-top: 10px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    background: #000;
-  }
-  .carousel-slide {
-    display: none;
-    width: 100%;
-    text-align: center;
-  }
-  .carousel-slide iframe {
-    width: 100%;
-    height: 450px;
-    border: none;
-  }
-  .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    border: none;
-    padding: 10px 14px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.1rem;
-    z-index: 10;
-  }
-  .carousel-btn:hover { background: rgba(0,0,0,0.8); }
-  .carousel-btn.prev { left: 0; border-radius: 0 4px 4px 0; }
-  .carousel-btn.next { right: 0; border-radius: 4px 0 0 4px; }
-
   /* Modals */
   .modal-overlay {
     position: fixed;
@@ -325,7 +261,7 @@
     color: #fff;
   }
   .submit-btn.help-trigger {
-    background: #e5e5e5;
+    background: #e5e7eb;
     color: #374151;
     font-weight: 500;
   }
@@ -381,23 +317,6 @@
   .bottom-nav a:hover {
     color: var(--text);
   }
-  
-  .tile-btn {
-    background: var(--sky);
-    color: white;
-    border: none;
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 0.7rem;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-  }
-  .panel-social .tile-btn {
-    background: var(--pitch);
-  }
 </style>
   <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -410,60 +329,65 @@
   </header>
 
   <div class="dashboard-grid">
-    <!-- Tile 1: Next Meeting -->
-    <div class="panel-tile panel-meeting">
-      <div>
-        <div class="tile-title">🗺️ NEXT MEETING</div>
-        <div id="meetingCountdown" class="tile-countdown">Calculating...</div>
-        <div class="tile-details">Thu Jul 23 @ 12:00</div>
-        <div style="font-size:0.7rem; color:var(--muted); margin-top:2px;">Starbucks, Coronado Pl</div>
+    <div class="panel-meeting">
+      <div style="display: flex; gap: 10px; align-items: flex-start;">
+        <div style="flex: 1;">
+          <div style="font-size:0.85rem; color:#1e64b0; font-weight:800; letter-spacing:0.04em;">🗺️ NEXT MEETING</div>
+          <div id="meetingCountdown" style="font-size:0.95rem; color:#000080; font-weight:800; margin: 2px 0;">Calculating...</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600;">Thu Jul 16 · 12:00 – 15:00</div>
+          <div style="font-size:0.75rem; color:var(--muted); margin-top:4px; line-height: 1.3;">
+            T&T Market @ Westgate (95130)<br>
+            <span style="font-size: 0.7rem; color: #374151; font-weight: 500;">Spot: Tables right after checkout cashiers.</span><br>
+            <a href="https://maps.google.com/?q=TNT+Market,+Westgate+Mall,+95130" target="_blank" style="color:var(--sky); font-weight:700; text-decoration:none; font-size: 0.72rem;">Open Map Location ↗</a>
+          </div>
+          <div style="margin-top: 8px;">
+            <button class="submit-btn action-trigger" onclick="openModal('hostAgendaModal')" style="padding: 3px 8px; font-size: 0.72rem; background: var(--sky);">📋 View Host Agenda</button>
+            <a href="https://cshahria.github.io/Career/unPTO/unpto_roundtable_board.html" target="_blank" class="submit-btn" style="padding: 3px 8px; font-size: 0.72rem; background: var(--pitch); margin-left: 4px; text-decoration: none; display: inline-block;">✨ AI Analysis ↗</a>
+          </div>
+        </div>
+        <div style="width: 54px; height: 40px; background: #1a6b4a; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15);">
+          <span style="color: white; font-family: 'Georgia', serif; font-weight: bold; font-size: 1.15rem; letter-spacing: -1px;">T&amp;T</span>
+        </div>
       </div>
-      <div>
-        <button class="tile-btn" onclick="openModal('hostAgendaModal')">📋 View Agenda</button>
+
+      <!-- Single line RSVP Section -->
+      <div style="border-top: 1px dashed #b9d5f7; padding-top: 8px; margin-top: 4px;">
+        <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Name" style="padding: 4px 6px; border: 1px solid #b9d5f7; border-radius: 4px; flex: 1; font-size: 0.75rem; min-width: 0;" required>
+            <select id="rsvpStatus" name="entry.502351350" style="padding: 4px 6px; border: 1px solid #b9d5f7; border-radius: 4px; font-family:inherit; font-size: 0.75rem; width: 110px; min-width: 0;" required>
+              <option value="Attending Both Sessions">Both</option>
+              <option value="Check-In Only">Check-in</option>
+              <option value="Coworking Only">Cowork</option>
+              <option value="Cannot attend this week">Absent</option>
+            </select>
+            <button type="submit" style="background: var(--sky); color: white; border: none; padding: 4px 10px; border-radius: 4px; font-weight: 700; cursor: pointer; font-family:inherit; font-size:0.75rem; flex-shrink: 0;">RSVP</button>
+          </div>
+        </form>
       </div>
     </div>
 
-    <!-- Tile 2: Report Tracking -->
-    <div class="panel-tile panel-due">
-      <div>
-        <div class="tile-title">📄 REPORT TRACKING</div>
-        <div class="tile-countdown" style="color:#b45309; font-size: 0.8rem; font-weight:700; margin-top:5px; margin-bottom: 2px;">Stand-up 7/21 @ 0800 PT</div>
-        <div style="font-size:0.72rem; color:#dc2626; font-weight:700; line-height:1.2;">Due: Mon Jul 20 @ 17:00</div>
+    <div class="panel-due">
+      <div style="display: flex; gap: 10px; align-items: flex-start;">
+        <div style="flex: 1;">
+          <div style="font-size:0.85rem; color:#b45309; font-weight:800; letter-spacing:0.04em;">📄 REPORT TRACKING</div>
+          <div style="font-size:0.95rem; color:#1e64b0; font-weight:800; margin: 2px 0;">🗓️ UPCOMING</div>
+          <div style="font-size:0.78rem; color:#1f2937; font-weight:600; margin-bottom: 2px;">Last Report: Mon Jul 13</div>
+          <div style="font-size:0.78rem; color:#dc2626; font-weight:700; margin-bottom: 8px;">Next Report Due: Mon Jul 20 @ 17:00 Pacific</div>
+        </div>
+        <!-- Google Sheets Asset Icon -->
+        <div style="width: 32px; height: 42px; background: #107c41; border-radius: 4px; position: relative; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.15); overflow: hidden;">
+          <div style="position: absolute; top: 0; right: 0; width: 10px; height: 10px; background: #0a5c30; border-bottom-left-radius: 3px;"></div>
+          <div style="position: absolute; top: 16px; left: 6px; width: 20px; height: 16px; background: #ffffff; padding: 2px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;">
+            <div style="background: #107c41;"></div><div style="background: #107c41;"></div>
+            <div style="background: #107c41;"></div><div style="background: #107c41;"></div>
+          </div>
+        </div>
       </div>
-      <div>
-        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn" style="background:#b45309; width:100%;">📊 Open Ledger Workspace</a>
-      </div>
-    </div>
-
-    <!-- Tile 3: Optional Social -->
-    <div class="panel-tile panel-social">
-      <div>
-        <div class="tile-title">🎉 OPTIONAL SOCIAL</div>
-        <div id="socialCountdown" class="tile-countdown">Calculating...</div>
-        <div class="tile-details">Sun Jul 19 @ 12:00</div>
-        <div style="font-size:0.68rem; color:#1f2937; margin-top:2px; font-weight:500; line-height:1.2;">Yard House · ESP vs ARG<br><span style="color:#115e59; font-weight:700;">🎁 RSVP for souvenir</span></div>
-      </div>
-      <div>
-        <a href="https://cshahria.github.io/2026fifaworldcup/events.html" target="_blank" class="tile-btn" style="width:100%;">⚽ Match RSVP Hub</a>
+      <div style="background: #fff; border: 1px solid #f9dfb1; padding: 6px; border-radius: 6px; text-align: center;">
+        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" style="color:#b45309; font-weight:700; font-size:0.78rem; text-decoration:none;">📊 Go to Master Sheet Workspace ↗</a>
       </div>
     </div>
-  </div>
-
-  <!-- Single line RSVP Section -->
-  <div class="card" style="padding: 10px 16px; margin-bottom: 14px;">
-    <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
-      <div style="display: flex; gap: 6px; align-items: center;">
-        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text); white-space: nowrap;">⚡ Quick Meeting RSVP:</div>
-        <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Your Name" style="padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; flex: 1; font-size: 0.75rem; min-width: 0;" required>
-        <select id="rsvpStatus" name="entry.502351350" style="padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; font-family:inherit; font-size: 0.75rem; width: 110px; min-width: 0;" required>
-          <option value="Attending Both Sessions">Both</option>
-          <option value="Check-In Only">Check-in</option>
-          <option value="Coworking Only">Cowork</option>
-          <option value="Cannot attend this week">Absent</option>
-        </select>
-        <button type="submit" style="background: var(--sky); color: white; border: none; padding: 4px 12px; border-radius: 4px; font-weight: 700; cursor: pointer; font-family:inherit; font-size:0.75rem; flex-shrink: 0;">Submit</button>
-      </div>
-    </form>
   </div>
   
   <div class="card">
@@ -519,19 +443,14 @@
   <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
     <h2>📝 Meeting Minutes</h2>
     <div style="display: flex; flex-direction: column; gap: 8px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f4; padding-bottom: 6px;">
-        <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 16, 2026</span>
-        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly16')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
-      </div>
-      
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f4; padding-bottom: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
         <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 9, 2026</span>
-        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly9')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
+        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly9')", style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
       </div>
 	  
-      <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f4; padding-bottom: 6px;">
         <span style="font-size: 0.85rem; font-weight: 600; color:#374151;">Thursday, July 2, 2026</span>
-        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly2')" style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
+        <button class="submit-btn action-trigger" onclick="openModal('minutesModalJuly2')", style="margin:0; padding:2px 8px; font-size:0.75rem;">View Pop-up</button>
       </div>
     </div>
   </div>
@@ -554,7 +473,7 @@
   </div>
 
   <footer>
-    <div>unPTO Accountability · Updated: 2026-07-17 19:10:00 PDT</div>
+    <div>unPTO Accountability · Updated: 2026-07-15 19:57:36 PDT</div>
     <div class="disclaimer-text">
       By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
     </div>
@@ -568,13 +487,12 @@
   <div id="hostAgendaModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:560px;">
       <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda · July 23 Session</h3>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda · July 16 Session</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Art</div>
       <ol class="agenda-list" style="padding-left: 16px; font-size: 0.9rem;">
-        <li style="margin-bottom: 8px;"><strong>Welcome & Check-in:</strong> Opening review and overview of goals.</li>
-        <li style="margin-bottom: 8px;"><strong>Roundtable Discussion:</strong> Individual updates and peer framework accountability.</li>
-        <li style="margin-bottom: 8px;"><strong>Blockers & Next Steps:</strong> Action mapping and troubleshooting session constraints.</li>
+        <li style="margin-bottom: 8px;"><strong>Roundtable Check-in (5 mins per person):</strong> Focus completely on reviewing last week's goals and this week's strategic goals.</li>
+        <li style="margin-bottom: 8px;"><strong>Blocker Diagnostic:</strong> Open floor to map solutions for any surfaced constraints.</li>
+        <li style="margin-bottom: 8px;"><strong>WIOA Research:</strong> Cyrus to share updates on WIOA research paths and certification opportunities.</li>
       </ol>
       
       <!-- Stopwatch with Larger Counter Display -->
@@ -588,56 +506,6 @@
           <div style="display: flex; flex-direction: column; gap: 4px;">
             <button id="timerToggleBtn" class="timer-btn" onclick="toggleTimer()">Start</button>
             <button class="timer-btn reset" onclick="resetTimer()" style="margin-left:0;">Reset</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- July 16 Minutes Modal -->
-  <div id="minutesModalJuly16" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content" style="max-width:640px;">
-      <button class="modal-close" onclick="closeModal('minutesModalJuly16')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📝 Meeting Minutes: July 16, 2026</h3>
-      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div style="font-size: 0.85rem; line-height: 1.4; color: #374151; max-height:60vh; overflow-y:auto; padding-right:4px;">
-        <div style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom:12px;">
-          Generic check-in meeting completed. Time management and weekly check-ups remain highly relevant to current milestones. The team continues to observe active progress through recurring synchronization and by holding each other accountable. 
-          <br><br>
-          Tina recommended strict adherence to the structured host agenda to maintain focus. Felice recommended allowing for operational flexibility after concluding the core roundtable updates. Kar attended for the first time, bringing perspectives with executive education in sight.
-        </div>
-        
-        <div style="border-top:1px dashed var(--border); padding-top:10px; margin-top:10px;">
-          <strong style="color:var(--sky); font-size:0.9rem;">💡 Follow-up Item: WIOA Sponsored Courses</strong>
-          <p style="margin:4px 0 8px 0; font-size:0.82rem; color:var(--muted);">
-            Review the counselor-provided workspace assets and structural program documents for the <strong>Workforce Innovation and Opportunity Act (WIOA)</strong> program paths.
-          </p>
-          
-          <div style="font-size: 0.8rem; background:#f9fafb; border:1px solid var(--border); border-radius:6px; padding:10px; margin-bottom:10px;">
-            <strong>Counselor Contact Parameters:</strong><br>
-            👤 Cassandra Nash · Lead Career Engagement Specialist<br>
-            📍 1608 Las Plumas Avenue, San Jose, CA 95133<br>
-            📞 Cell: 408-753-5706 · Main: (408) 794-1101<br>
-            ✉️ <a href="mailto:cassandra.nash@equusworks.com" style="color:var(--sky);">cassandra.nash@equusworks.com</a> · 🌐 <a href="http://www.work2future.org" target="_blank" style="color:var(--sky);">www.work2future.org</a>
-          </div>
-
-          <!-- Carousel Embed Area -->
-          <div class="carousel-container">
-            <button class="carousel-btn prev" onclick="moveCarousel(-1)">&#10094;</button>
-            <button class="carousel-btn next" onclick="moveCarousel(1)">&#10095;</button>
-            
-            <!-- Slide 1: Primary Embedded PDF Payload -->
-            <div class="carousel-slide">
-              <iframe src="./Accountability./July_17/ETPL.pdf"></iframe>
-            </div>
-            <!-- Slide 2: Alternative Text Summary -->
-            <div class="carousel-slide" style="background:#222; color:#fff; height:450px; padding:40px 20px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-              <h4 style="margin:0 0 10px 0; color:var(--amber);">WIOA Training Framework</h4>
-              <p style="font-size:0.8rem; max-width:400px; margin:0 auto; color:#ccc; line-height:1.4;">
-                Review full structural parameters, eligible training provider lists (ETPL), and certification matrices in your localized runtime directory.
-              </p>
-              <a href="./Accountability./July_17/ETPL.pdf" target="_blank" class="submit-btn" style="background:var(--sky); margin-top:15px; font-size:0.75rem;">Open Asset Separately ↗</a>
-            </div>
           </div>
         </div>
       </div>
@@ -709,66 +577,33 @@
   </div>
 
 <script>
-// Live Countdowns Logic
+// Live Countdown Logic for the Next Meeting (Thu Jul 16, 2026 @ 12:00 PDT)
 function startMeetingCountdown() {
-  const targetMeeting = new Date("July 23, 2026 12:00:00 PDT").getTime();
-  const targetSocial = new Date("July 19, 2026 12:00:00 PDT").getTime();
-  
-  const meetingDisplay = document.getElementById("meetingCountdown");
-  const socialDisplay = document.getElementById("socialCountdown");
+  const targetDate = new Date("July 16, 2026 12:00:00 PDT").getTime();
+  const display = document.getElementById("meetingCountdown");
 
-  function updateCountdowns() {
+  if (!display) return;
+
+  function updateCountdown() {
     const now = new Date().getTime();
-    
-    // Meeting Countdown
-    if (meetingDisplay) {
-      const distMeeting = targetMeeting - now;
-      if (distMeeting < 0) {
-        meetingDisplay.textContent = "Meeting Active";
-        meetingDisplay.style.color = "var(--pitch)";
-      } else {
-        const d = Math.floor(distMeeting / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distMeeting % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distMeeting % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distMeeting % (1000 * 60)) / 1000);
-        meetingDisplay.textContent = `${d}d ${h}h ${m}m ${s}s`;
-      }
+    const distance = targetDate - now;
+
+    if (distance < 0) {
+      display.textContent = "Meeting in progress or completed!";
+      display.style.color = "var(--pitch)";
+      return;
     }
 
-    // Social Event Countdown
-    if (socialDisplay) {
-      const distSocial = targetSocial - now;
-      if (distSocial < 0) {
-        socialDisplay.textContent = "Match Active";
-        socialDisplay.style.color = "var(--pitch)";
-      } else {
-        const d = Math.floor(distSocial / (1000 * 60 * 60 * 24));
-        const h = Math.floor((distSocial % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const m = Math.floor((distSocial % (1000 * 60 * 60)) / (1000 * 60));
-        const s = Math.floor((distSocial % (1000 * 60)) / 1000);
-        socialDisplay.textContent = `${d}d ${h}h ${m}m ${s}s`;
-      }
-    }
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    display.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
-  updateCountdowns();
-  setInterval(updateCountdowns, 1000);
-}
-
-// Carousel Core Configuration
-let slideIndex = 0;
-function showSlides(n) {
-  const slides = document.getElementsByClassName("carousel-slide");
-  if (!slides || slides.length === 0) return;
-  if (n >= slides.length) { slideIndex = 0; }
-  if (n < 0) { slideIndex = slides.length - 1; }
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  slides[slideIndex].style.display = "block";
-}
-function moveCarousel(n) {
-  showSlides(slideIndex += n);
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 }
 
 // Timer Logic
@@ -828,7 +663,6 @@ function resetTimer() {
 
 window.addEventListener('DOMContentLoaded', () => {
   startMeetingCountdown();
-  showSlides(slideIndex);
   fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
     .then(cfg => {
