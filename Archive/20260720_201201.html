@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>unPTO Accountability · Week 30, 2026</title>
+<title>unPTO Accountability · Week 29, 2026</title>
 <style>
   :root{
     --bg:#f6f8f7;
@@ -63,29 +63,27 @@
     color:#111827;
   }
 
-  /* Dashboard Grid - 2 Column Layout */
+  /* Dashboard Grid - 3 Column Layout */
   .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 14px;
   }
   @media (min-width: 640px) {
     .dashboard-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
   .panel-tile {
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 10px;
+    gap: 8px;
     min-height: 140px;
-    position: relative;
-    overflow: hidden;
   }
 
   .panel-meeting {
@@ -98,52 +96,87 @@
     border: 1px solid #f9dfb1;
   }
 
+  .panel-social {
+    background: var(--pitch-light);
+    border: 1px solid #b2dfdb;
+  }
+
   .tile-title {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.04em;
-    text-transform: uppercase;
   }
   .panel-meeting .tile-title { color: #1e64b0; }
   .panel-due .tile-title { color: #b45309; }
+  .panel-social .tile-title { color: #115e59; }
+
+  .tile-countdown {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin: 2px 0;
+  }
+  .panel-meeting .tile-countdown { color: #000080; }
+  .panel-due .tile-countdown { color: #dc2626; }
+  .panel-social .tile-countdown { color: #0f766e; }
 
   .tile-details {
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     color: #1f2937;
     font-weight: 600;
-    line-height: 1.35;
+    line-height: 1.2;
   }
 
-  /* Side-by-Side Button Row */
-  .tile-btn-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
+  /* Calendar 7-Day View Matrix */
+  .calendar-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-top: 10px;
   }
-
-  .tile-btn {
-    flex: 1;
-    background: var(--sky);
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  .calendar-day {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fafbfa;
+    padding: 6px;
     text-align: center;
-    transition: background 0.15s ease;
+    min-height: 85px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
-  .tile-btn:hover { background: #1d6fa5; }
-  .tile-btn.amber-btn {
-    background: #b45309;
+  .calendar-day.active-meet {
+    background: var(--sky-light);
+    border-color: #b9d5f7;
   }
-  .tile-btn.amber-btn:hover {
-    background: #92400e;
+  .calendar-day.active-social {
+    background: var(--pitch-light);
+    border-color: #b2dfdb;
+  }
+  .calendar-day.active-standup {
+    background: var(--amber-light);
+    border-color: #f9dfb1;
+  }
+  .cal-date {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .cal-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+  .active-meet .cal-label { color: #1e64b0; }
+  .active-social .cal-label { color: #0f766e; }
+  .active-standup .cal-label { color: #b45309; }
+  
+  .cal-time {
+    font-size: 0.62rem;
+    color: var(--text);
+    margin-top: auto;
+    font-weight: 500;
   }
 
   .process-box {
@@ -401,6 +434,23 @@
   .bottom-nav a:hover {
     color: var(--text);
   }
+  
+  .tile-btn {
+    background: var(--sky);
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  .panel-social .tile-btn {
+    background: var(--pitch);
+  }
 </style>
   <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -409,37 +459,104 @@
 
   <header>
     <h1>unPTO ACCOUNTABILITY</h1>
-    <p>7/20 – 7/26, 2026</p>
+    <p>7/13 – 7/19, 2026</p>
   </header>
 
   <div class="dashboard-grid">
     <!-- Tile 1: Next Meeting -->
     <div class="panel-tile panel-meeting">
       <div>
-        <div class="tile-title">🗺️ Next Meeting</div>
-        <div class="tile-details" style="margin-top:4px;">Thu Jul 23 @ 11:00 PT</div>
-        <div style="font-size:0.72rem; color:var(--muted); margin-top: 2px;">📍 3253 Coronado Pl, Santa Clara, CA</div>
+        <div class="tile-title">🗺️ NEXT MEETING</div>
+        <div id="meetingCountdown" class="tile-countdown">Calculating...</div>
+        <div class="tile-details">Thu Jul 23 @ 11:00</div>
+        <div style="font-size:0.7rem; color:var(--muted); margin-top:2px;">3253 Coronado Pl, Santa Clara, CA 95054</div>
       </div>
-      
-      <div class="tile-btn-row">
-        <button class="tile-btn" onclick="openModal('rsvpModal')">⚡ RSVP</button>
-        <button class="tile-btn" onclick="openModal('hostAgendaModal')">📋 Agenda</button>
+      <div>
+        <button class="tile-btn" onclick="openModal('hostAgendaModal')">📋 View Agenda</button>
       </div>
     </div>
 
-    <!-- Tile 2: Reminders -->
+    <!-- Tile 2: Report Tracking -->
     <div class="panel-tile panel-due">
       <div>
-        <div class="tile-title">📌 Reminders</div>
-        <div class="tile-details" style="margin-top:4px;">⏱️ Stand-up: Tue Jul 21 @ 08:00 PT</div>
-        <div style="font-size:0.75rem; color:#dc2626; font-weight:700; margin-top:2px;">🚨 Report Due: Mon Jul 20 @ 17:00</div>
+        <div class="tile-title">📄 REPORT TRACKING</div>
+        <div class="tile-countdown" style="color:#b45309; font-size: 0.8rem; font-weight:700; margin-top:5px; margin-bottom: 2px;">Stand-up 7/21 @ 0800 PT</div>
+        <div style="font-size:0.72rem; color:#dc2626; font-weight:700; line-height:1.2;">Due: Mon Jul 20 @ 17:00</div>
       </div>
       <div>
-        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn amber-btn" style="width:100%;">📊 Open Master Spreadsheet</a>
+        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn" style="background:#b45309; width:100%;">📊 Open Ledger Workspace</a>
+      </div>
+    </div>
+
+    <!-- Tile 3: Optional Social -->
+    <div class="panel-tile panel-social">
+      <div>
+        <div class="tile-title">🎉 OPTIONAL SOCIAL</div>
+        <div id="socialCountdown" class="tile-countdown">Calculating...</div>
+        <div class="tile-details">Sun Jul 19 @ 12:00</div>
+        <div style="font-size:0.68rem; color:#1f2937; margin-top:2px; font-weight:500; line-height:1.2;">Yard House · ESP vs ARG<br><span style="color:#115e59; font-weight:700;">🎁 RSVP for souvenir</span></div>
+      </div>
+      <div>
+        <a href="https://cshahria.github.io/2026fifaworldcup/events.html" target="_blank" class="tile-btn" style="width:100%;">⚽ Match RSVP Hub</a>
       </div>
     </div>
   </div>
 
+  <!-- Calendar Matrix Card (7-Day View 7/19 - 7/26) -->
+  <div class="card">
+    <h2>📅 Look-Ahead Matrix (7/19 – 7/26)</h2>
+    <div class="calendar-week">
+      <div class="calendar-day active-social">
+        <div class="cal-date">Sun 7/19</div>
+        <div class="cal-label">🏆 Social Match</div>
+        <div class="cal-time">12:00 PT</div>
+      </div>
+      <div class="calendar-day">
+        <div class="cal-date">Mon 7/20</div>
+        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
+      </div>
+      <div class="calendar-day active-standup">
+        <div class="cal-date">Tue 7/21</div>
+        <div class="cal-label">⏱️ Stand-up (Art)</div>
+        <div class="cal-time">08:00 PT</div>
+      </div>
+      <div class="calendar-day">
+        <div class="cal-date">Wed 7/22</div>
+        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
+      </div>
+      <div class="calendar-day active-meet">
+        <div class="cal-date">Thu 7/23</div>
+        <div class="cal-label">🗺️ unPTO Session</div>
+        <div class="cal-time">12:00 PT</div>
+      </div>
+      <div class="calendar-day">
+        <div class="cal-date">Fri 7/24</div>
+        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
+      </div>
+      <div class="calendar-day">
+        <div class="cal-date">Sat 7/25</div>
+        <div class="cal-label" style="color:var(--muted); font-weight:normal;">No events</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Single line RSVP Section -->
+  <div class="card" style="padding: 10px 16px; margin-bottom: 14px;">
+    <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <div style="font-size: 0.78rem; font-weight: 700; color: var(--text); white-space: nowrap;">⚡ Quick Meeting RSVP:</div>
+        <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Your Name" style="padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; flex: 1; font-size: 0.75rem; min-width: 0;" required>
+        <select id="rsvpStatus" name="entry.502351350" style="padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; font-family:inherit; font-size: 0.75rem; width: 110px; min-width: 0;" required>
+          <option value="Attending Both Sessions">Both</option>
+          <option value="Check-In Only">Check-in</option>
+          <option value="Coworking Only">Cowork</option>
+          <option value="Cannot attend this week">Absent</option>
+        </select>
+        <button type="submit" style="background: var(--sky); color: white; border: none; padding: 4px 12px; border-radius: 4px; font-weight: 700; cursor: pointer; font-family:inherit; font-size:0.75rem; flex-shrink: 0;">Submit</button>
+      </div>
+    </form>
+  </div>
+  
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <h2 style="margin:0;">🟢 Our Team Board</h2>
@@ -528,7 +645,7 @@
   </div>
 
   <footer>
-    <div>unPTO Accountability · Updated: 2026-07-20 20:10:00 PDT</div>
+    <div>unPTO Accountability · Updated: 2026-07-17 19:15:00 PDT</div>
     <div class="disclaimer-text">
       By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
     </div>
@@ -538,32 +655,7 @@
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
-  <!-- RSVP Modal -->
-  <div id="rsvpModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content" style="max-width:420px;">
-      <button class="modal-close" onclick="closeModal('rsvpModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">⚡ Quick RSVP</h3>
-      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
-        <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Enter full name" required>
-        </div>
-        <div class="form-group">
-          <label>Attendance Status</label>
-          <select id="rsvpStatus" name="entry.502351350" required>
-            <option value="Attending Both Sessions">Both Sessions</option>
-            <option value="Check-In Only">Check-in Only</option>
-            <option value="Coworking Only">Coworking Only</option>
-            <option value="Cannot attend this week">Absent</option>
-          </select>
-        </div>
-        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px; background:var(--sky);">Submit RSVP</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Host Agenda Modal -->
+  <!-- Host Agenda Modal with Stopwatch Functionality Embedded inside -->
   <div id="hostAgendaModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:560px;">
       <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
@@ -576,7 +668,7 @@
         <li style="margin-bottom: 8px;"><strong>Blockers & Next Steps:</strong> Action mapping and troubleshooting session constraints.</li>
       </ol>
       
-      <!-- Stopwatch -->
+      <!-- Stopwatch with Larger Counter Display -->
       <div class="timer-box">
         <div>
           <div style="font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
@@ -603,7 +695,7 @@
         <div style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom:12px;">
           Check-in meeting completed. Time management and weekly check-ups remain highly relevant to current milestones. The team continues to observe active progress through recurring synchronization and by holding each other accountable. 
           <br><br>
-          Tina recommended adherence to the structured host agenda to maintain focus. Felice added operational flexibility after concluding the core roundtable updates. Kar attended for the first time, bringing perspectives with executive education in sight. Kar is also focusing on two apps with monetization planned. Art offered to host the next session in Santa Clara. Agreed with Cyrus to schedule a Tuesday check-in on completed actions. Siddharth will report back next week.
+          Tina recommended adherence to the structured host agenda to maintain focus. Felice added operational flexibility after concluding the core roundtable updates. Kar attended for the first time, bringing perspectives with executive education in sight. Kar is also focusing on two apps with monetizaton planned. Art offered to host the next session in Santa Clara. Agreed with Cyrus to schedule a Tuesday check-in on completed actions. Siddharth will report back next week.
         </div>
         
         <div style="border-top:1px dashed var(--border); padding-top:10px; margin-top:10px;">
@@ -625,9 +717,11 @@
             <button class="carousel-btn prev" onclick="moveCarousel(-1)">&#10094;</button>
             <button class="carousel-btn next" onclick="moveCarousel(1)">&#10095;</button>
             
+            <!-- Slide 1: Primary Embedded PDF Payload -->
             <div class="carousel-slide">
               <iframe src="./Accountability/July_17/ETPL.pdf"></iframe>
             </div>
+            <!-- Slide 2: Alternative Text Summary -->
             <div class="carousel-slide" style="background:#222; color:#fff; height:450px; padding:40px 20px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
               <h4 style="margin:0 0 10px 0; color:var(--amber);">WIOA Training Framework</h4>
               <p style="font-size:0.8rem; max-width:400px; margin:0 auto; color:#ccc; line-height:1.4;">
@@ -661,12 +755,13 @@
       <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📝 Meeting Minutes: July 9, 2026</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
       <div style="font-size:0.82rem; color:#374151; display:flex; flex-direction:column; gap:12px; max-height:55vh; overflow-y:auto; padding-right:6px;">
-        <div><strong style="color:var(--pitch);">Agenda Archive Summary:</strong>
-| Tina hosted this week's session in Foster City. The foundation including health continues to be a top priority for TW, with a structured two-hour session format planned going forward.
+        <div><strong style="color:var(--pitch);">Agenda Archive Summary:</strong>Here's a polished version that reads well as a status update:
+
+| Tina| hosted this week's session in Foster City. The foundation including health continues to be a top priority for TW, with a structured two-hour session format planned going forward.
 | Felice remains focused on developing the Standard Operating Procedures (SOPs) while continuing to lead weekly training sessions.
 | Art is making solid progress on the Quality Assurance initiative and is helping ensure the offshore team remains aligned and on schedule.
 | Siddharth has advanced the mock interview program and is planning to join virtual co-working sessions through Discord to increase collaboration and accountability.
-| Cyrus continues exploring GitHub and AI tools through hands-on experimentation.
+| Cyrus continues exploring GitHub and AI tools through hands-on experimentation. While these efforts have not yet converged into a single high-value outcome, they remain a valuable learning initiative. The current focus is on narrowing priorities and channeling these experiments into more tangible deliverables.
 </div>
       </div>
     </div>
@@ -712,11 +807,55 @@
   </div>
 
 <script>
-// Carousel Configuration
+// Live Countdowns Logic
+function startMeetingCountdown() {
+  const targetMeeting = new Date("July 23, 2026 12:00:00 PDT").getTime();
+  const targetSocial = new Date("July 19, 2026 12:00:00 PDT").getTime();
+  
+  const meetingDisplay = document.getElementById("meetingCountdown");
+  const socialDisplay = document.getElementById("socialCountdown");
+
+  function updateCountdowns() {
+    const now = new Date().getTime();
+    
+    // Meeting Countdown
+    if (meetingDisplay) {
+      const distMeeting = targetMeeting - now;
+      if (distMeeting < 0) {
+        meetingDisplay.textContent = "Meeting Active";
+        meetingDisplay.style.color = "var(--pitch)";
+      } else {
+        const d = Math.floor(distMeeting / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distMeeting % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distMeeting % (1000 * 60 * 60)) / (1000 * 60));
+        meetingDisplay.textContent = `${d}d ${h}h ${m}m`;
+      }
+    }
+
+    // Social Event Countdown
+    if (socialDisplay) {
+      const distSocial = targetSocial - now;
+      if (distSocial < 0) {
+        socialDisplay.textContent = "Match Active";
+        socialDisplay.style.color = "var(--pitch)";
+      } else {
+        const d = Math.floor(distSocial / (1000 * 60 * 60 * 24));
+        const h = Math.floor((distSocial % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((distSocial % (1000 * 60 * 60)) / (1000 * 60));
+        socialDisplay.textContent = `${d}d ${h}h ${m}m`;
+      }
+    }
+  }
+
+  updateCountdowns();
+  setInterval(updateCountdowns, 1000);
+}
+
+// Carousel Core Configuration
 let slideIndex = 0;
 function showSlides(n) {
   const slides = document.getElementsByClassName("carousel-slide");
-  if (!slides || slides.length === 0) return;
+  if (!slides |slides.length === 0) return;
   if (n >= slides.length) { slideIndex = 0; }
   if (n < 0) { slideIndex = slides.length - 1; }
   for (let i = 0; i < slides.length; i++) {
@@ -784,6 +923,7 @@ function resetTimer() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  startMeetingCountdown();
   showSlides(slideIndex);
   fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
@@ -849,7 +989,6 @@ function handleReportSubmit(e) {
 function handleFormDone() {
   if (formSubmittedType === 'rsvp') {
     alert("RSVP synced successfully!");
-    closeModal('rsvpModal');
   } else if (formSubmittedType === 'report') {
     alert("Weekly report submitted successfully!");
     closeModal('dueModal');
