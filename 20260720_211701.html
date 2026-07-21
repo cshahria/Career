@@ -376,23 +376,30 @@
     margin-top:24px;
     color:var(--muted);
     font-size:0.75rem;
-    border-top: 1px solid var(--border);
-    padding-top: 12px;
   }
-  .footer-sub-nav {
+  .disclaimer-text {
+    font-size: 0.68rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 8px auto 0;
+    line-height: 1.3;
+  }
+  .bottom-nav {
     display: flex;
     justify-content: center;
-    gap: 8px;
-    font-size: 0.7rem;
-    margin-top: 6px;
-    color: var(--muted);
+    gap: 12px;
+    font-size: 0.75rem;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
   }
-  .footer-sub-nav a {
+  .bottom-nav a {
     color: var(--muted);
     text-decoration: none;
   }
-  .footer-sub-nav a:hover {
-    text-decoration: underline;
+  .bottom-nav a:hover {
+    color: var(--text);
   }
 </style>
   <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -410,8 +417,8 @@
     <div class="panel-tile panel-meeting">
       <div>
         <div class="tile-title">🗺️ Next Meeting</div>
-        <div id="displayNextMeeting" class="tile-details" style="margin-top:4px;">Thu Jul 23 @ 11:00 PT</div>
-        <div id="displayMeetingLoc" style="font-size:0.72rem; color:var(--muted); margin-top: 2px;">📍 3253 Coronado Pl, Santa Clara, CA</div>
+        <div class="tile-details" style="margin-top:4px;">Thu Jul 23 @ 11:00 PT</div>
+        <div style="font-size:0.72rem; color:var(--muted); margin-top: 2px;">📍 3253 Coronado Pl, Santa Clara, CA</div>
       </div>
       
       <div class="tile-btn-row">
@@ -424,8 +431,8 @@
     <div class="panel-tile panel-due">
       <div>
         <div class="tile-title">📌 Reminders</div>
-        <div id="displayStandup" class="tile-details" style="margin-top:4px;">⏱️ Stand-up: Tue Jul 21 @ 08:00 PT</div>
-        <div id="displayReportDue" style="font-size:0.75rem; color:#dc2626; font-weight:700; margin-top:2px;">🚨 Report Due: Mon Jul 20 @ 17:00</div>
+        <div class="tile-details" style="margin-top:4px;">⏱️ Stand-up: Tue Jul 21 @ 08:00 PT</div>
+        <div style="font-size:0.75rem; color:#dc2626; font-weight:700; margin-top:2px;">🚨 Report Due: Mon Jul 20 @ 17:00</div>
       </div>
       <div>
         <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn amber-btn" style="width:100%;">📊 Open Master Spreadsheet</a>
@@ -513,12 +520,17 @@
     </div>
   </div>
 
+  <div class="bottom-nav">
+    <a href="https://cshahria.github.io/2026fifaworldcup/index.html">⚽ Volunteer Journal</a>
+    <a href="https://cshahria.github.io/2026fifaworldcup/events.html">📅 Events</a>
+    <a href="https://cshahria.github.io/Career/index.html">💼 Career Site ↗</a>
+    <a href="https://cshahria.github.io/Career/civic.html" style="font-weight:700; color:var(--pitch);">📊 Civic Dashboard ↗</a>
+  </div>
+
   <footer>
-    <div id="displayLastUpdated">unPTO Accountability · Updated: 2026-07-20 20:10:00 PDT</div>
-    <div class="footer-sub-nav">
-      <a href="javascript:void(0)" onclick="openModal('disclaimerModal')">MIT License & Disclaimer</a> · 
-      <span>Admin Support: <a href="https://cshahria.github.io/Career/civic.html" target="_blank">Cyrus Shahriari</a></span> · 
-      <a href="javascript:void(0)" onclick="openModal('adminVariablesModal')">⚙️ Admin</a>
+    <div>unPTO Accountability · Updated: 2026-07-20 20:10:00 PDT</div>
+    <div class="disclaimer-text">
+      By submitting, you agree that this tracking configuration is provided "as is" without warranty of any kind, express or implied. Use at your own caution. Do not upload confidential metrics or sensitive personal parameters.
     </div>
   </footer>
 
@@ -555,17 +567,15 @@
   <div id="hostAgendaModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:560px;">
       <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda</h3>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda · July 23 Session</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div id="displayHost" style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Art</div>
+      <div style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Art</div>
       <ol class="agenda-list" style="padding-left: 16px; font-size: 0.9rem;">
         <li style="margin-bottom: 8px;"><strong>Welcome & Check-in:</strong> Opening review and overview of goals.</li>
         <li style="margin-bottom: 8px;"><strong>Roundtable Discussion:</strong> Individual updates and peer framework accountability.</li>
         <li style="margin-bottom: 8px;"><strong>Blockers & Next Steps:</strong> Action mapping and troubleshooting session constraints.</li>
       </ol>
       
-      <div id="displayNotes" style="font-size:0.85rem; color:#374151; margin-top:12px; background:#f9fafb; padding:10px; border-radius:6px; border:1px solid var(--border); display:none;"></div>
-
       <!-- Stopwatch -->
       <div class="timer-box">
         <div>
@@ -701,199 +711,7 @@
     </div>
   </div>
 
-  <!-- MIT Disclaimer Modal -->
-  <div id="disclaimerModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content" style="max-width:480px;">
-      <button class="modal-close" onclick="closeModal('disclaimerModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1rem;">⚖️ MIT License & Disclaimer</h3>
-      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div style="font-size:0.75rem; color:#4b5563; line-height:1.45;">
-        <p><strong>Copyright (c) 2026 unPTO Accountability</strong></p>
-        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies.</p>
-        <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Admin Pop-up Modal with Calendar Selectors -->
-  <div id="adminVariablesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-    <div class="modal-content" style="max-width:480px;">
-      <button class="modal-close" onclick="closeModal('adminVariablesModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">⚙️ Admin Variable Panel</h3>
-      <p style="font-size:0.78rem; color:var(--muted); margin: -4px 0 10px;">Select dates and times from the calendar to update variables.</p>
-      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      
-      <form id="adminVariablesForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfZsyzPVwHrDHH53b8BqvYNpRXJ0gEs9iScb0fUN7vci-E0Rg/formResponse" target="hidden_iframe" onsubmit="handleAdminFormSubmit(event)">
-        <div class="form-group">
-          <label>Host Name</label>
-          <input type="text" name="entry.1888131215" placeholder="e.g., Felice" required>
-        </div>
-        
-        <div class="form-group">
-          <label>Next Meeting Date & Time</label>
-          <input type="datetime-local" id="adminMeetingPicker" required>
-          <input type="hidden" id="adminMeetingFormatted" name="entry.1955808412">
-        </div>
-
-        <div class="form-group">
-          <label>Meeting Location</label>
-          <input type="text" name="entry.1660234468" placeholder="e.g., 3253 Coronado Pl, Santa Clara, CA" required>
-        </div>
-
-        <div class="form-group">
-          <label>Stand-up Date & Time</label>
-          <input type="datetime-local" id="adminStandupPicker" required>
-          <input type="hidden" id="adminStandupFormatted" name="entry.820574459">
-        </div>
-
-        <div class="form-group">
-          <label>Report Due Date & Time</label>
-          <input type="datetime-local" id="adminReportPicker" required>
-          <input type="hidden" id="adminReportFormatted" name="entry.589546288">
-        </div>
-
-        <div class="form-group">
-          <label>Notes / Agenda Topics</label>
-          <textarea name="entry.1436623657" rows="2" placeholder="Optional meeting notes or agenda items..."></textarea>
-        </div>
-        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px; background:var(--pitch);">Update Dashboard Variables</button>
-      </form>
-    </div>
-  </div>
-
 <script>
-// Published CSV Target
-const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
-
-// Format helper for calendar datetime-local -> "Thu Jul 23 @ 11:00 PT"
-function formatDateTimeLocal(dtValue) {
-  if (!dtValue) return '';
-  const date = new Date(dtValue);
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
-  const dayName = days[date.getDay()];
-  const monthName = months[date.getMonth()];
-  const dayNum = date.getDate();
-  
-  let hours = date.getHours();
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  hours = String(hours).padStart(2, '0');
-  
-  return `${dayName} ${monthName} ${dayNum} @ ${hours}:${minutes} PT`;
-}
-
-// Format helper for simple date picker -> "Mon Jul 20 @ 17:00"
-function formatDateTimeShort(dtValue) {
-  if (!dtValue) return '';
-  const date = new Date(dtValue);
-  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
-  const dayName = days[date.getDay()];
-  const monthName = months[date.getMonth()];
-  const dayNum = date.getDate();
-  
-  let hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  
-  return `${dayName} ${monthName} ${dayNum} @ ${hours}:${minutes}`;
-}
-
-// Robust CSV Parser
-function parseCSV(text) {
-  let p = [''], r = [p], quote = false;
-  for (let c = 0; c < text.length; c++) {
-    let cc = text[c], nc = text[c + 1];
-    if (cc === '"') {
-      if (quote && nc === '"') { p[p.length - 1] += '"'; c++; }
-      else { quote = !quote; }
-    } else if (cc === ',' && !quote) {
-      p.push('');
-    } else if ((cc === '\r' || cc === '\n') && !quote) {
-      if (cc === '\r' && nc === '\n') { c++; }
-      p = ['']; r.push(p);
-    } else {
-      p[p.length - 1] += cc;
-    }
-  }
-  return r.filter(row => row.length > 1 || row[0] !== '');
-}
-
-async function autoUpdateDashboard() {
-  try {
-    const response = await fetch(PUBLISHED_CSV_URL + '&t=' + new Date().getTime());
-    if (!response.ok) return;
-
-    const csvText = await response.text();
-    const rows = parseCSV(csvText);
-    if (rows.length <= 1) return;
-
-    const headers = rows[0].map(h => h.trim());
-    const latestRow = rows[rows.length - 1];
-
-    const getVal = (colName) => {
-      const idx = headers.findIndex(h => h.toLowerCase().includes(colName.toLowerCase()));
-      return (idx !== -1 && latestRow[idx]) ? latestRow[idx].trim() : null;
-    };
-
-    // 1. Timestamp (Footer)
-    const timestamp = getVal('Timestamp');
-    if (timestamp) {
-      const el = document.getElementById('displayLastUpdated');
-      if (el) el.textContent = `unPTO Accountability · Updated: ${timestamp}`;
-    }
-
-    // 2. Next Meeting
-    const nextMeeting = getVal('Next Meeting');
-    if (nextMeeting) {
-      const el = document.getElementById('displayNextMeeting');
-      if (el) el.textContent = nextMeeting;
-    }
-
-    // 3. Meeting Location
-    const location = getVal('Meeting Location');
-    if (location) {
-      const el = document.getElementById('displayMeetingLoc');
-      if (el) el.textContent = `📍 ${location}`;
-    }
-
-    // 4. Stand-up Time
-    const standup = getVal('Stand-up');
-    if (standup) {
-      const el = document.getElementById('displayStandup');
-      if (el) el.textContent = `⏱️ Stand-up: ${standup}`;
-    }
-
-    // 5. Report Due
-    const reportDue = getVal('Report Due');
-    if (reportDue) {
-      const el = document.getElementById('displayReportDue');
-      if (el) el.textContent = `🚨 Report Due: ${reportDue}`;
-    }
-
-    // 6. Host
-    const host = getVal('Host');
-    if (host) {
-      const el = document.getElementById('displayHost');
-      if (el) el.innerHTML = `<strong>Host:</strong> ${host}`;
-    }
-
-    // 7. Notes
-    const notes = getVal('Notes');
-    if (notes) {
-      const el = document.getElementById('displayNotes');
-      if (el) {
-        el.innerHTML = `<strong>Session Notes:</strong> ${notes}`;
-        el.style.display = 'block';
-      }
-    }
-
-  } catch (err) {
-    console.warn("Auto-update fallback active:", err);
-  }
-}
-
 // Carousel Configuration
 let slideIndex = 0;
 function showSlides(n) {
@@ -967,7 +785,6 @@ function resetTimer() {
 
 window.addEventListener('DOMContentLoaded', () => {
   showSlides(slideIndex);
-  autoUpdateDashboard();
   fetch('config.json?v=' + new Date().getTime(), { cache: 'no-store' })
     .then(r => r.ok ? r.json() : null)
     .then(cfg => {
@@ -1014,19 +831,6 @@ function closeModal(modalId) { document.getElementById(modalId).style.display = 
 function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal-overlay')) e.target.style.display = 'none'; }
 function handleRSVP(e) { formSubmittedType = 'rsvp'; }
 
-function handleAdminFormSubmit(e) {
-  formSubmittedType = 'admin';
-  
-  // Convert picker dates to string formats expected by dashboard
-  const mtgVal = document.getElementById('adminMeetingPicker').value;
-  const stdVal = document.getElementById('adminStandupPicker').value;
-  const rptVal = document.getElementById('adminReportPicker').value;
-
-  if (mtgVal) document.getElementById('adminMeetingFormatted').value = formatDateTimeLocal(mtgVal);
-  if (stdVal) document.getElementById('adminStandupFormatted').value = formatDateTimeLocal(stdVal);
-  if (rptVal) document.getElementById('adminReportFormatted').value = formatDateTimeShort(rptVal);
-}
-
 function handleReportSubmit(e) {
   formSubmittedType = 'report';
   const form = document.getElementById('weeklyReportForm');
@@ -1053,10 +857,6 @@ function handleFormDone() {
     ['repName','repDate','repLast','repResult','repBlock','repThis','repNext'].forEach(id => {
       document.getElementById(id).removeAttribute('name');
     });
-  } else if (formSubmittedType === 'admin') {
-    alert("Variables updated successfully! Refreshing view...");
-    closeModal('adminVariablesModal');
-    setTimeout(() => { autoUpdateDashboard(); }, 1500);
   }
   formSubmittedType = '';
 }
