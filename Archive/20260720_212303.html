@@ -715,7 +715,7 @@
     </div>
   </div>
 
-  <!-- Admin Pop-up Modal with Fixed Name Bindings -->
+  <!-- Admin Pop-up Modal with Calendar Selectors -->
   <div id="adminVariablesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:480px;">
       <button class="modal-close" onclick="closeModal('adminVariablesModal')">×</button>
@@ -776,13 +776,14 @@ function formatDateTimeLocal(dtValue) {
   const monthName = months[date.getMonth()];
   const dayNum = date.getDate();
   
-  let hours = String(date.getHours()).padStart(2, '0');
+  let hours = date.getHours();
   const minutes = String(date.getMinutes()).padStart(2, '0');
+  hours = String(hours).padStart(2, '0');
   
   return `${dayName} ${monthName} ${dayNum} @ ${hours}:${minutes} PT`;
 }
 
-// Format helper for report due -> "Mon Jul 20 @ 17:00"
+// Format helper for simple date picker -> "Mon Jul 20 @ 17:00"
 function formatDateTimeShort(dtValue) {
   if (!dtValue) return '';
   const date = new Date(dtValue);
@@ -1016,14 +1017,14 @@ function handleRSVP(e) { formSubmittedType = 'rsvp'; }
 function handleAdminFormSubmit(e) {
   formSubmittedType = 'admin';
   
-  // Format calendar inputs right before POST submission
+  // Convert picker dates to string formats expected by dashboard
   const mtgVal = document.getElementById('adminMeetingPicker').value;
   const stdVal = document.getElementById('adminStandupPicker').value;
   const rptVal = document.getElementById('adminReportPicker').value;
 
-  document.getElementById('adminMeetingFormatted').value = mtgVal ? formatDateTimeLocal(mtgVal) : '';
-  document.getElementById('adminStandupFormatted').value = stdVal ? formatDateTimeLocal(stdVal) : '';
-  document.getElementById('adminReportFormatted').value = rptVal ? formatDateTimeShort(rptVal) : '';
+  if (mtgVal) document.getElementById('adminMeetingFormatted').value = formatDateTimeLocal(mtgVal);
+  if (stdVal) document.getElementById('adminStandupFormatted').value = formatDateTimeLocal(stdVal);
+  if (rptVal) document.getElementById('adminReportFormatted').value = formatDateTimeShort(rptVal);
 }
 
 function handleReportSubmit(e) {
