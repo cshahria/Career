@@ -743,25 +743,27 @@ async function loadMinutesFromCSV() {
 
     const csvText = await response.text();
     const rows = parseCSV(csvText);
-    
-    // Filter out header row if present, or work with data rows directly
     if (rows.length <= 1) {
       dropdown.innerHTML = '<option value="">No minutes entries available</option>';
       return;
     }
 
+    const headers = rows[0].map(h => h.trim());
     dropdown.innerHTML = '';
     csvMinutesData = {};
 
     let count = 0;
-    // Iterate in reverse (bottom of sheet to top) so most recent date appears FIRST
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
       if (!row || row.length === 0) continue;
 
-      // Explicitly pick Column A (index 0) for Date Label, Column B (index 1) for Notes Content
-      const dateVal = row[0] ? row[0].trim() : `Session ${i}`;
-      const notesContent = row[1] ? row[1].trim() : "No notes content found in Column B for this entry.";
+      const getVal = (colName) => {
+        const idx = headers.findIndex(h => h.toLowerCase().includes(colName.toLowerCase()));
+        return (idx !== -1 && row[idx]) ? row[idx].trim() : '';
+      };
+
+      const dateVal = getVal('Date') || getVal('Meeting') || getVal('Title') || row[0] || `Session ${i}`;
+      const notesContent = getVal('Minutes') || getVal('Notes') || getVal('Summary') || row[1] || "No archived minutes provided for this session entry.";
       
       const optKey = `entry_${i}`;
       csvMinutesData[optKey] = {
