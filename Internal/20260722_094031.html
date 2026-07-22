@@ -47,6 +47,7 @@
     box-shadow:0 2px 8px rgba(0,0,0,0.04);
   }
   
+  /* TIGHTENED TILE GRID TO REDUCE WHITE SPACE */
   .tile-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -387,30 +388,19 @@
     line-height: 1.4;
   }
 
-  /* CENTERED NAVIGATION BAR */
   .outlook-nav-bar {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
     gap: 12px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  @media (min-width: 640px) {
-    .outlook-nav-bar {
-      flex-direction: row;
-      justify-content: space-between;
-    }
+    margin-bottom: 14px;
   }
   .outlook-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    flex-wrap: wrap;
   }
-  
   .outlook-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -418,8 +408,8 @@
   }
   @media (min-width: 768px) {
     .outlook-grid.view-3 { grid-template-columns: repeat(3, 1fr); }
-    .outlook-grid.view-5 { grid-template-columns: repeat(5, 1fr); }
-    .outlook-grid.view-7 { grid-template-columns: repeat(7, 1fr); }
+    .outlook-grid.view-5 { grid-template-columns: repeat(3, 1fr); }
+    .outlook-grid.view-7 { grid-template-columns: repeat(3, 1fr); }
   }
   .outlook-day-card {
     background: #ffffff;
@@ -433,7 +423,7 @@
   }
   .outlook-grid.view-5 .outlook-day-card,
   .outlook-grid.view-7 .outlook-day-card {
-    min-height: 380px;
+    min-height: 280px;
   }
   
   .outlook-day-card.today {
@@ -462,18 +452,22 @@
     background: #ffffff;
     overflow-y: auto;
   }
-  
-  /* STRICT SINGLE-LINE ENTRY APPLIED GLOBALLY ACROSS 3, 5, AND 7 DAY VIEWS */
-  .outlook-item.detailed-inline {
+  .outlook-item {
+    border-left: 3px solid #cbd5e1;
+    padding: 8px 10px;
+    border-radius: 4px;
     font-size: 0.85rem;
+    line-height: 1.35;
+  }
+  
+  /* STRICT SINGLE-LINE FORMATTING FOR 3-DAY VIEW */
+  .outlook-item.detailed-inline {
+    font-size: 0.86rem;
     padding: 6px 8px;
     white-space: nowrap;        /* Prevents wrapping to new lines */
     overflow: hidden;           /* Hides overflow text */
     text-overflow: ellipsis;    /* Adds '...' if text is cut off */
     display: block;             /* Forces exact single line block */
-    border-left: 3px solid #cbd5e1;
-    border-radius: 4px;
-    line-height: 1.35;
   }
   .outlook-item.detailed-inline .inline-time {
     font-weight: 700;
@@ -516,6 +510,10 @@
   .outlook-item.future-slot .inline-time {
     color: var(--sky);
   }
+
+  .outlook-time { font-weight: 700; font-size: 0.78rem; margin-bottom: 2px; }
+  .outlook-title { font-weight: 600; }
+  .outlook-details { font-size: 0.78rem; margin-top: 1px; white-space: pre-wrap; }
   
   .no-events-text {
     color: var(--muted);
@@ -810,11 +808,10 @@ function navigateSchedule(direction) {
   fetchAndRenderSchedule();
 }
 
-// ANCHORS SELECTED MONTH/DAY AS THE STARTING CARD
 function selectCalendarDate(year, month, day) {
   scheduleBaseDate = new Date(year, month, day);
   scheduleBaseDate.setHours(0,0,0,0);
-  scheduleBaseOffset = 0; // Resets offset so target date is card #1
+  scheduleBaseOffset = 0;
   closeModal('calendarModal');
   fetchAndRenderSchedule();
 }
@@ -1026,13 +1023,24 @@ function renderScheduleMatrix(searchTerm = "") {
           }
         }
 
-        // UNIFIED SINGLE-LINE ENTRY FOR ALL VIEW RANGES (3, 5, AND 7 DAYS)
-        const detailSnippet = m.details ? ` - ${m.details}` : "";
-        outputHtml += `
-          <div class="outlook-item detailed-inline ${itemStatusClass}" title="${timeRange} - ${titleText}${detailSnippet}">
-            <span class="inline-time">${timeRange}</span> - <span class="inline-title">${titleText}</span><span class="inline-details">${detailSnippet}</span>
-          </div>
-        `;
+        // STRICT SINGLE-LINE ENTRY FOR 3-DAY VIEW
+        if (currentViewDays === 3) {
+          const detailSnippet = m.details ? ` - ${m.details}` : "";
+          outputHtml += `
+            <div class="outlook-item detailed-inline ${itemStatusClass}" title="${timeRange} - ${titleText}${detailSnippet}">
+              <span class="inline-time">${timeRange}</span> - <span class="inline-title">${titleText}</span><span class="inline-details">${detailSnippet}</span>
+            </div>
+          `;
+        } else {
+          // CONDENSED FORMAT FOR 5 & 7-DAY VIEWS
+          outputHtml += `
+            <div class="outlook-item ${itemStatusClass}">
+              <div class="outlook-time">${timeRange}</div>
+              <div class="outlook-title">${titleText}</div>
+              ${m.details ? `<div class="outlook-details">${m.details}</div>` : ""}
+            </div>
+          `;
+        }
       });
     }
     
