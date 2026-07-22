@@ -418,6 +418,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    /* EXPANDED HEIGHT FOR 3-DAY VIEW TO AVOID SCROLLING */
     min-height: 480px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
   }
@@ -460,18 +461,16 @@
     line-height: 1.35;
   }
   
-  /* STRICT SINGLE-LINE FORMATTING FOR 3-DAY VIEW */
+  /* DETAILED SINGLE-LINE FORMATTING FOR 3-DAY VIEW */
   .outlook-item.detailed-inline {
     font-size: 0.86rem;
-    padding: 6px 8px;
-    white-space: nowrap;        /* Prevents wrapping to new lines */
-    overflow: hidden;           /* Hides overflow text */
-    text-overflow: ellipsis;    /* Adds '...' if text is cut off */
-    display: block;             /* Forces exact single line block */
+    padding: 8px 10px;
+    white-space: normal;
+    word-break: break-word;
   }
   .outlook-item.detailed-inline .inline-time {
     font-weight: 700;
-    margin-right: 2px;
+    margin-right: 4px;
   }
   .outlook-item.detailed-inline .inline-title {
     font-weight: 600;
@@ -757,7 +756,7 @@ let currentTargetInput = null;
 let currentMicButton = null;
 
 let calCurrentDate = new Date();
-let scheduleBaseDate = new Date(); 
+let scheduleBaseDate = new Date(); // Anchor date for matrix rendering
 let scheduleBaseOffset = 0; 
 let currentViewDays = 3;     
 let cachedDayList = [];     
@@ -808,6 +807,7 @@ function navigateSchedule(direction) {
   fetchAndRenderSchedule();
 }
 
+// JUMP SCHEDULE MATRIX TO CALENDAR-SELECTED DATE
 function selectCalendarDate(year, month, day) {
   scheduleBaseDate = new Date(year, month, day);
   scheduleBaseDate.setHours(0,0,0,0);
@@ -1023,12 +1023,13 @@ function renderScheduleMatrix(searchTerm = "") {
           }
         }
 
-        // STRICT SINGLE-LINE ENTRY FOR 3-DAY VIEW
+        // DETAILED SINGLE-LINE FORMAT FOR 3-DAY VIEW
         if (currentViewDays === 3) {
-          const detailSnippet = m.details ? ` - ${m.details}` : "";
           outputHtml += `
-            <div class="outlook-item detailed-inline ${itemStatusClass}" title="${timeRange} - ${titleText}${detailSnippet}">
-              <span class="inline-time">${timeRange}</span> - <span class="inline-title">${titleText}</span><span class="inline-details">${detailSnippet}</span>
+            <div class="outlook-item detailed-inline ${itemStatusClass}">
+              <span class="inline-time">${timeRange}</span> - 
+              <span class="inline-title">${titleText}</span>
+              ${m.details ? ` - <span class="inline-details">${m.details}</span>` : ""}
             </div>
           `;
         } else {
