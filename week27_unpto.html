@@ -687,6 +687,7 @@ let csvMinutesData = {};
 function formatDateTimeLocal(dtValue) {
   if (!dtValue) return '';
   const date = new Date(dtValue);
+  if (isNaN(date.getTime())) return dtValue; // Fallback if already formatted
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${days[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()} @ ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')} PT`;
@@ -695,6 +696,7 @@ function formatDateTimeLocal(dtValue) {
 function formatDateTimeShort(dtValue) {
   if (!dtValue) return '';
   const date = new Date(dtValue);
+  if (isNaN(date.getTime())) return dtValue;
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${days[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()} @ ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
@@ -716,11 +718,12 @@ function parseCSV(text) {
       p[p.length - 1] += cc;
     }
   }
-  return r.filter(row => row.length > 1 || row[0] !== '');
+  return r.filter(row => row.length > 1 || (row[0] && row[0].trim() !== ''));
 }
 
 async function autoUpdateDashboard() {
   try {
+    // Add cache buster timestamp
     const response = await fetch(PUBLISHED_CSV_URL + '&t=' + new Date().getTime());
     if (!response.ok) return;
 
@@ -728,33 +731,51 @@ async function autoUpdateDashboard() {
     const rows = parseCSV(csvText);
     if (rows.length <= 1) return;
 
-    const headers = rows[0].map(h => h.trim());
+    const headers = rows[0].map(h => h.trim().toLowerCase());
     const latestRow = rows[rows.length - 1];
 
-    const getVal = (row, colName) => {
-      const idx = headers.findIndex(h => h.toLowerCase().includes(colName.toLowerCase()));
-      return (idx !== -1 && row[idx]) ? row[idx].trim() : '';
+    // Robust column value matcher supporting multi-keyword fallbacks
+    const getVal = (...keywords) => {
+      for (const kw of keywords) {
+        const idx = headers.findIndex(h => h.includes(kw.toLowerCase()));
+        if (idx !== -1 && latestRow[idx] && latestRow[idx].trim() !== '') {
+          return latestRow[idx].trim();
+        }
+      }
+      return '';
     };
 
-    const timestamp = getVal(latestRow, 'Timestamp');
-    if (timestamp) document.getElementById('displayLastUpdated').textContent = `unPTO Accountability · Updated: ${timestamp}`;
+    const timestamp = getVal('timestamp');
+    if (timestamp) {
+      document.getElementById('displayLastUpdated').textContent = `unPTO Accountability · Updated: ${timestamp}`;
+    }
 
-    const nextMeeting = getVal(latestRow, 'Next Meeting');
-    if (nextMeeting) document.getElementById('displayNextMeeting').textContent = nextMeeting;
+    const nextMeeting = getVal('next meeting', 'meeting date');
+    if (nextMeeting) {
+      document.getElementById('displayNextMeeting').textContent = nextMeeting;
+    }
 
-    const location = getVal(latestRow, 'Meeting Location');
-    if (location) document.getElementById('displayMeetingLoc').textContent = `📍 ${location}`;
+    const location = getVal('location', 'address');
+    if (location) {
+      document.getElementById('displayMeetingLoc').textContent = `📍 ${location}`;
+    }
 
-    const standup = getVal(latestRow, 'Stand-up');
-    if (standup) document.getElementById('displayStandup').textContent = `⏱️ Stand-up: ${standup}`;
+    const standup = getVal('stand-up', 'standup');
+    if (standup) {
+      document.getElementById('displayStandup').textContent = `⏱️ Stand-up: ${standup}`;
+    }
 
-    const reportDue = getVal(latestRow, 'Report Due');
-    if (reportDue) document.getElementById('displayReportDue').textContent = `🚨 Report Due: ${reportDue}`;
+    const reportDue = getVal('report due', 'due date', 'report');
+    if (reportDue) {
+      document.getElementById('displayReportDue').textContent = `🚨 Report Due: ${reportDue}`;
+    }
 
-    const host = getVal(latestRow, 'Host');
-    if (host) document.getElementById('displayHost').innerHTML = `<strong>Host:</strong> ${host}`;
+    const host = getVal('host');
+    if (host) {
+      document.getElementById('displayHost').innerHTML = `<strong>Host:</strong> ${host}`;
+    }
 
-    const notes = getVal(latestRow, 'Notes');
+    const notes = getVal('notes', 'agenda');
     if (notes) {
       const el = document.getElementById('displayNotes');
       el.innerHTML = `<strong>Session Notes:</strong> ${notes}`;
