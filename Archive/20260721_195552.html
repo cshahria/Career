@@ -12,6 +12,7 @@
     --pitch-light:#e7f5ec;
     --sky:#2b7fd6;
     --sky-light:#e8f1fc;
+    /* Updated to Cool Teal / Cyan palette */
     --teal:#0d9488;
     --teal-light:#ccfbf1;
     --teal-border:#99f6e4;
@@ -90,6 +91,7 @@
     border: 1px solid #b9d5f7;
   }
 
+  /* Updated Reminders Tile Styling */
   .panel-due {
     background: var(--teal-light);
     border: 1px solid var(--teal-border);
@@ -137,6 +139,7 @@
   }
   .tile-btn:hover { background: #1d6fa5; }
   
+  /* Updated Teal Button Styling */
   .tile-btn.amber-btn {
     background: var(--teal);
   }
@@ -540,7 +543,7 @@
       <button class="modal-close" onclick="closeModal('dynamicMinutesModal')">×</button>
       <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;" id="modalMinutesTitle">📝 Meeting Minutes</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div id="modalMinutesBody" style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 0.85rem; max-height:60vh; overflow-y:auto; line-height: 1.45; color: #374151; white-space: pre-line;">
+      <div id="modalMinutesBody" style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 0.85rem; max-height:60vh; overflow-y:auto; line-height: 1.45; color: #374151; whitespace: pre-line;">
       </div>
     </div>
   </div>
@@ -645,11 +648,7 @@
   </div>
 
 <script>
-// Main Variables CSV URL
 const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
-
-// Targeted Minutes CSV URL (gid=844992671)
-const MINUTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=844992671&single=true&output=csv";
 
 let csvMinutesData = {};
 
@@ -730,44 +729,19 @@ async function autoUpdateDashboard() {
       el.style.display = 'block';
     }
 
-  } catch (err) {
-    console.warn("Dashboard variables auto-update fallback active:", err);
-  }
-}
-
-async function loadMinutesFromCSV() {
-  const dropdown = document.getElementById('minutesDropdown');
-  try {
-    const response = await fetch(MINUTES_CSV_URL + '&t=' + new Date().getTime());
-    if (!response.ok) throw new Error("Could not fetch minutes sheet");
-
-    const csvText = await response.text();
-    const rows = parseCSV(csvText);
-    if (rows.length <= 1) {
-      dropdown.innerHTML = '<option value="">No minutes entries available</option>';
-      return;
-    }
-
-    const headers = rows[0].map(h => h.trim());
+    const dropdown = document.getElementById('minutesDropdown');
     dropdown.innerHTML = '';
     csvMinutesData = {};
 
     let count = 0;
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
-      if (!row || row.length === 0) continue;
-
-      const getVal = (colName) => {
-        const idx = headers.findIndex(h => h.toLowerCase().includes(colName.toLowerCase()));
-        return (idx !== -1 && row[idx]) ? row[idx].trim() : '';
-      };
-
-      const dateVal = getVal('Date') || getVal('Meeting') || getVal('Title') || row[0] || `Session ${i}`;
-      const notesContent = getVal('Minutes') || getVal('Notes') || getVal('Summary') || row[1] || "No archived minutes provided for this session entry.";
+      const dateVal = getVal(row, 'Timestamp') || getVal(row, 'Next Meeting') || `Session ${i}`;
+      const notesContent = getVal(row, 'Notes') || "No archived minutes provided for this session entry.";
       
       const optKey = `entry_${i}`;
       csvMinutesData[optKey] = {
-        title: dateVal.toLowerCase().includes('minutes') ? dateVal : `Meeting Minutes: ${dateVal}`,
+        title: `Meeting Minutes: ${dateVal}`,
         content: notesContent
       };
 
@@ -783,8 +757,7 @@ async function loadMinutesFromCSV() {
     }
 
   } catch (err) {
-    console.warn("Minutes CSV fetch error:", err);
-    dropdown.innerHTML = '<option value="">Unable to load minutes</option>';
+    console.warn("Auto-update fallback active:", err);
   }
 }
 
@@ -853,7 +826,6 @@ function resetTimer() {
 
 window.addEventListener('DOMContentLoaded', () => {
   autoUpdateDashboard();
-  loadMinutesFromCSV();
 });
 
 let formSubmittedType = ''; 
