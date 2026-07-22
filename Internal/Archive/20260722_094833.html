@@ -411,16 +411,16 @@
     flex-wrap: wrap;
   }
   
-  /* FIXED 3-COLUMN LAYOUT MATRIX FOR 3, 6, AND 9 DAYS */
   .outlook-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 14px;
   }
   @media (min-width: 768px) {
-    .outlook-grid { grid-template-columns: repeat(3, 1fr); }
+    .outlook-grid.view-3 { grid-template-columns: repeat(3, 1fr); }
+    .outlook-grid.view-5 { grid-template-columns: repeat(5, 1fr); }
+    .outlook-grid.view-7 { grid-template-columns: repeat(7, 1fr); }
   }
-  
   .outlook-day-card {
     background: #ffffff;
     border: 1px solid var(--border);
@@ -428,8 +428,12 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 360px;
+    min-height: 480px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  }
+  .outlook-grid.view-5 .outlook-day-card,
+  .outlook-grid.view-7 .outlook-day-card {
+    min-height: 380px;
   }
   
   .outlook-day-card.today {
@@ -459,7 +463,7 @@
     overflow-y: auto;
   }
   
-  /* SINGLE-LINE ENTRY APPLIED GLOBALLY */
+  /* STRICT SINGLE-LINE ENTRY APPLIED GLOBALLY ACROSS 3, 5, AND 7 DAY VIEWS */
   .outlook-item.detailed-inline {
     font-size: 0.85rem;
     padding: 6px 8px;
@@ -706,11 +710,10 @@
     <div class="outlook-nav-bar">
       <h3 id="outlookHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">Schedule Matrix</h3>
       <div class="outlook-controls">
-        <!-- UPDATED DROPDOWN OPTIONS TO 3, 6, AND 9 DAYS -->
         <select id="daysRangeSelect" class="view-select" onchange="handleViewRangeChange(this.value)">
           <option value="3" selected>3 Days</option>
-          <option value="6">6 Days</option>
-          <option value="9">9 Days</option>
+          <option value="5">5 Days</option>
+          <option value="7">7 Days</option>
         </select>
         <button class="cal-btn" onclick="navigateSchedule(-1)">◀ Prev</button>
         <button class="cal-btn" onclick="navigateSchedule(0)">Today</button>
@@ -807,11 +810,11 @@ function navigateSchedule(direction) {
   fetchAndRenderSchedule();
 }
 
-// ANCHORS SELECTED DATE AS CARD #1 IN THE GRID MATRIX
+// ANCHORS SELECTED MONTH/DAY AS THE STARTING CARD
 function selectCalendarDate(year, month, day) {
   scheduleBaseDate = new Date(year, month, day);
   scheduleBaseDate.setHours(0,0,0,0);
-  scheduleBaseOffset = 0; 
+  scheduleBaseOffset = 0; // Resets offset so target date is card #1
   closeModal('calendarModal');
   fetchAndRenderSchedule();
 }
@@ -1023,7 +1026,7 @@ function renderScheduleMatrix(searchTerm = "") {
           }
         }
 
-        // SINGLE-LINE DETAILED FORMATTING
+        // UNIFIED SINGLE-LINE ENTRY FOR ALL VIEW RANGES (3, 5, AND 7 DAYS)
         const detailSnippet = m.details ? ` - ${m.details}` : "";
         outputHtml += `
           <div class="outlook-item detailed-inline ${itemStatusClass}" title="${timeRange} - ${titleText}${detailSnippet}">
