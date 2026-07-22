@@ -12,16 +12,10 @@
     --pitch-light:#e7f5ec;
     --sky:#2b7fd6;
     --sky-light:#e8f1fc;
-    --sky-border:#b9d5f7;
-    --sky-dark:#1e64b0;
-    
-    /* Updated Muted Blue-Gray Tone for Reminders */
-    --slate-light:#f0f4f8;
-    --slate-border:#cbd5e1;
-    --slate-dark:#334155;
-    --slate-btn:#475569;
-    --slate-btn-hover:#334155;
-
+    --teal:#0d9488;
+    --teal-light:#ccfbf1;
+    --teal-border:#99f6e4;
+    --teal-dark:#115e59;
     --text:#1f2937;
     --muted:#6b7280;
     --border:#e5e7eb;
@@ -81,48 +75,40 @@
 
   .panel-tile {
     border-radius: 12px;
-    padding: 16px 18px;
+    padding: 14px 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
-    min-height: 150px;
+    gap: 10px;
+    min-height: 140px;
     position: relative;
     overflow: hidden;
   }
 
   .panel-meeting {
     background: var(--sky-light);
-    border: 1px solid var(--sky-border);
+    border: 1px solid #b9d5f7;
   }
 
-  /* Updated Reminders Panel Styling */
   .panel-due {
-    background: var(--slate-light);
-    border: 1px solid var(--slate-border);
+    background: var(--teal-light);
+    border: 1px solid var(--teal-border);
   }
 
-  /* Prominent Header Styling & Icon Sizing */
   .tile-title {
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     font-weight: 800;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 6px;
   }
-  .tile-title .tile-icon {
-    font-size: 1.3rem;
-  }
-  .panel-meeting .tile-title { color: var(--sky-dark); }
-  .panel-due .tile-title { color: var(--slate-dark); }
+  .panel-meeting .tile-title { color: #1e64b0; }
+  .panel-due .tile-title { color: var(--teal-dark); }
 
   .tile-details {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     color: #1f2937;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: 1.35;
   }
 
   /* Side-by-Side Button Row */
@@ -137,58 +123,54 @@
     background: var(--sky);
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border-radius: 6px;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     cursor: pointer;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    transition: background 0.15s ease, transform 0.1s ease;
+    transition: background 0.15s ease;
   }
   .tile-btn:hover { background: #1d6fa5; }
-  .tile-btn:active { transform: scale(0.98); }
   
   .tile-btn.amber-btn {
-    background: var(--slate-btn);
+    background: var(--teal);
   }
   .tile-btn.amber-btn:hover {
-    background: var(--slate-btn-hover);
+    background: #0f766e;
   }
 
   .process-box {
     background: #f9fafb;
-    border-left: 4px solid var(--pitch);
-    padding: 10px 14px;
+    border-left: 4px solid var(--teal);
+    padding: 8px 12px;
     border-radius: 0 6px 6px 0;
-    font-size: 0.85rem;
-    color: #374151;
-    margin-bottom: 12px;
-    line-height: 1.45;
+    font-size: 0.82rem;
+    color: #4b5563;
+    margin-bottom: 10px;
   }
 
-  /* Larger Prominent Pill Styling */
+  /* Larger Pill Styling */
   .pill{
     display:inline-block;
-    padding:4px 14px;
+    padding:3px 12px;
     border-radius:20px;
-    font-size:0.9rem;
-    font-weight:800;
-    letter-spacing: 0.02em;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    font-size:0.85rem;
+    font-weight:700;
   }
-  .pill.progress{background:var(--sky-light);color:var(--sky-dark); border:1px solid #c7ddf8;}
-  .pill.done{background:var(--pitch-light);color:var(--pitch); border:1px solid #c3e6d0;}
-  .pill.due{background:var(--slate-light);color:var(--slate-dark); border:1px solid var(--slate-border);}
+  .pill.progress{background:var(--sky-light);color:var(--sky);}
+  .pill.done{background:var(--pitch-light);color:var(--pitch);}
+  .pill.due{background:var(--teal-light);color:var(--teal);}
 
-  /* Team grid - Enhanced Interactive Cards */
+  /* Team grid - Compact cards for less whitespace */
   .team-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:8px;
+    gap:6px;
     margin-top:10px;
   }
   @media (min-width:520px){
@@ -197,41 +179,28 @@
   .player{
     border:1px solid var(--border);
     border-radius:10px;
-    padding:10px 6px;
+    padding:8px 4px;
     text-align:center;
     background:#fafbfa;
     cursor:pointer;
-    user-select: none;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
+    transition:transform 0.12s ease;
   }
   .player:hover{
-    transform: translateY(-2px);
-    background: #ffffff;
-    border-color: var(--sky);
-    box-shadow: 0 4px 12px rgba(43, 127, 214, 0.12);
-  }
-  .player:active {
-    transform: translateY(1px) scale(0.98);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transform:translateY(-1px);
   }
   .player .avatar{
-    width:38px;height:38px;
+    width:34px;height:34px;
     border-radius:50%;
     background:var(--pitch-light);
     color:var(--pitch);
     display:flex;align-items:center;justify-content:center;
     font-weight:700;
-    font-size:0.95rem;
-    margin:0 auto 6px;
-    transition: transform 0.2s ease;
+    font-size:0.88rem;
+    margin:0 auto 4px;
   }
-  .player:hover .avatar {
-    transform: scale(1.08);
-  }
-  .player.me .avatar{background:var(--sky-light);color:var(--sky-dark);}
-  .player .name{font-weight:700;font-size:0.85rem;margin-bottom:2px;}
-  .player .initials{font-size:0.72rem; color:var(--muted); font-weight:600;}
+  .player.me .avatar{background:var(--sky-light);color:var(--sky);}
+  .player .name{font-weight:700;font-size:0.82rem;margin-bottom:2px;}
+  .player .initials{font-size:0.7rem; color:var(--muted); font-weight:600;}
 
   /* Agenda & Timer Custom Elements */
   .agenda-list {
@@ -401,9 +370,9 @@
     <!-- Tile 1: Next Meeting -->
     <div class="panel-tile panel-meeting">
       <div>
-        <div class="tile-title"><span class="tile-icon">🗺️</span> Next Meeting</div>
-        <div id="displayNextMeeting" class="tile-details" style="margin-top:6px;">Thu Jul 23 @ 11:00 PT</div>
-        <div id="displayMeetingLoc" style="font-size:0.75rem; color:var(--muted); margin-top: 3px;">📍 3253 Coronado Pl, Santa Clara, CA</div>
+        <div class="tile-title">🗺️ Next Meeting</div>
+        <div id="displayNextMeeting" class="tile-details" style="margin-top:4px;">Thu Jul 23 @ 11:00 PT</div>
+        <div id="displayMeetingLoc" style="font-size:0.72rem; color:var(--muted); margin-top: 2px;">📍 3253 Coronado Pl, Santa Clara, CA</div>
       </div>
       
       <div class="tile-btn-row">
@@ -415,9 +384,9 @@
     <!-- Tile 2: Reminders -->
     <div class="panel-tile panel-due">
       <div>
-        <div class="tile-title"><span class="tile-icon">📌</span> Reminders</div>
-        <div id="displayStandup" class="tile-details" style="margin-top:6px;">⏱️ Stand-up: Tue Jul 21 @ 08:00 PT</div>
-        <div id="displayReportDue" style="font-size:0.78rem; color:#b91c1c; font-weight:700; margin-top:3px;">🚨 Report Due: Mon Jul 20 @ 17:00</div>
+        <div class="tile-title">📌 Reminders</div>
+        <div id="displayStandup" class="tile-details" style="margin-top:4px;">⏱️ Stand-up: Tue Jul 21 @ 08:00 PT</div>
+        <div id="displayReportDue" style="font-size:0.75rem; color:#dc2626; font-weight:700; margin-top:2px;">🚨 Report Due: Mon Jul 20 @ 17:00</div>
       </div>
       <div>
         <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn amber-btn" style="width:100%;">📊 Open Master Spreadsheet</a>
@@ -432,45 +401,45 @@
     </div>
     
     <div class="process-box">
-      <strong>Overall Objective:</strong> Driving team alignment, sprint momentum, and transparent goal tracking. Select your name card below to update your weekly targets directly to our ledger workspace.
+      Select your name card below to update your weekly targets directly to our ledger workspace.
     </div>
 
     <div class="team-grid">
-      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus" title="Click to submit weekly report for Cyrus">
+      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus">
         <div class="avatar">C</div>
         <div class="name">Cyrus</div>
         <div class="initials">(CS)</div>
-        <span class="pill progress" style="margin-top:6px;">In Progress</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth" title="Click to submit weekly report for Siddharth">
+      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth">
         <div class="avatar">S</div>
         <div class="name">Siddharth</div>
         <div class="initials">(ST)</div>
-        <span class="pill progress" style="margin-top:6px;">In Progress</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice" title="Click to submit weekly report for Felice">
+      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice">
         <div class="avatar">F</div>
         <div class="name">Felice</div>
         <div class="initials">(FT)</div>
-        <span class="pill progress" style="margin-top:6px;">In Progress</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina" title="Click to submit weekly report for Tina">
+      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina">
         <div class="avatar">T</div>
         <div class="name">Tina</div>
         <div class="initials">(TN)</div>
-        <span class="pill progress" style="margin-top:6px;">In Progress</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art" title="Click to submit weekly report for Art">
+      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art">
         <div class="avatar">A</div>
         <div class="name">Art</div>
         <div class="initials">(AT)</div>
-        <span class="pill progress" style="margin-top:6px;">In Progress</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar" title="Click to submit weekly report for Kar">
+      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar">
         <div class="avatar">K</div>
         <div class="name">Kar</div>
         <div class="initials">(KB)</div>
-        <span class="pill progress" style="margin-top:6px;">In Progress</span>
+        <span class="pill progress" style="margin-top:4px;">In Progress</span>
       </div>
     </div>
   </div>
@@ -775,6 +744,7 @@ async function loadMinutesFromCSV() {
     const csvText = await response.text();
     const rows = parseCSV(csvText);
     
+    // Filter out header row if present, or work with data rows directly
     if (rows.length <= 1) {
       dropdown.innerHTML = '<option value="">No minutes entries available</option>';
       return;
@@ -784,10 +754,12 @@ async function loadMinutesFromCSV() {
     csvMinutesData = {};
 
     let count = 0;
+    // Iterate in reverse (bottom of sheet to top) so most recent date appears FIRST
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
       if (!row || row.length === 0) continue;
 
+      // Explicitly pick Column A (index 0) for Date Label, Column B (index 1) for Notes Content
       const dateVal = row[0] ? row[0].trim() : `Session ${i}`;
       const notesContent = row[1] ? row[1].trim() : "No notes content found in Column B for this entry.";
       
