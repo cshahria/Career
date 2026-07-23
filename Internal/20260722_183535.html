@@ -23,112 +23,52 @@
     font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
     background:var(--bg);
     color:var(--text);
-    padding:10px 12px 40px;
-    line-height:1.4;
+    padding:16px 16px 60px;
+    line-height:1.55;
   }
   .wrap{max-width:1100px;margin:0 auto; transition: max-width 0.2s;}
-  
-  /* TWEAK 1: Compact Header */
   header{
     text-align:center;
-    margin-bottom:8px;
-    margin-top:2px;
+    margin-bottom:16px;
+    margin-top:8px;
   }
   header h1{
-    font-size:1.05rem;
+    font-size:1.3rem;
     margin:0;
     color:#4b5563;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    font-weight: 400;
   }
-
-  /* TWEAK 3: Single-Row Countdown Bar */
-  .countdown-container {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 4px;
-    margin-bottom: 8px;
-    scrollbar-width: thin;
-  }
-  .countdown-container::-webkit-scrollbar {
-    height: 4px;
-  }
-  .countdown-container::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 4px;
-  }
-  .countdown-tile {
-    flex: 1 1 0px;
-    min-width: 120px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 6px 8px;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-  }
-  .countdown-tile.upcoming {
-    border-left: 3px solid var(--pitch);
-    background: #fdfdfd;
-  }
-  .countdown-tile.passed {
-    border-left: 3px solid var(--muted);
-    background: #fafafa;
-    opacity: 0.85;
-  }
-  .countdown-tile .cd-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .countdown-tile .cd-val {
-    font-size: 0.88rem;
-    font-weight: 700;
-    margin-top: 2px;
-  }
-  .countdown-tile.upcoming .cd-val { color: var(--pitch); }
-  .countdown-tile.passed .cd-val { color: #4b5563; }
-
   .card{
     background:var(--card);
     border:1px solid var(--border);
-    border-radius:12px;
-    padding:10px 14px;
-    margin-bottom:10px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.03);
+    border-radius:14px;
+    padding:14px 18px;
+    margin-bottom:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
   }
   
   .tile-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:8px;
-    margin-top:4px;
+    gap:10px;
+    margin-top:8px;
   }
   @media (min-width:520px){
-    .tile-grid{grid-template-columns:repeat(6,1fr);}
+    .tile-grid{grid-template-columns:repeat(3,1fr);}
   }
   
-  /* TWEAK 2: Compact Tiles & Hover Enhancement */
   .tile{
     border:1px solid var(--border);
-    border-radius:8px;
-    padding:6px 4px;
+    border-radius:10px;
+    padding:10px 8px;
     text-align:center;
     background:#fafbfa;
     cursor:pointer;
-    transition:all 0.15s ease;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
   }
   .tile:hover{
-    transform:translateY(-1px);
-    border-color: var(--sky);
-    background: var(--sky-light);
-    box-shadow:0 3px 8px rgba(0,0,0,0.06);
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
   }
   .tile .icon{
     width:38px;height:38px;
@@ -137,46 +77,33 @@
     color:var(--sky);
     display:flex;align-items:center;justify-content:center;
     font-size:1.2rem;
-    margin:0 auto 2px;
-    transition: background 0.15s ease;
+    margin:0 auto 4px;
   }
-  .tile:hover .icon {
-    background: #ffffff;
-  }
-  .tile .name{
-    font-weight:600;
-    font-size:0.78rem;
-    color:#374151;
-    transition: color 0.15s ease, font-weight 0.15s ease;
-  }
-  .tile:hover .name{
-    color: var(--sky);
-    font-weight: 700;
-  }
+  .tile .name{font-weight:700;font-size:0.95rem;color:#111827;}
 
   .sheet-pill-container {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-top: 8px;
-    margin-bottom: 2px;
+    margin-top: 14px;
+    margin-bottom: 4px;
   }
   .sheet-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     background: var(--sky-light);
     color: var(--sky);
     border: 1px solid #b9d5f7;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.88rem;
     font-weight: 700;
     text-decoration: none;
     transition: background 0.15s ease, transform 0.15s ease;
-    box-shadow: 0 1px 4px rgba(43,127,214,0.08);
+    box-shadow: 0 2px 6px rgba(43,127,214,0.08);
     cursor: pointer;
   }
   .sheet-pill:hover {
@@ -187,7 +114,7 @@
     background: #f3f4f6;
     color: #4b5563;
     border: 1px solid #d1d5db;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
   }
   .sheet-pill.docs-pill:hover {
     background: #e5e7eb;
@@ -460,6 +387,7 @@
     line-height: 1.4;
   }
 
+  /* CENTERED NAVIGATION BAR */
   .outlook-nav-bar {
     display: flex;
     flex-direction: column;
@@ -483,6 +411,7 @@
     flex-wrap: wrap;
   }
   
+  /* FIXED 3-COLUMN LAYOUT MATRIX FOR 3, 6, AND 9 DAYS */
   .outlook-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -530,13 +459,14 @@
     overflow-y: auto;
   }
   
+  /* SINGLE-LINE ENTRY APPLIED GLOBALLY */
   .outlook-item.detailed-inline {
     font-size: 0.85rem;
     padding: 6px 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
+    white-space: nowrap;        /* Prevents wrapping to new lines */
+    overflow: hidden;           /* Hides overflow text */
+    text-overflow: ellipsis;    /* Adds '...' if text is cut off */
+    display: block;             /* Forces exact single line block */
     border-left: 3px solid #cbd5e1;
     border-radius: 4px;
     line-height: 1.35;
@@ -728,11 +658,6 @@
     <h1>Unified Tracking Dashboard</h1>
   </header>
 
-  <!-- TWEAK 3: COUNTDOWN ROW CONTAINER -->
-  <div id="countdownRow" class="countdown-container">
-    <div style="font-size: 0.8rem; color: var(--muted); padding: 4px 8px;">Loading dates stream...</div>
-  </div>
-
   <div class="card">
     <div class="tile-grid">
       <div class="tile" onclick="openModal('careerModal')">
@@ -779,8 +704,9 @@
   <!-- SCHEDULE MATRIX CARD -->
   <div class="card">
     <div class="outlook-nav-bar">
-      <h3 id="outlookHeader" style="margin: 0; font-size: 1.1rem; font-weight: 700; color: #111827;">Schedule Matrix</h3>
+      <h3 id="outlookHeader" style="margin: 0; font-size: 1.2rem; font-weight: 700; color: #111827;">Schedule Matrix</h3>
       <div class="outlook-controls">
+        <!-- UPDATED DROPDOWN OPTIONS TO 3, 6, AND 9 DAYS -->
         <select id="daysRangeSelect" class="view-select" onchange="handleViewRangeChange(this.value)">
           <option value="3" selected>3 Days</option>
           <option value="6">6 Days</option>
@@ -839,73 +765,12 @@ let activeNotesIndex = 0;
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=1743122072&single=true&output=csv";
-const COUNTDOWN_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=980257672&single=true&output=csv";
 
 document.addEventListener("DOMContentLoaded", () => {
   scheduleBaseDate.setHours(0,0,0,0);
-  fetchAndRenderCountdowns();
   fetchAndRenderSchedule();
   fetchAndRenderNotesCard();
 });
-
-// TWEAK 3 logic: FETCH AND RENDER COUNTDOWNS
-async function fetchAndRenderCountdowns() {
-  const container = document.getElementById("countdownRow");
-  try {
-    const fetchUrl = "https://corsproxy.io/?" + encodeURIComponent(COUNTDOWN_CSV_URL + "&t=" + new Date().getTime());
-    const response = await fetch(fetchUrl);
-    const data = await response.text();
-    const lines = data.split(/\r?\n/);
-    const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
-
-    let html = "";
-    const today = new Date();
-    today.setHours(0,0,0,0);
-
-    rows.forEach(row => {
-      const label = row[0]?.replace(/^"|"$/g, '').trim();
-      const dateStr = row[1]?.replace(/^"|"$/g, '').trim();
-
-      if (label && dateStr) {
-        const targetDate = new Date(dateStr);
-        if (!isNaN(targetDate.getTime())) {
-          targetDate.setHours(0,0,0,0);
-          const diffTime = targetDate - today;
-          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-          let statusClass = "upcoming";
-          let valText = "";
-
-          if (diffDays > 0) {
-            valText = `${diffDays} day${diffDays === 1 ? '' : 's'} left`;
-          } else if (diffDays === 0) {
-            valText = "Today";
-          } else {
-            statusClass = "passed";
-            const absDays = Math.abs(diffDays);
-            valText = `${absDays} day${absDays === 1 ? '' : 's'} ago`;
-          }
-
-          html += `
-            <div class="countdown-tile ${statusClass}">
-              <div class="cd-label" title="${label}">${label}</div>
-              <div class="cd-val">${valText}</div>
-            </div>
-          `;
-        }
-      }
-    });
-
-    if (html !== "") {
-      container.innerHTML = html;
-    } else {
-      container.style.display = 'none';
-    }
-  } catch (err) {
-    console.error("Error fetching countdown stream:", err);
-    container.style.display = 'none';
-  }
-}
 
 function cleanTo24h(timeStr) {
   if (!timeStr) return "";
@@ -942,6 +807,7 @@ function navigateSchedule(direction) {
   fetchAndRenderSchedule();
 }
 
+// ANCHORS SELECTED DATE AS CARD #1 IN THE GRID MATRIX
 function selectCalendarDate(year, month, day) {
   scheduleBaseDate = new Date(year, month, day);
   scheduleBaseDate.setHours(0,0,0,0);
@@ -1157,6 +1023,7 @@ function renderScheduleMatrix(searchTerm = "") {
           }
         }
 
+        // SINGLE-LINE DETAILED FORMATTING
         const detailSnippet = m.details ? ` - ${m.details}` : "";
         outputHtml += `
           <div class="outlook-item detailed-inline ${itemStatusClass}" title="${timeRange} - ${titleText}${detailSnippet}">
