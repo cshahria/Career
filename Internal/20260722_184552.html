@@ -28,9 +28,10 @@
   }
   .wrap{max-width:1100px;margin:0 auto; transition: max-width 0.2s;}
   
+  /* TWEAK 1: Compact Header */
   header{
     text-align:center;
-    margin-bottom:6px;
+    margin-bottom:8px;
     margin-top:2px;
   }
   header h1{
@@ -41,37 +42,58 @@
     letter-spacing: 0.02em;
   }
 
-  /* COUNTDOWN GRID: EXACTLY 3 PER ROW WITH COMPACT PADDING */
-  .countdown-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+  /* TWEAK 3: Single-Row Countdown Bar */
+  .countdown-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
     margin-bottom: 8px;
+    scrollbar-width: thin;
+  }
+  .countdown-container::-webkit-scrollbar {
+    height: 4px;
+  }
+  .countdown-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
   }
   .countdown-tile {
+    flex: 1 1 0px;
+    min-width: 120px;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 4px 6px;
+    border-radius: 8px;
+    padding: 6px 8px;
     text-align: center;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    font-size: 0.78rem;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.25;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
   }
   .countdown-tile.upcoming {
     border-left: 3px solid var(--pitch);
-    color: var(--pitch);
+    background: #fdfdfd;
   }
   .countdown-tile.passed {
     border-left: 3px solid var(--muted);
-    color: #4b5563;
     background: #fafafa;
     opacity: 0.85;
   }
+  .countdown-tile .cd-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .countdown-tile .cd-val {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .countdown-tile.upcoming .cd-val { color: var(--pitch); }
+  .countdown-tile.passed .cd-val { color: #4b5563; }
 
   .card{
     background:var(--card);
@@ -92,6 +114,7 @@
     .tile-grid{grid-template-columns:repeat(6,1fr);}
   }
   
+  /* TWEAK 2: Compact Tiles & Hover Enhancement */
   .tile{
     border:1px solid var(--border);
     border-radius:8px;
@@ -359,25 +382,24 @@
     margin: 0 0 14px 0;
   }
 
-  /* COMPACT NOTES SECTION */
   .notes-card-view {
     background: #ffffff;
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
-    margin-top: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
   }
   .notes-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px;
-    padding-bottom: 4px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
     border-bottom: 1px solid #f1f5f9;
   }
   .notes-card-title {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--sky);
     text-transform: uppercase;
@@ -385,17 +407,18 @@
   }
   .notes-card-controls {
     display: flex;
-    gap: 4px;
+    gap: 6px;
   }
   .notes-card-arrow {
     background: #f8fafc;
     border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 2px 6px;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     cursor: pointer;
     user-select: none;
     font-weight: bold;
@@ -408,45 +431,56 @@
   .notes-multi-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 12px;
   }
   @media (min-width: 768px) {
     .notes-multi-grid { grid-template-columns: repeat(3, 1fr); }
   }
-  
-  /* SINGLE LINE NOTE CARDS */
   .individual-note-card {
     background: #fafbfa;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 8px;
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 0.8rem;
-    color: #374151;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100px;
   }
-  .individual-note-card:hover {
-    background: #f3f4f6;
-    border-color: var(--sky);
+  .notes-large-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111827;
+    margin-bottom: 4px;
+    border-bottom: 1px dashed #e5e7eb;
+    padding-bottom: 4px;
+  }
+  .notes-large-text {
+    font-size: 0.95rem;
+    color: #374151;
+    white-space: pre-wrap;
+    line-height: 1.4;
   }
 
-  /* COMPACT SINGLE-ROW NAV CONTROLS */
   .outlook-nav-bar {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  @media (min-width: 640px) {
+    .outlook-nav-bar {
+      flex-direction: row;
+      justify-content: space-between;
+    }
   }
   .outlook-controls {
     display: flex;
     align-items: center;
-    gap: 3px;
-    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
   
   .outlook-grid {
@@ -580,20 +614,18 @@
     text-decoration: underline;
   }
 
-  /* SMALLER BUTTONS FOR SINGLE-ROW MATRIX NAVIGATION */
   .cal-btn {
     background: #f3f4f6;
     border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 3px 5px;
-    font-size: 0.72rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
     font-weight: 600;
     color: #4b5563;
-    white-space: nowrap;
   }
   .cal-btn:hover { background: #e5e7eb; }
   .cal-header-nav {
@@ -655,10 +687,10 @@
   .search-input:focus { outline: none; border-color: var(--sky); }
   
   .view-select {
-    padding: 3px 4px;
+    padding: 6px 8px;
     border: 1px solid var(--border);
-    border-radius: 4px;
-    font-size: 0.72rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
     background: #fff;
     font-weight: 600;
     color: #4b5563;
@@ -686,24 +718,6 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
   .source-sheet-pill:hover { background: #f3faf6; }
-
-  /* FOOTER LINKS */
-  footer {
-    text-align: center;
-    margin-top: 20px;
-    padding-top: 10px;
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-  footer a {
-    color: var(--sky);
-    text-decoration: none;
-    margin: 0 8px;
-    font-weight: 600;
-  }
-  footer a:hover {
-    text-decoration: underline;
-  }
 </style>
 <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -714,9 +728,9 @@
     <h1>Unified Tracking Dashboard</h1>
   </header>
 
-  <!-- COUNTDOWN GRID: 3 PER ROW FORMATTED AS Title - Days -->
-  <div id="countdownRow" class="countdown-grid">
-    <div style="font-size: 0.75rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading dates...</div>
+  <!-- TWEAK 3: COUNTDOWN ROW CONTAINER -->
+  <div id="countdownRow" class="countdown-container">
+    <div style="font-size: 0.8rem; color: var(--muted); padding: 4px 8px;">Loading dates stream...</div>
   </div>
 
   <div class="card">
@@ -765,12 +779,12 @@
   <!-- SCHEDULE MATRIX CARD -->
   <div class="card">
     <div class="outlook-nav-bar">
-      <h3 id="outlookHeader" style="margin: 0; font-size: 0.95rem; font-weight: 700; color: #111827; white-space: nowrap;">Schedule Matrix</h3>
+      <h3 id="outlookHeader" style="margin: 0; font-size: 1.1rem; font-weight: 700; color: #111827;">Schedule Matrix</h3>
       <div class="outlook-controls">
         <select id="daysRangeSelect" class="view-select" onchange="handleViewRangeChange(this.value)">
-          <option value="3" selected>3D</option>
-          <option value="6">6D</option>
-          <option value="9">9D</option>
+          <option value="3" selected>3 Days</option>
+          <option value="6">6 Days</option>
+          <option value="9">9 Days</option>
         </select>
         <button class="cal-btn" onclick="navigateSchedule(-1)">◀ Prev</button>
         <button class="cal-btn" onclick="navigateSchedule(0)">Today</button>
@@ -793,36 +807,21 @@
 
     <div class="notes-card-view">
       <div class="notes-card-header">
-        <div class="notes-card-title">📝 Notes</div>
+        <div class="notes-card-title">📝 Recent Streams (Notes)</div>
         <div class="notes-card-controls">
           <button class="notes-card-arrow" onclick="rotateNotesCard(-1)">◀ Prev</button>
           <button class="notes-card-arrow" onclick="rotateNotesCard(1)">Next ▶</button>
         </div>
       </div>
       <div class="notes-multi-grid" id="notesCardContentBox">
-        <div style="color: var(--muted); font-size: 0.8rem; font-style: italic; grid-column: 1/-1; text-align: center;">Fetching latest notes...</div>
+        <div style="color: var(--muted); font-size: 1rem; font-style: italic; grid-column: 1/-1; text-align: center;">Fetching latest notes...</div>
       </div>
     </div>
   </div>
 
-  <footer>
-    <a href="https://cshahria.github.io/Career/index.html" target="_blank">Career</a> | 
-    <a href="https://cshahria.github.io/Career/civic.html" target="_blank">Civic</a>
-  </footer>
-
 </div>
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
-
-<!-- MODAL: NOTE DETAILS VIEW -->
-<div id="noteDetailModal" class="modal-overlay">
-  <div class="modal-content" style="max-width: 420px;">
-    <button class="modal-close" onclick="closeModal('noteDetailModal')">×</button>
-    <h3 id="noteDetailTitle" style="margin-top:0; font-size:1.05rem; color:#111827;"></h3>
-    <div id="noteDetailTimestamp" style="font-size:0.8rem; color:var(--muted); margin-bottom:12px;"></div>
-    <div id="noteDetailText" style="font-size:0.9rem; color:#374151; white-space:pre-wrap; line-height:1.5; background:#fafbfa; border:1px solid var(--border); padding:10px; border-radius:6px;"></div>
-  </div>
-</div>
 
 <script>
 let submitted = false;
@@ -849,6 +848,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderNotesCard();
 });
 
+// TWEAK 3 logic: FETCH AND RENDER COUNTDOWNS
 async function fetchAndRenderCountdowns() {
   const container = document.getElementById("countdownRow");
   try {
@@ -874,20 +874,22 @@ async function fetchAndRenderCountdowns() {
           const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
           let statusClass = "upcoming";
-          let daysVal = "";
+          let valText = "";
 
           if (diffDays > 0) {
-            daysVal = diffDays;
+            valText = `${diffDays} day${diffDays === 1 ? '' : 's'} left`;
           } else if (diffDays === 0) {
-            daysVal = "Today";
+            valText = "Today";
           } else {
             statusClass = "passed";
-            daysVal = `${Math.abs(diffDays)} ago`;
+            const absDays = Math.abs(diffDays);
+            valText = `${absDays} day${absDays === 1 ? '' : 's'} ago`;
           }
 
           html += `
-            <div class="countdown-tile ${statusClass}" title="${label} - ${daysVal}">
-              ${label} - ${daysVal}
+            <div class="countdown-tile ${statusClass}">
+              <div class="cd-label" title="${label}">${label}</div>
+              <div class="cd-val">${valText}</div>
             </div>
           `;
         }
@@ -999,14 +1001,14 @@ async function fetchAndRenderNotesCard() {
     renderNotesCardSlide();
   } catch (err) {
     console.error("Error piping notes metrics:", err);
-    container.innerHTML = `<div style="color: #e74c3c; font-size: 0.8rem; grid-column: 1/-1; text-align: center;">Failed to fetch entries.</div>`;
+    container.innerHTML = `<div style="color: #e74c3c; font-size: 1rem; grid-column: 1/-1; text-align: center;">Failed to fetch stream entries.</div>`;
   }
 }
 
 function renderNotesCardSlide() {
   const container = document.getElementById("notesCardContentBox");
   if (notesCardData.length === 0) {
-    container.innerHTML = `<div style="color: var(--muted); font-size: 0.8rem; font-style: italic; grid-column: 1/-1; text-align: center;">No history logs.</div>`;
+    container.innerHTML = `<div style="color: var(--muted); font-size: 1rem; font-style: italic; grid-column: 1/-1; text-align: center;">No recent history logs available.</div>`;
     return;
   }
   
@@ -1015,27 +1017,15 @@ function renderNotesCardSlide() {
     const targetIdx = activeNotesIndex + i;
     if (targetIdx < notesCardData.length) {
       const item = notesCardData[targetIdx];
-      const inlineDisplay = item.fullDesc 
-        ? `${item.shortDesc || 'Note'} - ${item.fullDesc}` 
-        : (item.shortDesc || 'Note');
-      
       gridHtml += `
-        <div class="individual-note-card" onclick="openNoteDetailModal(${targetIdx})" title="${inlineDisplay}">
-          ${inlineDisplay}
+        <div class="individual-note-card">
+          <div class="notes-large-title">${item.shortDesc || "Untitled Entry"} <span style="font-weight:normal; font-size:0.85rem; color:var(--muted); margin-left:8px;">(${item.timestamp.split(' ')[0]})</span></div>
+          <div class="notes-large-text">${item.fullDesc || ""}</div>
         </div>
       `;
     }
   }
   container.innerHTML = gridHtml;
-}
-
-function openNoteDetailModal(idx) {
-  const item = notesCardData[idx];
-  if (!item) return;
-  document.getElementById("noteDetailTitle").textContent = item.shortDesc || "Note Detail";
-  document.getElementById("noteDetailTimestamp").textContent = item.timestamp || "";
-  document.getElementById("noteDetailText").textContent = item.fullDesc || item.shortDesc || "No details provided.";
-  openModal("noteDetailModal");
 }
 
 function rotateNotesCard(direction) {
