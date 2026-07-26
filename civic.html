@@ -1,887 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual Career Analytics Dashboard</title>
-    <!-- FontAwesome for visual icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #f4f7fe;
-            --card-bg: #ffffff;
-            --text-main: #2b3674;
-            --text-secondary: #707ebe;
-            --accent: #4318ff;
-            --border: #e9edf7;
-            --shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
-            --f500-badge: #fff3cd;
-            --f500-text: #856404;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community & Engagement Board</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+    --warning-color:#e74c3c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:24px 16px 60px;
+    line-height:1.55;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  header{
+    text-align:center;
+    margin-bottom:20px;
+    margin-top:12px;
+  }
+  header h1{
+    font-size:1.4rem; /* Scaled down header font size */
+    margin:0;
+    color:#111827;
+    font-weight: 800;
+  }
+  .objective-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 6px auto 0;
+    line-height: 1.5;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:24px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:4px;
+  }
+  @media (min-width:520px){
+    .tile-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  
+  .tile, .tile-link {
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:20px 14px;
+    text-align:center;
+    background:#fafbfa;
+    cursor:pointer;
+    text-decoration:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+  }
+  .tile:hover, .tile-link:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+  }
+  .tile .icon, .tile-link .icon{
+    width:46px;height:46px;
+    border-radius:50%;
+    background:var(--sky-light);
+    color:var(--sky);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;
+    margin:0 auto 10px;
+    flex-shrink:0;
+  }
+  .tile .name, .tile-link .name{font-weight:700;font-size:1rem;color:#111827;margin-bottom:4px;}
+  
+  .tile .desc, .tile-link .desc{
+    font-size:0.78rem;
+    color:var(--muted);
+    line-height:1.3;
+    font-weight:400;
+  }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-        }
+  .tile .copy-container, .tile-link .copy-container {
+    margin-top:8px;
+    border-top: 1px dotted var(--border);
+    padding-top: 6px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 30px;
-        }
+  .tile .copy-text, .tile-link .copy-text {
+    font-size:0.68rem;
+    color:#8c939e;
+    word-break:break-all;
+    line-height:1.25;
+    font-weight:normal;
+  }
 
-        .dashboard-header {
-            margin-bottom: 25px;
-        }
+  .copy-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 0.75rem;
+    color: var(--sky);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s;
+  }
+  .copy-btn:hover {
+    background: var(--sky-light);
+  }
 
-        .dashboard-header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+  .footer-info {
+    margin-top: 24px;
+    text-align: center;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer-text {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
 
-        .section-title {
-            font-size: 20px;
-            margin: 35px 0 18px 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+  /* Small Pill Styling for Boards */
+  .boards-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--sky-light);
+    color: var(--sky);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: all 0.15s ease;
+  }
+  .boards-pill:hover {
+    background: #dbeafe;
+    transform: translateY(-1px);
+  }
 
-        /* Grid Layouts */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+  /* Modal System */
+  .modal-overlay {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 16px;
+  }
+  .modal-content {
+    background: #fff;
+    border-radius: 14px;
+    max-width: 500px;
+    width: 100%;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .submit-btn {
+    display: block;
+    background: var(--pitch);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  .submit-btn:hover { background: #176839; }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 20px;
-        }
+  /* Form Styling */
+  .form-group { margin-bottom: 14px; }
+  .form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+    color: #374151;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--sky);
+  }
 
-        /* Card Styling */
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 22px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+  /* Speech Input Styling */
+  .input-with-mic {
+    position: relative;
+    display: block;
+  }
+  .mic-btn {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    background: #f3f4f6;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 0;
+    transition: background 0.1s;
+    user-select: none;
+  }
+  .mic-btn:hover { background: #e5e7eb; }
+  .mic-btn.listening {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0px 20px 45px rgba(112, 144, 176, 0.2);
-        }
-
-        .metric-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .metric-card .label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .metric-card .value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .metric-card .sub-value {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        /* Specific Lists in Cards */
-        .list-card ul {
-            list-style: none;
-            max-height: 220px;
-            overflow-y: auto;
-        }
-
-        .list-card li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        .list-card li:last-child {
-            border-bottom: none;
-        }
-
-        .list-item-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Flag Styling */
-        .flag-icon {
-            width: 22px;
-            height: 15px;
-            border-radius: 2px;
-            object-fit: cover;
-            box-shadow: 0 0 2px rgba(0,0,0,0.3);
-        }
-
-        /* Geographic Distribution Cards */
-        .geo-card {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .geo-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .geo-card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 16px;
-        }
-
-        .geo-card-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-top: 5px;
-        }
-
-        .geo-card-stats .years {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        .geo-card-stats .percentage {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        /* Position Cards */
-        .position-card {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            position: relative;
-        }
-
-        .position-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .company-logo-container {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .company-logo {
-            max-width: 30px;
-            max-height: 30px;
-            object-fit: contain;
-        }
-
-        .position-card .title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .position-card .company-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .position-card .company {
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .position-card .company a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .position-card .company a:hover {
-            color: var(--accent);
-            text-decoration: underline;
-        }
-
-        .position-card .client {
-            font-size: 13px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 4px;
-        }
-
-        .position-card .meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .position-card .description {
-            font-size: 13px;
-            color: var(--text-main);
-            line-height: 1.5;
-            margin-top: 4px;
-            background: #f8fafc;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
-        }
-
-        /* Tags and Badges */
-        .badges-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #f4f7fe;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .badge-f500 {
-            background-color: var(--f500-badge);
-            color: var(--f500-text);
-            border: 1px solid #ffeeba;
-        }
-
-        .badge-size {
-            background: #e2e8f0;
-            color: #475569;
-        }
-
-        /* Footer / Tenure Section Styling */
-        .tenure-footer-section {
-            margin-top: 60px;
-            padding-top: 20px;
-            border-top: 1px dashed var(--border);
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .tenure-footer-section h3 {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .metrics-grid-small {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .card-small {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 10px 14px;
-            border: 1px solid var(--border);
-        }
-
-        .card-small .label-sm {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .card-small .value-sm {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        /* Popover Calculation Note */
-        .popover-wrapper {
-            position: relative;
-            display: inline-block;
-        }
-
-        .popover-btn {
-            background: none;
-            border: none;
-            color: var(--accent);
-            cursor: pointer;
-            font-size: 11px;
-            text-decoration: underline;
-            padding: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .popover-content {
-            visibility: hidden;
-            opacity: 0;
-            position: absolute;
-            bottom: 125%;
-            left: 0;
-            width: 320px;
-            background-color: #2b3674;
-            color: #fff;
-            text-align: left;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 11px;
-            line-height: 1.4;
-            box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
-            transition: opacity 0.2s, visibility 0.2s;
-            z-index: 100;
-        }
-
-        .popover-content::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 20px;
-            border-width: 6px;
-            border-style: solid;
-            border-color: #2b3674 transparent transparent transparent;
-        }
-
-        .popover-wrapper:hover .popover-content {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
+  /* Boards Detail Styling */
+  .board-section {
+    margin-top: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .board-section:last-of-type {
+    border-bottom: none;
+  }
+  .board-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--sky);
+    margin-bottom: 4px;
+  }
+  .board-desc {
+    font-size: 0.88rem;
+    color: #4b5563;
+    margin: 0;
+  }
+</style>
 </head>
 <body>
+<div class="wrap">
 
-    <div class="dashboard-header">
-        <h1><i class="fa-solid fa-chart-line" style="color: var(--accent);"></i> Career Analytics Overview</h1>
+  <header>
+    <h1>Community & Engagement Board</h1>
+    <p class="objective-text">
+      A collaborative directory for engagement initiatives.
+    </p>
+  </header>
+
+  <div class="card">
+    <div class="tile-grid">
+      
+      <!-- FIRST ROW: Schedule Meeting, Zoom Room, SMS Text -->
+      <a href="https://cal.com/cyrus-shahriari-7wjit2/30min?user=cyrus-shahriari-7wjit2&overlayCalendar=true" target="_blank" class="tile-link">
+        <div class="icon">📅</div>
+        <div class="name">Schedule Meet</div>
+        <div class="desc">Book a 30-minute sync directly on Cal.com</div>
+      </a>
+
+      <div class="tile-link" style="cursor: default;">
+        <a href="https://us05web.zoom.us/j/9784979838?pwd=T3FkNTM3M2ZTWXJOaWVSSWVLeHFGQT09" target="_blank" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; width: 100%;">
+          <div class="icon">📹</div>
+          <div class="name">Zoom Room</div>
+          <div class="desc">Launch virtual video space for live syncs</div>
+        </a>
+        <div class="copy-container">
+          <div class="copy-text">ID: 978 497 9838<br>tinyurl.com/2026CyrusZoom</div>
+          <button class="copy-btn" onclick="copyToClipboard('Meeting ID: 978 497 9838\nhttps://tinyurl.com/2026CyrusZoom', this)" title="Copy details">📋</button>
+        </div>
+      </div>
+
+      <div class="tile-link" style="cursor: default;">
+        <a href="sms:4086690813" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; width: 100%;">
+          <div class="icon">💬</div>
+          <div class="name">SMS Text</div>
+          <div class="desc">Send a direct message via mobile network</div>
+        </a>
+        <div class="copy-container">
+          <div class="copy-text">408-669-0813</div>
+          <button class="copy-btn" onclick="copyToClipboard('408-669-0813', this)" title="Copy number">📋</button>
+        </div>
+      </div>
+
+      <!-- SECOND ROW: Career Analytics, Develop, Career Site -->
+      <a href="https://cshahria.github.io/Career/career_analytics.html" target="_blank" class="tile-link">
+        <div class="icon">📊</div>
+        <div class="name">Career Analytics</div>
+        <div class="desc">Interactive dashboard & tenure metrics</div>
+      </a>
+
+      <div class="tile" onclick="openModal('developModal')">
+        <div class="icon">⚙️</div>
+        <div class="name">Develop</div>
+        <div class="desc">Log system feature concepts, bugs, or roadmap ideas</div>
+      </div>
+
+      <a href="https://cshahria.github.io/Career/index.html" target="_blank" class="tile-link">
+        <div class="icon">💼</div>
+        <div class="name">Career Site</div>
+        <div class="desc">Browse professional background & portfolio</div>
+      </a>
+
+      <!-- THIRD ROW: Transition, World Cup, LinkedIn Group -->
+      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
+        <div class="icon">🌲</div>
+        <div class="name">Transition</div>
+        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
+      </a>
+
+      <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
+        <div class="icon">⚽</div>
+        <div class="name">World Cup 2026</div>
+        <div class="desc">Read personal logs from tournament fan ops</div>
+      </a>
+
+      <a href="https://www.linkedin.com/groups/37040080/" target="_blank" class="tile-link">
+        <div class="icon">🌐</div>
+        <div class="name">LinkedIn Group</div>
+        <div class="desc">Connect with professional venue operators</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Objective, Boards Pill, and Disclaimer Section -->
+  <footer class="footer-info">
+    <button class="boards-pill" onclick="openModal('boardsModal')">
+      <span>📋 Boards & Vision</span>
+    </button>
+    <p class="footer-text">
+      <strong>Objective:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency.
+    </p>
+    <p class="footer-text" style="font-style: italic; font-size: 0.75rem;">
+      <strong>Disclaimer:</strong> Intended for internal coordination and designated stakeholder reference. Information linked within external tools is subject to their respective privacy controls and security frameworks.
+    </p>
+  </footer>
+
+</div>
+
+<!-- Hidden Iframe to hold responses without page redirection -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
+
+<script>
+let submitted = false;
+let recognition = null;
+let currentTargetInput = null;
+let currentMicButton = null;
+
+function copyToClipboard(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => { btn.textContent = originalText; }, 1500);
+  }).catch(err => {
+    console.error('Failed to copy text: ', err);
+  });
+}
+
+function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; }
+function closeModal(modalId) { 
+  stopDictation();
+  document.getElementById(modalId).style.display = 'none'; 
+}
+function handleFormSubmit() { submitted = true; }
+function handleFormResponse() {
+  alert("Entry successfully processed!");
+  submitted = false;
+  document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+  document.querySelectorAll('form').forEach(f => f.reset());
+  stopDictation();
+}
+
+function toggleDictation(btn, targetId) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Voice dictation is not natively supported in this browser viewport.");
+    return;
+  }
+
+  const targetInput = document.getElementById(targetId);
+  if (currentMicButton === btn) {
+    stopDictation();
+    return;
+  }
+
+  stopDictation();
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.lang = 'en-US';
+
+  currentTargetInput = targetInput;
+  currentMicButton = btn;
+
+  recognition.onstart = function() {
+    btn.classList.add('listening');
+    btn.textContent = '🛑';
+  };
+  recognition.onerror = function(e) {
+    console.error(e);
+    stopDictation();
+  };
+  recognition.onend = function() {
+    stopDictation();
+  };
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    targetInput.value = targetInput.value ? targetInput.value + ' ' + transcript : transcript;
+  };
+  recognition.start();
+}
+
+function stopDictation() {
+  if (recognition) { recognition.stop(); recognition = null; }
+  if (currentMicButton) {
+    currentMicButton.classList.remove('listening');
+    currentMicButton.textContent = '🎙️';
+    currentMicButton = null;
+  }
+  currentTargetInput = null;
+}
+</script>
+
+<!-- MODAL: DEVELOP ENTRY -->
+<div id="developModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('developModal')">×</button>
+    <h3>Log Develop Entry</h3>
+    <form method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSeZmqETCYBE-7sV-TKN97AX5yCgzYJIvF5lqdTtB2U36V_yaQ/formResponse" target="hidden_iframe" onsubmit="handleFormSubmit()">
+      <div class="form-group">
+        <label>Type</label>
+        <select name="entry.1181449836" required>
+          <option value="" disabled selected>Select a type...</option>
+          <option value="New Feature">New Feature</option>
+          <option value="Existing">Existing</option>
+          <option value="Bug">Bug</option>
+          <option value="Issue">Issue</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="entry.1158348035" placeholder="Brief summary of the idea" required>
+      </div>
+      <div class="form-group">
+        <label>Details</label>
+        <div class="input-with-mic">
+          <textarea id="developDetails" name="entry.2018232389" rows="4" placeholder="Detailed logs or general observations..."></textarea>
+          <button type="button" class="mic-btn" onclick="toggleDictation(this, 'developDetails')">🎙️</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select name="entry.1186066081">
+          <option value="" disabled selected>Select priority...</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">Save Entry</button>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL: BOARDS OBJECTIVES & SYSTEMS STRATEGY -->
+<div id="boardsModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('boardsModal')">×</button>
+    <h3>System Environment Roadmap</h3>
+    
+    <div class="board-section">
+      <div class="board-title">🔒 Internal Unified Dashboard</div>
+      <p class="board-desc">
+        A private environment dedicated to organizing operational metrics on a day-to-day basis to preserve peak professional and personal productivity.
+      </p>
     </div>
 
-    <!-- Position Cards Section (Moved to the Top) -->
-    <h2 class="section-title" style="margin-top: 0;"><i class="fa-solid fa-list-check"></i> Position History</h2>
-    <div class="cards-grid" id="positions-container"></div>
-
-    <!-- Breakdowns Section -->
-    <h2 class="section-title"><i class="fa-solid fa-layer-group"></i> Aggregated Experience</h2>
-    <div class="metrics-grid">
-        <div class="card list-card">
-            <div class="metric-card" style="margin-bottom: 10px;">
-                <div class="label"><i class="fa-solid fa-industry"></i> Experience by Industry</div>
-            </div>
-            <ul id="industry-list"></ul>
-        </div>
-        <div class="card list-card">
-            <div class="metric-card" style="margin-bottom: 10px;">
-                <div class="label"><i class="fa-solid fa-location-dot"></i> Locations & States</div>
-            </div>
-            <ul id="location-list"></ul>
-        </div>
+    <div class="board-section">
+      <div class="board-title">🤝 Community & Engagement Board</div>
+      <p class="board-desc">
+        A public-facing navigational interface designed to map resources and directory pathways for coordinated teams, such as unPTO, WC26, and incoming collaborative micro-modules.
+      </p>
     </div>
 
-    <!-- Geographic Distribution Section -->
-    <h2 class="section-title"><i class="fa-solid fa-map-location-dot"></i> Geographical Distribution</h2>
-    <div class="metrics-grid" id="country-maps-container"></div>
-
-    <!-- Overview Entities Cards -->
-    <h2 class="section-title"><i class="fa-solid fa-sitemap"></i> Unique Entities</h2>
-    <div class="metrics-grid">
-        <div class="card list-card">
-            <div class="metric-card" style="margin-bottom: 10px;">
-                <div class="label"><i class="fa-solid fa-building"></i> Companies & Clients</div>
-            </div>
-            <ul id="company-list"></ul>
-        </div>
-        <div class="card list-card">
-            <div class="metric-card" style="margin-bottom: 10px;">
-                <div class="label"><i class="fa-solid fa-id-card"></i> Titles Held</div>
-            </div>
-            <ul id="title-list"></ul>
-        </div>
+    <div class="board-section" style="background: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 14px;">
+      <div class="board-title" style="color: var(--pitch);">🤖 Data Collection & AI Vision Loop</div>
+      <p class="board-desc" style="font-size: 0.85rem; line-height: 1.5;">
+        As un-manipulated raw metrics stream smoothly through these decoupled panels, they systematically organize target datasets into pristine structures. This structured foundation fuels downstream AI engines, executing real-time pattern isolation, anomaly discovery, and instant predictive analysis without the layout friction of traditional sheet frameworks.
+      </p>
     </div>
+  </div>
+</div>
 
-    <!-- Tenure & High-Level Summary (Moved to the very bottom and minimized) -->
-    <div class="tenure-footer-section">
-        <h3><i class="fa-solid fa-clock"></i> Tenure & High-Level Summary</h3>
-        <div class="metrics-grid-small">
-            <div class="card-small">
-                <div class="label-sm">Average Tenure</div>
-                <div class="value-sm" id="avg-tenure">-</div>
-            </div>
-            <div class="card-small">
-                <div class="label-sm">Median Tenure</div>
-                <div class="value-sm" id="median-tenure">-</div>
-            </div>
-            <div class="card-small">
-                <div class="label-sm">Total Experience</div>
-                <div class="value-sm" id="total-years">-</div>
-            </div>
-            <div class="card-small">
-                <div class="label-sm">Engagements</div>
-                <div class="value-sm" id="total-roles">-</div>
-            </div>
-        </div>
-
-        <!-- Popover Calculation Note -->
-        <div class="popover-wrapper">
-            <button class="popover-btn">
-                <i class="fa-solid fa-circle-info"></i> How tenure calculations work
-            </button>
-            <div class="popover-content">
-                <strong>Calculation Note:</strong> Averages and medians consolidate continuous contract-to-hire transitions and extended single-client tenures into single engagement blocks (e.g., ServiceNow, Provincial Health Services Authority, Serco Services / ECB).
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Flags
-        const flags = {
-            USA: "https://flagcdn.com/w40/us.png",
-            Canada: "https://flagcdn.com/w40/ca.png",
-            Germany: "https://flagcdn.com/w40/de.png"
-        };
-
-        // Logos via Clearbit API
-        const companyLogos = {
-            "MatchPoint": "https://client-data.knak.io/production/email_assets/66465baa7789e/AkaRrsBiFmVdIfjw90mokor1hUpGWo5PD9HqaTTp.png?utm_source=landing-page:69791ac7e3398",
-            "ServiceNow": "https://www.servicenow.com/content/dam/servicenow-assets/images/naas/servicenow-logo-icon-white.svg",
-            "Cypress HCM": "https://www.servicenow.com/content/dam/servicenow-assets/images/naas/servicenow-logo-icon-white.svg",
-            "First Republic Bank": "https://www.chase.com/content/dam/unified-assets/logo/chase/chase-logo/additional-file-formats/logo_chase_headerfooter.svg",
-            "Randstad": "https://www.lumentum.com/images/logos/Logo.svg",
-            "Park Computer Systems, Inc.": "https://www.abbvie.com/content/dam/abbvie-com2/images/logos/abbvie-logo-header.svg",
-            "Rose International": "https://healthy.kaiserpermanente.org/etc.clientlibs/settings/wcm/designs/kporg/kp-foundation/clientlib-modules/styleguide/resources/images/kp-logo-stacked-white.svg",
-            "Dimension Data NTT": "https://services.global.ntt/-/media/ntt/global/icons/brand/global_logo_nttdata_white_rgb_svg_140px.svg?rev=b9ec69c0c26746f9828351ac286effc7",
-            "Cooper Technologies": "https://media.licdn.com/dms/image/v2/C4D0BAQE_MXOhsRStpQ/company-logo_100_100/company-logo_100_100/0/1631334651255?e=1786579200&v=beta&t=BkTmCkLX6O0gAYzJdT9M4UpTRRNPwVnecowI_W-aPjY",
-            "Provincial Health Services Authority": "https://www.phsa.ca/SiteAssets/phsa-logo.png",
-            "TEKsystems": "https://www.teksystems.com/cdn-cgi/image/quality=95,format=webp/https://www.teksystems.com/-/media/teksystems/images/logos/teksystems-logo.svg?iar=0&rev=a04ca0732d574f6e9ac09e5bf61d4264&hash=6CD6804717F69F4BAEF33E9ADA2FD454",
-            "ActiveCo": "https://www.activeco.com/wp-content/uploads/2023/08/Activeco-logo-e1690918952786.png",
-            "Serco Services GmbH": "https://www.ecb.europa.eu/shared/img/logo/logo_only.svg",
-            "Kelly Services GmbH": "https://www.gstatic.com/marketing-cms/assets/images/f5/d3/a7f9db7045429cb6dc6be56bdcbe/google-logo-about.svg",
-            "Menlo College": "https://www.menlo.edu/wp-content/uploads/2024/11/Logo.png"
-        };
-
-        // Industry Icon Mapping
-        const industryIcons = {
-            "Healthcare / Biotechnology": "fa-notes-medical",
-            "Enterprise Software": "fa-laptop-code",
-            "Financial Services": "fa-piggy-bank",
-            "Telecommunications & Optics": "fa-network-wired",
-            "Pharmaceuticals": "fa-pills",
-            "Healthcare": "fa-hospital",
-            "IT Services": "fa-server",
-            "Technology & Industrial": "fa-microchip",
-            "IT Managed Services": "fa-headset",
-            "Central Banking / Government": "fa-landmark",
-            "Technology / Search": "fa-magnifying-glass",
-            "Higher Education": "fa-graduation-cap"
-        };
-
-        // Updated position data with descriptions, URLs, and company logos
-        const careerData = [
-            {
-                startDate: "07/24/2026", endDate: "Present", days: 0, years: 0.0,
-                company: "MatchPoint", client: "Cepheid", companyTitle: "ITSM Lead", clientTitle: "ITSM Lead",
-                city: "Santa Clara", state: "CA", country: "USA", industry: "Healthcare / Biotechnology",
-                companySize: "1,000-5,000", clientSize: "5,000-10,000", isClientF500: false,
-                url: "https://www.matchps.com/",
-                description: "ITSM process alignment and cross-functional technology delivery."
-            },
-            {
-                startDate: "01/06/2025", endDate: "05/18/2026", days: 497, years: 1.4,
-                company: "ServiceNow", client: "ServiceNow", companyTitle: "Staff Technical Product Manager", clientTitle: "Staff Technical Product Manager",
-                city: "Santa Clara", state: "CA", country: "USA", industry: "Enterprise Software",
-                companySize: "20,000+", isCompanyF500: true,
-                url: "https://www.servicenow.com",
-                description: "Product management, driving core ITSM enterprise capabilities and product lifecycle management."
-            },
-            {
-                startDate: "05/15/2023", endDate: "01/05/2025", days: 601, years: 1.6,
-                company: "Cypress HCM", client: "ServiceNow", companyTitle: "Business Systems Analyst", clientTitle: "Business Systems Analyst",
-                city: "Santa Clara", state: "CA", country: "USA", industry: "Enterprise Software",
-                companySize: "100-500", clientSize: "20,000+", isClientF500: true,
-                url: "https://www.cypresshcm.com",
-                description: "Partnered with enterprise stakeholder teams to optimize internal business processes and workflow integrations."
-            },
-            {
-                startDate: "07/20/2020", endDate: "05/12/2023", days: 1026, years: 2.8,
-                company: "First Republic Bank", client: "First Republic Bank", companyTitle: "Sr. IT Change Analyst", clientTitle: "Sr. IT Change Analyst",
-                city: "San Francisco", state: "CA", country: "USA", industry: "Financial Services",
-                companySize: "5,000-10,000", isCompanyF500: true,
-                url: "https://www.firstrepublic.com",
-                description: "Managed enterprise IT Change Management governance."
-            },
-            {
-                startDate: "01/06/2020", endDate: "07/17/2020", days: 193, years: 0.5,
-                company: "Randstad", client: "Lumentum", companyTitle: "ITIL Process Manager", clientTitle: "ITIL Process Manager",
-                city: "San Jose", state: "CA", country: "USA", industry: "Telecommunications & Optics",
-                companySize: "30,000+", clientSize: "5,000-10,000", isCompanyF500: true, isClientF500: true,
-                url: "https://www.lumentum.com/en",
-                description: "Designed standard ITIL governance frameworks for enterprise operations."
-            },
-            {
-                startDate: "08/20/2018", endDate: "12/31/2019", days: 498, years: 1.4,
-                company: "Park Computer Systems, Inc.", client: "Pharmacyclics, an AbbVie Company", companyTitle: "ServiceNow Business Analyst", clientTitle: "Infrastructure Business Analyst",
-                city: "Sunnyvale", state: "CA", country: "USA", industry: "Pharmaceuticals",
-                companySize: "50-200", clientSize: "50,000+", isClientF500: true,
-                url: "https://parkcom.com/",
-                description: "Facilitated infrastructure process enhancements and ServiceNow platform adoption across commercial bio-tech teams."
-            },
-            {
-                startDate: "11/27/2017", endDate: "08/17/2018", days: 263, years: 0.7,
-                company: "Rose International", client: "Kaiser Permanente", companyTitle: "Business Systems Analyst", clientTitle: "Business Systems Analyst",
-                city: "Pleasanton", state: "CA", country: "USA", industry: "Healthcare",
-                companySize: "5,000+", clientSize: "200,000+", isClientF500: true,
-                url: "https://www.roseint.com",
-                description: "Analyzed complex healthcare systems integrations to maintain continuous operational service reliability."
-            },
-            {
-                startDate: "04/06/2016", endDate: "11/22/2017", days: 595, years: 1.6,
-                company: "Dimension Data NTT", client: "TEKsystems", companyTitle: "Data Analyst/Project Coordinator", clientTitle: "Data Analyst/Project Coordinator",
-                city: "Not Specified", state: "CA", country: "USA", industry: "IT Services",
-                companySize: "10,000+", clientSize: "10,000+", isCompanyF500: true,
-                url: "https://services.global.ntt",
-                description: "Managed global IT delivery tracking metrics and operational reporting dashboards."
-            },
-            {
-                startDate: "06/08/2015", endDate: "02/26/2016", days: 263, years: 0.7,
-                company: "Cooper Technologies", client: "Cooper Technologies", companyTitle: "Information/Administrative Technician", clientTitle: "Information/Administrative Technician",
-                city: "Santa Cruz", state: "CA", country: "USA", industry: "Technology & Industrial",
-                companySize: "500-1,000", isCompanyF500: false,
-                url: "#",
-                description: "Provided technical support, administrative coordination, and hardware operations."
-            },
-            {
-                startDate: "03/31/2014", endDate: "06/01/2015", days: 427, years: 1.2,
-                company: "Provincial Health Services Authority", client: "Health Shared Services British Columbia", companyTitle: "Senior Coordinator, Design and Strategy", clientTitle: "Project Manager I",
-                city: "Burnaby", state: "BC", country: "Canada", industry: "Healthcare",
-                companySize: "10,000+", clientSize: "5,000+", isCompanyF500: false,
-                url: "http://www.phsa.ca",
-                description: "Executed administrative strategy design and cross-agency public health technology projects."
-            },
-            {
-                startDate: "01/14/2013", endDate: "03/30/2014", days: 440, years: 1.2,
-                company: "TEKsystems", client: "Provincial Health Services Authority", companyTitle: "Senior Business Analyst", clientTitle: "Senior Business Analyst",
-                city: "Burnaby", state: "BC", country: "Canada", industry: "Healthcare",
-                companySize: "10,000+", clientSize: "10,000+", isCompanyF500: true,
-                url: "https://www.teksystems.com",
-                description: "Led core business requirements gathering and enterprise health IT system workflows."
-            },
-            {
-                startDate: "08/13/2012", endDate: "01/11/2013", days: 151, years: 0.4,
-                company: "ActiveCo", client: "ActiveCo", companyTitle: "Service Account Specialist", clientTitle: "Service Account Specialist",
-                city: "Coquitlam", state: "BC", country: "Canada", industry: "IT Managed Services",
-                companySize: "10-50", isCompanyF500: false,
-                url: "https://www.activeco.com",
-                description: "Oversaw client managed services alignment, IT strategy consulting, and SLA compliance."
-            },
-            {
-                startDate: "06/23/2008", endDate: "03/15/2012", days: 1361, years: 3.7,
-                company: "Serco Services GmbH", client: "European Central Bank", companyTitle: "ITIL Business Process Designer", clientTitle: "ITIL Business Process Designer",
-                city: "Frankfurt", state: "HE", country: "Germany", industry: "Central Banking / Government",
-                companySize: "50,000+", clientSize: "3,000+", isCompanyF500: true,
-                url: "https://www.ecb.europa.eu/home/html/index.en.html",
-                description: "Designed core ITIL ITSM operational structures and service workflows within central banking environments."
-            },
-            {
-                startDate: "03/06/2006", endDate: "06/23/2008", days: 840, years: 2.3,
-                company: "Serco Services GmbH", client: "European Central Bank", companyTitle: "IT Operational Support", clientTitle: "IT Operational Support",
-                city: "Frankfurt", state: "HE", country: "Germany", industry: "Central Banking / Government",
-                companySize: "50,000+", clientSize: "3,000+", isCompanyF500: true,
-                url: "https://www.serco.com",
-                description: "Maintained critical baseline IT infrastructure operations and end-user support services."
-            },
-            {
-                startDate: "05/01/2005", endDate: "03/01/2006", days: 304, years: 0.8,
-                company: "Kelly Services GmbH", client: "Google", companyTitle: "IT Quality Rater", clientTitle: "IT Quality Rater",
-                city: "Freiburg", state: "BW", country: "Germany", industry: "Technology / Search",
-                companySize: "8,000+", clientSize: "150,000+", isClientF500: true,
-                url: "https://www.kellyservices.com",
-                description: "Analyzed web technical results."
-            },
-            {
-                startDate: "01/01/2001", endDate: "01/01/2005", days: 1461, years: 4.0,
-                company: "Menlo College", client: "Menlo College", companyTitle: "IT Systems Administrator", clientTitle: "IT Systems Administrator",
-                city: "Atherton", state: "CA", country: "USA", industry: "Higher Education",
-                companySize: "200-500", isCompanyF500: false,
-                url: "https://www.menlo.edu",
-                description: "Administered campus-wide technical systems, network infrastructure, and user access provisioning."
-            }
-        ];
-
-        // Consolidated engagement blocks for accurate tenure math
-        const consolidatedEngagements = [
-            { name: "ServiceNow (Cypress HCM + Direct)", years: 3.0, days: 1098 },
-            { name: "First Republic Bank", years: 2.8, days: 1026 },
-            { name: "Lumentum (Randstad)", years: 0.5, days: 193 },
-            { name: "Pharmacyclics / AbbVie (Park Computer Systems)", years: 1.4, days: 498 },
-            { name: "Kaiser Permanente (Rose International)", years: 0.7, days: 263 },
-            { name: "Dimension Data NTT / TEKsystems", years: 1.6, days: 595 },
-            { name: "Cooper Technologies", years: 0.7, days: 263 },
-            { name: "Provincial Health Services (TEKsystems + Direct)", years: 2.4, days: 867 },
-            { name: "ActiveCo", years: 0.4, days: 151 },
-            { name: "Serco Services GmbH / ECB", years: 6.0, days: 2201 },
-            { name: "Google (Kelly Services)", years: 0.8, days: 304 },
-            { name: "Menlo College", years: 4.0, days: 1461 }
-        ];
-
-        function calculateMetrics() {
-            // Aggregate totals using consolidated engagements
-            const totalYears = consolidatedEngagements.reduce((acc, curr) => acc + curr.years, 0);
-            const totalDays = consolidatedEngagements.reduce((acc, curr) => acc + curr.days, 0);
-            const totalRoles = consolidatedEngagements.length;
-
-            // Average Tenure
-            const avgYears = (totalYears / totalRoles).toFixed(2);
-
-            // Median Tenure
-            const sortedYears = consolidatedEngagements.map(d => d.years).sort((a, b) => a - b);
-            const mid = Math.floor(sortedYears.length / 2);
-            const medianYears = sortedYears.length % 2 !== 0 
-                ? sortedYears[mid].toFixed(1) 
-                : ((sortedYears[mid - 1] + sortedYears[mid]) / 2).toFixed(2);
-
-            // Render Header Cards
-            document.getElementById('avg-tenure').innerText = `${avgYears} Yrs`;
-            document.getElementById('median-tenure').innerText = `${medianYears} Yrs`;
-            document.getElementById('total-years').innerText = `${totalYears.toFixed(1)} Yrs`;
-            document.getElementById('total-roles').innerText = careerData.length;
-
-            // Groupings for details
-            const industryMap = {};
-            const locationMap = new Map();
-            const countryYearsMap = {};
-            const companySet = new Set();
-            const titleSet = new Set();
-
-            careerData.forEach(item => {
-                // Industry
-                industryMap[item.industry] = (industryMap[item.industry] || 0) + item.years;
-
-                // Location with state indicator
-                if(item.city !== "Not Specified") {
-                    locationMap.set(`${item.city}, ${item.state}`, item.country);
-                }
-
-                // Country Years Calculation
-                countryYearsMap[item.country] = (countryYearsMap[item.country] || 0) + item.years;
-                
-                companySet.add(item.company);
-                if (item.client) companySet.add(item.client);
-
-                // Filtered to remove "Dimension Data" as a standalone title per request
-                if (item.companyTitle && item.companyTitle !== "Dimension Data") {
-                    titleSet.add(item.companyTitle);
-                }
-                if (item.clientTitle && item.clientTitle !== "Dimension Data") {
-                    titleSet.add(item.clientTitle);
-                }
-            });
-
-            // Populate Industry List
-            const industryListEl = document.getElementById('industry-list');
-            Object.entries(industryMap)
-                .sort((a, b) => b[1] - a[1])
-                .forEach(([ind, yrs]) => {
-                    const iconClass = industryIcons[ind] || 'fa-briefcase';
-                    industryListEl.innerHTML += `
-                        <li>
-                            <div class="list-item-left">
-                                <i class="fa-solid ${iconClass}" style="color: var(--accent); width: 20px;"></i>
-                                <span>${ind}</span>
-                            </div>
-                            <strong>${yrs.toFixed(1)} yrs</strong>
-                        </li>`;
-                });
-
-            // Populate Location List
-            const locationListEl = document.getElementById('location-list');
-            locationMap.forEach((country, loc) => {
-                const flagSrc = flags[country];
-                locationListEl.innerHTML += `
-                    <li>
-                        <div class="list-item-left">
-                            <img class="flag-icon" src="${flagSrc}" alt="${country}">
-                            <span>${loc}</span>
-                        </div>
-                    </li>`;
-            });
-
-            // Render Geographic Distribution Cards (With totals & percentage, no repetitive country list)
-            const mapsContainer = document.getElementById('country-maps-container');
-            Object.entries(countryYearsMap).forEach(([country, years]) => {
-                const percentage = ((years / totalYears) * 100).toFixed(1);
-                mapsContainer.innerHTML += `
-                    <div class="card geo-card">
-                        <div class="geo-card-header">
-                            <div class="geo-card-title">
-                                <img class="flag-icon" src="${flags[country]}" alt="${country}" style="width: 28px; height: 18px;">
-                                <span>${country}</span>
-                            </div>
-                            <i class="fa-solid fa-globe" style="color: var(--text-secondary); font-size: 18px;"></i>
-                        </div>
-                        <div class="geo-card-stats">
-                            <span class="years">${years.toFixed(1)} Yrs</span>
-                            <span class="percentage">${percentage}% of total</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // Populate Unique Companies
-            const companyListEl = document.getElementById('company-list');
-            companySet.forEach(comp => {
-                companyListEl.innerHTML += `
-                    <li>
-                        <div class="list-item-left">
-                            <i class="fa-solid fa-building" style="color: var(--text-secondary);"></i>
-                            <span>${comp}</span>
-                        </div>
-                    </li>`;
-            });
-
-            // Populate Unique Titles (Excludes Dimension Data)
-            const titleListEl = document.getElementById('title-list');
-            titleSet.forEach(title => {
-                titleListEl.innerHTML += `
-                    <li>
-                        <div class="list-item-left">
-                            <i class="fa-solid fa-user-tie" style="color: var(--text-secondary);"></i>
-                            <span>${title}</span>
-                        </div>
-                    </li>`;
-            });
-
-            // Render Positions Cards (Top section, expanded details, company logos and URLs)
-            const posContainer = document.getElementById('positions-container');
-            careerData.forEach(pos => {
-                const indIcon = industryIcons[pos.industry] || 'fa-briefcase';
-                const flagSrc = flags[pos.country];
-                const hasClient = pos.client && pos.client !== pos.company;
-                const logoSrc = companyLogos[pos.company] || 'https://via.placeholder.com/40';
-                
-                // Scale Badges
-                let companyBadgeHtml = `<span class="tag badge-size"><i class="fa-solid fa-users"></i> ${pos.companySize || 'N/A'}</span>`;
-                if (pos.isCompanyF500) {
-                    companyBadgeHtml += `<span class="tag badge-f500"><i class="fa-solid fa-crown"></i> Fortune 500</span>`;
-                }
-
-                let clientBadgeHtml = '';
-                if (hasClient) {
-                    clientBadgeHtml = `<span class="tag badge-size"><i class="fa-solid fa-users"></i> Client: ${pos.clientSize || 'N/A'}</span>`;
-                    if (pos.isClientF500) {
-                        clientBadgeHtml += `<span class="tag badge-f500"><i class="fa-solid fa-crown"></i> Client: Fortune 500</span>`;
-                    }
-                }
-
-                const cardHtml = `
-                    <div class="card position-card">
-                        <div class="position-header">
-                            <div class="title">
-                                <i class="fa-solid fa-id-badge"></i>
-                                ${pos.companyTitle}
-                            </div>
-                            <div class="company-logo-container">
-                                <img src="${logoSrc}" alt="${pos.company} Logo" class="company-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4300/4300059.png';">
-                            </div>
-                        </div>
-                        
-                        <div class="company-info">
-                            <div class="company">
-                                <i class="fa-solid fa-building" style="color: var(--accent);"></i>
-                                <a href="${pos.url}" target="_blank" rel="noopener noreferrer">${pos.company} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px; color: var(--text-secondary);"></i></a>
-                            </div>
-                            ${hasClient ? `
-                                <div class="client">
-                                    <i class="fa-solid fa-handshake"></i>
-                                    Client: ${pos.client}
-                                </div>
-                            ` : ''}
-                        </div>
-
-                        <div class="meta">
-                            <i class="fa-solid fa-calendar-days"></i>
-                            ${pos.startDate} – ${pos.endDate} ${pos.years > 0 ? `(${pos.years} yrs)` : ''}
-                        </div>
-
-                        <div class="meta">
-                            <img class="flag-icon" src="${flagSrc}" alt="${pos.country}">
-                            ${pos.city}${pos.city !== 'Not Specified' ? `, ${pos.state}` : ''}
-                        </div>
-
-                        <div class="description">
-                            ${pos.description}
-                        </div>
-
-                        <div class="badges-container">
-                            <span class="tag">
-                                <i class="fa-solid ${indIcon}"></i> ${pos.industry}
-                            </span>
-                            ${companyBadgeHtml}
-                            ${clientBadgeHtml}
-                        </div>
-                    </div>
-                `;
-                posContainer.innerHTML += cardHtml;
-            });
-        }
-
-        // Initialize calculations and rendering
-        calculateMetrics();
-    </script>
 </body>
 </html>
