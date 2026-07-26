@@ -34,7 +34,7 @@
     margin-top:2px;
   }
   header h1{
-    font-size:0.95rem; /* +1pt */
+    font-size:0.85rem;
     margin:0;
     color:#6b7280;
     font-weight: 500;
@@ -56,8 +56,8 @@
     padding: 4px 6px;
     text-align: center;
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    font-size: 0.88rem; /* +1pt (was 0.78rem) */
-    font-weight: 400;
+    font-size: 0.78rem;
+    font-weight: 400; /* Regular font weight */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -91,7 +91,7 @@
     box-shadow:0 2px 6px rgba(0,0,0,0.03);
   }
   
-  /* TILE GRID WITH ABBREVIATIONS */
+  /* COMPACT TILE GRID WITH HOVER-ONLY TOOLTIPS */
   .tile-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -108,10 +108,8 @@
     cursor:pointer;
     transition:all 0.15s ease;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2px;
   }
   .tile:hover{
     transform:translateY(-1px);
@@ -134,18 +132,6 @@
   .tile:hover .icon {
     background: #ffffff;
   }
-
-  .tile .abbr-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #4b5563;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    line-height: 1;
-  }
-  .tile:hover .abbr-label {
-    color: var(--sky);
-  }
   
   /* HOVER LABEL TOOLTIP */
   .tile .name {
@@ -155,7 +141,7 @@
     transform: translateX(-50%);
     background: #1f2937;
     color: #ffffff;
-    font-size: 0.78rem; /* +1pt */
+    font-size: 0.72rem;
     font-weight: 500;
     padding: 3px 7px;
     border-radius: 4px;
@@ -222,7 +208,7 @@
     padding: 12px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 1.0rem; /* +1pt */
+    font-size: 0.95rem;
     cursor: pointer;
     margin-top: 20px;
   }
@@ -232,7 +218,7 @@
   .form-group label {
     display: block;
     font-weight: 600;
-    font-size: 0.94rem; /* +1pt */
+    font-size: 0.88rem;
     margin-bottom: 6px;
     color: #374151;
   }
@@ -242,7 +228,7 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     font-family: inherit;
-    font-size: 0.96rem; /* +1pt */
+    font-size: 0.9rem;
   }
   .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
     outline: none;
@@ -257,7 +243,7 @@
   
   .psi-hint {
     display: block;
-    font-size: 0.86rem; /* +1pt */
+    font-size: 0.8rem;
     color: var(--sky);
     margin-top: 4px;
     font-weight: 600;
@@ -274,7 +260,7 @@
     margin: 0;
     color: #b91c1c;
     font-weight: bold;
-    font-size: 0.9rem; /* +1pt */
+    font-size: 0.85rem;
   }
 
   .checkbox-group {
@@ -284,7 +270,7 @@
     margin-top: 6px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 0.96rem; /* +1pt */
+    font-size: 0.9rem;
     font-weight: 600;
     color: #374151;
   }
@@ -310,7 +296,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.0rem; /* +1pt */
+    font-size: 0.95rem;
     padding: 0;
     transition: background 0.1s;
     user-select: none;
@@ -332,7 +318,7 @@
     background: #f9fafb;
     border: 1px solid var(--border);
     border-radius: 8px;
-    font-size: 1.0rem; /* +1pt */
+    font-size: 0.95rem;
     font-weight: 600;
     color: #374151;
     cursor: pointer;
@@ -354,7 +340,7 @@
   }
 
   .modal-section-title {
-    font-size: 1.1rem; /* +1pt */
+    font-size: 1.05rem;
     font-weight: 800;
     color: #111827;
     margin-top: 20px;
@@ -364,13 +350,13 @@
     gap: 6px;
   }
   .modal-section-body {
-    font-size: 0.96rem; /* +1pt */
+    font-size: 0.9rem;
     color: #4b5563;
     line-height: 1.55;
     margin: 0 0 14px 0;
   }
 
-  /* EXPANDED NOTES SECTION */
+  /* COMPACT NOTES SECTION */
   .notes-card-view {
     background: #ffffff;
     border: 1px solid var(--border);
@@ -388,7 +374,7 @@
     border-bottom: 1px solid #f1f5f9;
   }
   .notes-card-title {
-    font-size: 0.88rem; /* +1pt */
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--sky);
     text-transform: uppercase;
@@ -406,7 +392,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.78rem; /* +1pt */
+    font-size: 0.72rem;
     cursor: pointer;
     user-select: none;
     font-weight: bold;
@@ -419,51 +405,29 @@
   .notes-multi-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
   }
   @media (min-width: 768px) {
     .notes-multi-grid { grid-template-columns: repeat(3, 1fr); }
   }
   
-  /* RICH DETAILED NOTE CARDS (Expanded multi-line layout) */
+  /* SINGLE LINE NOTE CARDS */
   .individual-note-card {
     background: #fafbfa;
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px;
+    border-radius: 6px;
+    padding: 6px 8px;
     cursor: pointer;
     transition: background 0.15s ease, border-color 0.15s ease;
-    font-size: 0.88rem; /* +1pt */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem;
     color: #374151;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-height: 85px;
   }
   .individual-note-card:hover {
     background: #f3f4f6;
     border-color: var(--sky);
-  }
-  .note-card-header-title {
-    font-weight: 700;
-    color: #111827;
-    font-size: 0.9rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .note-card-timestamp {
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-  .note-card-body-snippet {
-    font-size: 0.84rem;
-    color: #4b5563;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.35;
   }
 
   /* COMPACT SINGLE-ROW NAV CONTROLS */
@@ -491,6 +455,7 @@
     .outlook-grid { grid-template-columns: repeat(3, 1fr); }
   }
   
+  /* EXPANDABLE SCHEDULE CARD (REMOVED FIXED MIN-HEIGHT & SCROLL BEHAVIOR) */
   .outlook-day-card {
     background: #ffffff;
     border: 1px solid var(--border);
@@ -511,7 +476,7 @@
     background: #f8fafc;
     border-bottom: 1px solid var(--border);
     font-weight: 700;
-    font-size: 0.96rem; /* +1pt */
+    font-size: 0.9rem;
     text-align: center;
     color: #374151;
   }
@@ -526,11 +491,11 @@
     flex-direction: column;
     gap: 6px;
     background: #ffffff;
-    overflow-y: visible;
+    overflow-y: visible; /* Dynamic height expansion */
   }
   
   .outlook-item.detailed-inline {
-    font-size: 0.88rem; /* +1pt (was 0.82rem) */
+    font-size: 0.82rem;
     padding: 5px 7px;
     white-space: nowrap;
     overflow: hidden;
@@ -584,7 +549,7 @@
   
   .no-events-text {
     color: var(--muted);
-    font-size: 0.88rem; /* +1pt */
+    font-size: 0.82rem;
     text-align: center;
     margin: auto 0;
     padding: 12px 0;
@@ -599,7 +564,7 @@
     background: #fafbfa;
   }
   .quick-add-link {
-    font-size: 0.84rem; /* +1pt */
+    font-size: 0.78rem;
     font-weight: 700;
     color: var(--sky);
     text-decoration: none;
@@ -613,12 +578,13 @@
     text-decoration: underline;
   }
 
+  /* SMALLER BUTTONS FOR SINGLE-ROW MATRIX NAVIGATION */
   .cal-btn {
     background: #f3f4f6;
     border: 1px solid var(--border);
     border-radius: 4px;
     padding: 3px 5px;
-    font-size: 0.78rem; /* +1pt */
+    font-size: 0.72rem;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -651,14 +617,14 @@
     text-align: center;
   }
   .cal-weekday {
-    font-size: 0.86rem; /* +1pt */
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--muted);
     padding-bottom: 6px;
   }
   .cal-day {
     padding: 8px 4px;
-    font-size: 0.96rem; /* +1pt */
+    font-size: 0.9rem;
     border-radius: 4px;
     border: 1px solid transparent;
     cursor: pointer;
@@ -679,7 +645,7 @@
     padding: 6px 10px;
     border: 1px solid var(--border);
     border-radius: 6px;
-    font-size: 0.9rem; /* +1pt */
+    font-size: 0.85rem;
     margin-bottom: 10px;
     box-sizing: border-box;
     font-family: inherit;
@@ -690,7 +656,7 @@
     padding: 3px 4px;
     border: 1px solid var(--border);
     border-radius: 4px;
-    font-size: 0.78rem; /* +1pt */
+    font-size: 0.72rem;
     background: #fff;
     font-weight: 600;
     color: #4b5563;
@@ -706,7 +672,7 @@
     margin-top: 18px;
     padding-top: 10px;
     border-top: 1px solid var(--border);
-    font-size: 0.86rem; /* +1pt */
+    font-size: 0.8rem;
     font-weight: 600;
   }
   .bottom-nav-link {
@@ -727,7 +693,7 @@
   footer {
     text-align: center;
     margin-top: 10px;
-    font-size: 0.81rem; /* +1pt */
+    font-size: 0.75rem;
     color: var(--muted);
   }
   footer a {
@@ -752,44 +718,38 @@
 
   <!-- COUNTDOWN GRID: 3 PER ROW FORMATTED AS Title - Days -->
   <div id="countdownRow" class="countdown-grid">
-    <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading dates...</div>
+    <div style="font-size: 0.75rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading dates...</div>
   </div>
 
   <div class="card">
     <div class="tile-grid">
       <div class="tile" onclick="openModal('careerModal')">
         <div class="icon">💼</div>
-        <div class="abbr-label">NET</div>
         <div class="name">Career</div>
       </div>
 
       <div class="tile" onclick="openModal('meetingsModal')">
         <div class="icon">📅</div>
-        <div class="abbr-label">MEET</div>
         <div class="name">Meetings</div>
       </div>
 
       <div class="tile" onclick="openModal('developModal')">
         <div class="icon">⚙️</div>
-        <div class="abbr-label">DEV</div>
         <div class="name">Develop</div>
       </div>
 
       <div class="tile" onclick="openModal('healthModal')">
         <div class="icon">🏥</div>
-        <div class="abbr-label">MED</div>
         <div class="name">Health</div>
       </div>
 
       <div class="tile" onclick="openModal('notesModal')">
         <div class="icon">📝</div>
-        <div class="abbr-label">NOTE</div>
         <div class="name">Notes</div>
       </div>
 
       <div class="tile" onclick="openModal('transportModal')">
         <div class="icon">🚗</div>
-        <div class="abbr-label">CAR</div>
         <div class="name">Transport</div>
       </div>
     </div>
@@ -798,7 +758,7 @@
   <!-- SCHEDULE MATRIX CARD -->
   <div class="card">
     <div class="outlook-nav-bar">
-      <h3 id="outlookHeader" style="margin: 0; font-size: 0.96rem; font-weight: 700; color: #111827; white-space: nowrap;">Schedule Matrix</h3>
+      <h3 id="outlookHeader" style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #111827; white-space: nowrap;">Schedule Matrix</h3>
       <div class="outlook-controls">
         <select id="daysRangeSelect" class="view-select" onchange="handleViewRangeChange(this.value)">
           <option value="3" selected>3D</option>
@@ -815,10 +775,9 @@
     <input type="text" id="scheduleSearch" class="search-input" placeholder="Search schedule (e.g., INT)..." oninput="handleSearch(this.value)">
 
     <div id="outlookGridContainer" class="outlook-grid view-3">
-      <p style="color: var(--muted); font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
+      <p style="color: var(--muted); font-size: 0.85rem; text-align: center; grid-column: 1/-1;">Loading schedule metrics stream...</p>
     </div>
 
-    <!-- EXPANDED NOTES DISPLAY -->
     <div class="notes-card-view">
       <div class="notes-card-header">
         <div class="notes-card-title">📝 Notes</div>
@@ -828,7 +787,7 @@
         </div>
       </div>
       <div class="notes-multi-grid" id="notesCardContentBox">
-        <div style="color: var(--muted); font-size: 0.85rem; font-style: italic; grid-column: 1/-1; text-align: center;">Fetching latest notes...</div>
+        <div style="color: var(--muted); font-size: 0.8rem; font-style: italic; grid-column: 1/-1; text-align: center;">Fetching latest notes...</div>
       </div>
     </div>
   </div>
@@ -859,11 +818,11 @@
 
 <!-- MODAL: NOTE DETAILS VIEW -->
 <div id="noteDetailModal" class="modal-overlay">
-  <div class="modal-content" style="max-width: 450px;">
+  <div class="modal-content" style="max-width: 420px;">
     <button class="modal-close" onclick="closeModal('noteDetailModal')">×</button>
-    <h3 id="noteDetailTitle" style="margin-top:0; font-size:1.1rem; color:#111827;"></h3>
-    <div id="noteDetailTimestamp" style="font-size:0.85rem; color:var(--muted); margin-bottom:12px;"></div>
-    <div id="noteDetailText" style="font-size:0.96rem; color:#374151; white-space:pre-wrap; line-height:1.5; background:#fafbfa; border:1px solid var(--border); padding:12px; border-radius:8px;"></div>
+    <h3 id="noteDetailTitle" style="margin-top:0; font-size:1.05rem; color:#111827;"></h3>
+    <div id="noteDetailTimestamp" style="font-size:0.8rem; color:var(--muted); margin-bottom:12px;"></div>
+    <div id="noteDetailText" style="font-size:0.9rem; color:#374151; white-space:pre-wrap; line-height:1.5; background:#fafbfa; border:1px solid var(--border); padding:10px; border-radius:6px;"></div>
   </div>
 </div>
 
@@ -877,8 +836,7 @@ let calCurrentDate = new Date();
 let scheduleBaseDate = new Date(); 
 let scheduleBaseOffset = 0; 
 let currentViewDays = 3;     
-let cachedDayList = [];
-let allParsedScheduleRows = []; // Store full schedule database rows for search queries
+let cachedDayList = [];     
 let notesCardData = [];
 let activeNotesIndex = 0; 
 
@@ -1043,14 +1001,14 @@ async function fetchAndRenderNotesCard() {
     renderNotesCardSlide();
   } catch (err) {
     console.error("Error piping notes metrics:", err);
-    container.innerHTML = `<div style="color: #e74c3c; font-size: 0.85rem; grid-column: 1/-1; text-align: center;">Failed to fetch entries.</div>`;
+    container.innerHTML = `<div style="color: #e74c3c; font-size: 0.8rem; grid-column: 1/-1; text-align: center;">Failed to fetch entries.</div>`;
   }
 }
 
 function renderNotesCardSlide() {
   const container = document.getElementById("notesCardContentBox");
   if (notesCardData.length === 0) {
-    container.innerHTML = `<div style="color: var(--muted); font-size: 0.85rem; font-style: italic; grid-column: 1/-1; text-align: center;">No history logs.</div>`;
+    container.innerHTML = `<div style="color: var(--muted); font-size: 0.8rem; font-style: italic; grid-column: 1/-1; text-align: center;">No history logs.</div>`;
     return;
   }
   
@@ -1059,14 +1017,13 @@ function renderNotesCardSlide() {
     const targetIdx = activeNotesIndex + i;
     if (targetIdx < notesCardData.length) {
       const item = notesCardData[targetIdx];
-      const title = item.shortDesc || "Note Entry";
-      const snippet = item.fullDesc || "No additional text provided.";
+      const inlineDisplay = item.fullDesc 
+        ? `${item.shortDesc || 'Note'} - ${item.fullDesc}` 
+        : (item.shortDesc || 'Note');
       
       gridHtml += `
-        <div class="individual-note-card" onclick="openNoteDetailModal(${targetIdx})">
-          <div class="note-card-header-title">${title}</div>
-          <div class="note-card-timestamp">${item.timestamp || ''}</div>
-          <div class="note-card-body-snippet">${snippet}</div>
+        <div class="individual-note-card" onclick="openNoteDetailModal(${targetIdx})" title="${inlineDisplay}">
+          ${inlineDisplay}
         </div>
       `;
     }
@@ -1126,8 +1083,7 @@ async function fetchAndRenderSchedule() {
       isoDate: isoDateStr,
       meetings: [],
       isToday: targetDate.getTime() === today.getTime(),
-      isPastDay: targetDate < today,
-      rawDateObj: targetDate
+      isPastDay: targetDate < today
     });
   }
 
@@ -1139,33 +1095,25 @@ async function fetchAndRenderSchedule() {
     const lines = data.split(/\r?\n/);
     const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
     
-    allParsedScheduleRows = [];
-
     rows.forEach(row => {
       let rawDate = row[1]?.replace(/^"|"$/g, '').trim();
-      let normalizedDateKey = rawDate;
       
       if (rawDate) {
         const dateParts = rawDate.split('/');
         if (dateParts.length === 3) {
-          normalizedDateKey = `${parseInt(dateParts[0], 10)}/${parseInt(dateParts[1], 10)}/${dateParts[2]}`;
+          rawDate = `${parseInt(dateParts[0], 10)}/${parseInt(dateParts[1], 10)}/${dateParts[2]}`;
         }
       }
 
-      const meetingObj = {
-        dateStr: normalizedDateKey,
-        rawDate: rawDate,
-        startTime: cleanTo24h(row[2]?.replace(/^"|"$/g, '').trim()),
-        endTime: cleanTo24h(row[3]?.replace(/^"|"$/g, '').trim()),
-        title: row[4]?.replace(/^"|"$/g, '').trim(),
-        details: row[5]?.replace(/^"|"$/g, '').trim()
-      };
-
-      allParsedScheduleRows.push(meetingObj);
-
-      const matchDay = cachedDayList.find(d => d.csvKey === normalizedDateKey);
+      const matchDay = cachedDayList.find(d => d.csvKey === rawDate);
+      
       if (matchDay) {
-        matchDay.meetings.push(meetingObj);
+        matchDay.meetings.push({
+          startTime: cleanTo24h(row[2]?.replace(/^"|"$/g, '').trim()),
+          endTime: cleanTo24h(row[3]?.replace(/^"|"$/g, '').trim()),
+          title: row[4]?.replace(/^"|"$/g, '').trim(),
+          details: row[5]?.replace(/^"|"$/g, '').trim()
+        });
       }
     });
 
@@ -1174,7 +1122,7 @@ async function fetchAndRenderSchedule() {
 
   } catch (error) {
     console.error("Error processing tracking matrix pipeline:", error);
-    container.innerHTML = `<p style="color: #e74c3c; font-size: 0.95rem; text-align: center; grid-column: 1/-1;">Error loading downstream schedule matrix.</p>`;
+    container.innerHTML = `<p style="color: #e74c3c; font-size: 0.9rem; text-align: center; grid-column: 1/-1;">Error loading downstream schedule matrix.</p>`;
   }
 }
 
@@ -1186,65 +1134,26 @@ function renderScheduleMatrix(searchTerm = "") {
   
   let outputHtml = "";
 
-  // GLOBAL SEARCH OVERRIDE: If search query exists, pull all matching results across entire database regardless of date
-  if (query.length > 0) {
-    const matchedGlobalEvents = allParsedScheduleRows.filter(m => {
+  cachedDayList.forEach(day => {
+    const matchedMeetings = day.meetings.filter(m => {
+      if (!query) return true;
       const tMatch = m.title && m.title.toLowerCase().includes(query);
       const dMatch = m.details && m.details.toLowerCase().includes(query);
-      const dateMatch = m.rawDate && m.rawDate.toLowerCase().includes(query);
-      return tMatch || dMatch || dateMatch;
+      return tMatch || dMatch;
     });
 
-    if (matchedGlobalEvents.length === 0) {
-      outputHtml = `<div style="grid-column: 1/-1; text-align: center; color: var(--muted); padding: 18px 0; font-style: italic; font-size:0.95rem;">No matching schedule events found for "${searchTerm}".</div>`;
-    } else {
-      // Group search results by date
-      const searchGroupedMap = {};
-      matchedGlobalEvents.forEach(evt => {
-        const dKey = evt.rawDate || evt.dateStr || "Unscheduled";
-        if (!searchGroupedMap[dKey]) searchGroupedMap[dKey] = [];
-        searchGroupedMap[dKey].push(evt);
-      });
-
-      Object.keys(searchGroupedMap).forEach(dKey => {
-        const events = searchGroupedMap[dKey];
-        outputHtml += `<div class="outlook-day-card">`;
-        outputHtml += `<div class="outlook-day-header">${dKey}</div>`;
-        outputHtml += `<div class="outlook-day-content">`;
-
-        events.sort((a, b) => a.startTime.localeCompare(b.startTime));
-        events.forEach(m => {
-          const timeRange = m.endTime ? `${m.startTime}-${m.endTime}` : `${m.startTime}`;
-          const titleText = m.title ? m.title : "Untitled";
-          const detailSnippet = m.details ? ` - ${m.details}` : "";
-          outputHtml += `
-            <div class="outlook-item detailed-inline future-slot" title="${timeRange} - ${titleText}${detailSnippet}">
-              <span class="inline-time">${timeRange}</span> - <span class="inline-title">${titleText}</span><span class="inline-details">${detailSnippet}</span>
-            </div>
-          `;
-        });
-
-        outputHtml += `</div></div>`;
-      });
-    }
-    container.innerHTML = outputHtml;
-    return;
-  }
-
-  // STANDARD VIEW MATRIX (When no search query is active)
-  cachedDayList.forEach(day => {
     const cardClass = day.isToday ? "outlook-day-card today" : "outlook-day-card";
     
     outputHtml += `<div class="${cardClass}">`;
     outputHtml += `<div class="outlook-day-header">${day.label}</div>`;
     outputHtml += `<div class="outlook-day-content">`;
 
-    if (day.meetings.length === 0) {
+    if (matchedMeetings.length === 0) {
       outputHtml += `<div class="no-events-text">Clear</div>`;
     } else {
-      day.meetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
+      matchedMeetings.sort((a, b) => a.startTime.localeCompare(b.startTime));
       
-      day.meetings.forEach(m => {
+      matchedMeetings.forEach(m => {
         const timeRange = m.endTime ? `${m.startTime}-${m.endTime}` : `${m.startTime}`;
         const titleText = m.title ? m.title : "Untitled";
 
@@ -1689,7 +1598,7 @@ function renderVisualCalendar() {
   <div class="modal-content" style="max-width: 550px;">
     <button class="modal-close" onclick="closeModal('docsModal')">×</button>
     <h3>Project Documentation</h3>
-    <p style="font-size:0.96rem; color:var(--muted); margin:-8px 0 16px;">Select a resource artifact below to review or present.</p>
+    <p style="font-size:0.88rem; color:var(--muted); margin:-8px 0 16px;">Select a resource artifact below to review or present.</p>
     
     <div class="disclaimer-box">
       <p>Disclaimer & MIT License Terms: All rights reserved. Provided strictly for personal use as-is. Use at your own risk. The author or contributors assume absolutely no liability, warranty, or accountability for pipeline data integrity, connectivity failures, or system configurations downstream.</p>
@@ -1698,12 +1607,12 @@ function renderVisualCalendar() {
     <div class="docs-list">
       <a href="readme.html" target="_blank" class="docs-btn">
         <span style="font-size:1.2rem;">📄</span>
-        <span style="flex-grow:1;">Documentation Manual <code style="font-weight:normal; font-size:0.86rem; color:var(--muted); font-family:monospace; margin-left:4px;">(readme.html)</code></span>
-        <span style="font-size:0.86rem; color:var(--muted);">↗</span>
+        <span style="flex-grow:1;">Documentation Manual <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(readme.html)</code></span>
+        <span style="font-size:0.8rem; color:var(--muted);">↗</span>
       </a>
       <button type="button" class="docs-btn" onclick="viewDiagramImage()">
         <span style="font-size:1.2rem;">🗺️</span>
-        <span>System Architecture Diagram <code style="font-weight:normal; font-size:0.86rem; color:var(--muted); font-family:monospace; margin-left:4px;">(Data_Flow.png)</code></span>
+        <span>System Architecture Diagram <code style="font-weight:normal; font-size:0.8rem; color:var(--muted); font-family:monospace; margin-left:4px;">(Data_Flow.png)</code></span>
       </button>
     </div>
 
