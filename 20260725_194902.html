@@ -29,21 +29,21 @@
   .wrap{max-width:760px;margin:0 auto;}
   header{
     text-align:center;
-    margin-bottom:20px;
+    margin-bottom:24px;
     margin-top:12px;
   }
   header h1{
-    font-size:1.4rem; /* Scaled down header font size */
+    font-size:2rem;
     margin:0;
     color:#111827;
     font-weight: 800;
   }
   .objective-text {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--muted);
     max-width: 600px;
-    margin: 6px auto 0;
-    line-height: 1.5;
+    margin: 10px auto 0;
+    line-height: 1.6;
   }
   .card{
     background:var(--card);
@@ -58,7 +58,7 @@
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:14px;
-    margin-top:4px;
+    margin-top:12px;
   }
   @media (min-width:520px){
     .tile-grid{grid-template-columns:repeat(3,1fr);}
@@ -139,39 +139,15 @@
   }
 
   .footer-info {
-    margin-top: 24px;
+    margin-top: 32px;
     text-align: center;
     padding: 0 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
   .footer-text {
     font-size: 0.8rem;
     color: var(--muted);
     line-height: 1.5;
     margin-bottom: 8px;
-  }
-
-  /* Small Pill Styling for Boards */
-  .boards-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--sky-light);
-    color: var(--sky);
-    border: 1px solid var(--border);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 12px;
-    transition: all 0.15s ease;
-  }
-  .boards-pill:hover {
-    background: #dbeafe;
-    transform: translateY(-1px);
   }
 
   /* Modal System */
@@ -313,7 +289,46 @@
   <div class="card">
     <div class="tile-grid">
       
-      <!-- FIRST ROW: Schedule Meeting, Zoom Room, SMS Text -->
+      <!-- Row 1: Operations, Code, & Architecture Maps -->
+      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
+        <div class="icon">🌲</div>
+        <div class="name">Transition</div>
+        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
+      </a>
+	  
+	  <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
+        <div class="icon">⚽</div>
+        <div class="name">World Cup 2026</div>
+        <div class="desc">Read personal logs from tournament fan ops</div>
+      </a>
+	  
+      <a href="https://www.linkedin.com/groups/37040080/" target="_blank" class="tile-link">
+        <div class="icon">🌐</div>
+        <div class="name">LinkedIn Fan Group</div>
+        <div class="desc">Connect with professional venue operators</div>
+      </a>
+
+      <!-- Row 2: Portfolios & Networks -->
+	  
+	    <div class="tile" onclick="openModal('boardsModal')">
+        <div class="icon">📋</div>
+        <div class="name">Boards</div>
+        <div class="desc">Review architectural vision & environment scopes</div>
+      </div>
+
+      <div class="tile" onclick="openModal('developModal')">
+        <div class="icon">⚙️</div>
+        <div class="name">Develop</div>
+        <div class="desc">Log system feature concepts, bugs, or roadmap ideas</div>
+      </div>
+
+      <a href="https://cshahria.github.io/Career/index.html" target="_blank" class="tile-link">
+        <div class="icon">💼</div>
+        <div class="name">Career Site</div>
+        <div class="desc">Browse professional background & portfolio</div>
+      </a>
+
+      <!-- Row 3: Meet & Contact Channels -->
       <a href="https://cal.com/cyrus-shahriari-7wjit2/30min?user=cyrus-shahriari-7wjit2&overlayCalendar=true" target="_blank" class="tile-link">
         <div class="icon">📅</div>
         <div class="name">Schedule Meet</div>
@@ -344,52 +359,11 @@
         </div>
       </div>
 
-      <!-- SECOND ROW: Career Analytics, Develop, Career Site -->
-      <a href="https://cshahria.github.io/Career/career_analytics.html" target="_blank" class="tile-link">
-        <div class="icon">📊</div>
-        <div class="name">Career Analytics</div>
-        <div class="desc">Interactive dashboard & tenure metrics</div>
-      </a>
-
-      <div class="tile" onclick="openModal('developModal')">
-        <div class="icon">⚙️</div>
-        <div class="name">Develop</div>
-        <div class="desc">Log system feature concepts, bugs, or roadmap ideas</div>
-      </div>
-
-      <a href="https://cshahria.github.io/Career/index.html" target="_blank" class="tile-link">
-        <div class="icon">💼</div>
-        <div class="name">Career Site</div>
-        <div class="desc">Browse professional background & portfolio</div>
-      </a>
-
-      <!-- THIRD ROW: Transition, World Cup, LinkedIn Group -->
-      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
-        <div class="icon">🌲</div>
-        <div class="name">Transition</div>
-        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
-      </a>
-
-      <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
-        <div class="icon">⚽</div>
-        <div class="name">World Cup 2026</div>
-        <div class="desc">Read personal logs from tournament fan ops</div>
-      </a>
-
-      <a href="https://www.linkedin.com/groups/37040080/" target="_blank" class="tile-link">
-        <div class="icon">🌐</div>
-        <div class="name">LinkedIn Group</div>
-        <div class="desc">Connect with professional venue operators</div>
-      </a>
-
     </div>
   </div>
 
-  <!-- Objective, Boards Pill, and Disclaimer Section -->
+  <!-- Objective and Disclaimer Section -->
   <footer class="footer-info">
-    <button class="boards-pill" onclick="openModal('boardsModal')">
-      <span>📋 Boards & Vision</span>
-    </button>
     <p class="footer-text">
       <strong>Objective:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency.
     </p>
