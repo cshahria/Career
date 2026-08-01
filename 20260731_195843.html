@@ -170,13 +170,13 @@
     line-height: 1.45;
   }
 
-  /* Smaller Pill Styling for WIP */
+  /* Larger Prominent Pill Styling */
   .pill{
     display:inline-block;
-    padding:2px 8px;
-    border-radius:12px;
-    font-size:0.75rem;
-    font-weight:700;
+    padding:4px 14px;
+    border-radius:20px;
+    font-size:0.9rem;
+    font-weight:800;
     letter-spacing: 0.02em;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
@@ -184,7 +184,7 @@
   .pill.done{background:var(--pitch-light);color:var(--pitch); border:1px solid #c3e6d0;}
   .pill.due{background:var(--slate-light);color:var(--slate-dark); border:1px solid var(--slate-border);}
 
-  /* Team grid - Updated to 4 Columns for 4x4 layout */
+  /* Team grid - Enhanced Interactive Cards */
   .team-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -192,12 +192,12 @@
     margin-top:10px;
   }
   @media (min-width:520px){
-    .team-grid{grid-template-columns:repeat(4,1fr);}
+    .team-grid{grid-template-columns:repeat(3,1fr);}
   }
   .player{
     border:1px solid var(--border);
     border-radius:10px;
-    padding:10px 4px;
+    padding:10px 6px;
     text-align:center;
     background:#fafbfa;
     cursor:pointer;
@@ -222,7 +222,7 @@
     color:var(--pitch);
     display:flex;align-items:center;justify-content:center;
     font-weight:700;
-    font-size:0.9rem;
+    font-size:0.95rem;
     margin:0 auto 6px;
     transition: transform 0.2s ease;
   }
@@ -230,8 +230,8 @@
     transform: scale(1.08);
   }
   .player.me .avatar{background:var(--sky-light);color:var(--sky-dark);}
-  .player .name{font-weight:700;font-size:0.8rem;margin-bottom:2px;}
-  .player .initials{font-size:0.7rem; color:var(--muted); font-weight:600;}
+  .player .name{font-weight:700;font-size:0.85rem;margin-bottom:2px;}
+  .player .initials{font-size:0.72rem; color:var(--muted); font-weight:600;}
 
   /* Agenda & Timer Custom Elements */
   .agenda-list {
@@ -402,8 +402,8 @@
     <div class="panel-tile panel-meeting">
       <div>
         <div class="tile-title"><span class="tile-icon">🗺️</span> Next Meeting</div>
-        <div id="displayNextMeeting" class="tile-details" style="margin-top:6px;">Loading meeting time...</div>
-        <div id="displayMeetingLoc" style="font-size:0.75rem; color:var(--muted); margin-top: 3px;">📍 Loading address...</div>
+        <div id="displayNextMeeting" class="tile-details" style="margin-top:6px;">Thu Jul 23 @ 11:00 PT</div>
+        <div id="displayMeetingLoc" style="font-size:0.75rem; color:var(--muted); margin-top: 3px;">📍 3253 Coronado Pl, Santa Clara, CA</div>
       </div>
       
       <div class="tile-btn-row">
@@ -416,8 +416,8 @@
     <div class="panel-tile panel-due">
       <div>
         <div class="tile-title"><span class="tile-icon">📌</span> Reminders</div>
-        <div id="displayStandup" class="tile-details" style="margin-top:6px;">⏱️ Stand-up: Loading...</div>
-        <div id="displayReportDue" style="font-size:0.78rem; color:#b91c1c; font-weight:700; margin-top:3px;">🚨 Report Due: Loading...</div>
+        <div id="displayStandup" class="tile-details" style="margin-top:6px;">⏱️ Stand-up: Tue Jul 21 @ 08:00 PT</div>
+        <div id="displayReportDue" style="font-size:0.78rem; color:#b91c1c; font-weight:700; margin-top:3px;">🚨 Report Due: Mon Jul 20 @ 17:00</div>
       </div>
       <div>
         <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn amber-btn" style="width:100%;">📊 Open Master Spreadsheet</a>
@@ -436,45 +436,41 @@
     </div>
 
     <div class="team-grid">
-      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus" title="Cyrus — Focus: Transition & Career Next Steps">
-        <div class="avatar">CS</div>
-        <div class="name">🔄 Cyrus</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
+      <div class="player me" onclick="openModal('dueModal', 'Cyrus')" data-name="Cyrus" data-key="Cyrus" title="Click to submit weekly report for Cyrus">
+        <div class="avatar">C</div>
+        <div class="name">Cyrus</div>
+        <div class="initials">(CS)</div>
+        <span class="pill progress" style="margin-top:6px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Siddharth')" data-name="Siddharth" data-key="Siddarth" title="Siddharth — Focus: Active Interview Preparation & Pipeline">
-        <div class="avatar">ST</div>
-        <div class="name">🎙️ Siddharth</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
+      <div class="player" onclick="openModal('dueModal', 'Siddharth ')" data-name="Siddharth " data-key="Siddarth" title="Click to submit weekly report for Siddharth">
+        <div class="avatar">S</div>
+        <div class="name">Siddharth</div>
+        <div class="initials">(ST)</div>
+        <span class="pill progress" style="margin-top:6px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice" title="Felice — Focus: AI Digital Marketing Strategy">
-        <div class="avatar">FT</div>
-        <div class="name">📈 Felice</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
+      <div class="player" onclick="openModal('dueModal', 'Felice')" data-name="Felice" data-key="Felice" title="Click to submit weekly report for Felice">
+        <div class="avatar">F</div>
+        <div class="name">Felice</div>
+        <div class="initials">(FT)</div>
+        <span class="pill progress" style="margin-top:6px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art" title="Art — Focus: AI Digital Engineering & Technical Architecture">
-        <div class="avatar">AT</div>
-        <div class="name">🤖 Art</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
+      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina" title="Click to submit weekly report for Tina">
+        <div class="avatar">T</div>
+        <div class="name">Tina</div>
+        <div class="initials">(TN)</div>
+        <span class="pill progress" style="margin-top:6px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina" title="Tina — Focus: Big Picture Planning & Strategic Roadmap">
-        <div class="avatar">TN</div>
-        <div class="name">🗺️ Tina</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
+      <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art" title="Click to submit weekly report for Art">
+        <div class="avatar">A</div>
+        <div class="name">Art</div>
+        <div class="initials">(AT)</div>
+        <span class="pill progress" style="margin-top:6px;">In Progress</span>
       </div>
-      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar" title="Kar — Focus: Start-up App Development & Prototyping">
-        <div class="avatar">KB</div>
-        <div class="name">📱 Kar</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
-      </div>
-      <div class="player" onclick="openModal('dueModal', 'Sheela')" data-name="Sheela" data-key="Sheela" title="Sheela — Focus: Re-entry Software Engineering & QA">
-        <div class="avatar">SH</div>
-        <div class="name">🧪 Sheela</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
-      </div>
-      <div class="player" onclick="openModal('dueModal', 'Aparna')" data-name="Aparna" data-key="Aparna" title="Aparna — Focus: Strategic Direction (TBD)">
-        <div class="avatar">AP</div>
-        <div class="name">❓ Aparna</div>
-        <span class="pill progress" style="margin-top:6px;">WIP</span>
+      <div class="player" onclick="openModal('dueModal', 'Kar')" data-name="Kar" data-key="Kar" title="Click to submit weekly report for Kar">
+        <div class="avatar">K</div>
+        <div class="name">Kar</div>
+        <div class="initials">(KB)</div>
+        <span class="pill progress" style="margin-top:6px;">In Progress</span>
       </div>
     </div>
   </div>
@@ -500,7 +496,7 @@
   </div>
 
   <footer>
-    <div id="displayLastUpdated">unPTO Accountability · Loading update time...</div>
+    <div id="displayLastUpdated">unPTO Accountability · Updated: 2026-07-20 20:10:00 PDT</div>
     <div class="footer-sub-nav">
       <a href="javascript:void(0)" onclick="openModal('disclaimerModal')">MIT License & Disclaimer</a> · 
       <span>Admin Support: <a href="https://cshahria.github.io/Career/civic.html" target="_blank">Cyrus Shahriari</a></span> · 
@@ -543,7 +539,7 @@
       <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
       <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda</h3>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      <div id="displayHost" style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Loading...</div>
+      <div id="displayHost" style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Art</div>
       <ol class="agenda-list" style="padding-left: 16px; font-size: 0.9rem;">
         <li style="margin-bottom: 8px;"><strong>Welcome & Check-in:</strong> Opening review and overview of goals.</li>
         <li style="margin-bottom: 8px;"><strong>Roundtable Discussion:</strong> Individual updates and peer framework accountability.</li>
