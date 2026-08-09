@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>unPTO Accountability · Week 30, 2026</title>
+<style>
+  :root{
+    --bg:#f6f8f7;
+    --card:#ffffff;
+    --pitch:#1f8a4c;
+    --pitch-light:#e7f5ec;
+    --sky:#2b7fd6;
+    --sky-light:#e8f1fc;
+    --sky-border:#b9d5f7;
+    --sky-dark:#1e64b0;
+    
+    --slate-light:#f0f4f8;
+    --slate-border:#cbd5e1;
+    --slate-dark:#334155;
+    --slate-btn:#475569;
+    --slate-btn-hover:#334155;
+
+    --amber:#d97706;
+    --amber-light:#fef3c7;
+
+    --help-bg:#fff1f2;
+    --help-border:#fecdd3;
+    --help-btn:#f43f5e;
+    --help-btn-hover:#e11d48;
+    --help-text:#9f1239;
+
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:16px 16px 40px;
+    line-height:1.5;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* Emergency Banner */
+  .help-banner {
+    display: none;
+    background: var(--help-bg);
+    border: 2px solid var(--help-border);
+    color: var(--help-text);
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.08);
+  }
+  .help-banner.active { display: flex; }
+
+  header{
+    text-align:center;
+    margin-bottom:16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom:12px;
+  }
+  header h1{
+    font-size:1.4rem;
+    margin:0;
+    color:#111827;
+  }
+
+  /* Action Bar */
+  .action-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .btn-action {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-action:hover { opacity: 0.92; }
+  .btn-help { background: var(--help-btn); color: white; }
+  .btn-help:hover { background: var(--help-btn-hover); }
+  .btn-review { background: var(--sky); color: white; }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:14px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.03);
+  }
+  .card h2{
+    margin:0 0 10px;
+    font-size:1rem;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#111827;
+  }
+
+  /* Top Dashboard Tiles */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  @media (min-width: 640px) {
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .panel-tile {
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 140px;
+  }
+
+  .panel-meeting { background: var(--sky-light); border: 1px solid var(--sky-border); }
+  .panel-due { background: var(--slate-light); border: 1px solid var(--slate-border); }
+
+  .tile-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tile-title .tile-icon { font-size: 1.3rem; }
+  .panel-meeting .tile-title { color: var(--sky-dark); }
+  .panel-due .tile-title { color: var(--slate-dark); }
+
+  .tile-details {
+    font-size: 0.88rem;
+    color: #1f2937;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .tile-btn-row { display: flex; gap: 8px; margin-top: 8px; }
+
+  .tile-btn {
+    flex: 1;
+    background: var(--sky);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background 0.15s ease;
+  }
+  .tile-btn:hover { background: #1d6fa5; }
+  .tile-btn.amber-btn { background: var(--slate-btn); }
+  .tile-btn.amber-btn:hover { background: var(--slate-btn-hover); }
+
+  /* Compact Challenge Ribbon */
+  .compact-challenge {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid var(--amber);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.82rem;
+  }
+  .challenge-badges { display: flex; align-items: center; gap: 12px; }
+  .challenge-tag { display: flex; align-items: center; gap: 4px; font-weight: 700; color: #374151; }
+  .more-link { color: var(--sky-dark); font-weight: 700; text-decoration: none; cursor: pointer; font-size: 0.78rem; white-space: nowrap; }
+  .more-link:hover { text-decoration: underline; }
+
+  /* Visual Focus Tiles (Sprint Challenge Board) */
+  .goals-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-top:8px; }
+  @media (min-width: 640px) {
+    .goals-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .visual-tile {
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    background: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .visual-tile:hover {
+    transform: translateY(-2px);
+    border-color: var(--sky);
+    box-shadow: 0 6px 16px rgba(43, 127, 214, 0.12);
+  }
+
+  .visual-tile-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .visual-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--sky-light);
+    color: var(--sky-dark);
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .help-badge {
+    display: none;
+    background: var(--help-btn);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 999px;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+  .visual-keyword-badge {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--sky-dark);
+    background: var(--sky-light);
+    padding: 6px 10px;
+    border-radius: 8px;
+    margin: 6px 0;
+    letter-spacing: 0.02em;
+  }
+
+  .visual-pct {
+    font-size: 2.1rem;
+    font-weight: 900;
+    color: var(--pitch);
+    line-height: 1.1;
+    margin: 4px 0;
+  }
+
+  .goal-bar-track { width:100%; height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin: 6px 0 4px; }
+  .goal-bar-fill { height:100%; border-radius:999px; background:linear-gradient(90deg, var(--sky) 0%, var(--pitch) 100%); width:0%; transition: width 0.6s ease; }
+
+  .tile-click-hint {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .goals-summary-bar { display:flex; align-items:center; justify-content:space-between; background:var(--pitch-light); border:1px solid #c3e6d0; border-radius:10px; padding:8px 12px; margin-top:12px; font-size:0.8rem; font-weight:700; color:var(--pitch); }
+
+  /* Agenda & Timer */
+  .agenda-list { margin: 0; padding-left: 20px; font-size: 0.88rem; }
+  .agenda-list li { margin-bottom: 8px; }
+  .timer-box {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #f9fafb; padding: 12px 16px; border-radius: 8px;
+    margin-top: 14px; border: 1px solid var(--border);
+  }
+  .timer-display {
+    font-family: monospace; font-size: 2.4rem; font-weight: bold;
+    color: var(--text); padding: 4px 12px; border-radius: 4px; line-height: 1;
+  }
+  .timer-display.alert-red { background-color: var(--help-border); color: var(--help-text); }
+  .timer-display.blink-red { background-color: var(--help-btn); color: #ffffff; animation: pulse-blink 1s infinite alternate; }
+  @keyframes pulse-blink { 0% { opacity: 1; } 100% { opacity: 0.4; } }
+  .timer-btn { background: var(--sky); color: white; border: none; padding: 8px 14px; border-radius: 4px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+  .timer-btn:hover { background: #1d6fa5; }
+  .timer-btn.reset { background: #9ca3af; margin-left: 4px; }
+
+  /* Modals */
+  .modal-overlay {
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.4); display: none; align-items: center;
+    justify-content: center; z-index: 1000; padding: 16px;
+  }
+  .modal-content {
+    background: #fff; border-radius: 12px; max-width: 540px; width: 100%;
+    padding: 20px; position: relative; max-height: 85vh; overflow-y: auto;
+  }
+  .modal-close { position: absolute; top: 12px; right: 14px; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted); }
+  .submit-btn { display: inline-block; background: var(--pitch); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.8rem; cursor: pointer; text-decoration: none; text-align: center; }
+  .submit-btn.action-trigger { background: #1f8a4c; color: #fff; }
+
+  .form-group { margin-bottom: 10px; }
+  .form-group label { display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 2px; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 0.85rem; }
+
+  .modal-goal-tree {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 0.82rem;
+  }
+  .tree-row { margin-bottom: 6px; }
+  .tree-row:last-child { margin-bottom: 0; }
+  .tree-tag { font-weight: 700; font-size: 0.7rem; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-right: 4px; }
+  .tree-tag.strat { background: var(--sky-light); color: var(--sky-dark); }
+  .tree-tag.month { background: var(--pitch-light); color: var(--pitch); }
+  .tree-tag.week { background: #f3f4f6; color: #374151; }
+
+  footer { text-align:center; margin-top:24px; color:var(--muted); font-size:0.75rem; border-top: 1px solid var(--border); padding-top: 12px; }
+  .footer-sub-nav { display: flex; justify-content: center; gap: 8px; font-size: 0.7rem; margin-top: 6px; color: var(--muted); }
+  .footer-sub-nav a { color: var(--muted); text-decoration: none; }
+  .footer-sub-nav a:hover { text-decoration: underline; }
+</style>
+  <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TOP EMERGENCY BANNER -->
+  <div id="helpBanner" class="help-banner">
+    <div>
+      🤝 <strong>SUPPORT NEEDED:</strong>
+      <span id="helpText">Cyrus requested peer support from the team.</span>
+    </div>
+    <button onclick="dismissHelp()" style="border:none; background:none; cursor:pointer; font-weight:bold; font-size:1.1rem; color:var(--help-text);">✕</button>
+  </div>
+
+  <header>
+    <h1>unPTO ACCOUNTABILITY</h1>
+  </header>
+
+  <!-- ACTION BUTTONS BAR -->
+  <div class="action-bar">
+    <button class="btn-action btn-help" onclick="triggerHelpAlert()">🤝 NEED HELP</button>
+    <a href="https://cal.com/cyrus-shahriari-7wjit2/30min?user=cyrus-shahriari-7wjit2&overlayCalendar=true" target="_blank" class="btn-action btn-review">📅 REQUEST REVIEW</a>
+  </div>
+
+  <!-- TOP DASHBOARD TILES -->
+  <div class="dashboard-grid">
+    <!-- Tile 1: Next Meeting -->
+    <div class="panel-tile panel-meeting">
+      <div>
+        <div class="tile-title"><span class="tile-icon">🗺️</span> Next Meeting</div>
+        <div id="displayNextMeeting" class="tile-details" style="margin-top:6px;">8/20 – 8/22 Target Window</div>
+        <div id="displayMeetingLoc" style="font-size:0.75rem; color:var(--muted); margin-top: 3px;">📍 Location TBA</div>
+      </div>
+      
+      <div class="tile-btn-row">
+        <button class="tile-btn" onclick="openModal('rsvpModal')">⚡ RSVP</button>
+        <button class="tile-btn" onclick="openModal('hostAgendaModal')">📋 Agenda</button>
+      </div>
+    </div>
+
+    <!-- Tile 2: Reminders -->
+    <div class="panel-tile panel-due">
+      <div>
+        <div class="tile-title"><span class="tile-icon">📌</span> Reminders</div>
+        <div id="displayStandup" class="tile-details" style="margin-top:6px;">⏱️ Stand-up: Loading...</div>
+        <div id="displayReportDue" style="font-size:0.78rem; color:#b91c1c; font-weight:700; margin-top:3px;">🚨 Report Due: Loading...</div>
+      </div>
+      <div>
+        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn amber-btn" style="width:100%;">📊 Open Master Spreadsheet</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISUAL FOCUS GOALS TILES (Sprint Challenge Board) -->
+  <div class="card" style="border-left: 4px solid var(--sky); background: #fafdff;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+      <h2 style="margin:0;">🎯 Focus Goals Sprint Challenge</h2>
+      <span id="goalsUpdatedTag" style="font-size:0.68rem; color:var(--muted);">Loading...</span>
+    </div>
+    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 6px;">
+      Click any tile for full details & weekly report submission.
+    </div>
+
+    <div class="goals-grid" id="goalsGrid">
+      <!-- Cyrus Tile -->
+      <div class="visual-tile" data-goal-id="cyrus-fte" onclick="openMemberGoalModal('Cyrus', 'cyrus-fte')">
+        <div class="visual-tile-head">
+          <span class="visual-avatar">CS</span>
+          <span class="help-badge" id="badge-cyrus-fte">SOS 🚨</span>
+        </div>
+        <div style="font-weight: 800; font-size: 1rem; color: #111827;">Cyrus</div>
+        <div class="visual-keyword-badge">💼 Tech Migration</div>
+        <div class="visual-pct" id="pct-cyrus-fte">0%</div>
+        <div class="goal-bar-track"><div class="goal-bar-fill" id="fill-cyrus-fte" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🔍 Tap for details & report</div>
+      </div>
+
+      <!-- Felice Tile -->
+      <div class="visual-tile" data-goal-id="felice-content" onclick="openMemberGoalModal('Felice', 'felice-content')">
+        <div class="visual-tile-head">
+          <span class="visual-avatar">FT</span>
+          <span class="help-badge" id="badge-felice-content">SOS 🚨</span>
+        </div>
+        <div style="font-weight: 800; font-size: 1rem; color: #111827;">Felice</div>
+        <div class="visual-keyword-badge">🚀 Content Publishing</div>
+        <div class="visual-pct" id="pct-felice-content">0%</div>
+        <div class="goal-bar-track"><div class="goal-bar-fill" id="fill-felice-content" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🔍 Tap for details & report</div>
+      </div>
+
+      <!-- Art Tile -->
+      <div class="visual-tile" data-goal-id="art-va" onclick="openMemberGoalModal('Art', 'art-va')">
+        <div class="visual-tile-head">
+          <span class="visual-avatar">AT</span>
+          <span class="help-badge" id="badge-art-va">SOS 🚨</span>
+        </div>
+        <div style="font-weight: 800; font-size: 1rem; color: #111827;">Art</div>
+        <div class="visual-keyword-badge">🎥 Video Assistant</div>
+        <div class="visual-pct" id="pct-art-va">0%</div>
+        <div class="goal-bar-track"><div class="goal-bar-fill" id="fill-art-va" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🔍 Tap for details & report</div>
+      </div>
+    </div>
+
+    <div class="goals-summary-bar">
+      <span>🏆 Focus Sprint Average</span>
+      <span id="goalsTeamAvg">—</span>
+    </div>
+
+    <div style="text-align:center; margin-top:10px;">
+      <button class="submit-btn action-trigger" onclick="openModal('goalUpdateModal')">⚡ Quick Focus Sprint Check-In</button>
+    </div>
+  </div>
+
+  <!-- COMPACT CHALLENGE RIBBON -->
+  <div class="compact-challenge">
+    <div class="challenge-badges">
+      <span class="challenge-tag">🏆 90-100%: $10 Treat Award</span>
+      <span style="color:#d1d5db;">|</span>
+      <span class="challenge-tag">🎤 &lt;20%: Voluntary Speech</span>
+    </div>
+    <span class="more-link" onclick="openModal('challengeModal')">Rules &amp; Terms ➔</span>
+  </div>
+
+  <!-- STANDARD TEAM BOARD (Expanded by Default) -->
+  <div class="card" style="padding: 14px;">
+    <h2 style="margin-top:0; font-size:0.95rem; color:#374151;">👥 Standard Team Board (All Members)</h2>
+    <div style="font-size:0.78rem; color:var(--muted); margin-bottom:10px;">
+      Select any participating or returning member to view alignment or log progress reports:
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px;">
+      <button onclick="openModal('dueModal', 'Cyrus')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Cyrus</button>
+      <button onclick="openModal('dueModal', 'Felice')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Felice</button>
+      <button onclick="openModal('dueModal', 'Art')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Art</button>
+      <button onclick="openModal('dueModal', 'Siddharth')" class="tile-btn amber-btn" style="font-size:0.78rem;">🎙️ Siddharth</button>
+      <button onclick="openModal('dueModal', 'Tina')" class="tile-btn amber-btn" style="font-size:0.78rem;">🗺️ Tina</button>
+      <button onclick="openModal('dueModal', 'Kar')" class="tile-btn amber-btn" style="font-size:0.78rem;">📱 Kar</button>
+      <button onclick="openModal('dueModal', 'Sheela')" class="tile-btn amber-btn" style="font-size:0.78rem;">🧪 Sheela</button>
+      <button onclick="openModal('dueModal', 'Aparna')" class="tile-btn amber-btn" style="font-size:0.78rem;">❓ Aparna</button>
+    </div>
+  </div>
+
+  <!-- MEETING MINUTES -->
+  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
+    <h2>📝 Meeting Minutes</h2>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <select id="minutesDropdown" style="flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; font-weight: 600;">
+        <option value="">Loading meeting dates from CSV...</option>
+      </select>
+      <button class="submit-btn action-trigger" onclick="viewSelectedMinutes()" style="margin:0; padding:6px 12px; font-size:0.8rem;">View Notes</button>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fcfdfc; border-top: 2px solid var(--pitch); padding: 10px 14px;">
+    <p style="font-size: 0.85rem; margin: 0 0 6px 0;">
+      <strong>Bay Area Accountability Buddies</strong> · Peer progress framework.
+    </p>
+    <div style="display: flex; gap: 12px; font-size: 0.8rem;">
+      <a href="https://chat.whatsapp.com/AccountabilityPeninsulaSouthBay" target="_blank" style="color: #25d366; font-weight: 600; text-decoration: none;">💬 WhatsApp</a>
+      <a href="https://discord.com/channels/1497468492322967604/1517618871169716447" target="_blank" style="color: #5865F2; font-weight: 600; text-decoration: none;">🎮 Discord</a>
+    </div>
+  </div>
+
+  <footer>
+    <div id="displayLastUpdated">unPTO Accountability · Loading update time...</div>
+    <div class="footer-sub-nav">
+      <a href="javascript:void(0)" onclick="openModal('disclaimerModal')">MIT License & Disclaimer</a> · 
+      <span>Admin Support: <a href="https://cshahria.github.io/Career/civic.html" target="_blank">Cyrus Shahriari</a></span> · 
+      <a href="javascript:void(0)" onclick="openModal('adminVariablesModal')">⚙️ Admin</a>
+    </div>
+  </footer>
+
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
+
+  <!-- RSVP Modal -->
+  <div id="rsvpModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:420px;">
+      <button class="modal-close" onclick="closeModal('rsvpModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">⚡ Quick RSVP</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="rsvpName" name="entry.1917532751" placeholder="Enter full name" required>
+        </div>
+        <div class="form-group">
+          <label>Attendance Status</label>
+          <select id="rsvpStatus" name="entry.502351350" required>
+            <option value="Attending Both Sessions">Both Sessions</option>
+            <option value="Check-In Only">Check-in Only</option>
+            <option value="Coworking Only">Coworking Only</option>
+            <option value="Cannot attend this week">Absent</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px; background:var(--sky);">Submit RSVP</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Host Agenda Modal -->
+  <div id="hostAgendaModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:560px;">
+      <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <div id="displayHost" style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Loading...</div>
+      <ol class="agenda-list" style="padding-left: 16px; font-size: 0.9rem;">
+        <li style="margin-bottom: 8px;"><strong>Welcome & Check-in:</strong> Opening review and overview of goals.</li>
+        <li style="margin-bottom: 8px;"><strong>Roundtable Discussion:</strong> Individual updates and peer framework accountability.</li>
+        <li style="margin-bottom: 8px;"><strong>Blockers & Next Steps:</strong> Action mapping and troubleshooting session constraints.</li>
+      </ol>
+      
+      <div id="displayNotes" style="font-size:0.85rem; color:#374151; margin-top:12px; background:#f9fafb; padding:10px; border-radius:6px; border:1px solid var(--border); display:none;"></div>
+
+      <!-- Stopwatch -->
+      <div class="timer-box">
+        <div>
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
+          <div style="font-size: 0.7rem; color: #4b5563;">5:00 limit · Turns pink at limit · Blinks at 10:00</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div id="speakTimer" class="timer-display">05:00</div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <button id="timerToggleBtn" class="timer-btn" onclick="toggleTimer()">Start</button>
+            <button class="timer-btn reset" onclick="resetTimer()" style="margin-left:0;">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Challenge Rules Modal -->
+  <div id="challengeModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:480px;">
+      <button class="modal-close" onclick="closeModal('challengeModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1rem;">🎁 Sprint Challenge Rules (Voluntary)</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <div style="font-size:0.82rem; color:#374151; line-height:1.5;">
+        <p><strong>🏆 Incentive Tier (90% – 100%):</strong> Submit goal progress along with a proof/evidence link. All attending members vote on the winner. One guaranteed weekly winner gets a treat (coffee/tea up to $10) hosted by Cyrus.</p>
+        <p><strong>🎤 Voluntary Penalty Tier (&lt; 20%):</strong> Applies only to members opting into the challenge. Deliver a 90-minute accountability presentation detailing strategic adjustments for the next cycle.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Minutes Modal -->
+  <div id="dynamicMinutesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:620px;">
+      <button class="modal-close" onclick="closeModal('dynamicMinutesModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;" id="modalMinutesTitle">📝 Meeting Minutes</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <div id="modalMinutesBody" style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 0.85rem; max-height:60vh; overflow-y:auto; line-height: 1.45; color: #374151; white-space: pre-line;"></div>
+    </div>
+  </div>
+
+  <!-- Member Goals Detail & Weekly Progress Modal -->
+  <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('dueModal')">×</button>
+      <h3 style="font-size:1.05rem; margin-top:0;">📊 Strategic Alignment &amp; Report: <span id="modalTargetName">User</span></h3>
+      
+      <!-- Strategic Alignment Breakdown -->
+      <div class="modal-goal-tree" id="modalGoalTree">
+        <!-- Dynamically injected via JS -->
+      </div>
+
+      <form id="weeklyReportForm" method="POST" onsubmit="handleReportSubmit(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="repName" readonly style="background:#f3f4f6; font-weight:600;">
+        </div>
+        <div class="form-group">
+          <label>Report Date</label>
+          <input type="date" id="repDate" required>
+        </div>
+        <div class="form-group">
+          <label>Last Week's Goal</label>
+          <textarea id="repLast" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Result</label>
+          <textarea id="repResult" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Blockers</label>
+          <input type="text" id="repBlock" placeholder="None">
+        </div>
+        <div class="form-group">
+          <label>This Week's Goal</label>
+          <textarea id="repThis" rows="2" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>First Next Step</label>
+          <input type="text" id="repNext" required>
+        </div>
+        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px;">Submit Progress Report</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Quick Focus Goal Update Modal (New Form Mapping) -->
+  <div id="goalUpdateModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:460px;">
+      <button class="modal-close" onclick="closeModal('goalUpdateModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">🎯 Focus Sprint Check-In</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <form id="goalUpdateForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScAL8MFURZxOa1t04dXskki6mqfOR_AHAG1d4GTmKWg99BNZA/formResponse" target="hidden_iframe" onsubmit="handleGoalUpdateSubmit(event)">
+        <div class="form-group">
+          <label>Member Name</label>
+          <select id="goalUpdateName" name="entry.1206329315" required onchange="autoSyncGoalSelect(this.value)">
+            <option value="">Select Member...</option>
+            <option value="Cyrus">Cyrus</option>
+            <option value="Felice">Felice</option>
+            <option value="Art">Art</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Focus Goal</label>
+          <select id="goalUpdateGoalId" name="entry.2053409378" required>
+            <option value="">Select Goal...</option>
+            <option value="cyrus-fte">Cyrus — Tech Migration Role</option>
+            <option value="felice-content">Felice — Content Publishing</option>
+            <option value="art-va">Art — Video Assistant</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Percent Complete (0–100%)</label>
+          <input type="number" id="goalUpdatePct" name="entry.1435000192" min="0" max="100" placeholder="e.g. 75" required>
+        </div>
+        <div class="form-group">
+          <label>Need Immediate Help?</label>
+          <select id="goalUpdateHelp" name="entry.1548481624">
+            <option value="No">No</option>
+            <option value="Yes">Yes 🚨</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px; background:var(--sky);">Submit Focus Check-In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MIT Disclaimer Modal -->
+  <div id="disclaimerModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:480px;">
+      <button class="modal-close" onclick="closeModal('disclaimerModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1rem;">⚖️ MIT License & Disclaimer</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <div style="font-size:0.75rem; color:#4b5563; line-height:1.45;">
+        <p><strong>Copyright (c) 2026 unPTO Accountability</strong></p>
+        <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Variables Modal -->
+  <div id="adminVariablesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" style="max-width:480px;">
+      <button class="modal-close" onclick="closeModal('adminVariablesModal')">×</button>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">⚙️ Admin Variable Panel</h3>
+      <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+      <form id="adminVariablesForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfZsyzPVwHrDHH53b8BqvYNpRXJ0gEs9iScb0fUN7vci-E0Rg/formResponse" target="hidden_iframe" onsubmit="handleAdminFormSubmit(event)">
+        <div class="form-group"><label>Host Name</label><input type="text" name="entry.1888131215" required></div>
+        <div class="form-group"><label>Next Meeting Date & Time</label><input type="datetime-local" id="adminMeetingPicker" required><input type="hidden" id="adminMeetingFormatted" name="entry.1955808412"></div>
+        <div class="form-group"><label>Meeting Location</label><input type="text" name="entry.1660234468" required></div>
+        <div class="form-group"><label>Stand-up Date & Time</label><input type="datetime-local" id="adminStandupPicker" required><input type="hidden" id="adminStandupFormatted" name="entry.820574459"></div>
+        <div class="form-group"><label>Report Due Date & Time</label><input type="datetime-local" id="adminReportPicker" required><input type="hidden" id="adminReportFormatted" name="entry.589546288"></div>
+        <div class="form-group"><label>Notes / Agenda Topics</label><textarea name="entry.1436623657" rows="2"></textarea></div>
+        <button type="submit" class="submit-btn" style="width:100%; margin-top:8px; background:var(--pitch);">Update Dashboard Variables</button>
+      </form>
+    </div>
+  </div>
+
+<script>
+const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
+const MINUTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=844992671&single=true&output=csv";
+const GOALS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=764944353&single=true&output=csv";
+
+let csvMinutesData = {};
+
+const MEMBER_STRATEGY = {
+  'Cyrus': {
+    strat: "Stable full-time role in enterprise technology migration",
+    month: "Advance 2 active pipeline loops & complete application sprint",
+    week: "Submit targeted applications & update interview outcome log"
+  },
+  'Felice': {
+    strat: "Establish high-performing digital marketing income channels",
+    month: "Validate product conversion rates & content strategy",
+    week: "Execute recurring content publishing sprint"
+  },
+  'Art': {
+    strat: "Technical resource delegation to optimize energy & balance",
+    month: "Onboard dedicated video assistant / support resource",
+    week: "Screen and interview assistant candidates"
+  }
+};
+
+function formatDateTimeLocal(dtValue) {
+  if (!dtValue) return '';
+  const date = new Date(dtValue);
+  if (isNaN(date.getTime())) return dtValue;
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${days[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()} @ ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')} PT`;
+}
+
+function formatDateTimeShort(dtValue) {
+  if (!dtValue) return '';
+  const date = new Date(dtValue);
+  if (isNaN(date.getTime())) return dtValue;
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${days[date.getDay()]} ${months[date.getMonth()]} ${date.getDate()} @ ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+}
+
+function parseCSV(text) {
+  let p = [''], r = [p], quote = false;
+  for (let c = 0; c < text.length; c++) {
+    let cc = text[c], nc = text[c + 1];
+    if (cc === '"') {
+      if (quote && nc === '"') { p[p.length - 1] += '"'; c++; }
+      else { quote = !quote; }
+    } else if (cc === ',' && !quote) {
+      p.push('');
+    } else if ((cc === '\r' || cc === '\n') && !quote) {
+      if (cc === '\r' && nc === '\n') { c++; }
+      p = ['']; r.push(p);
+    } else {
+      p[p.length - 1] += cc;
+    }
+  }
+  return r.filter(row => row.length > 1 || (row[0] && row[0].trim() !== ''));
+}
+
+async function autoUpdateDashboard() {
+  try {
+    const response = await fetch(PUBLISHED_CSV_URL + '&t=' + new Date().getTime());
+    if (!response.ok) return;
+    const csvText = await response.text();
+    const rows = parseCSV(csvText);
+    if (rows.length <= 1) return;
+
+    const headers = rows[0].map(h => h.trim().toLowerCase());
+    const latestRow = rows[rows.length - 1];
+
+    const getVal = (...keywords) => {
+      for (const kw of keywords) {
+        const idx = headers.findIndex(h => h.includes(kw.toLowerCase()));
+        if (idx !== -1 && latestRow[idx] && latestRow[idx].trim() !== '') {
+          return latestRow[idx].trim();
+        }
+      }
+      return '';
+    };
+
+    const timestamp = getVal('timestamp');
+    if (timestamp) document.getElementById('displayLastUpdated').textContent = `unPTO Accountability · Updated: ${timestamp}`;
+
+    const nextMeeting = getVal('next meeting', 'meeting date');
+    if (nextMeeting) document.getElementById('displayNextMeeting').textContent = nextMeeting;
+
+    const location = getVal('location', 'address');
+    if (location) document.getElementById('displayMeetingLoc').textContent = `📍 ${location}`;
+
+    const standup = getVal('stand-up', 'standup');
+    if (standup) document.getElementById('displayStandup').textContent = `⏱️ Stand-up: ${standup}`;
+
+    const reportDue = getVal('report due', 'due date', 'report');
+    if (reportDue) document.getElementById('displayReportDue').textContent = `🚨 Report Due: ${reportDue}`;
+
+    const host = getVal('host');
+    if (host) document.getElementById('displayHost').innerHTML = `<strong>Host:</strong> ${host}`;
+
+    const notes = getVal('notes', 'agenda');
+    if (notes) {
+      const el = document.getElementById('displayNotes');
+      el.innerHTML = `<strong>Session Notes:</strong> ${notes}`;
+      el.style.display = 'block';
+    }
+  } catch (err) {
+    console.warn("Dashboard auto-update fallback active:", err);
+  }
+}
+
+async function fetchGoalUpdatesCSV() {
+  try {
+    const response = await fetch(GOALS_CSV_URL + '&t=' + new Date().getTime());
+    if (!response.ok) return;
+    const csvText = await response.text();
+    const rows = parseCSV(csvText);
+    if (rows.length <= 1) return;
+
+    const goalLatestMap = {};
+
+    // Process Google Form responses matching the 4 key fields:
+    // entry.1206329315 (Member), entry.2053409378 (Goal), entry.1435000192 (Percent), entry.1548481624 (Need Help)
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      if (!row || row.length < 4) continue;
+      
+      const member = row[1] ? row[1].trim() : '';
+      const goalId = row[2] ? row[2].trim() : '';
+      const pctVal = parseInt(row[3] ? row[3].trim() : '0', 10);
+      const helpNeeded = row[4] ? row[4].trim() : 'No';
+
+      if (goalId) {
+        goalLatestMap[goalId] = {
+          pct: isNaN(pctVal) ? 0 : Math.min(100, Math.max(0, pctVal)),
+          help: helpNeeded.toLowerCase().includes('yes')
+        };
+      }
+    }
+
+    const focusGoalIds = ['cyrus-fte', 'felice-content', 'art-va'];
+    let totalPct = 0;
+    let goalCount = 0;
+
+    focusGoalIds.forEach(gId => {
+      const pctEl = document.getElementById(`pct-${gId}`);
+      const fillEl = document.getElementById(`fill-${gId}`);
+      const badgeEl = document.getElementById(`badge-${gId}`);
+
+      if (goalLatestMap[gId]) {
+        const data = goalLatestMap[gId];
+        if (pctEl) pctEl.textContent = `${data.pct}%`;
+        if (fillEl) fillEl.style.width = `${data.pct}%`;
+        if (badgeEl) badgeEl.style.display = data.help ? 'inline-block' : 'none';
+
+        totalPct += data.pct;
+        goalCount++;
+      }
+    });
+
+    if (goalCount > 0) {
+      const avg = Math.round(totalPct / goalCount);
+      document.getElementById('goalsTeamAvg').textContent = `${avg}%`;
+      document.getElementById('goalsUpdatedTag').textContent = `Live Form Data Connected`;
+    }
+  } catch (err) {
+    console.warn("Focus goals CSV fetch error:", err);
+  }
+}
+
+async function loadMinutesFromCSV() {
+  const dropdown = document.getElementById('minutesDropdown');
+  try {
+    const response = await fetch(MINUTES_CSV_URL + '&t=' + new Date().getTime());
+    if (!response.ok) throw new Error("Could not fetch minutes sheet");
+    const csvText = await response.text();
+    const rows = parseCSV(csvText);
+    if (rows.length <= 1) { dropdown.innerHTML = '<option value="">No minutes entries available</option>'; return; }
+
+    dropdown.innerHTML = '';
+    csvMinutesData = {};
+    for (let i = rows.length - 1; i >= 1; i--) {
+      const row = rows[i];
+      if (!row || row.length === 0) continue;
+      const dateVal = row[0] ? row[0].trim() : `Session ${i}`;
+      const notesContent = row[1] ? row[1].trim() : "No notes content found.";
+      const optKey = `entry_${i}`;
+      csvMinutesData[optKey] = { title: dateVal, content: notesContent };
+      const option = document.createElement('option');
+      option.value = optKey; option.textContent = dateVal;
+      dropdown.appendChild(option);
+    }
+  } catch (err) {
+    dropdown.innerHTML = '<option value="">Unable to load minutes</option>';
+  }
+}
+
+function viewSelectedMinutes() {
+  const selectedKey = document.getElementById('minutesDropdown').value;
+  if (!selectedKey || !csvMinutesData[selectedKey]) { alert("Please select an entry."); return; }
+  const data = csvMinutesData[selectedKey];
+  document.getElementById('modalMinutesTitle').textContent = `📝 ${data.title}`;
+  document.getElementById('modalMinutesBody').textContent = data.content;
+  openModal('dynamicMinutesModal');
+}
+
+function autoSyncGoalSelect(memberName) {
+  const goalSelect = document.getElementById('goalUpdateGoalId');
+  if (memberName === 'Cyrus') goalSelect.value = 'cyrus-fte';
+  else if (memberName === 'Felice') goalSelect.value = 'felice-content';
+  else if (memberName === 'Art') goalSelect.value = 'art-va';
+}
+
+/* Stopwatch Timer */
+let totalSeconds = 300; let timerInterval = null; let timerRunning = false;
+function displayTimerValue(seconds) {
+  const displayElement = document.getElementById('speakTimer');
+  if(!displayElement) return;
+  const isNegative = seconds < 0; const absoluteSeconds = Math.abs(seconds);
+  const mins = Math.floor(absoluteSeconds / 60); const secs = absoluteSeconds % 60;
+  displayElement.textContent = (isNegative ? "-" : "") + String(mins).padStart(2, '0') + ":" + String(secs).padStart(2, '0');
+  if (300 - seconds >= 600) displayElement.className = "timer-display blink-red";
+  else if (seconds <= 0) displayElement.className = "timer-display alert-red";
+  else displayElement.className = "timer-display";
+}
+function toggleTimer() {
+  const toggleBtn = document.getElementById('timerToggleBtn');
+  if (timerRunning) { clearInterval(timerInterval); toggleBtn.textContent = "Start"; timerRunning = false; }
+  else { timerInterval = setInterval(() => { totalSeconds--; displayTimerValue(totalSeconds); }, 1000); toggleBtn.textContent = "Pause"; timerRunning = true; }
+}
+function resetTimer() { clearInterval(timerInterval); totalSeconds = 300; timerRunning = false; document.getElementById('timerToggleBtn').textContent = "Start"; displayTimerValue(totalSeconds); }
+
+/* Support Banner Triggers */
+function triggerHelpAlert() {
+  const memberName = prompt("Enter your name to request support from the group:", "Cyrus");
+  if(memberName) {
+    document.getElementById('helpText').innerText = memberName + " requested peer support. Connect via Discord/WhatsApp.";
+    document.getElementById('helpBanner').classList.add('active');
+  }
+}
+function dismissHelp() { document.getElementById('helpBanner').classList.remove('active'); }
+
+window.addEventListener('DOMContentLoaded', () => {
+  autoUpdateDashboard();
+  loadMinutesFromCSV();
+  fetchGoalUpdatesCSV();
+});
+
+let formSubmittedType = ''; let currentActiveUser = '';
+
+function openMemberGoalModal(userName, goalId) {
+  const treeEl = document.getElementById('modalGoalTree');
+  if (MEMBER_STRATEGY[userName]) {
+    const s = MEMBER_STRATEGY[userName];
+    treeEl.innerHTML = `
+      <div class="tree-row"><span class="tree-tag strat">3-6 Mo Goal</span> ${s.strat}</div>
+      <div class="tree-row"><span class="tree-tag month">Monthly Target</span> ${s.month}</div>
+      <div class="tree-row"><span class="tree-tag week">Weekly Step</span> ${s.week}</div>
+    `;
+    treeEl.style.display = 'block';
+  } else {
+    treeEl.style.display = 'none';
+  }
+  openModal('dueModal', userName);
+}
+
+function openModal(modalId, userName = '') {
+  document.getElementById(modalId).style.display = 'flex';
+  if(userName) {
+    currentActiveUser = userName;
+    document.getElementById('modalTargetName').textContent = userName;
+    document.getElementById('repName').value = userName;
+    document.getElementById('repDate').value = new Date().toISOString().split('T')[0];
+    ['repLast','repResult','repBlock','repThis','repNext'].forEach(id => document.getElementById(id).value = '');
+  }
+}
+function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+function closeModalOnBackdrop(e) { if(e.target.classList.contains('modal-overlay')) e.target.style.display = 'none'; }
+
+function handleRSVP(e) { formSubmittedType = 'rsvp'; }
+function handleGoalUpdateSubmit(e) { formSubmittedType = 'goal'; }
+function handleAdminFormSubmit(e) {
+  formSubmittedType = 'admin';
+  const mtgVal = document.getElementById('adminMeetingPicker').value;
+  const stdVal = document.getElementById('adminStandupPicker').value;
+  const rptVal = document.getElementById('adminReportPicker').value;
+  document.getElementById('adminMeetingFormatted').value = mtgVal ? formatDateTimeLocal(mtgVal) : '';
+  document.getElementById('adminStandupFormatted').value = stdVal ? formatDateTimeLocal(stdVal) : '';
+  document.getElementById('adminReportFormatted').value = rptVal ? formatDateTimeShort(rptVal) : '';
+}
+function handleReportSubmit(e) {
+  formSubmittedType = 'report';
+  const form = document.getElementById('weeklyReportForm');
+  form.target = 'hidden_iframe';
+  form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse';
+  document.getElementById('repName').name = 'entry.896357741'; 
+  document.getElementById('repLast').name = 'entry.1215668338'; 
+  document.getElementById('repDate').name = 'entry.1215668338'; 
+  document.getElementById('repResult').name = 'entry.389766965'; 
+  document.getElementById('repBlock').name = 'entry.1878513647'; 
+  document.getElementById('repThis').name = 'entry.1643524566'; 
+  document.getElementById('repNext').name = 'entry.222324075'; 
+}
+
+function handleFormDone() {
+  if (formSubmittedType === 'rsvp') { alert("RSVP synced successfully!"); closeModal('rsvpModal'); }
+  else if (formSubmittedType === 'goal') { alert("Focus check-in submitted!"); closeModal('goalUpdateModal'); setTimeout(() => fetchGoalUpdatesCSV(), 1500); }
+  else if (formSubmittedType === 'report') { alert("Weekly report submitted successfully!"); closeModal('dueModal'); document.getElementById('weeklyReportForm').reset(); }
+  else if (formSubmittedType === 'admin') { alert("Variables updated!"); closeModal('adminVariablesModal'); setTimeout(() => autoUpdateDashboard(), 1500); }
+  formSubmittedType = '';
+}
+</script>
+</body>
+</html>
