@@ -24,6 +24,7 @@
     --amber:#d97706;
     --amber-light:#fef3c7;
 
+    /* Softer/Lighter Need Help styling */
     --help-bg:#fff5f5;
     --help-border:#fecaca;
     --help-btn:#f87171;
@@ -45,6 +46,7 @@
   }
   .wrap{max-width:760px;margin:0 auto;}
 
+  /* Emergency Banner */
   .help-banner {
     display: none;
     background: var(--help-bg);
@@ -73,6 +75,7 @@
     color:#111827;
   }
 
+  /* Action Bar */
   .action-bar {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -116,6 +119,7 @@
     color:#111827;
   }
 
+  /* Top Dashboard Tiles */
   .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -182,6 +186,7 @@
   .tile-btn.amber-btn { background: var(--slate-btn); }
   .tile-btn.amber-btn:hover { background: var(--slate-btn-hover); }
 
+  /* Compact Challenge Ribbon */
   .compact-challenge {
     background: #fffbeb;
     border: 1px solid #fde68a;
@@ -200,6 +205,7 @@
   .more-link { color: var(--sky-dark); font-weight: 700; text-decoration: none; cursor: pointer; font-size: 0.78rem; white-space: nowrap; }
   .more-link:hover { text-decoration: underline; }
 
+  /* Visual Focus Tiles (Sprint Challenge Board) */
   .goals-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-top:8px; }
   @media (min-width: 640px) {
     .goals-grid { grid-template-columns: repeat(3, 1fr); }
@@ -269,7 +275,7 @@
   .visual-pct {
     font-size: 2.1rem;
     font-weight: 900;
-    color: #dc2626;
+    color: #dc2626; /* Dynamic via JS */
     line-height: 1.1;
     margin: 4px 0;
     display: flex;
@@ -290,6 +296,7 @@
 
   .goals-summary-bar { display:flex; align-items:center; justify-content:space-between; background:var(--pitch-light); border:1px solid #c3e6d0; border-radius:10px; padding:8px 12px; margin-top:12px; font-size:0.8rem; font-weight:700; color:var(--pitch); }
 
+  /* Dynamic Percentage Color Utilities */
   .status-red { color: #dc2626 !important; }
   .status-amber { color: #d97706 !important; }
   .status-green { color: #16a34a !important; }
@@ -298,6 +305,7 @@
   .fill-amber { background: #d97706 !important; }
   .fill-green { background: #16a34a !important; }
 
+  /* Agenda & Timer */
   .agenda-list { margin: 0; padding-left: 20px; font-size: 0.88rem; }
   .agenda-list li { margin-bottom: 8px; }
   .timer-box {
@@ -316,6 +324,7 @@
   .timer-btn:hover { background: #1d6fa5; }
   .timer-btn.reset { background: #9ca3af; margin-left: 4px; }
 
+  /* Modals */
   .modal-overlay {
     position: fixed; top:0; left:0; right:0; bottom:0;
     background: rgba(0,0,0,0.4); display: none; align-items: center;
@@ -358,6 +367,7 @@
 <body>
 <div class="wrap">
 
+  <!-- TOP EMERGENCY BANNER -->
   <div id="helpBanner" class="help-banner">
     <div>
       🤝 <strong>SUPPORT NEEDED:</strong>
@@ -370,12 +380,15 @@
     <h1>unPTO ACCOUNTABILITY</h1>
   </header>
 
+  <!-- ACTION BUTTONS BAR -->
   <div class="action-bar">
     <button class="btn-action btn-help" onclick="triggerHelpAlert()">🤝 NEED HELP</button>
     <a href="https://cal.com/cyrus-shahriari-7wjit2/30min?user=cyrus-shahriari-7wjit2&overlayCalendar=true" target="_blank" class="btn-action btn-review">📅 REQUEST REVIEW</a>
   </div>
 
+  <!-- TOP DASHBOARD TILES -->
   <div class="dashboard-grid">
+    <!-- Tile 1: Next Meeting -->
     <div class="panel-tile panel-meeting">
       <div>
         <div class="tile-title"><span class="tile-icon">🗺️</span> Next Meeting</div>
@@ -389,6 +402,7 @@
       </div>
     </div>
 
+    <!-- Tile 2: Reminders -->
     <div class="panel-tile panel-due">
       <div>
         <div class="tile-title"><span class="tile-icon">📌</span> Reminders</div>
@@ -401,6 +415,7 @@
     </div>
   </div>
 
+  <!-- VISUAL FOCUS GOALS TILES (Sprint Challenge Board) -->
   <div class="card" style="border-left: 4px solid var(--sky); background: #fafdff;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
       <h2 style="margin:0;">🎯 Focus Goals Sprint Challenge</h2>
@@ -463,6 +478,7 @@
     </div>
   </div>
 
+  <!-- COMPACT CHALLENGE RIBBON -->
   <div class="compact-challenge">
     <div class="challenge-badges">
       <span class="challenge-tag">🏆 90-100%: $10 Treat Award</span>
@@ -472,6 +488,7 @@
     <span class="more-link" onclick="openModal('challengeModal')">Rules &amp; Terms ➔</span>
   </div>
 
+  <!-- STANDARD TEAM BOARD (Expanded by Default) -->
   <div class="card" style="padding: 14px;">
     <h2 style="margin-top:0; font-size:0.95rem; color:#374151;">👥 Standard Team Board (All Members)</h2>
     <div style="font-size:0.78rem; color:var(--muted); margin-bottom:10px;">
@@ -489,6 +506,7 @@
     </div>
   </div>
 
+  <!-- MEETING MINUTES -->
   <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
     <h2>📝 Meeting Minutes</h2>
     <div style="display: flex; gap: 8px; align-items: center;">
@@ -562,6 +580,7 @@
       
       <div id="displayNotes" style="font-size:0.85rem; color:#374151; margin-top:12px; background:#f9fafb; padding:10px; border-radius:6px; border:1px solid var(--border); display:none;"></div>
 
+      <!-- Stopwatch -->
       <div class="timer-box">
         <div>
           <div style="font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
@@ -601,61 +620,64 @@
     </div>
   </div>
 
-  <!-- Standard Board: Member Goals Detail & Weekly Progress Modal -->
+  <!-- Standard Board: Member Goals Detail & Weekly Progress Modal (Old Form & Logic) -->
   <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('dueModal')">×</button>
       <h3 style="font-size:1.05rem; margin-top:0;">📊 Strategic Alignment &amp; Report: <span id="modalTargetName">User</span></h3>
       
-      <div class="modal-goal-tree" id="modalGoalTree"></div>
+      <!-- Strategic Alignment Breakdown -->
+      <div class="modal-goal-tree" id="modalGoalTree">
+        <!-- Dynamically injected via JS -->
+      </div>
 
       <form id="weeklyReportForm" method="POST" onsubmit="handleReportSubmit(event)">
         <div class="form-group">
           <label>Your Name</label>
-          <input type="text" id="repName" name="entry.896357741" readonly style="background:#f3f4f6; font-weight:600;">
+          <input type="text" id="repName" readonly style="background:#f3f4f6; font-weight:600;">
         </div>
         <div class="form-group">
           <label>Report Date</label>
-          <input type="date" id="repDate" name="entry.1215668338" required>
+          <input type="date" id="repDate" required>
         </div>
         <div class="form-group">
           <label>Last Week's Goal</label>
-          <textarea id="repLast" name="entry.1215668338_last" rows="2" required></textarea>
+          <textarea id="repLast" rows="2" required></textarea>
         </div>
         <div class="form-group">
           <label>Result</label>
-          <textarea id="repResult" name="entry.389766965" rows="2" required></textarea>
+          <textarea id="repResult" rows="2" required></textarea>
         </div>
         <div class="form-group">
           <label>Blockers</label>
-          <input type="text" id="repBlock" name="entry.1878513647" placeholder="None">
+          <input type="text" id="repBlock" placeholder="None">
         </div>
         <div class="form-group">
           <label>This Week's Goal</label>
-          <textarea id="repThis" name="entry.1643524566" rows="2" required></textarea>
+          <textarea id="repThis" rows="2" required></textarea>
         </div>
         <div class="form-group">
           <label>First Next Step</label>
-          <input type="text" id="repNext" name="entry.222324075" required>
+          <input type="text" id="repNext" required>
         </div>
         <button type="submit" class="submit-btn" style="width:100%; margin-top:8px;">Submit Progress Report</button>
       </form>
     </div>
   </div>
 
-  <!-- Focus Goal Sprint Check-In Modal (UPDATED FORM ENTRY ATTRIBUTES) -->
+  <!-- Focus Goal Sprint Check-In Modal (Directly Triggered from Tile Click) -->
   <div id="goalUpdateModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:460px;">
       <button class="modal-close" onclick="closeModal('goalUpdateModal')">×</button>
       <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">🎯 Focus Goal Sprint Check-In</h3>
       <div style="font-size:0.8rem; color:var(--muted); margin-bottom:8px;">Submitting focus sprint metrics for <strong id="focusModalMemberTitle">Member</strong></div>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
-      
       <form id="goalUpdateForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScAL8MFURZxOa1t04dXskki6mqfOR_AHAG1d4GTmKWg99BNZA/formResponse" target="hidden_iframe" onsubmit="handleGoalUpdateSubmit(event)">
         
         <div class="form-group">
           <label>Member Name</label>
-          <input type="text" id="goalUpdateName" name="entry.1206329315" readonly style="background:#f3f4f6; font-weight:700;" required>
+          <input type="text" id="goalUpdateNameDisplay" readonly style="background:#f3f4f6; font-weight:700;">
+          <input type="hidden" id="goalUpdateName" name="entry.1206329315">
         </div>
 
         <div class="form-group">
@@ -674,9 +696,9 @@
 
         <div class="form-group">
           <label>Need Immediate Help?</label>
-          <select id="goalUpdateHelp" name="entry.1548481624" required>
+          <select id="goalUpdateHelp" name="entry.1548481624">
             <option value="No">No</option>
-            <option value="Yes">Yes</option>
+            <option value="Yes">Yes 🚨</option>
           </select>
         </div>
 
@@ -874,6 +896,11 @@ async function fetchGoalUpdatesCSV() {
         if (fillEl) fillEl.style.width = `${val}%`;
         if (badgeEl) badgeEl.style.display = data.help ? 'inline-block' : 'none';
 
+        // Apply Color Threshold Logic:
+        // Under 20%: Red
+        // 21% - 70%: Yellow/Amber
+        // 71% - 99%: Green
+        // 100%: Green + Rocket Ship / Happy Face
         if (pctContainer && fillEl && iconEl) {
           pctContainer.classList.remove('status-red', 'status-amber', 'status-green');
           fillEl.classList.remove('fill-red', 'fill-amber', 'fill-green');
@@ -945,8 +972,10 @@ function viewSelectedMinutes() {
   openModal('dynamicMinutesModal');
 }
 
+/* Open direct focus goal form submission when clicking a focus tile */
 function openFocusGoalCheckIn(memberName, goalId) {
   document.getElementById('focusModalMemberTitle').textContent = memberName;
+  document.getElementById('goalUpdateNameDisplay').value = memberName;
   document.getElementById('goalUpdateName').value = memberName;
   document.getElementById('goalUpdateGoalId').value = goalId;
   document.getElementById('goalUpdatePct').value = '';
@@ -954,6 +983,7 @@ function openFocusGoalCheckIn(memberName, goalId) {
   openModal('goalUpdateModal');
 }
 
+/* Open standard team member modal (Old form & logic) */
 function openMemberGoalModal(userName) {
   const treeEl = document.getElementById('modalGoalTree');
   if (MEMBER_STRATEGY[userName]) {
@@ -970,6 +1000,7 @@ function openMemberGoalModal(userName) {
   openModal('dueModal', userName);
 }
 
+/* Stopwatch Timer */
 let totalSeconds = 300; let timerInterval = null; let timerRunning = false;
 function displayTimerValue(seconds) {
   const displayElement = document.getElementById('speakTimer');
@@ -988,6 +1019,7 @@ function toggleTimer() {
 }
 function resetTimer() { clearInterval(timerInterval); totalSeconds = 300; timerRunning = false; document.getElementById('timerToggleBtn').textContent = "Start"; displayTimerValue(totalSeconds); }
 
+/* Support Banner Triggers */
 function triggerHelpAlert() {
   const memberName = prompt("Enter your name to request support from the group:", "Cyrus");
   if(memberName) {
@@ -1034,6 +1066,13 @@ function handleReportSubmit(e) {
   const form = document.getElementById('weeklyReportForm');
   form.target = 'hidden_iframe';
   form.action = 'https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse';
+  document.getElementById('repName').name = 'entry.896357741'; 
+  document.getElementById('repLast').name = 'entry.1215668338'; 
+  document.getElementById('repDate').name = 'entry.1215668338'; 
+  document.getElementById('repResult').name = 'entry.389766965'; 
+  document.getElementById('repBlock').name = 'entry.1878513647'; 
+  document.getElementById('repThis').name = 'entry.1643524566'; 
+  document.getElementById('repNext').name = 'entry.222324075'; 
 }
 
 function handleFormDone() {
