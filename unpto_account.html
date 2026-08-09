@@ -24,11 +24,12 @@
     --amber:#d97706;
     --amber-light:#fef3c7;
 
-    --help-bg:#fff1f2;
-    --help-border:#fecdd3;
-    --help-btn:#f43f5e;
-    --help-btn-hover:#e11d48;
-    --help-text:#9f1239;
+    /* Softer/Lighter Need Help styling */
+    --help-bg:#fff5f5;
+    --help-border:#fecaca;
+    --help-btn:#f87171;
+    --help-btn-hover:#ef4444;
+    --help-text:#991b1b;
 
     --text:#1f2937;
     --muted:#6b7280;
@@ -58,7 +59,7 @@
     font-size: 0.88rem;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 4px 12px rgba(244, 63, 94, 0.08);
+    box-shadow: 0 4px 12px rgba(248, 113, 113, 0.12);
   }
   .help-banner.active { display: flex; }
 
@@ -225,8 +226,7 @@
   }
   .visual-tile:hover {
     transform: translateY(-2px);
-    border-color: var(--sky);
-    box-shadow: 0 6px 16px rgba(43, 127, 214, 0.12);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   }
 
   .visual-tile-head {
@@ -275,22 +275,35 @@
   .visual-pct {
     font-size: 2.1rem;
     font-weight: 900;
-    color: var(--pitch);
+    color: #dc2626; /* Dynamic via JS */
     line-height: 1.1;
     margin: 4px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
   }
 
   .goal-bar-track { width:100%; height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; margin: 6px 0 4px; }
-  .goal-bar-fill { height:100%; border-radius:999px; background:linear-gradient(90deg, var(--sky) 0%, var(--pitch) 100%); width:0%; transition: width 0.6s ease; }
+  .goal-bar-fill { height:100%; border-radius:999px; background:#dc2626; width:0%; transition: width 0.6s ease, background 0.3s ease; }
 
   .tile-click-hint {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     color: var(--muted);
     font-weight: 600;
     margin-top: 4px;
   }
 
   .goals-summary-bar { display:flex; align-items:center; justify-content:space-between; background:var(--pitch-light); border:1px solid #c3e6d0; border-radius:10px; padding:8px 12px; margin-top:12px; font-size:0.8rem; font-weight:700; color:var(--pitch); }
+
+  /* Dynamic Percentage Color Utilities */
+  .status-red { color: #dc2626 !important; }
+  .status-amber { color: #d97706 !important; }
+  .status-green { color: #16a34a !important; }
+  
+  .fill-red { background: #dc2626 !important; }
+  .fill-amber { background: #d97706 !important; }
+  .fill-green { background: #16a34a !important; }
 
   /* Agenda & Timer */
   .agenda-list { margin: 0; padding-left: 20px; font-size: 0.88rem; }
@@ -408,58 +421,60 @@
       <h2 style="margin:0;">🎯 Focus Goals Sprint Challenge</h2>
       <span id="goalsUpdatedTag" style="font-size:0.68rem; color:var(--muted);">Loading...</span>
     </div>
-    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 6px;">
-      Click any tile for full details & weekly report submission.
+    <div style="font-size: 0.78rem; color: var(--muted); margin-bottom: 8px;">
+      Click on any team member's card to log or update their focus goal status.
     </div>
 
     <div class="goals-grid" id="goalsGrid">
       <!-- Cyrus Tile -->
-      <div class="visual-tile" data-goal-id="cyrus-fte" onclick="openMemberGoalModal('Cyrus', 'cyrus-fte')">
+      <div class="visual-tile" data-goal-id="cyrus-fte" onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte')">
         <div class="visual-tile-head">
           <span class="visual-avatar">CS</span>
           <span class="help-badge" id="badge-cyrus-fte">SOS 🚨</span>
         </div>
         <div style="font-weight: 800; font-size: 1rem; color: #111827;">Cyrus</div>
         <div class="visual-keyword-badge">💼 Tech Migration</div>
-        <div class="visual-pct" id="pct-cyrus-fte">0%</div>
-        <div class="goal-bar-track"><div class="goal-bar-fill" id="fill-cyrus-fte" style="width:0%;"></div></div>
-        <div class="tile-click-hint">🔍 Tap for details & report</div>
+        <div class="visual-pct status-red" id="pct-container-cyrus-fte">
+          <span id="pct-cyrus-fte">0%</span><span id="icon-cyrus-fte"></span>
+        </div>
+        <div class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-cyrus-fte" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🎯 Tap to submit focus progress</div>
       </div>
 
       <!-- Felice Tile -->
-      <div class="visual-tile" data-goal-id="felice-content" onclick="openMemberGoalModal('Felice', 'felice-content')">
+      <div class="visual-tile" data-goal-id="felice-content" onclick="openFocusGoalCheckIn('Felice', 'felice-content')">
         <div class="visual-tile-head">
           <span class="visual-avatar">FT</span>
           <span class="help-badge" id="badge-felice-content">SOS 🚨</span>
         </div>
         <div style="font-weight: 800; font-size: 1rem; color: #111827;">Felice</div>
         <div class="visual-keyword-badge">🚀 Content Publishing</div>
-        <div class="visual-pct" id="pct-felice-content">0%</div>
-        <div class="goal-bar-track"><div class="goal-bar-fill" id="fill-felice-content" style="width:0%;"></div></div>
-        <div class="tile-click-hint">🔍 Tap for details & report</div>
+        <div class="visual-pct status-red" id="pct-container-felice-content">
+          <span id="pct-felice-content">0%</span><span id="icon-felice-content"></span>
+        </div>
+        <div class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-felice-content" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🎯 Tap to submit focus progress</div>
       </div>
 
       <!-- Art Tile -->
-      <div class="visual-tile" data-goal-id="art-va" onclick="openMemberGoalModal('Art', 'art-va')">
+      <div class="visual-tile" data-goal-id="art-va" onclick="openFocusGoalCheckIn('Art', 'art-va')">
         <div class="visual-tile-head">
           <span class="visual-avatar">AT</span>
           <span class="help-badge" id="badge-art-va">SOS 🚨</span>
         </div>
         <div style="font-weight: 800; font-size: 1rem; color: #111827;">Art</div>
         <div class="visual-keyword-badge">🎥 Video Assistant</div>
-        <div class="visual-pct" id="pct-art-va">0%</div>
-        <div class="goal-bar-track"><div class="goal-bar-fill" id="fill-art-va" style="width:0%;"></div></div>
-        <div class="tile-click-hint">🔍 Tap for details & report</div>
+        <div class="visual-pct status-red" id="pct-container-art-va">
+          <span id="pct-art-va">0%</span><span id="icon-art-va"></span>
+        </div>
+        <div class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-art-va" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🎯 Tap to submit focus progress</div>
       </div>
     </div>
 
     <div class="goals-summary-bar">
       <span>🏆 Focus Sprint Average</span>
       <span id="goalsTeamAvg">—</span>
-    </div>
-
-    <div style="text-align:center; margin-top:10px;">
-      <button class="submit-btn action-trigger" onclick="openModal('goalUpdateModal')">⚡ Quick Focus Sprint Check-In</button>
     </div>
   </div>
 
@@ -477,17 +492,17 @@
   <div class="card" style="padding: 14px;">
     <h2 style="margin-top:0; font-size:0.95rem; color:#374151;">👥 Standard Team Board (All Members)</h2>
     <div style="font-size:0.78rem; color:var(--muted); margin-bottom:10px;">
-      Select any participating or returning member to view alignment or log progress reports:
+      Select any participating or returning member to view alignment or log full weekly reports:
     </div>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px;">
-      <button onclick="openModal('dueModal', 'Cyrus')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Cyrus</button>
-      <button onclick="openModal('dueModal', 'Felice')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Felice</button>
-      <button onclick="openModal('dueModal', 'Art')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Art</button>
-      <button onclick="openModal('dueModal', 'Siddharth')" class="tile-btn amber-btn" style="font-size:0.78rem;">🎙️ Siddharth</button>
-      <button onclick="openModal('dueModal', 'Tina')" class="tile-btn amber-btn" style="font-size:0.78rem;">🗺️ Tina</button>
-      <button onclick="openModal('dueModal', 'Kar')" class="tile-btn amber-btn" style="font-size:0.78rem;">📱 Kar</button>
-      <button onclick="openModal('dueModal', 'Sheela')" class="tile-btn amber-btn" style="font-size:0.78rem;">🧪 Sheela</button>
-      <button onclick="openModal('dueModal', 'Aparna')" class="tile-btn amber-btn" style="font-size:0.78rem;">❓ Aparna</button>
+      <button onclick="openMemberGoalModal('Cyrus')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Cyrus</button>
+      <button onclick="openMemberGoalModal('Felice')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Felice</button>
+      <button onclick="openMemberGoalModal('Art')" class="tile-btn amber-btn" style="font-size:0.78rem;">👤 Art</button>
+      <button onclick="openMemberGoalModal('Siddharth')" class="tile-btn amber-btn" style="font-size:0.78rem;">🎙️ Siddharth</button>
+      <button onclick="openMemberGoalModal('Tina')" class="tile-btn amber-btn" style="font-size:0.78rem;">🗺️ Tina</button>
+      <button onclick="openMemberGoalModal('Kar')" class="tile-btn amber-btn" style="font-size:0.78rem;">📱 Kar</button>
+      <button onclick="openMemberGoalModal('Sheela')" class="tile-btn amber-btn" style="font-size:0.78rem;">🧪 Sheela</button>
+      <button onclick="openMemberGoalModal('Aparna')" class="tile-btn amber-btn" style="font-size:0.78rem;">❓ Aparna</button>
     </div>
   </div>
 
@@ -605,7 +620,7 @@
     </div>
   </div>
 
-  <!-- Member Goals Detail & Weekly Progress Modal -->
+  <!-- Standard Board: Member Goals Detail & Weekly Progress Modal (Old Form & Logic) -->
   <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content">
       <button class="modal-close" onclick="closeModal('dueModal')">×</button>
@@ -650,35 +665,35 @@
     </div>
   </div>
 
-  <!-- Quick Focus Goal Update Modal (New Form Mapping) -->
+  <!-- Focus Goal Sprint Check-In Modal (Directly Triggered from Tile Click) -->
   <div id="goalUpdateModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
     <div class="modal-content" style="max-width:460px;">
       <button class="modal-close" onclick="closeModal('goalUpdateModal')">×</button>
-      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">🎯 Focus Sprint Check-In</h3>
+      <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">🎯 Focus Goal Sprint Check-In</h3>
+      <div style="font-size:0.8rem; color:var(--muted); margin-bottom:8px;">Submitting focus sprint metrics for <strong id="focusModalMemberTitle">Member</strong></div>
       <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
       <form id="goalUpdateForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScAL8MFURZxOa1t04dXskki6mqfOR_AHAG1d4GTmKWg99BNZA/formResponse" target="hidden_iframe" onsubmit="handleGoalUpdateSubmit(event)">
+        
         <div class="form-group">
           <label>Member Name</label>
-          <select id="goalUpdateName" name="entry.1206329315" required onchange="autoSyncGoalSelect(this.value)">
-            <option value="">Select Member...</option>
-            <option value="Cyrus">Cyrus</option>
-            <option value="Felice">Felice</option>
-            <option value="Art">Art</option>
-          </select>
+          <input type="text" id="goalUpdateNameDisplay" readonly style="background:#f3f4f6; font-weight:700;">
+          <input type="hidden" id="goalUpdateName" name="entry.1206329315">
         </div>
+
         <div class="form-group">
-          <label>Focus Goal</label>
+          <label>Focus Goal Target</label>
           <select id="goalUpdateGoalId" name="entry.2053409378" required>
-            <option value="">Select Goal...</option>
             <option value="cyrus-fte">Cyrus — Tech Migration Role</option>
             <option value="felice-content">Felice — Content Publishing</option>
             <option value="art-va">Art — Video Assistant</option>
           </select>
         </div>
+
         <div class="form-group">
           <label>Percent Complete (0–100%)</label>
           <input type="number" id="goalUpdatePct" name="entry.1435000192" min="0" max="100" placeholder="e.g. 75" required>
         </div>
+
         <div class="form-group">
           <label>Need Immediate Help?</label>
           <select id="goalUpdateHelp" name="entry.1548481624">
@@ -686,6 +701,7 @@
             <option value="Yes">Yes 🚨</option>
           </select>
         </div>
+
         <button type="submit" class="submit-btn" style="width:100%; margin-top:8px; background:var(--sky);">Submit Focus Check-In</button>
       </form>
     </div>
@@ -844,8 +860,6 @@ async function fetchGoalUpdatesCSV() {
 
     const goalLatestMap = {};
 
-    // Process Google Form responses matching the 4 key fields:
-    // entry.1206329315 (Member), entry.2053409378 (Goal), entry.1435000192 (Percent), entry.1548481624 (Need Help)
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
       if (!row || row.length < 4) continue;
@@ -869,16 +883,45 @@ async function fetchGoalUpdatesCSV() {
 
     focusGoalIds.forEach(gId => {
       const pctEl = document.getElementById(`pct-${gId}`);
+      const iconEl = document.getElementById(`icon-${gId}`);
+      const pctContainer = document.getElementById(`pct-container-${gId}`);
       const fillEl = document.getElementById(`fill-${gId}`);
       const badgeEl = document.getElementById(`badge-${gId}`);
 
       if (goalLatestMap[gId]) {
         const data = goalLatestMap[gId];
-        if (pctEl) pctEl.textContent = `${data.pct}%`;
-        if (fillEl) fillEl.style.width = `${data.pct}%`;
+        const val = data.pct;
+        
+        if (pctEl) pctEl.textContent = `${val}%`;
+        if (fillEl) fillEl.style.width = `${val}%`;
         if (badgeEl) badgeEl.style.display = data.help ? 'inline-block' : 'none';
 
-        totalPct += data.pct;
+        // Apply Color Threshold Logic:
+        // Under 20%: Red
+        // 21% - 70%: Yellow/Amber
+        // 71% - 99%: Green
+        // 100%: Green + Rocket Ship / Happy Face
+        if (pctContainer && fillEl && iconEl) {
+          pctContainer.classList.remove('status-red', 'status-amber', 'status-green');
+          fillEl.classList.remove('fill-red', 'fill-amber', 'fill-green');
+          iconEl.textContent = '';
+
+          if (val <= 20) {
+            pctContainer.classList.add('status-red');
+            fillEl.classList.add('fill-red');
+          } else if (val <= 70) {
+            pctContainer.classList.add('status-amber');
+            fillEl.classList.add('fill-amber');
+          } else {
+            pctContainer.classList.add('status-green');
+            fillEl.classList.add('fill-green');
+            if (val === 100) {
+              iconEl.textContent = ' 🚀';
+            }
+          }
+        }
+
+        totalPct += val;
         goalCount++;
       }
     });
@@ -929,11 +972,32 @@ function viewSelectedMinutes() {
   openModal('dynamicMinutesModal');
 }
 
-function autoSyncGoalSelect(memberName) {
-  const goalSelect = document.getElementById('goalUpdateGoalId');
-  if (memberName === 'Cyrus') goalSelect.value = 'cyrus-fte';
-  else if (memberName === 'Felice') goalSelect.value = 'felice-content';
-  else if (memberName === 'Art') goalSelect.value = 'art-va';
+/* Open direct focus goal form submission when clicking a focus tile */
+function openFocusGoalCheckIn(memberName, goalId) {
+  document.getElementById('focusModalMemberTitle').textContent = memberName;
+  document.getElementById('goalUpdateNameDisplay').value = memberName;
+  document.getElementById('goalUpdateName').value = memberName;
+  document.getElementById('goalUpdateGoalId').value = goalId;
+  document.getElementById('goalUpdatePct').value = '';
+  document.getElementById('goalUpdateHelp').value = 'No';
+  openModal('goalUpdateModal');
+}
+
+/* Open standard team member modal (Old form & logic) */
+function openMemberGoalModal(userName) {
+  const treeEl = document.getElementById('modalGoalTree');
+  if (MEMBER_STRATEGY[userName]) {
+    const s = MEMBER_STRATEGY[userName];
+    treeEl.innerHTML = `
+      <div class="tree-row"><span class="tree-tag strat">3-6 Mo Goal</span> ${s.strat}</div>
+      <div class="tree-row"><span class="tree-tag month">Monthly Target</span> ${s.month}</div>
+      <div class="tree-row"><span class="tree-tag week">Weekly Step</span> ${s.week}</div>
+    `;
+    treeEl.style.display = 'block';
+  } else {
+    treeEl.style.display = 'none';
+  }
+  openModal('dueModal', userName);
 }
 
 /* Stopwatch Timer */
@@ -972,22 +1036,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 let formSubmittedType = ''; let currentActiveUser = '';
-
-function openMemberGoalModal(userName, goalId) {
-  const treeEl = document.getElementById('modalGoalTree');
-  if (MEMBER_STRATEGY[userName]) {
-    const s = MEMBER_STRATEGY[userName];
-    treeEl.innerHTML = `
-      <div class="tree-row"><span class="tree-tag strat">3-6 Mo Goal</span> ${s.strat}</div>
-      <div class="tree-row"><span class="tree-tag month">Monthly Target</span> ${s.month}</div>
-      <div class="tree-row"><span class="tree-tag week">Weekly Step</span> ${s.week}</div>
-    `;
-    treeEl.style.display = 'block';
-  } else {
-    treeEl.style.display = 'none';
-  }
-  openModal('dueModal', userName);
-}
 
 function openModal(modalId, userName = '') {
   document.getElementById(modalId).style.display = 'flex';
