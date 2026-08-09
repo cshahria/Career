@@ -759,7 +759,7 @@
 
 <script>
 // Google Sheets CSV Sync URLs
-const PROGRESS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=825517087&single=true&output=csv";
+const PROGRESS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=764944353&single=true&output=csv";
 const DASHBOARD_VAR_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
 const MINUTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=844992671&single=true&output=csv";
 
@@ -864,7 +864,7 @@ function parseCSV(text) {
 
 async function fetchMemberPercentages() {
   try {
-    const response = await fetch(PROGRESS_CSV_URL + '&_nocache=' + Date.now());
+    const response = await fetch(PROGRESS_CSV_URL + '&t=' + new Date().getTime());
     if (!response.ok) return;
 
     const csvText = await response.text();
@@ -873,44 +873,32 @@ async function fetchMemberPercentages() {
 
     const headers = rows[0].map(h => h.trim().toLowerCase());
     
-    let nameIdx = headers.findIndex(h => h.includes('member') || h.includes('name'));
-    let percentIdx = headers.findIndex(h => h.includes('percent') || h.includes('progress') || h.includes('%'));
+    const nameIdx = headers.findIndex(h => h.includes('member') || h.includes('name'));
+    const percentIdx = headers.findIndex(h => h.includes('percent') || h.includes('progress'));
 
-    // Fallbacks if generic headers are provided
-    if (nameIdx === -1) nameIdx = 1;      // Column B
-    if (percentIdx === -1) percentIdx = 3; // Column D
+    if (nameIdx !== -1 && percentIdx !== -1) {
+      const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
+      
+      // Read bottom to top to grab latest percentage per member
+      for (let i = rows.length - 1; i >= 1; i--) {
+        const rowName = rows[i][nameIdx] ? rows[i][nameIdx].trim().toLowerCase() : '';
+        const rowPercent = rows[i][percentIdx] ? rows[i][percentIdx].trim() : '';
 
-    const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
-    const foundMembers = new Set();
-    
-    // Read from newest entry (bottom) to oldest (top)
-    for (let i = rows.length - 1; i >= 1; i--) {
-      const row = rows[i];
-      if (!row || !row[nameIdx]) continue;
-
-      const rowName = row[nameIdx].trim().toLowerCase();
-      const rawPercent = row[percentIdx] ? row[percentIdx].trim() : '';
-
-      for (const key of memberKeys) {
-        if (!foundMembers.has(key) && rowName.includes(key)) {
-          const numericVal = parseInt(rawPercent.replace(/[^0-9]/g, ''), 10);
-          
-          if (!isNaN(numericVal)) {
-            const clampedVal = Math.min(100, Math.max(0, numericVal));
-            memberPctState[key] = clampedVal;
-            
-            const tile = document.getElementById(`tile-${key}`);
-            const fill = document.getElementById(`fill-${key}`);
-            if (tile) tile.textContent = clampedVal + '%';
-            if (fill) fill.style.width = clampedVal + '%';
-
-            foundMembers.add(key);
+        for (const key of memberKeys) {
+          if (memberPctState[key] === undefined && rowName.includes(key)) {
+            const match = rowPercent.match(/(\d+)%/);
+            const val = match ? parseInt(match[1], 10) : parseInt(rowPercent, 10);
+            if (!isNaN(val)) {
+              memberPctState[key] = val;
+              document.getElementById(`tile-${key}`).textContent = val + '%';
+              document.getElementById(`fill-${key}`).style.width = val + '%';
+            }
           }
         }
       }
     }
   } catch (err) {
-    console.warn("Error loading progress percentages:", err);
+    console.warn("Progress CSV fetch error:", err);
   }
 }
 
