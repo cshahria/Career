@@ -24,9 +24,6 @@
     --amber:#d97706;
     --amber-light:#fef3c7;
 
-    --wood:#92400e;
-    --wood-light:#fdf0e3;
-
     --help-bg:#fff5f5;
     --help-border:#fecaca;
     --help-btn:#f87171;
@@ -287,60 +284,6 @@
 
   .goals-summary-bar { display:flex; align-items:center; justify-content:space-between; background:var(--pitch-light); border:1px solid #c3e6d0; border-radius:10px; padding:8px 12px; margin-top:12px; font-size:0.8rem; font-weight:700; color:var(--pitch); }
 
-  /* Daily Pulse mini buttons on Focus Goal tiles */
-  .pulse-mini-row { display:flex; gap:6px; justify-content:center; margin-top:8px; }
-  .pulse-mini-btn {
-    width:30px; height:30px; border-radius:8px; border:2px solid var(--border);
-    background:#fff; font-size:0.95rem; cursor:pointer; padding:0;
-    display:flex; align-items:center; justify-content:center;
-    transition:transform .12s ease, border-color .12s ease;
-  }
-  .pulse-mini-btn:hover { transform:translateY(-1px); border-color:var(--sky); }
-  .pulse-mini-btn:active { transform:translateY(1px) scale(0.94); }
-  .pulse-mini-label { font-size:0.65rem; color:var(--muted); font-weight:700; text-align:center; margin-top:2px; letter-spacing:0.02em; }
-
-  .streak-badge {
-    display:inline-flex; align-items:center; gap:2px;
-    font-size:0.7rem; font-weight:800; color:var(--wood);
-    background:var(--wood-light); border:1px solid #f0dcc4;
-    border-radius:999px; padding:1px 7px; margin-left:4px;
-  }
-  .streak-badge.no-streak { color:var(--muted); background:var(--slate-light); border-color:var(--slate-border); }
-  .board-streak { font-size:0.68rem; font-weight:700; color:var(--wood); margin-top:3px; }
-
-  /* Coxswain persona card */
-  .cox-card { background:linear-gradient(135deg,var(--wood-light),#fff 65%); border:1px solid #f3d9bd; }
-  .cox-top { display:flex; gap:12px; align-items:flex-start; }
-  .cox-avatar {
-    flex:0 0 auto; width:48px; height:48px; border-radius:50%;
-    background:var(--wood); color:#fff; font-size:1.35rem;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 2px 6px rgba(146,64,14,0.35);
-  }
-  .cox-bubble {
-    flex:1; background:#fff; border:1px solid #f0dcc4; border-radius:12px;
-    padding:10px 14px; font-size:0.86rem; font-weight:600; color:#3a2410;
-    position:relative;
-  }
-  .cox-bubble::before {
-    content:''; position:absolute; left:-7px; top:14px;
-    border-width:7px 8px 7px 0; border-style:solid;
-    border-color:transparent #fff transparent transparent;
-  }
-  .cox-meter-row { display:flex; align-items:center; gap:10px; margin-top:12px; font-size:0.75rem; font-weight:700; color:var(--wood); }
-  .cox-meter { flex:1; height:9px; border-radius:6px; background:#f0dcc4; overflow:hidden; }
-  .cox-meter-fill { height:100%; background:var(--wood); border-radius:6px; transition:width .3s ease; width:0%; }
-
-  /* Toast for quick pulse taps */
-  .pulse-toast {
-    position:fixed; left:50%; bottom:24px; transform:translate(-50%, 12px);
-    background:#1f2937; color:#fff; font-size:0.82rem; font-weight:600;
-    padding:10px 16px; border-radius:999px; box-shadow:0 6px 18px rgba(0,0,0,0.25);
-    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
-    z-index:2000; max-width:90vw; text-align:center;
-  }
-  .pulse-toast.show { opacity:1; transform:translate(-50%, 0); }
-
   .status-red { color: #dc2626 !important; }
   .status-amber { color: #d97706 !important; }
   .status-green { color: #16a34a !important; }
@@ -558,86 +501,54 @@
 
     <div class="goals-grid" id="goalsGrid">
       <!-- Cyrus Tile -->
-      <div class="visual-tile" data-goal-id="cyrus-fte">
-        <div class="visual-tile-head" onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')">
+      <div class="visual-tile" data-goal-id="cyrus-fte" onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')">
+        <div class="visual-tile-head">
           <span class="visual-avatar">CS</span>
           <span class="help-badge" id="badge-cyrus-fte">SOS 🚨</span>
         </div>
-        <div onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')" style="font-weight: 800; font-size: 1rem; color: #111827;">Cyrus <span class="streak-badge no-streak" id="streak-cyrus-fte">🔥 0</span></div>
-        <div onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')" class="visual-keyword-badge" id="label-cyrus-fte">💼 Tech Migration</div>
-        <div onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')" class="visual-pct status-red" id="pct-container-cyrus-fte">
+        <div style="font-weight: 800; font-size: 1rem; color: #111827;">Cyrus</div>
+        <div class="visual-keyword-badge" id="label-cyrus-fte">💼 Tech Migration</div>
+        <div class="visual-pct status-red" id="pct-container-cyrus-fte">
           <span id="pct-cyrus-fte">0%</span><span id="icon-cyrus-fte"></span>
         </div>
-        <div onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')" class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-cyrus-fte" style="width:0%;"></div></div>
-        <div class="pulse-mini-row">
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('cyrus-fte','green')" title="On track">🟢</button>
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('cyrus-fte','amber')" title="Stuck, request review">🟡</button>
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('cyrus-fte','red')" title="Need immediate help">🔴</button>
-        </div>
-        <div class="pulse-mini-label">Daily pulse</div>
-        <div class="tile-click-hint" onclick="openFocusGoalCheckIn('Cyrus', 'cyrus-fte', 'Tech Migration')" style="cursor:pointer;">🎯 Tap to submit progress</div>
+        <div class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-cyrus-fte" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🎯 Tap to submit progress</div>
       </div>
 
       <!-- Felice Tile -->
-      <div class="visual-tile" data-goal-id="felice-content">
-        <div class="visual-tile-head" onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')">
+      <div class="visual-tile" data-goal-id="felice-content" onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')">
+        <div class="visual-tile-head">
           <span class="visual-avatar">FT</span>
           <span class="help-badge" id="badge-felice-content">SOS 🚨</span>
         </div>
-        <div onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')" style="font-weight: 800; font-size: 1rem; color: #111827;">Felice <span class="streak-badge no-streak" id="streak-felice-content">🔥 0</span></div>
-        <div onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')" class="visual-keyword-badge" id="label-felice-content">🚀 Content Publishing</div>
-        <div onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')" class="visual-pct status-red" id="pct-container-felice-content">
+        <div style="font-weight: 800; font-size: 1rem; color: #111827;">Felice</div>
+        <div class="visual-keyword-badge" id="label-felice-content">🚀 Content Publishing</div>
+        <div class="visual-pct status-red" id="pct-container-felice-content">
           <span id="pct-felice-content">0%</span><span id="icon-felice-content"></span>
         </div>
-        <div onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')" class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-felice-content" style="width:0%;"></div></div>
-        <div class="pulse-mini-row">
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('felice-content','green')" title="On track">🟢</button>
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('felice-content','amber')" title="Stuck, request review">🟡</button>
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('felice-content','red')" title="Need immediate help">🔴</button>
-        </div>
-        <div class="pulse-mini-label">Daily pulse</div>
-        <div class="tile-click-hint" onclick="openFocusGoalCheckIn('Felice', 'felice-content', 'Content Publishing')" style="cursor:pointer;">🎯 Tap to submit progress</div>
+        <div class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-felice-content" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🎯 Tap to submit progress</div>
       </div>
 
       <!-- Art Tile -->
-      <div class="visual-tile" data-goal-id="art-va">
-        <div class="visual-tile-head" onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')">
+      <div class="visual-tile" data-goal-id="art-va" onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')">
+        <div class="visual-tile-head">
           <span class="visual-avatar">AT</span>
           <span class="help-badge" id="badge-art-va">SOS 🚨</span>
         </div>
-        <div onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')" style="font-weight: 800; font-size: 1rem; color: #111827;">Art <span class="streak-badge no-streak" id="streak-art-va">🔥 0</span></div>
-        <div onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')" class="visual-keyword-badge" id="label-art-va">🎥 Video Assistant</div>
-        <div onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')" class="visual-pct status-red" id="pct-container-art-va">
+        <div style="font-weight: 800; font-size: 1rem; color: #111827;">Art</div>
+        <div class="visual-keyword-badge" id="label-art-va">🎥 Video Assistant</div>
+        <div class="visual-pct status-red" id="pct-container-art-va">
           <span id="pct-art-va">0%</span><span id="icon-art-va"></span>
         </div>
-        <div onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')" class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-art-va" style="width:0%;"></div></div>
-        <div class="pulse-mini-row">
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('art-va','green')" title="On track">🟢</button>
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('art-va','amber')" title="Stuck, request review">🟡</button>
-          <button class="pulse-mini-btn" onclick="event.stopPropagation(); quickPulse('art-va','red')" title="Need immediate help">🔴</button>
-        </div>
-        <div class="pulse-mini-label">Daily pulse</div>
-        <div class="tile-click-hint" onclick="openFocusGoalCheckIn('Art', 'art-va', 'Video Assistant')" style="cursor:pointer;">🎯 Tap to submit progress</div>
+        <div class="goal-bar-track"><div class="goal-bar-fill fill-red" id="fill-art-va" style="width:0%;"></div></div>
+        <div class="tile-click-hint">🎯 Tap to submit progress</div>
       </div>
     </div>
 
     <div class="goals-summary-bar">
       <span>🏆 Focus Sprint Average</span>
       <span id="goalsTeamAvg">—</span>
-    </div>
-  </div>
-
-  <!-- Coxswain Card: AI/rules-based manager persona -->
-  <div class="card cox-card">
-    <h2 style="margin:0 0 4px;">🚣 Your Coxswain</h2>
-    <p style="font-size:0.8rem; color:var(--muted); margin:0 0 12px;">Reads today's pulse taps and calls out who's rowing and who's still on the dock.</p>
-    <div class="cox-top">
-      <div class="cox-avatar">🚣</div>
-      <div class="cox-bubble" id="coxMessage">Waiting for today's first stroke...</div>
-    </div>
-    <div class="cox-meter-row">
-      <span id="coxMeterLabel">0 / 3 checked in today</span>
-      <div class="cox-meter"><div class="cox-meter-fill" id="coxMeterFill"></div></div>
     </div>
   </div>
 
@@ -657,7 +568,6 @@
         <div class="avatar">CS</div>
         <div class="name">🔄 Cyrus</div>
         <span class="pill progress" style="margin-top:6px;">WIP</span>
-        <div class="board-streak" id="board-streak-Cyrus"></div>
       </div>
       <div class="player" onclick="openModal('dueModal', 'Siddharth')" data-name="Siddharth" data-key="Siddarth" title="Siddharth — Focus: Active Interview Preparation & Pipeline">
         <div class="avatar">ST</div>
@@ -668,13 +578,11 @@
         <div class="avatar">FT</div>
         <div class="name">📈 Felice</div>
         <span class="pill progress" style="margin-top:6px;">WIP</span>
-        <div class="board-streak" id="board-streak-Felice"></div>
       </div>
       <div class="player" onclick="openModal('dueModal', 'Art')" data-name="Art" data-key="Art" title="Art — Focus: AI Digital Engineering & Technical Architecture">
         <div class="avatar">AT</div>
         <div class="name">🤖 Art</div>
         <span class="pill progress" style="margin-top:6px;">WIP</span>
-        <div class="board-streak" id="board-streak-Art"></div>
       </div>
       <div class="player" onclick="openModal('dueModal', 'Tina')" data-name="Tina" data-key="Tina" title="Tina — Focus: Big Picture Planning & Strategic Roadmap">
         <div class="avatar">TN</div>
@@ -953,14 +861,6 @@ const GOALS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnK
 
 let csvMinutesData = {};
 let latestMemberData = {};
-let goalLatestMap = {};
-let memberDates = {};
-
-const goalMeta = {
-  'cyrus-fte':      { member: 'Cyrus',  label: 'Tech Migration' },
-  'felice-content': { member: 'Felice', label: 'Content Publishing' },
-  'art-va':         { member: 'Art',    label: 'Video Assistant' }
-};
 
 function formatDateTimeLocal(dtValue) {
   if (!dtValue) return '';
@@ -1141,15 +1041,13 @@ async function fetchGoalUpdatesCSV() {
     const rows = parseCSV(csvText);
     if (rows.length <= 1) return;
 
-    goalLatestMap = {};
-    memberDates = {};
+    const goalLatestMap = {};
     let activeHelpMember = '';
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
       if (!row || row.length < 4) continue;
       
-      const timestampRaw = row[0] ? row[0].trim() : '';
       const member = row[1] ? row[1].trim() : '';
       const goalId = row[2] ? row[2].trim() : '';
       const pctVal = parseInt(row[3] ? row[3].trim() : '0', 10);
@@ -1170,12 +1068,6 @@ async function fetchGoalUpdatesCSV() {
             pct: cleanPct,
             help: isHelp
           };
-
-          const parsedDate = new Date(timestampRaw);
-          if (!isNaN(parsedDate.getTime())) {
-            if (!memberDates[member]) memberDates[member] = new Set();
-            memberDates[member].add(parsedDate.toDateString());
-          }
         }
 
         if (isHelp) activeHelpMember = member || 'A team member';
@@ -1234,133 +1126,9 @@ async function fetchGoalUpdatesCSV() {
       document.getElementById('goalsTeamAvg').textContent = `${avg}%`;
       document.getElementById('goalsUpdatedTag').textContent = `Live Form Connected`;
     }
-
-    renderStreaksAndCoxswain();
   } catch (err) {
     console.warn("Focus goals CSV fetch error:", err);
   }
-}
-
-function computeStreak(dateSet) {
-  if (!dateSet || dateSet.size === 0) return 0;
-  const dates = [...dateSet].map(d => new Date(d)).sort((a, b) => b - a);
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const mostRecent = dates[0];
-  const diffFromToday = Math.round((today - mostRecent) / 86400000);
-  if (diffFromToday > 1) return 0; // more than a day since last check-in: streak broken
-
-  let streak = 1;
-  for (let i = 1; i < dates.length; i++) {
-    const diff = Math.round((dates[i - 1] - dates[i]) / 86400000);
-    if (diff === 1) streak++;
-    else if (diff === 0) continue;
-    else break;
-  }
-  return streak;
-}
-
-function renderStreaksAndCoxswain() {
-  const trackedGoalIds = Object.keys(goalMeta);
-  let checkedInToday = 0;
-  const notCheckedIn = [];
-  let hottestName = '';
-  let hottestStreak = 0;
-
-  trackedGoalIds.forEach(goalId => {
-    const meta = goalMeta[goalId];
-    const dateSet = memberDates[meta.member];
-    const streak = computeStreak(dateSet);
-
-    const badge = document.getElementById(`streak-${goalId}`);
-    if (badge) {
-      badge.textContent = `🔥 ${streak}`;
-      badge.classList.toggle('no-streak', streak === 0);
-    }
-    const boardBadge = document.getElementById(`board-streak-${meta.member}`);
-    if (boardBadge) {
-      boardBadge.textContent = streak > 0 ? `🔥 ${streak} day${streak === 1 ? '' : 's'}` : '';
-    }
-
-    const today = new Date().toDateString();
-    if (dateSet && dateSet.has(today)) {
-      checkedInToday++;
-    } else {
-      notCheckedIn.push(meta.member);
-    }
-
-    if (streak > hottestStreak) {
-      hottestStreak = streak;
-      hottestName = meta.member;
-    }
-  });
-
-  const total = trackedGoalIds.length;
-  const meterFill = document.getElementById('coxMeterFill');
-  const meterLabel = document.getElementById('coxMeterLabel');
-  if (meterFill) meterFill.style.width = `${Math.round((checkedInToday / total) * 100)}%`;
-  if (meterLabel) meterLabel.textContent = `${checkedInToday} / ${total} checked in today`;
-
-  let msg;
-  if (checkedInToday === 0) {
-    msg = `Boat hasn't left the dock today. One pulse tap gets it moving — who's first?`;
-  } else if (checkedInToday === total) {
-    msg = `Full boat, full stroke — everyone's checked in today. That's how the boat stays fast.`;
-  } else {
-    msg = `${notCheckedIn.join(' & ')} still on the dock. Rest of the crew's already rowing — send a nudge.`;
-  }
-
-  if (hottestStreak >= 3) {
-    msg = `${hottestName}'s on a ${hottestStreak}-day streak — steady stroke rate, that's how the boat stays fast. ${checkedInToday < total ? notCheckedIn.join(' & ') + ' still on the dock.' : ''}`.trim();
-  }
-
-  const coxEl = document.getElementById('coxMessage');
-  if (coxEl) coxEl.textContent = msg;
-}
-
-function quickPulse(goalId, status) {
-  const meta = goalMeta[goalId];
-  if (!meta) return;
-
-  const current = goalLatestMap[goalId] ? goalLatestMap[goalId].pct : 0;
-  let newPct = current;
-  let helpVal = 'None';
-  let toastMsg = '';
-
-  if (status === 'green') {
-    newPct = Math.min(100, current + 10);
-    toastMsg = `⛵ ${meta.member} pulled ahead — nice stroke! (${newPct}%)`;
-  } else if (status === 'amber') {
-    helpVal = 'Request Weekly Stand-up Review';
-    toastMsg = `🌊 ${meta.member} logged steady — stand-up review requested.`;
-  } else if (status === 'red') {
-    helpVal = 'Need Immediate Help';
-    toastMsg = `🚨 ${meta.member} flagged for help — coxswain notified.`;
-  }
-
-  document.getElementById('goalUpdateName').value = meta.member;
-  document.getElementById('goalUpdateGoalDisplay').value = meta.label;
-  document.getElementById('goalUpdateGoalId').value = goalId;
-  document.getElementById('goalUpdatePct').value = newPct;
-  document.getElementById('goalUpdateHelp').value = helpVal;
-
-  formSubmittedType = 'pulse';
-  document.getElementById('goalUpdateForm').submit();
-
-  showToast(toastMsg);
-}
-
-function showToast(msg) {
-  let t = document.getElementById('pulseToast');
-  if (!t) {
-    t = document.createElement('div');
-    t.id = 'pulseToast';
-    t.className = 'pulse-toast';
-    document.body.appendChild(t);
-  }
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(window._pulseToastTimer);
-  window._pulseToastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 function triggerHelpAlert() {
@@ -1510,8 +1278,6 @@ function handleFormDone() {
     alert("Variables updated successfully! Refreshing view...");
     closeModal('adminVariablesModal');
     setTimeout(() => { autoUpdateDashboard(); }, 1500);
-  } else if (formSubmittedType === 'pulse') {
-    setTimeout(() => fetchGoalUpdatesCSV(), 1200);
   }
   formSubmittedType = '';
 }
