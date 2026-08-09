@@ -273,8 +273,8 @@
     </div>
     <div class="readme-content" id="readmeContent">
       <p><strong>1. Progress Tracking:</strong> Adjust progress using <strong>-15%</strong> / <strong>+15%</strong> step buttons on your row. Updates post automatically to the master sheet.</p>
-      <p><strong>2. Daily Pulse:</strong> Click 🟢 (On Track), 🟡 (Review), or 🔴 (Need Help) to log daily momentum.</p>
-      <p><strong>3. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log your detailed weekly goals directly to the Master Spreadsheet via Google Forms.</p>
+      <p><strong>2. Daily Pulse:</strong> Click 🟢 (On Track), 🟡 (Review), or 🔴 (Stuck) to log daily momentum.</p>
+      <p><strong>3. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log your weekly goals directly to the Master Spreadsheet via Google Forms.</p>
     </div>
   </div>
 
@@ -581,12 +581,11 @@
 <!-- Hidden iFrame for Form Submission Silent Posting -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
-<!-- Silent Form mapped to New Progress & Pulse Google Form -->
-<form id="progressSilentForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScAL8MFURZxOa1t04dXskki6mqfOR_AHAG1d4GTmKWg99BNZA/formResponse" target="hidden_iframe" style="display:none;">
-  <input type="hidden" name="entry.1206329315" id="progFormName">
-  <input type="hidden" name="entry.2053409378" id="progFormGoal">
-  <input type="hidden" name="entry.1435000192" id="progFormPercent">
-  <input type="hidden" name="entry.1548481624" id="progFormHelp">
+<!-- Silent Form for Percentage Submissions -->
+<form id="pctSilentForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSdzMdL2X-a4gioG-B1m8walQdIlS2dCgsW2VN80ExCsiv1FCQ/formResponse" target="hidden_iframe" style="display:none;">
+  <input type="hidden" name="entry.896357741" id="pctFormName">
+  <input type="hidden" name="entry.389766965" id="pctFormVal">
+  <input type="hidden" name="entry.1215668338" id="pctFormDate">
 </form>
 
 <div id="toast" class="toast"></div>
@@ -758,15 +757,12 @@
 </div>
 
 <script>
-// Google Sheets CSV Sync URLs
-const PROGRESS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=764944353&single=true&output=csv";
-const DASHBOARD_VAR_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
+// Main Google Sheets CSV Sync URLs
+const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
 const MINUTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=844992671&single=true&output=csv";
 
 let csvMinutesData = {};
 const memberPctState = {};
-const memberPulseState = {};
-let formSubmittedType = '';
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -787,16 +783,6 @@ function toggleReadme() {
   }
 }
 
-// Unified progress & pulse posting
-function submitProgressAndPulse(fullName, percentage, pulseStatus) {
-  formSubmittedType = 'progress_pulse';
-  document.getElementById('progFormName').value = fullName;
-  document.getElementById('progFormGoal').value = "Sprint Progress Update";
-  document.getElementById('progFormPercent').value = percentage + '%';
-  document.getElementById('progFormHelp').value = pulseStatus;
-  document.getElementById('progressSilentForm').submit();
-}
-
 function adjustProgress(id, step, fullName) {
   let current = memberPctState[id] || 0;
   let updated = Math.min(100, Math.max(0, current + step));
@@ -806,23 +792,21 @@ function adjustProgress(id, step, fullName) {
   document.getElementById(`fill-${id}`).style.width = updated + '%';
   showToast(`Updated ${fullName} to ${updated}%`);
 
-  let currentPulse = memberPulseState[fullName] || 'On Track - Green';
-  submitProgressAndPulse(fullName, updated, currentPulse);
+  // Silent POST submission via blind API call
+  submitSilentPercentage(fullName, updated);
 }
 
-function quickPulse(name, statusKey) {
-  const statusMap = {
-    green: 'On Track - Green',
-    amber: 'Review requested - Yellow',
-    red: 'Need Help - Red'
-  };
-  const statusLabel = statusMap[statusKey] || 'On Track - Green';
-  memberPulseState[name] = statusLabel;
-  
-  let currentPct = memberPctState[name.toLowerCase()] || 0;
-  showToast(`${name}: ${statusLabel}`);
+function submitSilentPercentage(fullName, percentage) {
+  formSubmittedType = 'pct_silent';
+  document.getElementById('pctFormName').value = fullName;
+  document.getElementById('pctFormVal').value = percentage + '%';
+  document.getElementById('pctFormDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('pctSilentForm').submit();
+}
 
-  submitProgressAndPulse(name, currentPct, statusLabel);
+function quickPulse(name, status) {
+  const labels = { green: 'On track 🟢', amber: 'Review requested 🟡', red: 'Stuck/Help flagged 🔴' };
+  showToast(`${name}: ${labels[status]}`);
 }
 
 function formatDateTimeLocal(dtValue) {
@@ -862,49 +846,9 @@ function parseCSV(text) {
   return r.filter(row => row.length > 1 || (row[0] && row[0].trim() !== ''));
 }
 
-async function fetchMemberPercentages() {
-  try {
-    const response = await fetch(PROGRESS_CSV_URL + '&t=' + new Date().getTime());
-    if (!response.ok) return;
-
-    const csvText = await response.text();
-    const rows = parseCSV(csvText);
-    if (rows.length <= 1) return;
-
-    const headers = rows[0].map(h => h.trim().toLowerCase());
-    
-    const nameIdx = headers.findIndex(h => h.includes('member') || h.includes('name'));
-    const percentIdx = headers.findIndex(h => h.includes('percent') || h.includes('progress'));
-
-    if (nameIdx !== -1 && percentIdx !== -1) {
-      const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
-      
-      // Read bottom to top to grab latest percentage per member
-      for (let i = rows.length - 1; i >= 1; i--) {
-        const rowName = rows[i][nameIdx] ? rows[i][nameIdx].trim().toLowerCase() : '';
-        const rowPercent = rows[i][percentIdx] ? rows[i][percentIdx].trim() : '';
-
-        for (const key of memberKeys) {
-          if (memberPctState[key] === undefined && rowName.includes(key)) {
-            const match = rowPercent.match(/(\d+)%/);
-            const val = match ? parseInt(match[1], 10) : parseInt(rowPercent, 10);
-            if (!isNaN(val)) {
-              memberPctState[key] = val;
-              document.getElementById(`tile-${key}`).textContent = val + '%';
-              document.getElementById(`fill-${key}`).style.width = val + '%';
-            }
-          }
-        }
-      }
-    }
-  } catch (err) {
-    console.warn("Progress CSV fetch error:", err);
-  }
-}
-
 async function autoUpdateDashboard() {
   try {
-    const response = await fetch(DASHBOARD_VAR_CSV_URL + '&t=' + new Date().getTime());
+    const response = await fetch(PUBLISHED_CSV_URL + '&t=' + new Date().getTime());
     if (!response.ok) return;
 
     const csvText = await response.text();
@@ -948,6 +892,32 @@ async function autoUpdateDashboard() {
       el.innerHTML = `<strong>Session Notes:</strong> ${notes}`;
       el.style.display = 'block';
     }
+
+    // Auto-fetch member percentages from CSV
+    const nameIdx = headers.findIndex(h => h.includes('name'));
+    const resultIdx = headers.findIndex(h => h.includes('result') || h.includes('progress'));
+
+    if (nameIdx !== -1 && resultIdx !== -1) {
+      const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
+      
+      // Read rows from bottom to top to grab the latest record per person
+      for (let i = rows.length - 1; i >= 1; i--) {
+        const rowName = rows[i][nameIdx] ? rows[i][nameIdx].trim().toLowerCase() : '';
+        const rowResult = rows[i][resultIdx] ? rows[i][resultIdx].trim() : '';
+
+        for (const key of memberKeys) {
+          if (memberPctState[key] === undefined && rowName.includes(key)) {
+            const match = rowResult.match(/(\d+)%/);
+            if (match) {
+              const val = parseInt(match[1], 10);
+              memberPctState[key] = val;
+              document.getElementById(`tile-${key}`).textContent = val + '%';
+              document.getElementById(`fill-${key}`).style.width = val + '%';
+            }
+          }
+        }
+      }
+    }
   } catch (err) {
     console.warn("Dashboard variables fetch fallback active:", err);
   }
@@ -970,6 +940,7 @@ async function loadMinutesFromCSV() {
     dropdown.innerHTML = '';
     csvMinutesData = {};
 
+    let count = 0;
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
       if (!row || row.length === 0) continue;
@@ -987,6 +958,7 @@ async function loadMinutesFromCSV() {
       option.value = optKey;
       option.textContent = dateVal;
       dropdown.appendChild(option);
+      count++;
     }
   } catch (err) {
     console.warn("Minutes CSV fetch error:", err);
@@ -1058,6 +1030,8 @@ function resetTimer() {
 }
 
 /* Modals & Google Form Handlers */
+let formSubmittedType = ''; 
+
 function openModal(modalId, userName = '') {
   document.getElementById(modalId).style.display = 'flex';
   if(userName) {
@@ -1114,14 +1088,13 @@ function handleFormDone() {
     alert("Variables updated successfully! Refreshing view...");
     closeModal('adminVariablesModal');
     setTimeout(() => { autoUpdateDashboard(); }, 1500);
-  } else if (formSubmittedType === 'progress_pulse') {
-    console.log("Progress and pulse status posted to Google Form.");
+  } else if (formSubmittedType === 'pct_silent') {
+    console.log("Silent percentage update posted to Google Form.");
   }
   formSubmittedType = '';
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  fetchMemberPercentages();
   autoUpdateDashboard();
   loadMinutesFromCSV();
 });
