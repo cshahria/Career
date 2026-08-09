@@ -922,38 +922,41 @@ async function autoUpdateDashboard() {
     };
 
     const timestamp = getVal('timestamp');
-    if (timestamp) {
+    if (timestamp && document.getElementById('displayLastUpdated')) {
       document.getElementById('displayLastUpdated').textContent = `unPTO Accountability · Updated: ${timestamp}`;
     }
 
     const host = getVal('host');
-    if (host) {
-      if (document.getElementById('displayHostTile')) {
-        document.getElementById('displayHostTile').innerHTML = `<strong>Host:</strong> ${host}`;
-      }
-      if (document.getElementById('displayHost')) {
-        document.getElementById('displayHost').innerHTML = `<strong>Host:</strong> ${host}`;
-      }
+    if (host && document.getElementById('displayHost')) {
+      document.getElementById('displayHost').innerHTML = `<strong>Host:</strong> ${host}`;
     }
 
-    const nextMtg = getVal('meeting', 'next meeting');
-    if (nextMtg && document.getElementById('displayMeetingTile')) {
-      document.getElementById('displayMeetingTile').innerHTML = `<strong>Next Meeting:</strong> ${nextMtg}`;
+    const nextMtg = getVal('next meeting', 'meeting');
+    if (document.getElementById('displayNextMeeting')) {
+      document.getElementById('displayNextMeeting').innerHTML = nextMtg 
+        ? `<strong>Next Meeting:</strong> ${nextMtg}` 
+        : 'No upcoming meeting scheduled';
     }
 
-    const loc = getVal('location', 'loc');
-    if (loc && document.getElementById('displayLocationTile')) {
-      document.getElementById('displayLocationTile').innerHTML = `📍 ${loc}`;
+    const loc = getVal('location', 'loc', 'address');
+    if (document.getElementById('displayMeetingLoc')) {
+      document.getElementById('displayMeetingLoc').innerHTML = loc 
+        ? `📍 ${loc}` 
+        : '📍 Location TBD';
     }
 
     const rptDue = getVal('report', 'due');
-    if (rptDue && document.getElementById('displayReportTile')) {
-      document.getElementById('displayReportTile').innerHTML = `<strong>Report Due:</strong> ${rptDue}`;
+    if (document.getElementById('displayReportDue')) {
+      document.getElementById('displayReportDue').innerHTML = rptDue 
+        ? `🚨 Report Due: ${rptDue}` 
+        : '🚨 Report Due: None';
     }
 
     const standup = getVal('standup', 'stand-up');
-    if (standup && document.getElementById('displayStandupTile')) {
-      document.getElementById('displayStandupTile').innerHTML = `<strong>Next Stand-up:</strong> ${standup}`;
+    if (document.getElementById('displayStandup')) {
+      document.getElementById('displayStandup').innerHTML = standup 
+        ? `⏱️ Stand-up: ${standup}` 
+        : '⏱️ Stand-up: TBD';
     }
 
     const notes = getVal('notes', 'agenda');
