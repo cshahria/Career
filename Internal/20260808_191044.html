@@ -34,26 +34,20 @@
     margin-top:2px;
   }
   header h1{
-    font-size:1.0rem;
+    font-size:0.95rem;
     margin:0;
     color:#6b7280;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.03em;
     text-transform: uppercase;
   }
 
-  /* TWO-ROW COUNTDOWN GRID STRUCTURE */
-  .countdown-section {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 6px;
-  }
-
+  /* COUNTDOWN GRID: 4 MAIN TILES SINGLE ROW BY DEFAULT */
   .countdown-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 6px;
+    margin-bottom: 6px;
   }
   @media (max-width: 640px) {
     .countdown-grid {
@@ -65,10 +59,10 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 8px 10px;
+    padding: 6px 8px;
     text-align: center;
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    font-size: 0.92rem;
+    font-size: 0.82rem;
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
@@ -103,15 +97,14 @@
   }
 
   .countdown-tile .tile-title {
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.70rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--muted);
-    margin-bottom: 3px;
+    margin-bottom: 2px;
   }
   .countdown-tile .tile-val {
-    font-size: 0.98rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: #111827;
   }
@@ -122,7 +115,7 @@
     padding-right: 2px;
   }
   .load-all-btn {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: var(--sky);
     background: none;
@@ -195,7 +188,7 @@
   }
 
   .tile .abbr-label {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: #4b5563;
     text-transform: uppercase;
@@ -835,16 +828,9 @@
     <h1>Unified Dashboard</h1>
   </header>
 
-  <!-- REORGANIZED 2-ROW COUNTDOWN DASHBOARD -->
-  <div class="countdown-section">
-    <!-- ROW 1: FUTURE / UPCOMING DATES -->
-    <div id="countdownFutureRow" class="countdown-grid">
-      <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading upcoming count downs...</div>
-    </div>
-    <!-- ROW 2: PAST DATES -->
-    <div id="countdownPastRow" class="countdown-grid">
-      <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading past count downs...</div>
-    </div>
+  <!-- 4 MAIN COUNTDOWN TILES -->
+  <div id="countdownMainRow" class="countdown-grid">
+    <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading count downs...</div>
   </div>
 
   <div class="load-all-wrapper">
@@ -1014,10 +1000,6 @@ let pastDatesList = [];
 let futureDatesList = [];
 let activePastIndex = 0;
 let activeFutureIndex = 0;
-let autoRotatePastIndex = 0;
-let autoRotateFutureIndex = 0;
-let pastRotationTimer = null;
-let futureRotationTimer = null;
 let allCountdownRows = [];
 let showAllDates = false;
 
@@ -1067,8 +1049,7 @@ function formatYYMMDD(dateObj) {
 }
 
 async function fetchAndRenderCountdowns() {
-  const futureContainer = document.getElementById("countdownFutureRow");
-  const pastContainer = document.getElementById("countdownPastRow");
+  const mainContainer = document.getElementById("countdownMainRow");
   try {
     const fetchUrl = "https://corsproxy.io/?" + encodeURIComponent(COUNTDOWN_CSV_URL + "&t=" + new Date().getTime());
     const response = await fetch(fetchUrl);
@@ -1107,172 +1088,70 @@ async function fetchAndRenderCountdowns() {
     pastDatesList.sort((a, b) => a.targetDate - b.targetDate); // Oldest first
     futureDatesList.sort((a, b) => a.targetDate - b.targetDate); // Closest first
 
-    // BUILD ROW 1: FUTURE DATES
-    let futureHtml = "";
-    
-    // Future 1: Closest approaching
-    if (futureDatesList.length > 0) {
-      const f1 = futureDatesList[0];
-      const dLabel = f1.diffDays === 0 ? "Today" : `${f1.diffDays}D`;
-      futureHtml += `
-        <div class="countdown-tile upcoming">
-          <div class="tile-title">UPCOMING 1</div>
-          <div class="tile-val">${f1.label} <span class="days-green">${dLabel}</span></div>
-        </div>
-      `;
-    } else {
-      futureHtml += `
-        <div class="countdown-tile upcoming">
-          <div class="tile-title">UPCOMING 1</div>
-          <div class="tile-val">None</div>
-        </div>
-      `;
-    }
+    let mainHtml = "";
 
-    // Future 2: Second closest approaching
-    if (futureDatesList.length > 1) {
-      const f2 = futureDatesList[1];
-      const dLabel = f2.diffDays === 0 ? "Today" : `${f2.diffDays}D`;
-      futureHtml += `
-        <div class="countdown-tile upcoming">
-          <div class="tile-title">UPCOMING 2</div>
-          <div class="tile-val">${f2.label} <span class="days-green">${dLabel}</span></div>
-        </div>
-      `;
-    } else {
-      futureHtml += `
-        <div class="countdown-tile upcoming">
-          <div class="tile-title">UPCOMING 2</div>
-          <div class="tile-val">None</div>
-        </div>
-      `;
-    }
-
-    // Future 3: Auto-rotating tile
-    futureHtml += `
-      <div class="countdown-tile upcoming">
-        <div class="tile-title">UPCOMING 🔄</div>
-        <div class="tile-val" id="futureRotatingTileVal">Loading...</div>
-      </div>
-    `;
-
-    // Future 4: Count & Popup trigger
-    futureHtml += `
-      <div class="countdown-tile upcoming interactive" onclick="openCountdownPopup('future')">
-        <div class="tile-title">Future Dates</div>
-        <div class="tile-val">${futureDatesList.length} items <span style="font-size:0.82rem;">🔍</span></div>
-      </div>
-    `;
-
-    futureContainer.innerHTML = futureHtml;
-
-    // BUILD ROW 2: PAST DATES
-    let pastHtml = "";
-
-    // Past 1: Oldest past date
+    // TILE 1: Oldest date in the past
     if (pastDatesList.length > 0) {
-      const p1 = pastDatesList[0];
-      const dur1 = formatPastDuration(p1.targetDate, today);
-      pastHtml += `
+      const oldest = pastDatesList[0];
+      const dateYYMMDD = formatYYMMDD(oldest.targetDate);
+      const pastDur = formatPastDuration(oldest.targetDate, today);
+      mainHtml += `
         <div class="countdown-tile passed">
-          <div class="tile-title">PAST 1</div>
-          <div class="tile-val">${p1.label} - <span class="days-red">${dur1}</span></div>
+          <div class="tile-title">Oldest Past</div>
+          <div class="tile-val">${dateYYMMDD} - <span class="days-red">${pastDur}</span></div>
         </div>
       `;
     } else {
-      pastHtml += `
+      mainHtml += `
         <div class="countdown-tile passed">
-          <div class="tile-title">PAST 1</div>
+          <div class="tile-title">Oldest Past</div>
           <div class="tile-val">None</div>
         </div>
       `;
     }
 
-    // Past 2: Second oldest past date
-    if (pastDatesList.length > 1) {
-      const p2 = pastDatesList[1];
-      const dur2 = formatPastDuration(p2.targetDate, today);
-      pastHtml += `
-        <div class="countdown-tile passed">
-          <div class="tile-title">PAST 2</div>
-          <div class="tile-val">${p2.label} - <span class="days-red">${dur2}</span></div>
-        </div>
-      `;
-    } else {
-      pastHtml += `
-        <div class="countdown-tile passed">
-          <div class="tile-title">PAST 2</div>
-          <div class="tile-val">None</div>
-        </div>
-      `;
-    }
-
-    // Past 3: Auto-rotating tile
-    pastHtml += `
-      <div class="countdown-tile passed">
-        <div class="tile-title">PAST 🔄</div>
-        <div class="tile-val" id="pastRotatingTileVal">Loading...</div>
-      </div>
-    `;
-
-    // Past 4: Count & Popup trigger
-    pastHtml += `
+    // TILE 2: Past dates count & popup trigger
+    mainHtml += `
       <div class="countdown-tile passed interactive" onclick="openCountdownPopup('past')">
         <div class="tile-title">Past Dates</div>
-        <div class="tile-val">${pastDatesList.length} items <span style="font-size:0.82rem;">🔍</span></div>
+        <div class="tile-val">${pastDatesList.length} items <span style="font-size:0.75rem;">🔍</span></div>
       </div>
     `;
 
-    pastContainer.innerHTML = pastHtml;
+    // TILE 3: Future dates count & popup trigger
+    mainHtml += `
+      <div class="countdown-tile upcoming interactive" onclick="openCountdownPopup('future')">
+        <div class="tile-title">Future Dates</div>
+        <div class="tile-val">${futureDatesList.length} items <span style="font-size:0.75rem;">🔍</span></div>
+      </div>
+    `;
 
-    // INIT AUTO-ROTATION LOOPS (EVERY 4 SECONDS)
-    startRotatingCountdownTiles(today);
+    // TILE 4: Closest date approaching next
+    if (futureDatesList.length > 0) {
+      const closest = futureDatesList[0];
+      const dayLabel = closest.diffDays === 0 ? "Today" : `${closest.diffDays}D`;
+      mainHtml += `
+        <div class="countdown-tile upcoming">
+          <div class="tile-title">Next Approaching</div>
+          <div class="tile-val">${closest.label} <span class="days-green">${dayLabel}</span></div>
+        </div>
+      `;
+    } else {
+      mainHtml += `
+        <div class="countdown-tile upcoming">
+          <div class="tile-title">Next Approaching</div>
+          <div class="tile-val">None</div>
+        </div>
+      `;
+    }
+
+    mainContainer.innerHTML = mainHtml;
     renderAllDatesGrid();
 
   } catch (err) {
     console.error("Error fetching countdown stream:", err);
-    futureContainer.innerHTML = `<div style="color:#e74c3c; grid-column:1/-1; text-align:center; font-size:0.85rem;">Error loading count downs</div>`;
-    pastContainer.style.display = 'none';
+    mainContainer.style.display = 'none';
   }
-}
-
-function startRotatingCountdownTiles(today) {
-  if (pastRotationTimer) clearInterval(pastRotationTimer);
-  if (futureRotationTimer) clearInterval(futureRotationTimer);
-
-  // Future rotating tile
-  const updateFutureRotatingTile = () => {
-    const elem = document.getElementById("futureRotatingTileVal");
-    if (!elem) return;
-    if (futureDatesList.length === 0) {
-      elem.innerHTML = "None";
-      return;
-    }
-    const item = futureDatesList[autoRotateFutureIndex];
-    const dLabel = item.diffDays === 0 ? "Today" : `${item.diffDays}D`;
-    elem.innerHTML = `${item.label} <span class="days-green">${dLabel}</span>`;
-    autoRotateFutureIndex = (autoRotateFutureIndex + 1) % futureDatesList.length;
-  };
-
-  // Past rotating tile
-  const updatePastRotatingTile = () => {
-    const elem = document.getElementById("pastRotatingTileVal");
-    if (!elem) return;
-    if (pastDatesList.length === 0) {
-      elem.innerHTML = "None";
-      return;
-    }
-    const item = pastDatesList[autoRotatePastIndex];
-    const dur = formatPastDuration(item.targetDate, today);
-    elem.innerHTML = `${item.label} - <span class="days-red">${dur}</span>`;
-    autoRotatePastIndex = (autoRotatePastIndex + 1) % pastDatesList.length;
-  };
-
-  updateFutureRotatingTile();
-  updatePastRotatingTile();
-
-  futureRotationTimer = setInterval(updateFutureRotatingTile, 4000);
-  pastRotationTimer = setInterval(updatePastRotatingTile, 4000);
 }
 
 function openCountdownPopup(type) {
@@ -1310,7 +1189,7 @@ function renderCountdownPopupContent(type) {
       <div class="countdown-popup-card">
         <div class="countdown-popup-title">${item.label}</div>
         <div class="countdown-popup-date">${formatYYMMDD(item.targetDate)}</div>
-        <div class="countdown-popup-diff days-red">${dur}</div>
+        <div class="countdown-popup-diff days-red">${dur} ago</div>
       </div>
     `;
     document.getElementById('pastModalCounter').textContent = `${activePastIndex + 1} / ${pastDatesList.length}`;
