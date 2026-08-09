@@ -34,7 +34,7 @@
     margin-top:2px;
   }
   header h1{
-    font-size:0.95rem;
+    font-size:0.95rem; /* +1pt */
     margin:0;
     color:#6b7280;
     font-weight: 500;
@@ -42,41 +42,26 @@
     text-transform: uppercase;
   }
 
-  /* COUNTDOWN GRID: 4 MAIN TILES SINGLE ROW BY DEFAULT */
+  /* COUNTDOWN GRID: EXACTLY 3 PER ROW WITH COMPACT PADDING */
   .countdown-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
-  @media (max-width: 640px) {
-    .countdown-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   .countdown-tile {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 6px 8px;
+    padding: 4px 6px;
     text-align: center;
     box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-    font-size: 0.82rem;
-    font-weight: 500;
+    font-size: 0.88rem; /* +1pt (was 0.78rem) */
+    font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.25;
-    cursor: default;
-  }
-  .countdown-tile.interactive {
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .countdown-tile.interactive:hover {
-    border-color: var(--sky);
-    background: var(--sky-light);
   }
   .countdown-tile.upcoming {
     border-left: 3px solid var(--pitch);
@@ -84,54 +69,17 @@
   }
   .countdown-tile .days-green {
     color: var(--pitch);
-    font-weight: 700;
+    font-weight: 600;
   }
   .countdown-tile.passed {
     border-left: 3px solid var(--muted);
     color: #4b5563;
     background: #fafafa;
+    opacity: 0.85;
   }
   .countdown-tile .days-red {
     color: #dc2626;
-    font-weight: 700;
-  }
-
-  .countdown-tile .tile-title {
-    font-size: 0.70rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--muted);
-    margin-bottom: 2px;
-  }
-  .countdown-tile .tile-val {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #111827;
-  }
-
-  .load-all-wrapper {
-    text-align: right;
-    margin-bottom: 10px;
-    padding-right: 2px;
-  }
-  .load-all-btn {
-    font-size: 0.78rem;
     font-weight: 600;
-    color: var(--sky);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  .load-all-btn:hover {
-    text-decoration: underline;
-  }
-
-  .all-dates-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
   }
 
   .card{
@@ -207,7 +155,7 @@
     transform: translateX(-50%);
     background: #1f2937;
     color: #ffffff;
-    font-size: 0.78rem;
+    font-size: 0.78rem; /* +1pt */
     font-weight: 500;
     padding: 3px 7px;
     border-radius: 4px;
@@ -274,7 +222,7 @@
     padding: 12px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 1.0rem;
+    font-size: 1.0rem; /* +1pt */
     cursor: pointer;
     margin-top: 20px;
   }
@@ -284,7 +232,7 @@
   .form-group label {
     display: block;
     font-weight: 600;
-    font-size: 0.94rem;
+    font-size: 0.94rem; /* +1pt */
     margin-bottom: 6px;
     color: #374151;
   }
@@ -294,7 +242,7 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     font-family: inherit;
-    font-size: 0.96rem;
+    font-size: 0.96rem; /* +1pt */
   }
   .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
     outline: none;
@@ -309,7 +257,7 @@
   
   .psi-hint {
     display: block;
-    font-size: 0.86rem;
+    font-size: 0.86rem; /* +1pt */
     color: var(--sky);
     margin-top: 4px;
     font-weight: 600;
@@ -326,7 +274,7 @@
     margin: 0;
     color: #b91c1c;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* +1pt */
   }
 
   .checkbox-group {
@@ -336,7 +284,7 @@
     margin-top: 6px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-size: 0.96rem;
+    font-size: 0.96rem; /* +1pt */
     font-weight: 600;
     color: #374151;
   }
@@ -362,7 +310,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.0rem;
+    font-size: 1.0rem; /* +1pt */
     padding: 0;
     transition: background 0.1s;
     user-select: none;
@@ -384,7 +332,7 @@
     background: #f9fafb;
     border: 1px solid var(--border);
     border-radius: 8px;
-    font-size: 1.0rem;
+    font-size: 1.0rem; /* +1pt */
     font-weight: 600;
     color: #374151;
     cursor: pointer;
@@ -406,7 +354,7 @@
   }
 
   .modal-section-title {
-    font-size: 1.1rem;
+    font-size: 1.1rem; /* +1pt */
     font-weight: 800;
     color: #111827;
     margin-top: 20px;
@@ -416,7 +364,7 @@
     gap: 6px;
   }
   .modal-section-body {
-    font-size: 0.96rem;
+    font-size: 0.96rem; /* +1pt */
     color: #4b5563;
     line-height: 1.55;
     margin: 0 0 14px 0;
@@ -440,7 +388,7 @@
     border-bottom: 1px solid #f1f5f9;
   }
   .notes-card-title {
-    font-size: 0.88rem;
+    font-size: 0.88rem; /* +1pt */
     font-weight: 700;
     color: var(--sky);
     text-transform: uppercase;
@@ -458,7 +406,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.78rem;
+    font-size: 0.78rem; /* +1pt */
     cursor: pointer;
     user-select: none;
     font-weight: bold;
@@ -477,6 +425,7 @@
     .notes-multi-grid { grid-template-columns: repeat(3, 1fr); }
   }
   
+  /* RICH DETAILED NOTE CARDS (Expanded multi-line layout) */
   .individual-note-card {
     background: #fafbfa;
     border: 1px solid var(--border);
@@ -484,7 +433,7 @@
     padding: 10px;
     cursor: pointer;
     transition: background 0.15s ease, border-color 0.15s ease;
-    font-size: 0.88rem;
+    font-size: 0.88rem; /* +1pt */
     color: #374151;
     display: flex;
     flex-direction: column;
@@ -517,6 +466,7 @@
     line-height: 1.35;
   }
 
+  /* COMPACT SINGLE-ROW NAV CONTROLS */
   .outlook-nav-bar {
     display: flex;
     align-items: center;
@@ -561,7 +511,7 @@
     background: #f8fafc;
     border-bottom: 1px solid var(--border);
     font-weight: 700;
-    font-size: 0.96rem;
+    font-size: 0.96rem; /* +1pt */
     text-align: center;
     color: #374151;
   }
@@ -580,7 +530,7 @@
   }
   
   .outlook-item.detailed-inline {
-    font-size: 0.88rem;
+    font-size: 0.88rem; /* +1pt (was 0.82rem) */
     padding: 5px 7px;
     white-space: nowrap;
     overflow: hidden;
@@ -634,7 +584,7 @@
   
   .no-events-text {
     color: var(--muted);
-    font-size: 0.88rem;
+    font-size: 0.88rem; /* +1pt */
     text-align: center;
     margin: auto 0;
     padding: 12px 0;
@@ -649,7 +599,7 @@
     background: #fafbfa;
   }
   .quick-add-link {
-    font-size: 0.84rem;
+    font-size: 0.84rem; /* +1pt */
     font-weight: 700;
     color: var(--sky);
     text-decoration: none;
@@ -668,7 +618,7 @@
     border: 1px solid var(--border);
     border-radius: 4px;
     padding: 3px 5px;
-    font-size: 0.78rem;
+    font-size: 0.78rem; /* +1pt */
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -701,14 +651,14 @@
     text-align: center;
   }
   .cal-weekday {
-    font-size: 0.86rem;
+    font-size: 0.86rem; /* +1pt */
     font-weight: 700;
     color: var(--muted);
     padding-bottom: 6px;
   }
   .cal-day {
     padding: 8px 4px;
-    font-size: 0.96rem;
+    font-size: 0.96rem; /* +1pt */
     border-radius: 4px;
     border: 1px solid transparent;
     cursor: pointer;
@@ -729,7 +679,7 @@
     padding: 6px 10px;
     border: 1px solid var(--border);
     border-radius: 6px;
-    font-size: 0.9rem;
+    font-size: 0.9rem; /* +1pt */
     margin-bottom: 10px;
     box-sizing: border-box;
     font-family: inherit;
@@ -740,13 +690,14 @@
     padding: 3px 4px;
     border: 1px solid var(--border);
     border-radius: 4px;
-    font-size: 0.78rem;
+    font-size: 0.78rem; /* +1pt */
     background: #fff;
     font-weight: 600;
     color: #4b5563;
     cursor: pointer;
   }
 
+  /* SLICK BOTTOM NAVIGATION */
   .bottom-nav-bar {
     display: flex;
     justify-content: center;
@@ -755,7 +706,7 @@
     margin-top: 18px;
     padding-top: 10px;
     border-top: 1px solid var(--border);
-    font-size: 0.86rem;
+    font-size: 0.86rem; /* +1pt */
     font-weight: 600;
   }
   .bottom-nav-link {
@@ -772,10 +723,11 @@
     color: var(--border);
   }
 
+  /* FOOTER LINKS */
   footer {
     text-align: center;
     margin-top: 10px;
-    font-size: 0.81rem;
+    font-size: 0.81rem; /* +1pt */
     color: var(--muted);
   }
   footer a {
@@ -788,36 +740,6 @@
     color: var(--text);
     text-decoration: underline;
   }
-
-  /* COUNTDOWN POPUP CAROUSEL STYLES */
-  .countdown-popup-card {
-    background: #fafbfa;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    text-align: center;
-    margin: 14px 0;
-  }
-  .countdown-popup-title {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: #111827;
-  }
-  .countdown-popup-date {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin: 4px 0 8px;
-  }
-  .countdown-popup-diff {
-    font-size: 1.2rem;
-    font-weight: 800;
-  }
-  .countdown-nav-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
 </style>
 <script data-goatcounter="https://cshahria.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
@@ -828,17 +750,10 @@
     <h1>Unified Dashboard</h1>
   </header>
 
-  <!-- 4 MAIN COUNTDOWN TILES -->
-  <div id="countdownMainRow" class="countdown-grid">
-    <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading count downs...</div>
+  <!-- COUNTDOWN GRID: 3 PER ROW FORMATTED AS Title - Days -->
+  <div id="countdownRow" class="countdown-grid">
+    <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading dates...</div>
   </div>
-
-  <div class="load-all-wrapper">
-    <button id="loadAllToggleBtn" class="load-all-btn" onclick="toggleLoadAllDates()">Load all dates ▼</button>
-  </div>
-
-  <!-- ON-DEMAND EXPANDED ROWS -->
-  <div id="countdownAllContainer" class="all-dates-grid" style="display:none;"></div>
 
   <div class="card">
     <div class="tile-grid">
@@ -942,34 +857,6 @@
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
 
-<!-- MODAL: PAST DATES LIST POPUP -->
-<div id="pastDatesModal" class="modal-overlay">
-  <div class="modal-content" style="max-width: 420px;">
-    <button class="modal-close" onclick="closeModal('pastDatesModal')">×</button>
-    <h3 style="margin-top:0; font-size:1.1rem; color:#111827;">Past Dates Countdown</h3>
-    <div id="pastModalBody"></div>
-    <div class="countdown-nav-controls">
-      <button class="cal-btn" onclick="stepCountdownPopup('past', -1)">◀ Prev</button>
-      <span id="pastModalCounter" style="font-size:0.85rem; color:var(--muted); font-weight:600;"></span>
-      <button class="cal-btn" onclick="stepCountdownPopup('past', 1)">Next ▶</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL: FUTURE DATES LIST POPUP -->
-<div id="futureDatesModal" class="modal-overlay">
-  <div class="modal-content" style="max-width: 420px;">
-    <button class="modal-close" onclick="closeModal('futureDatesModal')">×</button>
-    <h3 style="margin-top:0; font-size:1.1rem; color:#111827;">Future Dates Countdown</h3>
-    <div id="futureModalBody"></div>
-    <div class="countdown-nav-controls">
-      <button class="cal-btn" onclick="stepCountdownPopup('future', -1)">◀ Prev</button>
-      <span id="futureModalCounter" style="font-size:0.85rem; color:var(--muted); font-weight:600;"></span>
-      <button class="cal-btn" onclick="stepCountdownPopup('future', 1)">Next ▶</button>
-    </div>
-  </div>
-</div>
-
 <!-- MODAL: NOTE DETAILS VIEW -->
 <div id="noteDetailModal" class="modal-overlay">
   <div class="modal-content" style="max-width: 450px;">
@@ -991,17 +878,9 @@ let scheduleBaseDate = new Date();
 let scheduleBaseOffset = 0; 
 let currentViewDays = 3;     
 let cachedDayList = [];
-let allParsedScheduleRows = []; 
+let allParsedScheduleRows = []; // Store full schedule database rows for search queries
 let notesCardData = [];
 let activeNotesIndex = 0; 
-
-// Countdown Datasets
-let pastDatesList = [];
-let futureDatesList = [];
-let activePastIndex = 0;
-let activeFutureIndex = 0;
-let allCountdownRows = [];
-let showAllDates = false;
 
 const MEETINGS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVRZyRhim5ou8cUcYeNxmKGuKrxwF-C7BeTzLc92BQeBYVnkfh-5pcMAGOnNyWBxeVBkn0lclYcNbj/pub?gid=280673308&single=true&output=csv";
 const NOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=1743122072&single=true&output=csv";
@@ -1014,42 +893,8 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderNotesCard();
 });
 
-function formatPastDuration(targetDate, todayDate) {
-  let yrs = todayDate.getFullYear() - targetDate.getFullYear();
-  let mos = todayDate.getMonth() - targetDate.getMonth();
-  let days = todayDate.getDate() - targetDate.getDate();
-
-  if (days < 0) {
-    mos -= 1;
-    let prevMonth = new Date(todayDate.getFullYear(), todayDate.getMonth(), 0);
-    days += prevMonth.getDate();
-  }
-  if (mos < 0) {
-    yrs -= 1;
-    mos += 12;
-  }
-
-  const totalDiffTime = Math.abs(todayDate - targetDate);
-  const totalDiffDays = Math.round(totalDiffTime / (1000 * 60 * 60 * 24));
-
-  if (yrs >= 1) {
-    return `${yrs}Y-${mos}M`;
-  } else if (mos >= 1) {
-    return `${mos}M-${days}D`;
-  } else {
-    return `${totalDiffDays}D`;
-  }
-}
-
-function formatYYMMDD(dateObj) {
-  const yy = dateObj.getFullYear().toString().slice(-2);
-  const mm = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-  const dd = dateObj.getDate().toString().padStart(2, '0');
-  return `${yy}/${mm}/${dd}`;
-}
-
 async function fetchAndRenderCountdowns() {
-  const mainContainer = document.getElementById("countdownMainRow");
+  const container = document.getElementById("countdownRow");
   try {
     const fetchUrl = "https://corsproxy.io/?" + encodeURIComponent(COUNTDOWN_CSV_URL + "&t=" + new Date().getTime());
     const response = await fetch(fetchUrl);
@@ -1057,12 +902,9 @@ async function fetchAndRenderCountdowns() {
     const lines = data.split(/\r?\n/);
     const rows = lines.map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)).slice(1);
 
+    let html = "";
     const today = new Date();
     today.setHours(0,0,0,0);
-
-    pastDatesList = [];
-    futureDatesList = [];
-    allCountdownRows = [];
 
     rows.forEach(row => {
       const label = row[0]?.replace(/^"|"$/g, '').trim();
@@ -1072,173 +914,39 @@ async function fetchAndRenderCountdowns() {
         const targetDate = new Date(dateStr);
         if (!isNaN(targetDate.getTime())) {
           targetDate.setHours(0,0,0,0);
-          const diffDays = Math.round((targetDate - today) / (1000 * 60 * 60 * 24));
-          const item = { label, dateStr, targetDate, diffDays };
-          
-          allCountdownRows.push(item);
-          if (diffDays < 0) {
-            pastDatesList.push(item);
+          const diffTime = targetDate - today;
+          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+          let statusClass = "upcoming";
+          let daysVal = "";
+
+          if (diffDays > 0) {
+            daysVal = `<span class="days-green">${diffDays}</span>`;
+          } else if (diffDays === 0) {
+            daysVal = `<span class="days-green">Today</span>`;
           } else {
-            futureDatesList.push(item);
+            statusClass = "passed";
+            daysVal = `<span class="days-red">(${Math.abs(diffDays)})</span>`;
           }
+
+          html += `
+            <div class="countdown-tile ${statusClass}">
+              ${label} - ${daysVal}
+            </div>
+          `;
         }
       }
     });
 
-    pastDatesList.sort((a, b) => a.targetDate - b.targetDate); // Oldest first
-    futureDatesList.sort((a, b) => a.targetDate - b.targetDate); // Closest first
-
-    let mainHtml = "";
-
-    // TILE 1: Oldest date in the past
-    if (pastDatesList.length > 0) {
-      const oldest = pastDatesList[0];
-      const dateYYMMDD = formatYYMMDD(oldest.targetDate);
-      const pastDur = formatPastDuration(oldest.targetDate, today);
-      mainHtml += `
-        <div class="countdown-tile passed">
-          <div class="tile-title">Oldest Past</div>
-          <div class="tile-val">${dateYYMMDD} - <span class="days-red">${pastDur}</span></div>
-        </div>
-      `;
+    if (html !== "") {
+      container.innerHTML = html;
     } else {
-      mainHtml += `
-        <div class="countdown-tile passed">
-          <div class="tile-title">Oldest Past</div>
-          <div class="tile-val">None</div>
-        </div>
-      `;
+      container.style.display = 'none';
     }
-
-    // TILE 2: Past dates count & popup trigger
-    mainHtml += `
-      <div class="countdown-tile passed interactive" onclick="openCountdownPopup('past')">
-        <div class="tile-title">Past Dates</div>
-        <div class="tile-val">${pastDatesList.length} items <span style="font-size:0.75rem;">🔍</span></div>
-      </div>
-    `;
-
-    // TILE 3: Future dates count & popup trigger
-    mainHtml += `
-      <div class="countdown-tile upcoming interactive" onclick="openCountdownPopup('future')">
-        <div class="tile-title">Future Dates</div>
-        <div class="tile-val">${futureDatesList.length} items <span style="font-size:0.75rem;">🔍</span></div>
-      </div>
-    `;
-
-    // TILE 4: Closest date approaching next
-    if (futureDatesList.length > 0) {
-      const closest = futureDatesList[0];
-      const dayLabel = closest.diffDays === 0 ? "Today" : `${closest.diffDays}D`;
-      mainHtml += `
-        <div class="countdown-tile upcoming">
-          <div class="tile-title">Next Approaching</div>
-          <div class="tile-val">${closest.label} <span class="days-green">${dayLabel}</span></div>
-        </div>
-      `;
-    } else {
-      mainHtml += `
-        <div class="countdown-tile upcoming">
-          <div class="tile-title">Next Approaching</div>
-          <div class="tile-val">None</div>
-        </div>
-      `;
-    }
-
-    mainContainer.innerHTML = mainHtml;
-    renderAllDatesGrid();
-
   } catch (err) {
     console.error("Error fetching countdown stream:", err);
-    mainContainer.style.display = 'none';
+    container.style.display = 'none';
   }
-}
-
-function openCountdownPopup(type) {
-  if (type === 'past') {
-    if (pastDatesList.length === 0) return;
-    activePastIndex = 0;
-    renderCountdownPopupContent('past');
-    openModal('pastDatesModal');
-  } else {
-    if (futureDatesList.length === 0) return;
-    activeFutureIndex = 0;
-    renderCountdownPopupContent('future');
-    openModal('futureDatesModal');
-  }
-}
-
-function stepCountdownPopup(type, dir) {
-  if (type === 'past') {
-    activePastIndex = (activePastIndex + dir + pastDatesList.length) % pastDatesList.length;
-    renderCountdownPopupContent('past');
-  } else {
-    activeFutureIndex = (activeFutureIndex + dir + futureDatesList.length) % futureDatesList.length;
-    renderCountdownPopupContent('future');
-  }
-}
-
-function renderCountdownPopupContent(type) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-
-  if (type === 'past') {
-    const item = pastDatesList[activePastIndex];
-    const dur = formatPastDuration(item.targetDate, today);
-    document.getElementById('pastModalBody').innerHTML = `
-      <div class="countdown-popup-card">
-        <div class="countdown-popup-title">${item.label}</div>
-        <div class="countdown-popup-date">${formatYYMMDD(item.targetDate)}</div>
-        <div class="countdown-popup-diff days-red">${dur} ago</div>
-      </div>
-    `;
-    document.getElementById('pastModalCounter').textContent = `${activePastIndex + 1} / ${pastDatesList.length}`;
-  } else {
-    const item = futureDatesList[activeFutureIndex];
-    const dayText = item.diffDays === 0 ? "Today" : `in ${item.diffDays} Days`;
-    document.getElementById('futureModalBody').innerHTML = `
-      <div class="countdown-popup-card">
-        <div class="countdown-popup-title">${item.label}</div>
-        <div class="countdown-popup-date">${item.dateStr}</div>
-        <div class="countdown-popup-diff days-green">${dayText}</div>
-      </div>
-    `;
-    document.getElementById('futureModalCounter').textContent = `${activeFutureIndex + 1} / ${futureDatesList.length}`;
-  }
-}
-
-function toggleLoadAllDates() {
-  showAllDates = !showAllDates;
-  const container = document.getElementById("countdownAllContainer");
-  const btn = document.getElementById("loadAllToggleBtn");
-  
-  if (showAllDates) {
-    container.style.display = "grid";
-    btn.textContent = "Hide all dates ▲";
-  } else {
-    container.style.display = "none";
-    btn.textContent = "Load all dates ▼";
-  }
-}
-
-function renderAllDatesGrid() {
-  const container = document.getElementById("countdownAllContainer");
-  if (allCountdownRows.length === 0) return;
-
-  let html = "";
-  allCountdownRows.forEach(item => {
-    const isPast = item.diffDays < 0;
-    const tileClass = isPast ? "passed" : "upcoming";
-    const daysClass = isPast ? "days-red" : "days-green";
-    const valStr = isPast ? `(${Math.abs(item.diffDays)}D)` : (item.diffDays === 0 ? "Today" : `${item.diffDays}D`);
-
-    html += `
-      <div class="countdown-tile ${tileClass}">
-        ${item.label} - <span class="${daysClass}">${valStr}</span>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
 }
 
 function cleanTo24h(timeStr) {
@@ -1478,6 +1186,7 @@ function renderScheduleMatrix(searchTerm = "") {
   
   let outputHtml = "";
 
+  // GLOBAL SEARCH OVERRIDE: If search query exists, pull all matching results across entire database regardless of date
   if (query.length > 0) {
     const matchedGlobalEvents = allParsedScheduleRows.filter(m => {
       const tMatch = m.title && m.title.toLowerCase().includes(query);
@@ -1489,6 +1198,7 @@ function renderScheduleMatrix(searchTerm = "") {
     if (matchedGlobalEvents.length === 0) {
       outputHtml = `<div style="grid-column: 1/-1; text-align: center; color: var(--muted); padding: 18px 0; font-style: italic; font-size:0.95rem;">No matching schedule events found for "${searchTerm}".</div>`;
     } else {
+      // Group search results by date
       const searchGroupedMap = {};
       matchedGlobalEvents.forEach(evt => {
         const dKey = evt.rawDate || evt.dateStr || "Unscheduled";
@@ -1521,6 +1231,7 @@ function renderScheduleMatrix(searchTerm = "") {
     return;
   }
 
+  // STANDARD VIEW MATRIX (When no search query is active)
   cachedDayList.forEach(day => {
     const cardClass = day.isToday ? "outlook-day-card today" : "outlook-day-card";
     
