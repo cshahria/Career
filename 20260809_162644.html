@@ -823,8 +823,8 @@ function quickPulse(name, statusKey) {
   memberPulseState[name] = statusLabel;
   
   showToast(`${name}: ${statusLabel}`);
-  // Pass empty string for delta so percentage parsing is ignored completely
-  submitProgressAndPulse(name, '', statusLabel);
+  // Pass 0% delta so logging daily pulse status does not skew total progress
+  submitProgressAndPulse(name, '0%', statusLabel);
 }
 
 function formatDateTimeLocal(dtValue) {
@@ -877,24 +877,20 @@ async function fetchMemberPercentages() {
     let nameIdx = headers.findIndex(h => h.includes('member') || h.includes('name'));
     let percentIdx = headers.findIndex(h => h.includes('percent') || h.includes('progress') || h.includes('%'));
 
-    if (nameIdx === -1) nameIdx = 1;      // Fallback Column B
-    if (percentIdx === -1) percentIdx = 3; // Fallback Column D
+    if (nameIdx === -1) nameIdx = 1;      
+    if (percentIdx === -1) percentIdx = 3; 
 
     const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
     const totals = {};
     memberKeys.forEach(k => totals[k] = 0);
 
-    // Sum every logged delta entry row in the CSV
+    // Sum every delta row in the CSV
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
       if (!row || !row[nameIdx]) continue;
 
       const rowName = row[nameIdx].trim().toLowerCase();
       const rawPercent = row[percentIdx] ? row[percentIdx].trim() : '';
-      
-      // Skip empty or non-numeric percentage fields (e.g. quick pulse entries)
-      if (!rawPercent) continue;
-
       const val = parseInt(rawPercent.replace(/[^0-9\-]/g, ''), 10);
 
       if (!isNaN(val)) {
