@@ -272,9 +272,9 @@
       <span id="readmeIcon">▼</span>
     </div>
     <div class="readme-content" id="readmeContent">
-      <p><strong>1. Progress Tracking:</strong> Adjust progress using <strong>-15%</strong> / <strong>+15%</strong> step buttons on your row. Deltas are logged automatically to Google Forms.</p>
+      <p><strong>1. Progress Tracking:</strong> Adjust progress using <strong>-15%</strong> / <strong>+15%</strong> step buttons on your row. Updates post automatically to the master sheet.</p>
       <p><strong>2. Daily Pulse:</strong> Click 🟢 (On Track), 🟡 (Review), or 🔴 (Need Help) to log daily momentum.</p>
-      <p><strong>3. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log detailed weekly goals directly to the Master Spreadsheet.</p>
+      <p><strong>3. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log your detailed weekly goals directly to the Master Spreadsheet via Google Forms.</p>
     </div>
   </div>
 
@@ -578,11 +578,11 @@
 
 </div>
 
-<!-- Hidden iFrame for Silent Form Posting -->
+<!-- Hidden iFrame for Form Submission Silent Posting -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof formSubmittedType !== 'undefined' && formSubmittedType) { handleFormDone(); }"></iframe>
 
-<!-- Silent Form mapped to Progress & Pulse Google Form -->
-<form id="progressSilentForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLScAL8MFURZxOa1t04dXskki6mqfOR_AHAG1d4GTmKWg99BNZA/formResponse" target="hidden_iframe" style="display:none;">
+<!-- Silent Form mapped to New Progress & Pulse Google Form -->
+<form id="progressSilentForm" method="GET" action="https://docs.google.com/forms/d/e/1FAIpQLScAL8MFURZxOa1t04dXskki6mqfOR_AHAG1d4GTmKWg99BNZA/formResponse" target="hidden_iframe" style="display:none;">
   <input type="hidden" name="entry.1206329315" id="progFormName">
   <input type="hidden" name="entry.2053409378" id="progFormGoal">
   <input type="hidden" name="entry.1435000192" id="progFormPercent">
@@ -787,19 +787,18 @@ function toggleReadme() {
   }
 }
 
-// Unified progress & pulse payload poster
-function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus) {
+// Unified progress & pulse posting
+function submitProgressAndPulse(fullName, percentage, pulseStatus) {
   formSubmittedType = 'progress_pulse';
   document.getElementById('progFormName').value = fullName;
-  document.getElementById('progFormGoal').value = "Sprint Delta Update";
-  document.getElementById('progFormPercent').value = deltaValueStr;
+  document.getElementById('progFormGoal').value = "Sprint Progress Update";
+  document.getElementById('progFormPercent').value = percentage + '%';
   document.getElementById('progFormHelp').value = pulseStatus;
   document.getElementById('progressSilentForm').submit();
 }
 
 function adjustProgress(id, step, fullName) {
   let current = memberPctState[id] || 0;
-  // Cap client-side UI strictly between 0% and 100%
   let updated = Math.min(100, Math.max(0, current + step));
   memberPctState[id] = updated;
 
@@ -808,9 +807,7 @@ function adjustProgress(id, step, fullName) {
   showToast(`Updated ${fullName} to ${updated}%`);
 
   let currentPulse = memberPulseState[fullName] || 'On Track - Green';
-  // Send delta string (+15% or -15%) to append-only sheet log
-  const deltaStr = step > 0 ? `+${step}%` : `${step}%`;
-  submitProgressAndPulse(fullName, deltaStr, currentPulse);
+  submitProgressAndPulse(fullName, updated, currentPulse);
 }
 
 function quickPulse(name, statusKey) {
@@ -822,9 +819,10 @@ function quickPulse(name, statusKey) {
   const statusLabel = statusMap[statusKey] || 'On Track - Green';
   memberPulseState[name] = statusLabel;
   
+  let currentPct = memberPctState[name.toLowerCase()] || 0;
   showToast(`${name}: ${statusLabel}`);
-  // Pass 0% delta so logging daily pulse status does not skew total progress
-  submitProgressAndPulse(name, '0%', statusLabel);
+
+  submitProgressAndPulse(name, currentPct, statusLabel);
 }
 
 function formatDateTimeLocal(dtValue) {
@@ -878,12 +876,14 @@ async function fetchMemberPercentages() {
     let nameIdx = headers.findIndex(h => h.includes('member') || h.includes('name'));
     let percentIdx = headers.findIndex(h => h.includes('percent') || h.includes('progress') || h.includes('%'));
 
-    if (nameIdx === -1) nameIdx = 1;      // Fallback Column B
-    if (percentIdx === -1) percentIdx = 3; // Fallback Column D
+    // Fallbacks if generic headers are provided
+    if (nameIdx === -1) nameIdx = 1;      // Column B
+    if (percentIdx === -1) percentIdx = 3; // Column D
 
     const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
     const foundMembers = new Set();
     
+    // Read from newest entry (bottom) to oldest (top)
     for (let i = rows.length - 1; i >= 1; i--) {
       const row = rows[i];
       if (!row || !row[nameIdx]) continue;
@@ -893,7 +893,7 @@ async function fetchMemberPercentages() {
 
       for (const key of memberKeys) {
         if (!foundMembers.has(key) && rowName.includes(key)) {
-          const numericVal = parseInt(rawPercent.replace(/[^0-9\-]/g, ''), 10);
+          const numericVal = parseInt(rawPercent.replace(/[^0-9]/g, ''), 10);
           
           if (!isNaN(numericVal)) {
             const clampedVal = Math.min(100, Math.max(0, numericVal));
@@ -1019,7 +1019,7 @@ function viewSelectedMinutes() {
   openModal('dynamicMinutesModal');
 }
 
-/* Speaking Timer Logic */
+/* Timer Logic */
 let totalSeconds = 300; 
 let timerInterval = null;
 let timerRunning = false;
@@ -1127,7 +1127,7 @@ function handleFormDone() {
     closeModal('adminVariablesModal');
     setTimeout(() => { autoUpdateDashboard(); }, 1500);
   } else if (formSubmittedType === 'progress_pulse') {
-    console.log("Progress delta and pulse status logged.");
+    console.log("Progress and pulse status posted to Google Form.");
   }
   formSubmittedType = '';
 }
