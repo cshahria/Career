@@ -34,7 +34,7 @@
     padding:16px 16px 60px;
     line-height:1.5;
   }
-  .wrap { max-width:860px; margin:0 auto; }
+  .wrap { max-width:820px; margin:0 auto; }
 
   header {
     text-align:center;
@@ -130,130 +130,105 @@
   .card h2 { margin:0 0 10px; font-size:1rem; display:flex; align-items:center; gap:8px; color:#111827; }
 
   /* Member List & Row Integration */
-  .member-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .member-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
   .member-row {
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     background: #ffffff;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 10px;
+    flex-wrap: wrap;
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
-
-  /* Two-line row layout */
-  .row-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    flex-wrap: wrap;
-  }
-  .row-bottom {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    flex-wrap: wrap;
+  @media (min-width: 600px) {
+    .member-row { flex-wrap: nowrap; }
   }
 
-  .member-identity { display: flex; align-items: center; gap: 8px; min-width: 160px; }
+  .col-member { width: 180px; flex-shrink: 0; }
+  .member-identity { display: flex; align-items: center; gap: 8px; }
   .avatar {
     width: 34px; height: 34px; border-radius: 50%;
     background: var(--sky-light); color: var(--sky-dark);
     font-weight: 800; font-size: 0.8rem;
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: color 0.3s ease, background-color 0.3s ease;
   }
-  .member-name { font-weight: 800; font-size: 0.88rem; line-height: 1.1; }
+  .member-name { font-weight: 800; font-size: 0.88rem; line-height: 1.1; transition: color 0.3s ease; }
   .member-role { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
-
   .member-goal-input {
-    flex: 1;
-    min-width: 240px;
-    font-size: 0.82rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 10px;
-    color: #1f2937;
-    background: #fdfdfd;
-  }
-  .member-goal-input:focus { border-color: var(--sky); outline: none; background: #fff; }
-
-  /* Progress Column & Thicker Bar */
-  .col-progress { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 4px; }
-  .bar-track { width:100%; height:18px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
-  .bar-fill {
-    height:100%;
-    border-radius:999px;
-    width:0%;
-    transition: width 0.3s ease, background-color 0.3s ease;
+    width: 100%; font-size: 0.72rem; border: 1px dashed var(--border);
+    border-radius: 4px; padding: 2px 4px; margin-top: 4px; color: #374151;
   }
 
-  /* Dynamic Progress Colors & 100% Effect */
-  .bar-red { background-color: #ef4444 !important; }
-  .bar-yellow { background-color: #f59e0b !important; }
-  .bar-lightgreen { background-color: #4ade80 !important; }
-  .bar-solidgreen { background-color: #16a34a !important; }
-  .bar-celebrate {
-    animation: celebrateGlow 1.2s infinite alternate ease-in-out;
-  }
-
-  @keyframes celebrateGlow {
-    0% {
-      box-shadow: 0 0 4px #16a34a;
-      filter: brightness(1);
-    }
-    100% {
-      box-shadow: 0 0 14px #22c55e, 0 0 20px #86efac;
-      filter: brightness(1.25);
-    }
-  }
-
-  .pulse-mini-row { display:flex; gap:4px; align-items:center; flex-shrink: 0; }
+  .col-progress { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .bar-track { width:100%; height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:999px; background:var(--sky); width:0%; transition: width 0.3s ease; }
+  
+  .progress-actions { display: flex; align-items: center; justify-content: space-between; }
+  .pulse-mini-row { display:flex; gap:3px; align-items:center; }
   .pulse-btn {
-    border: 1px solid var(--border); background: #fff; border-radius: 6px;
-    padding: 4px 8px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
-    display: flex; align-items: center; gap: 4px; color: #374151;
+    border: 1px solid var(--border); background: #fff; border-radius: 4px;
+    padding: 2px 5px; font-size: 0.7rem; cursor: pointer;
   }
   .pulse-btn:hover { background: var(--bg); border-color: var(--sky); }
 
-  .symbol { display: none; font-size: 0.9rem; margin-left: 4px; }
+  .symbol {
+    display: none;
+    font-size: 0.9rem;
+    margin-left: 4px;
+  }
 
-  /* ---------------- STATE STYLES & ICONS ---------------- */
+  /* ---------------- STATE STYLES ---------------- */
+
+  /* GREEN STATE */
   .member-row.state-green .member-name,
-  .member-row.state-green .avatar { color: #2e7d32 !important; }
-  .member-row.state-green .avatar { background-color: #e8f5e9; }
-  .member-row.state-green .symbol-green { display: inline; }
+  .member-row.state-green .avatar {
+    color: #2e7d32 !important;
+  }
+  .member-row.state-green .avatar {
+    background-color: #e8f5e9;
+  }
 
-  .member-row.state-yellow { background-color: #fffde7; border-color: #fbc02d; }
-  .member-row.state-yellow .symbol-yellow { display: inline; }
+  /* YELLOW STATE */
+  .member-row.state-yellow {
+    background-color: #fffde7;
+    border-color: #fbc02d;
+  }
+  .member-row.state-yellow .symbol {
+    display: inline;
+  }
 
+  /* RED STATE (FLASHING ANIMATION) */
   .member-row.state-red .member-name,
   .member-row.state-red .col-pct-input {
     animation: flashRed 0.8s infinite alternate ease-in-out;
   }
-  .member-row.state-red .symbol-red { display: inline; }
 
   @keyframes flashRed {
-    0% { color: #333333; }
-    100% { color: #d32f2f; }
+    0% {
+      color: #333333;
+    }
+    100% {
+      color: #d32f2f;
+    }
   }
 
   /* Large Digit Input Tile */
-  .pct-wrap { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
   .col-pct-input {
-    width: 68px; height: 36px;
+    width: 75px; height: 44px;
     background: var(--sky-light); border: 1px solid #c3dafe;
-    border-radius: 6px; text-align: center;
-    font-size: 1.05rem; font-weight: 900; color: var(--sky-dark); flex-shrink: 0;
-    outline: none; transition: color 0.3s ease;
+    border-radius: 8px; text-align: center;
+    font-size: 1.3rem; font-weight: 900; color: var(--sky-dark); flex-shrink: 0;
+    outline: none;
+    transition: color 0.3s ease;
   }
   .col-pct-input:focus { border-color: var(--sky); background: #ffffff; }
 
   .action-btn {
     background: var(--pitch); color: white; border: none;
-    padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;
+    padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;
     cursor: pointer; text-decoration: none; flex-shrink: 0;
   }
   .action-btn:hover { background: #186e3d; }
@@ -341,9 +316,9 @@
       <span id="readmeIcon">▼</span>
     </div>
     <div class="readme-content" id="readmeContent">
-      <p><strong>1. Progress Tracking:</strong> Type your percentage completion directly into the large digit box or use arrow keys (25% increments).</p>
-      <p><strong>2. Daily Pulse:</strong> Click 🟢 On Track, 🟡 Review, or 🔴 Help to update status on the left.</p>
-      <p><strong>3. Primary Goal:</strong> Type your multi-word primary sprint goal directly into your row.</p>
+      <p><strong>1. Progress Tracking:</strong> Type your percentage completion directly into the large digit box on your row (increases/decreases in steps of 25%).</p>
+      <p><strong>2. Daily Pulse:</strong> Click 🟢 (Green - On Track), 🟡 (Yellow - Request Review), or 🔴 (Red - Need help) to log daily status.</p>
+      <p><strong>3. Primary Goal:</strong> Update your primary sprint goal directly in your row profile.</p>
       <p><strong>4. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log detailed weekly goals directly to the Master Spreadsheet.</p>
     </div>
   </div>
@@ -382,266 +357,226 @@
 
       <!-- Cyrus -->
       <div class="member-row" id="row-cyrus">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-cyrus">CS</div>
             <div>
               <div class="member-name" id="name-cyrus">
-                Cyrus 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Cyrus <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Tech Migration</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-cyrus" placeholder="Primary goal..." value="Tech Migration" onchange="updateMemberGoal('Cyrus', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Cyrus','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Cyrus','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Cyrus','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-cyrus"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Cyrus','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Cyrus','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Cyrus','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-cyrus"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-cyrus" value="0" onchange="setDirectProgress('cyrus', this.value, 'Cyrus')" oninput="setDirectProgress('cyrus', this.value, 'Cyrus')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Cyrus')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-cyrus" value="0" onchange="setDirectProgress('cyrus', this.value, 'Cyrus')" oninput="setDirectProgress('cyrus', this.value, 'Cyrus')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Cyrus')">📝 Report</button>
       </div>
 
       <!-- Siddharth -->
       <div class="member-row" id="row-siddharth">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-siddharth">ST</div>
             <div>
               <div class="member-name" id="name-siddharth">
-                Siddharth 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Siddharth <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Pipeline</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-siddharth" placeholder="Primary goal..." value="Pipeline" onchange="updateMemberGoal('Siddharth', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Siddharth','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Siddharth','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Siddharth','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-siddharth"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Siddharth','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Siddharth','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Siddharth','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-siddharth"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-siddharth" value="0" onchange="setDirectProgress('siddharth', this.value, 'Siddharth')" oninput="setDirectProgress('siddharth', this.value, 'Siddharth')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Siddharth')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-siddharth" value="0" onchange="setDirectProgress('siddharth', this.value, 'Siddharth')" oninput="setDirectProgress('siddharth', this.value, 'Siddharth')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Siddharth')">📝 Report</button>
       </div>
 
       <!-- Felice -->
       <div class="member-row" id="row-felice">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-felice">FT</div>
             <div>
               <div class="member-name" id="name-felice">
-                Felice 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Felice <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Publishing</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-felice" placeholder="Primary goal..." value="Publishing" onchange="updateMemberGoal('Felice', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Felice','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Felice','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Felice','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-felice"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Felice','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Felice','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Felice','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-felice"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-felice" value="0" onchange="setDirectProgress('felice', this.value, 'Felice')" oninput="setDirectProgress('felice', this.value, 'Felice')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Felice')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-felice" value="0" onchange="setDirectProgress('felice', this.value, 'Felice')" oninput="setDirectProgress('felice', this.value, 'Felice')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Felice')">📝 Report</button>
       </div>
 
       <!-- Art -->
       <div class="member-row" id="row-art">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-art">AT</div>
             <div>
               <div class="member-name" id="name-art">
-                Art 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Art <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Video Lead</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-art" placeholder="Primary goal..." value="Video Lead" onchange="updateMemberGoal('Art', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Art','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Art','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Art','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-art"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Art','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Art','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Art','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-art"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-art" value="0" onchange="setDirectProgress('art', this.value, 'Art')" oninput="setDirectProgress('art', this.value, 'Art')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Art')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-art" value="0" onchange="setDirectProgress('art', this.value, 'Art')" oninput="setDirectProgress('art', this.value, 'Art')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Art')">📝 Report</button>
       </div>
 
       <!-- Tina -->
       <div class="member-row" id="row-tina">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-tina">TN</div>
             <div>
               <div class="member-name" id="name-tina">
-                Tina 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Tina <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Roadmap</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-tina" placeholder="Primary goal..." value="Roadmap" onchange="updateMemberGoal('Tina', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Tina','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Tina','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Tina','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-tina"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Tina','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Tina','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Tina','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-tina"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-tina" value="0" onchange="setDirectProgress('tina', this.value, 'Tina')" oninput="setDirectProgress('tina', this.value, 'Tina')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Tina')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-tina" value="0" onchange="setDirectProgress('tina', this.value, 'Tina')" oninput="setDirectProgress('tina', this.value, 'Tina')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Tina')">📝 Report</button>
       </div>
 
       <!-- Kar -->
       <div class="member-row" id="row-kar">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-kar">KR</div>
             <div>
               <div class="member-name" id="name-kar">
-                Kar 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Kar <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Strategy</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-kar" placeholder="Primary goal..." value="Strategy" onchange="updateMemberGoal('Kar', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Kar','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Kar','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Kar','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-kar"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Kar','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Kar','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Kar','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-kar"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-kar" value="0" onchange="setDirectProgress('kar', this.value, 'Kar')" oninput="setDirectProgress('kar', this.value, 'Kar')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Kar')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-kar" value="0" onchange="setDirectProgress('kar', this.value, 'Kar')" oninput="setDirectProgress('kar', this.value, 'Kar')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Kar')">📝 Report</button>
       </div>
 
       <!-- Sheela -->
       <div class="member-row" id="row-sheela">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-sheela">SH</div>
             <div>
               <div class="member-name" id="name-sheela">
-                Sheela 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Sheela <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Outreach</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-sheela" placeholder="Primary goal..." value="Outreach" onchange="updateMemberGoal('Sheela', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Sheela','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Sheela','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Sheela','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-sheela"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Sheela','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Sheela','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Sheela','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-sheela"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-sheela" value="0" onchange="setDirectProgress('sheela', this.value, 'Sheela')" oninput="setDirectProgress('sheela', this.value, 'Sheela')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Sheela')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-sheela" value="0" onchange="setDirectProgress('sheela', this.value, 'Sheela')" oninput="setDirectProgress('sheela', this.value, 'Sheela')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Sheela')">📝 Report</button>
       </div>
 
       <!-- Aparna -->
       <div class="member-row" id="row-aparna">
-        <div class="row-top">
+        <div class="col-member">
           <div class="member-identity">
             <div class="avatar" id="avatar-aparna">AP</div>
             <div>
               <div class="member-name" id="name-aparna">
-                Aparna 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
+                Aparna <span class="symbol">⚠️</span>
               </div>
               <div class="member-role">Operations</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-aparna" placeholder="Primary goal..." value="Operations" onchange="updateMemberGoal('Aparna', this.value)">
         </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Aparna','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Aparna','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Aparna','red')">🔴 Help</button>
+        <div class="col-progress">
+          <div class="bar-track"><div class="bar-fill" id="fill-aparna"></div></div>
+          <div class="progress-actions">
+            <div class="pulse-mini-row">
+              <button class="pulse-btn" title="Green - On Track" onclick="quickPulse('Aparna','green')">🟢</button>
+              <button class="pulse-btn" title="Yellow - Request Review" onclick="quickPulse('Aparna','amber')">🟡</button>
+              <button class="pulse-btn" title="Red - Need help" onclick="quickPulse('Aparna','red')">🔴</button>
+            </div>
           </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-aparna"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-aparna" value="0" onchange="setDirectProgress('aparna', this.value, 'Aparna')" oninput="setDirectProgress('aparna', this.value, 'Aparna')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Aparna')">📝 Report</button>
         </div>
+        <input type="number" min="0" max="100" step="25" class="col-pct-input" id="tile-aparna" value="0" onchange="setDirectProgress('aparna', this.value, 'Aparna')" oninput="setDirectProgress('aparna', this.value, 'Aparna')">%
+        <button class="action-btn" onclick="openModal('dueModal', 'Aparna')">📝 Report</button>
       </div>
 
     </div>
@@ -890,26 +825,19 @@ function toggleReadme() {
   }
 }
 
-// Ensure full payload is always posted to keep rows complete in Sheet
+// Unified progress & pulse payload poster
 function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus, goalStr) {
   formSubmittedType = 'progress_pulse';
-  const id = fullName.toLowerCase();
-  
-  const currentPct = memberPctState[id] !== undefined ? memberPctState[id] : 0;
-  const currentGoal = goalStr || memberGoalMap[fullName] || document.getElementById(`goal-${id}`)?.value || "Primary Goal Update";
-  const currentPulse = pulseStatus || memberPulseState[fullName] || 'Green - On Track';
-  const pctStr = deltaValueStr || `${currentPct}%`;
-
   document.getElementById('progFormName').value = fullName;
-  document.getElementById('progFormGoal').value = currentGoal;
-  document.getElementById('progFormPercent').value = pctStr;
-  document.getElementById('progFormHelp').value = currentPulse;
+  document.getElementById('progFormGoal').value = goalStr || memberGoalMap[fullName] || "Primary Goal Update";
+  document.getElementById('progFormPercent').value = deltaValueStr;
+  document.getElementById('progFormHelp').value = pulseStatus;
   document.getElementById('progressSilentForm').submit();
 }
 
 function updateMemberGoal(fullName, goalVal) {
   memberGoalMap[fullName] = goalVal;
-  showToast(`Updated ${fullName}'s goal.`);
+  showToast(`Updated ${fullName}'s primary goal.`);
   let currentPulse = memberPulseState[fullName] || 'Green - On Track';
   let id = fullName.toLowerCase();
   let currentPct = memberPctState[id] || 0;
@@ -922,30 +850,12 @@ function updateStatusStyle(id, statusKey) {
 
   row.classList.remove('state-green', 'state-yellow', 'state-red');
 
-  if (statusKey === 'green' || statusKey === 'Green - On Track') {
+  if (statusKey === 'green') {
     row.classList.add('state-green');
-  } else if (statusKey === 'amber' || statusKey === 'yellow' || statusKey === 'Yellow - Request Review') {
+  } else if (statusKey === 'amber' || statusKey === 'yellow') {
     row.classList.add('state-yellow');
-  } else if (statusKey === 'red' || statusKey === 'Red - Need help') {
+  } else if (statusKey === 'red') {
     row.classList.add('state-red');
-  }
-}
-
-function updateProgressBarColor(id, val) {
-  const fill = document.getElementById(`fill-${id}`);
-  if (!fill) return;
-
-  fill.style.width = val + '%';
-  fill.classList.remove('bar-red', 'bar-yellow', 'bar-lightgreen', 'bar-solidgreen', 'bar-celebrate');
-
-  if (val < 25) {
-    fill.classList.add('bar-red');
-  } else if (val < 50) {
-    fill.classList.add('bar-yellow');
-  } else if (val < 100) {
-    fill.classList.add('bar-lightgreen');
-  } else {
-    fill.classList.add('bar-solidgreen', 'bar-celebrate');
   }
 }
 
@@ -955,7 +865,8 @@ function setDirectProgress(id, value, fullName) {
   val = Math.min(100, Math.max(0, val));
   
   memberPctState[id] = val;
-  updateProgressBarColor(id, val);
+  const fill = document.getElementById(`fill-${id}`);
+  if (fill) fill.style.width = val + '%';
   showToast(`Updated ${fullName} to ${val}%`);
 
   let currentPulse = memberPulseState[fullName] || 'Green - On Track';
@@ -1031,20 +942,24 @@ async function fetchMemberPercentages() {
     let goalIdx = headers.findIndex(h => h.includes('goal') || h.includes('primary'));
     let helpIdx = headers.findIndex(h => h.includes('help') || h.includes('status') || h.includes('pulse'));
 
-    if (nameIdx === -1) nameIdx = 0;      // Column A
-    if (percentIdx === -1) percentIdx = 2; // Column C
+    if (nameIdx === -1) nameIdx = 1;      // Fallback Column B
+    if (percentIdx === -1) percentIdx = 3; // Fallback Column D
 
     const memberKeys = ['cyrus', 'siddharth', 'felice', 'art', 'tina', 'kar', 'sheela', 'aparna'];
     const latestPct = {};
     const latestStatus = {};
+    memberKeys.forEach(k => {
+      latestPct[k] = 0;
+      latestStatus[k] = '';
+    });
 
-    // Read sequentially from top to bottom (latest row wins per team member)
+    // Read log sequentially to pick latest values
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
       if (!row || !row[nameIdx]) continue;
 
       const rowName = row[nameIdx].trim().toLowerCase();
-      const rawPercent = (percentIdx !== -1 && row[percentIdx]) ? row[percentIdx].trim() : '';
+      const rawPercent = row[percentIdx] ? row[percentIdx].trim() : '';
       const rawGoal = (goalIdx !== -1 && row[goalIdx]) ? row[goalIdx].trim() : '';
       const rawHelp = (helpIdx !== -1 && row[helpIdx]) ? row[helpIdx].trim() : '';
       
@@ -1064,20 +979,17 @@ async function fetchMemberPercentages() {
       }
     }
 
-    // Apply values to UI state
+    // Update UI
     memberKeys.forEach(key => {
-      if (latestPct[key] !== undefined) {
-        const clampedVal = Math.min(100, Math.max(0, latestPct[key]));
-        memberPctState[key] = clampedVal;
-        
-        const tile = document.getElementById(`tile-${key}`);
-        if (tile) tile.value = clampedVal;
-        updateProgressBarColor(key, clampedVal);
-      }
+      const clampedVal = Math.min(100, Math.max(0, latestPct[key]));
+      memberPctState[key] = clampedVal;
+      
+      const tile = document.getElementById(`tile-${key}`);
+      const fill = document.getElementById(`fill-${key}`);
+      if (tile) tile.value = clampedVal;
+      if (fill) fill.style.width = clampedVal + '%';
 
       if (latestStatus[key]) {
-        const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-        memberPulseState[capitalizedKey] = latestStatus[key];
         const st = latestStatus[key].toLowerCase();
         if (st.includes('green')) updateStatusStyle(key, 'green');
         else if (st.includes('yellow') || st.includes('amber')) updateStatusStyle(key, 'amber');
@@ -1092,7 +1004,7 @@ async function fetchMemberPercentages() {
 
 async function autoUpdateDashboard() {
   try {
-    const response = await fetch(DASHBOARD_VAR_CSV_URL + '&t=' + Date.now());
+    const response = await fetch(DASHBOARD_VAR_CSV_URL + '&t=' + new Date().getTime());
     if (!response.ok) return;
 
     const csvText = await response.text();
@@ -1144,7 +1056,7 @@ async function autoUpdateDashboard() {
 async function loadMinutesFromCSV() {
   const dropdown = document.getElementById('minutesDropdown');
   try {
-    const response = await fetch(MINUTES_CSV_URL + '&t=' + Date.now());
+    const response = await fetch(MINUTES_CSV_URL + '&t=' + new Date().getTime());
     if (!response.ok) throw new Error("Could not fetch minutes sheet");
 
     const csvText = await response.text();
@@ -1303,7 +1215,7 @@ function handleFormDone() {
     closeModal('adminVariablesModal');
     setTimeout(() => { autoUpdateDashboard(); }, 1500);
   } else if (formSubmittedType === 'progress_pulse') {
-    console.log("Progress, pulse status, and primary goal logged.");
+    console.log("Progress delta and pulse status logged.");
   }
   formSubmittedType = '';
 }
