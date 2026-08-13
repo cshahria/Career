@@ -138,38 +138,76 @@
   .metric-value { font-size: 1.05rem; font-weight: 800; color: #0f172a; line-height: 1; }
   .metric-label { font-size: 0.65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 
-  /* Executive "at-a-glance" hero progress bar */
-  .hero-progress {
-    background: linear-gradient(135deg, var(--pitch-light), #ffffff);
-    border: 1px solid var(--pitch);
+  /* Expanded Team Member Score Grid Tiles */
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .score-card {
+    border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-  }
-  .hero-progress-label {
+    padding: 12px;
+    background: #ffffff;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 6px;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
   }
-  .hero-progress-label span:first-child {
-    font-size: 0.78rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #14532d;
+  .score-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: var(--sky-border);
   }
-  .hero-progress-label span:last-child {
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: #14532d;
-  }
-  .hero-bar-track { width:100%; height:14px; background:#d9ead9; border-radius:999px; overflow:hidden; }
-  .hero-bar-fill { height:100%; border-radius:999px; width:0%; background-color:#16a34a; transition: width 0.4s ease, background-color 0.3s ease; }
 
-  /* Condensed Progress Bar on Tile (used in header meeting/reminder tiles) */
+  /* Scorecard Flashing / Highlight Behavior */
+  .score-card.state-yellow {
+    background-color: #fffde7;
+    border-color: #fbc02d;
+  }
+  .score-card.state-red {
+    border-color: #f87171;
+    animation: flashLightRed 1.2s infinite alternate ease-in-out;
+  }
+  @keyframes flashLightRed {
+    0% { background-color: #ffffff; }
+    100% { background-color: #fef2f2; }
+  }
+
+  .score-card-top { display: flex; align-items: center; justify-content: space-between; }
+  .score-card-identity { display: flex; align-items: center; gap: 10px; }
+  .score-card-name { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 4px; }
+  
+  .score-badge {
+    font-size: 1.25rem;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 8px;
+    min-width: 62px;
+    text-align: center;
+    line-height: 1;
+  }
+  .score-badge.pending { background: #f3f4f6; color: #9ca3af; border: 1px dashed #d1d5db; font-size: 0.85rem; font-weight: 700; }
+  .score-badge.green { background: #dcfce7; color: #15803d; }
+  .score-badge.yellow { background: #fef9c3; color: #a16207; }
+  .score-badge.red { background: #fee2e2; color: #b91c1c; }
+
+  /* Condensed Progress Bar on Tile */
   .tile-bar-track { width:100%; height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
   .tile-bar-fill { height:100%; border-radius:999px; width:0%; transition: width 0.3s ease, background-color 0.3s ease; }
+
+  .quick-edit-link {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--sky-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   /* Info Guide Accordion */
   .readme-card {
@@ -418,15 +456,6 @@
       <span style="font-size: 0.72rem; font-weight: 700; color: var(--sky-dark); background: var(--sky-light); padding: 2px 6px; border-radius: 4px;">🎯 Sprint Target: 8/22</span>
     </div>
 
-    <!-- Headline stat: single-glance progress for executives -->
-    <div class="hero-progress">
-      <div class="hero-progress-label">
-        <span>Overall Sprint Progress</span>
-        <span id="heroProgressPct">0%</span>
-      </div>
-      <div class="hero-bar-track"><div class="hero-bar-fill" id="heroProgressFill"></div></div>
-    </div>
-
     <div class="metrics-strip">
       <div class="metric-box">
         <div class="metric-value" id="metricTotalMembers">8</div>
@@ -445,8 +474,12 @@
         <div class="metric-label">Sprint End Date</div>
       </div>
     </div>
-  </div>
 
+    <!-- Scaled Up Team Tiles -->
+    <div class="score-grid" id="scoreGrid">
+      <!-- Dynamic score cards are rendered here via JS -->
+    </div>
+  </div>
 
 
   <!-- Detailed Team Board -->
@@ -714,17 +747,6 @@
     </div>
   </div>
 
-  <!-- Meeting Minutes -->
-  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
-    <h2>📝 Meeting Minutes</h2>
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <select id="minutesDropdown" style="flex: 1; padding: 5px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.82rem; font-weight: 600;">
-        <option value="">Loading meeting dates from CSV...</option>
-      </select>
-      <button class="action-btn" onclick="viewSelectedMinutes()">View Notes</button>
-    </div>
-  </div>
-
   <!-- Readme Accordion -->
   <div class="readme-card">
     <div class="readme-title" onclick="toggleReadme()">
@@ -735,6 +757,17 @@
       <p><strong>1. Live Source of Truth:</strong> All pulse statuses and percentages sync directly to/from the master CSV within seconds without browser storage dependency.</p>
       <p><strong>2. Direct Score Cards:</strong> Click any expanded member tile on the executive scoreboard to jump straight to their detailed row on the sprint board.</p>
       <p><strong>3. Status Highlights:</strong> Member tiles and detailed rows dynamically highlight or flash depending on pulse states (Green, Yellow, Red).</p>
+    </div>
+  </div>
+  
+    <!-- Meeting Minutes -->
+  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
+    <h2>📝 Meeting Minutes</h2>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <select id="minutesDropdown" style="flex: 1; padding: 5px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.82rem; font-weight: 600;">
+        <option value="">Loading meeting dates from CSV...</option>
+      </select>
+      <button class="action-btn" onclick="viewSelectedMinutes()">View Notes</button>
     </div>
   </div>
 
@@ -996,39 +1029,101 @@ function scrollToRow(id) {
 }
 
 function renderScoreboard() {
-  // Per-member cards were removed from this section on request — the Weekly
-  // Sprint & Team Board below is now the single place names + individual
-  // progress live. This function still computes team-wide stats to drive
-  // the hero progress bar and metrics strip (avg completion, pending count).
+  const scoreGrid = document.getElementById('scoreGrid');
+  if (!scoreGrid) return;
+
+  const sortedMembers = [...TEAM_MEMBERS].sort((a, b) => {
+    if (a.name === 'Cyrus') return -1;
+    if (b.name === 'Cyrus') return 1;
+    const scoreA = memberPctState[a.id] !== undefined ? memberPctState[a.id] : -1;
+    const scoreB = memberPctState[b.id] !== undefined ? memberPctState[b.id] : -1;
+    return scoreB - scoreA;
+  });
+
   let totalScoreSum = 0;
   let reportedCount = 0;
   let pendingCount = 0;
 
-  TEAM_MEMBERS.forEach(m => {
+  scoreGrid.innerHTML = '';
+
+  sortedMembers.forEach(m => {
     const score = memberPctState[m.id];
+    const pulse = memberPulseState[m.name] || '';
     const isPending = score === undefined || score === null;
+
+    let badgeClass = 'pending';
+    let badgeText = 'Pending';
+    let pulseSymbol = '';
+    let cardStateClass = '';
+
+    const lowerPulse = pulse.toLowerCase();
+
+    if (lowerPulse.includes('green')) {
+      pulseSymbol = '🟢';
+    } else if (lowerPulse.includes('yellow') || lowerPulse.includes('amber')) {
+      pulseSymbol = '🟡';
+      cardStateClass = 'state-yellow';
+    } else if (lowerPulse.includes('red')) {
+      pulseSymbol = '🔴';
+      cardStateClass = 'state-red';
+    }
+
     if (!isPending) {
       reportedCount++;
       totalScoreSum += score;
+      badgeText = `${score}%`;
+
+      if (lowerPulse.includes('red') || score < 25) {
+        badgeClass = 'red';
+        if (!cardStateClass) cardStateClass = 'state-red';
+      } else if (lowerPulse.includes('yellow') || lowerPulse.includes('amber') || score < 50) {
+        badgeClass = 'yellow';
+        if (!cardStateClass) cardStateClass = 'state-yellow';
+      } else {
+        badgeClass = 'green';
+      }
     } else {
       pendingCount++;
     }
+
+    const clampedScore = isPending ? 0 : score;
+
+    const card = document.createElement('a');
+    card.className = `score-card ${cardStateClass}`;
+    card.href = `#row-${m.id}`;
+    card.onclick = (e) => {
+      e.preventDefault();
+      scrollToRow(m.id);
+    };
+
+    card.innerHTML = `
+      <div class="score-card-top">
+        <div class="score-card-identity">
+          <div class="avatar" style="width: 36px; height: 36px; font-size: 0.85rem;">${m.avatar}</div>
+          <div class="score-card-name">
+            ${m.name} <span>${pulseSymbol}</span>
+          </div>
+        </div>
+        <div class="score-badge ${badgeClass}">${badgeText}</div>
+      </div>
+      <div>
+        <div class="tile-bar-track">
+          <div class="tile-bar-fill" style="width: ${clampedScore}%; background-color: ${clampedScore < 25 ? '#ef4444' : clampedScore < 50 ? '#f59e0b' : '#16a34a'};"></div>
+        </div>
+      </div>
+      <div class="quick-edit-link">
+        <span>${memberGoalMap[m.name] ? memberGoalMap[m.name] : 'No goal entered'}</span>
+        <span style="flex-shrink:0;">Edit &rarr;</span>
+      </div>
+    `;
+    scoreGrid.appendChild(card);
   });
 
   document.getElementById('metricTotalMembers').textContent = TEAM_MEMBERS.length;
   document.getElementById('metricPending').textContent = pendingCount;
-
+  
   const avg = reportedCount > 0 ? Math.round(totalScoreSum / reportedCount) : 0;
   document.getElementById('metricAvgGoal').textContent = `${avg}%`;
-
-  // Headline hero bar — single-glance overall progress for executives
-  const heroFill = document.getElementById('heroProgressFill');
-  const heroPct = document.getElementById('heroProgressPct');
-  if (heroFill && heroPct) {
-    heroFill.style.width = `${avg}%`;
-    heroFill.style.backgroundColor = avg < 25 ? '#ef4444' : avg < 50 ? '#f59e0b' : '#16a34a';
-    heroPct.textContent = `${avg}%`;
-  }
 }
 
 function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus, goalStr) {
