@@ -44,141 +44,6 @@
   }
   header h1 { font-size:1.4rem; margin:0; color:#111827; }
 
-  /* Compact Dashboard Grid & Action Cards */
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  @media (min-width: 640px) {
-    .dashboard-grid { grid-template-columns: 1fr 1fr; }
-  }
-  .panel-tile {
-    border-radius: 10px;
-    padding: 10px 14px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 8px;
-    min-height: auto;
-  }
-  .panel-meeting { background: var(--sky-light); border: 1px solid var(--sky-border); }
-  .panel-due { background: var(--slate-light); border: 1px solid var(--slate-border); }
-
-  .tile-title {
-    font-size: 0.82rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .panel-meeting .tile-title { color: var(--sky-dark); }
-  .panel-due .tile-title { color: var(--slate-dark); }
-  .tile-details { font-size: 0.8rem; color: #1f2937; font-weight: 600; line-height: 1.3; }
-
-  .tile-btn-row { display: flex; gap: 6px; margin-top: 4px; }
-  .tile-btn {
-    flex: 1; background: var(--sky); color: white; border: none;
-    padding: 5px 8px; border-radius: 5px; font-weight: 700; font-size: 0.72rem;
-    cursor: pointer; text-decoration: none; text-align: center;
-    transition: background 0.15s ease;
-  }
-  .tile-btn:hover { background: #1d6fa5; }
-  .tile-btn.slate-btn { background: var(--slate-btn); }
-  .tile-btn.slate-btn:hover { background: var(--slate-btn-hover); }
-
-  /* Executive Scorecard Overview */
-  .score-section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 14px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-  }
-  .score-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .score-header h2 { font-size: 1rem; margin: 0; color: #111827; }
-  
-  .metrics-strip {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  @media (min-width: 500px) {
-    .metrics-strip { grid-template-columns: repeat(4, 1fr); }
-  }
-  .metric-box {
-    background: #f8fafc;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 10px;
-    text-align: center;
-  }
-  .metric-value { font-size: 1.1rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
-  .metric-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
-
-  /* Team Score Grid Tiles */
-  .score-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-  }
-  .score-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    position: relative;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .score-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-    border-color: var(--sky-border);
-  }
-  .score-card-top { display: flex; align-items: center; justify-content: space-between; }
-  .score-card-identity { display: flex; align-items: center; gap: 8px; }
-  .score-card-name { font-weight: 800; font-size: 0.85rem; }
-  
-  .score-badge {
-    font-size: 0.9rem;
-    font-weight: 900;
-    padding: 4px 8px;
-    border-radius: 6px;
-    min-width: 48px;
-    text-align: center;
-  }
-  .score-badge.pending { background: #f3f4f6; color: #9ca3af; border: 1px dashed #d1d5db; }
-  .score-badge.green { background: #dcfce7; color: #15803d; }
-  .score-badge.yellow { background: #fef9c3; color: #a16207; }
-  .score-badge.red { background: #fee2e2; color: #b91c1c; }
-
-  .quick-edit-link {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--sky-dark);
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    margin-top: 2px;
-  }
-
   /* Info / Readme Guide */
   .readme-card {
     background: #ffffff;
@@ -205,6 +70,52 @@
     padding-top: 8px;
   }
   .readme-content.open { display: block; }
+
+  /* Dashboard Grid */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  @media (min-width: 640px) {
+    .dashboard-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .panel-tile {
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 140px;
+  }
+  .panel-meeting { background: var(--sky-light); border: 1px solid var(--sky-border); }
+  .panel-due { background: var(--slate-light); border: 1px solid var(--slate-border); }
+
+  .tile-title {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .panel-meeting .tile-title { color: var(--sky-dark); }
+  .panel-due .tile-title { color: var(--slate-dark); }
+  .tile-details { font-size: 0.88rem; color: #1f2937; font-weight: 600; line-height: 1.4; }
+
+  .tile-btn-row { display: flex; gap: 8px; margin-top: 8px; }
+  .tile-btn {
+    flex: 1; background: var(--sky); color: white; border: none;
+    padding: 8px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem;
+    cursor: pointer; text-decoration: none; text-align: center;
+    transition: background 0.15s ease;
+  }
+  .tile-btn:hover { background: #1d6fa5; }
+  .tile-btn.slate-btn { background: var(--slate-btn); }
+  .tile-btn.slate-btn:hover { background: var(--slate-btn-hover); }
 
   /* Section Cards */
   .card {
@@ -247,7 +158,7 @@
     flex-wrap: wrap;
   }
 
-  .member-identity { display: flex; align-items: center; gap: 8px; min-width: 120px; }
+  .member-identity { display: flex; align-items: center; gap: 8px; min-width: 160px; }
   .avatar {
     width: 34px; height: 34px; border-radius: 50%;
     background: var(--sky-light); color: var(--sky-dark);
@@ -255,7 +166,9 @@
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .member-name { font-weight: 800; font-size: 0.88rem; line-height: 1.1; }
+  .member-role { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
 
+  /* Goal font increased by ~2pt (from 0.82rem to ~1rem / 16px) */
   .member-goal-input {
     flex: 1;
     min-width: 240px;
@@ -308,7 +221,7 @@
 
   .symbol { display: none; font-size: 0.9rem; margin-left: 4px; }
 
-  /* State Styles */
+  /* ---------------- STATE STYLES & ICONS ---------------- */
   .member-row.state-green .member-name,
   .member-row.state-green .avatar { color: #2e7d32 !important; }
   .member-row.state-green .avatar { background-color: #e8f5e9; }
@@ -317,6 +230,7 @@
   .member-row.state-yellow { background-color: #fffde7; border-color: #fbc02d; }
   .member-row.state-yellow .symbol-yellow { display: inline; }
 
+  /* Red pulse now flashes light red row similar to yellow */
   .member-row.state-red {
     border-color: #f87171;
     animation: flashLightRedRow 1.2s infinite alternate ease-in-out;
@@ -328,6 +242,7 @@
     100% { background-color: #fef2f2; }
   }
 
+  /* Large Digit Input Tile */
   .pct-wrap { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
   .col-pct-input {
     width: 68px; height: 36px;
@@ -421,13 +336,27 @@
     <h1>unPTO ACCOUNTABILITY</h1>
   </header>
 
-  <!-- Compact Dashboard Overview Tiles -->
+  <!-- Readme & Guide Accordion -->
+  <div class="readme-card">
+    <div class="readme-title" onclick="toggleReadme()">
+      <span>💡 Sprint Guide: How Percentages, Pulse & Reports Work</span>
+      <span id="readmeIcon">▼</span>
+    </div>
+    <div class="readme-content" id="readmeContent">
+      <p><strong>1. Progress Tracking:</strong> Type your percentage completion directly into the large digit box or use arrow keys (20% increments).</p>
+      <p><strong>2. Daily Pulse:</strong> Click 🟢 On Track, 🟡 Review, or 🔴 Help to update status on the left.</p>
+      <p><strong>3. Primary Goal:</strong> Type your multi-word primary sprint goal directly into your row.</p>
+      <p><strong>4. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log detailed weekly goals directly to the Master Spreadsheet.</p>
+    </div>
+  </div>
+
+  <!-- Dashboard Overview Tiles -->
   <div class="dashboard-grid">
     <div class="panel-tile panel-meeting">
       <div>
         <div class="tile-title">🗺️ Next Meeting</div>
-        <div id="displayNextMeeting" class="tile-details" style="margin-top:2px;">Loading meeting time...</div>
-        <div id="displayMeetingLoc" style="font-size:0.72rem; color:var(--muted); margin-top: 1px;">📍 Loading address...</div>
+        <div id="displayNextMeeting" class="tile-details" style="margin-top:6px;">Loading meeting time...</div>
+        <div id="displayMeetingLoc" style="font-size:0.75rem; color:var(--muted); margin-top: 3px;">📍 Loading address...</div>
       </div>
       <div class="tile-btn-row">
         <button class="tile-btn" onclick="openModal('rsvpModal')">⚡ RSVP</button>
@@ -438,96 +367,22 @@
     <div class="panel-tile panel-due">
       <div>
         <div class="tile-title">📌 Reminders</div>
-        <div id="displayStandup" class="tile-details" style="margin-top:2px;">⏱️ Stand-up: Loading...</div>
-        <div id="displayReportDue" style="font-size:0.75rem; color:#b91c1c; font-weight:700; margin-top:1px;">🚨 Report Due: Loading...</div>
+        <div id="displayStandup" class="tile-details" style="margin-top:6px;">⏱️ Stand-up: Loading...</div>
+        <div id="displayReportDue" style="font-size:0.78rem; color:#b91c1c; font-weight:700; margin-top:3px;">🚨 Report Due: Loading...</div>
       </div>
       <div>
-        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn slate-btn" style="width:100%; display:block; text-align:center;">📊 Open Master Sheet</a>
+        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn slate-btn" style="width:100%;">📊 Open Master Spreadsheet</a>
       </div>
     </div>
   </div>
 
-  <!-- Executive Scoreboard Tiles Section -->
-  <div class="score-section">
-    <div class="score-header">
-      <h2>📊 Executive Sprint Scoreboard</h2>
-      <span style="font-size: 0.75rem; font-weight: 700; color: var(--sky-dark); background: var(--sky-light); padding: 3px 8px; border-radius: 4px;">🎯 Sprint Target: 8/22</span>
-    </div>
-
-    <div class="metrics-strip">
-      <div class="metric-box">
-        <div class="metric-value" id="metricTotalMembers">8</div>
-        <div class="metric-label">Team Members</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-value" id="metricAvgGoal">0%</div>
-        <div class="metric-label">Average Completion</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-value" id="metricPending">8</div>
-        <div class="metric-label">Pending / Unreported</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-value" style="color: #0284c7;">8/22</div>
-        <div class="metric-label">Sprint End Date</div>
-      </div>
-    </div>
-
-    <div class="score-grid" id="scoreGrid">
-      <!-- Dynamic score cards are rendered here via JS -->
-    </div>
-  </div>
-
-  <!-- Meeting Minutes -->
-  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
-    <h2>📝 Meeting Minutes</h2>
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <select id="minutesDropdown" style="flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; font-weight: 600;">
-        <option value="">Loading meeting dates from CSV...</option>
-      </select>
-      <button class="action-btn" onclick="viewSelectedMinutes()">View Notes</button>
-    </div>
-  </div>
-
-  <!-- Team Accountability Board (Moved Towards Bottom) -->
-  <div class="card" id="sprintBoardCard">
+  <!-- Team Accountability Board -->
+  <div class="card">
     <h2>🏃 Weekly Sprint & Team Board</h2>
     
     <div class="member-list">
 
-      <!-- 1. Cyrus -->
-      <div class="member-row" id="row-cyrus">
-        <div class="row-top">
-          <div class="member-identity">
-            <div class="avatar" id="avatar-cyrus">CS</div>
-            <div>
-              <div class="member-name" id="name-cyrus">
-                Cyrus 
-                <span class="symbol symbol-green">✅</span>
-                <span class="symbol symbol-yellow">⚠️</span>
-                <span class="symbol symbol-red">⚡</span>
-              </div>
-            </div>
-          </div>
-          <input type="text" class="member-goal-input" id="goal-cyrus" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Cyrus', this.value)">
-        </div>
-        <div class="row-bottom">
-          <div class="pulse-mini-row">
-            <button class="pulse-btn" onclick="quickPulse('Cyrus','green')">🟢 On Track</button>
-            <button class="pulse-btn" onclick="quickPulse('Cyrus','amber')">🟡 Review</button>
-            <button class="pulse-btn" onclick="quickPulse('Cyrus','red')">🔴 Help</button>
-          </div>
-          <div class="col-progress">
-            <div class="bar-track"><div class="bar-fill" id="fill-cyrus"></div></div>
-          </div>
-          <div class="pct-wrap">
-            <input type="number" min="0" max="100" step="20" class="col-pct-input" id="tile-cyrus" value="0" onchange="setDirectProgress('cyrus', this.value, 'Cyrus')" oninput="setDirectProgress('cyrus', this.value, 'Cyrus')">%
-          </div>
-          <button class="action-btn" onclick="openModal('dueModal', 'Cyrus')">📝 Report</button>
-        </div>
-      </div>
-
-      <!-- 2. Art -->
+      <!-- 1. Art -->
       <div class="member-row" id="row-art">
         <div class="row-top">
           <div class="member-identity">
@@ -539,6 +394,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Video Lead</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-art" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Art', this.value)">
@@ -559,7 +415,7 @@
         </div>
       </div>
 
-      <!-- 3. Felice -->
+      <!-- 2. Felice -->
       <div class="member-row" id="row-felice">
         <div class="row-top">
           <div class="member-identity">
@@ -571,6 +427,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Publishing</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-felice" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Felice', this.value)">
@@ -591,6 +448,39 @@
         </div>
       </div>
 
+      <!-- 3. Cyrus -->
+      <div class="member-row" id="row-cyrus">
+        <div class="row-top">
+          <div class="member-identity">
+            <div class="avatar" id="avatar-cyrus">CS</div>
+            <div>
+              <div class="member-name" id="name-cyrus">
+                Cyrus 
+                <span class="symbol symbol-green">✅</span>
+                <span class="symbol symbol-yellow">⚠️</span>
+                <span class="symbol symbol-red">⚡</span>
+              </div>
+              <div class="member-role">Tech Migration</div>
+            </div>
+          </div>
+          <input type="text" class="member-goal-input" id="goal-cyrus" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Cyrus', this.value)">
+        </div>
+        <div class="row-bottom">
+          <div class="pulse-mini-row">
+            <button class="pulse-btn" onclick="quickPulse('Cyrus','green')">🟢 On Track</button>
+            <button class="pulse-btn" onclick="quickPulse('Cyrus','amber')">🟡 Review</button>
+            <button class="pulse-btn" onclick="quickPulse('Cyrus','red')">🔴 Help</button>
+          </div>
+          <div class="col-progress">
+            <div class="bar-track"><div class="bar-fill" id="fill-cyrus"></div></div>
+          </div>
+          <div class="pct-wrap">
+            <input type="number" min="0" max="100" step="20" class="col-pct-input" id="tile-cyrus" value="0" onchange="setDirectProgress('cyrus', this.value, 'Cyrus')" oninput="setDirectProgress('cyrus', this.value, 'Cyrus')">%
+          </div>
+          <button class="action-btn" onclick="openModal('dueModal', 'Cyrus')">📝 Report</button>
+        </div>
+      </div>
+
       <!-- 4. Tina -->
       <div class="member-row" id="row-tina">
         <div class="row-top">
@@ -603,6 +493,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Roadmap</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-tina" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Tina', this.value)">
@@ -635,6 +526,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Operations</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-aparna" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Aparna', this.value)">
@@ -667,6 +559,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Strategy</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-kar" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Kar', this.value)">
@@ -699,6 +592,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Pipeline</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-siddharth" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Siddharth', this.value)">
@@ -731,6 +625,7 @@
                 <span class="symbol symbol-yellow">⚠️</span>
                 <span class="symbol symbol-red">⚡</span>
               </div>
+              <div class="member-role">Outreach</div>
             </div>
           </div>
           <input type="text" class="member-goal-input" id="goal-sheela" placeholder="Please enter primary goals" value="" onchange="updateMemberGoal('Sheela', this.value)">
@@ -754,17 +649,14 @@
     </div>
   </div>
 
-  <!-- Readme & Guide Accordion (Moved to Bottom) -->
-  <div class="readme-card">
-    <div class="readme-title" onclick="toggleReadme()">
-      <span>💡 Sprint Guide: How Percentages, Pulse & Reports Work</span>
-      <span id="readmeIcon">▼</span>
-    </div>
-    <div class="readme-content" id="readmeContent">
-      <p><strong>1. Progress Tracking:</strong> Type your percentage completion directly into the large digit box or use arrow keys (20% increments).</p>
-      <p><strong>2. Daily Pulse:</strong> Click 🟢 On Track, 🟡 Review, or 🔴 Help to update status on the left.</p>
-      <p><strong>3. Primary Goal:</strong> Type your multi-word primary sprint goal directly into your row.</p>
-      <p><strong>4. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log detailed weekly goals directly to the Master Spreadsheet.</p>
+  <!-- Meeting Minutes -->
+  <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
+    <h2>📝 Meeting Minutes</h2>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <select id="minutesDropdown" style="flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; font-weight: 600;">
+        <option value="">Loading meeting dates from CSV...</option>
+      </select>
+      <button class="action-btn" onclick="viewSelectedMinutes()">View Notes</button>
     </div>
   </div>
 
@@ -981,18 +873,7 @@ const memberPulseState = {};
 const memberGoalMap = {};
 let formSubmittedType = '';
 
-const TEAM_MEMBERS = [
-  { name: 'Cyrus', id: 'cyrus', avatar: 'CS' },
-  { name: 'Art', id: 'art', avatar: 'AT' },
-  { name: 'Felice', id: 'felice', avatar: 'FT' },
-  { name: 'Tina', id: 'tina', avatar: 'TN' },
-  { name: 'Aparna', id: 'aparna', avatar: 'AP' },
-  { name: 'Kar', id: 'kar', avatar: 'KR' },
-  { name: 'Siddharth', id: 'siddharth', avatar: 'ST' },
-  { name: 'Sheela', id: 'sheela', avatar: 'SH' }
-];
-
-// Local Storage Keys
+// Local Storage Keys for Persistence of Pulse Across Refreshes
 const PULSE_STORAGE_KEY = 'unPTO_memberPulseState_v1';
 
 function loadPulseFromStorage() {
@@ -1034,90 +915,7 @@ function toggleReadme() {
   }
 }
 
-function scrollToRow(id) {
-  const target = document.getElementById(`row-${id}`);
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    target.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
-    target.style.borderColor = 'var(--sky)';
-    target.style.boxShadow = '0 0 12px rgba(43, 127, 214, 0.4)';
-    setTimeout(() => {
-      target.style.borderColor = '';
-      target.style.boxShadow = '';
-    }, 2000);
-  }
-}
-
-function renderScoreboard() {
-  const scoreGrid = document.getElementById('scoreGrid');
-  if (!scoreGrid) return;
-
-  // Sort team members: Cyrus first, then descending by score
-  const sortedMembers = [...TEAM_MEMBERS].sort((a, b) => {
-    if (a.name === 'Cyrus') return -1;
-    if (b.name === 'Cyrus') return 1;
-    const scoreA = memberPctState[a.id] !== undefined ? memberPctState[a.id] : -1;
-    const scoreB = memberPctState[b.id] !== undefined ? memberPctState[b.id] : -1;
-    return scoreB - scoreA;
-  });
-
-  let totalScoreSum = 0;
-  let reportedCount = 0;
-  let pendingCount = 0;
-
-  scoreGrid.innerHTML = '';
-
-  sortedMembers.forEach(m => {
-    const score = memberPctState[m.id];
-    const pulse = memberPulseState[m.name] || '';
-    const isPending = score === undefined || score === null;
-
-    let badgeClass = 'pending';
-    let badgeText = 'Pending';
-
-    if (!isPending) {
-      reportedCount++;
-      totalScoreSum += score;
-      badgeText = `${score}%`;
-
-      const lowerPulse = pulse.toLowerCase();
-      if (lowerPulse.includes('red') || score < 25) badgeClass = 'red';
-      else if (lowerPulse.includes('yellow') || lowerPulse.includes('amber') || score < 50) badgeClass = 'yellow';
-      else badgeClass = 'green';
-    } else {
-      pendingCount++;
-    }
-
-    const card = document.createElement('a');
-    card.className = 'score-card';
-    card.href = `#row-${m.id}`;
-    card.onclick = (e) => {
-      e.preventDefault();
-      scrollToRow(m.id);
-    };
-
-    card.innerHTML = `
-      <div class="score-card-top">
-        <div class="score-card-identity">
-          <div class="avatar" style="width: 28px; height: 28px; font-size: 0.72rem;">${m.avatar}</div>
-          <div class="score-card-name">${m.name}</div>
-        </div>
-        <div class="score-badge ${badgeClass}">${badgeText}</div>
-      </div>
-      <div class="quick-edit-link">⚡ Enter Details &rarr;</div>
-    `;
-    scoreGrid.appendChild(card);
-  });
-
-  // Update Summary Metrics
-  document.getElementById('metricTotalMembers').textContent = TEAM_MEMBERS.length;
-  document.getElementById('metricPending').textContent = pendingCount;
-  
-  const avg = reportedCount > 0 ? Math.round(totalScoreSum / reportedCount) : 0;
-  document.getElementById('metricAvgGoal').textContent = `${avg}%`;
-}
-
-// Form Post Silent Handlers
+// Ensure full payload is always posted to keep rows complete in Sheet
 function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus, goalStr) {
   formSubmittedType = 'progress_pulse';
   const id = fullName.toLowerCase();
@@ -1132,8 +930,6 @@ function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus, goalStr) {
   document.getElementById('progFormPercent').value = pctStr;
   document.getElementById('progFormHelp').value = currentPulse;
   document.getElementById('progressSilentForm').submit();
-  
-  renderScoreboard();
 }
 
 function updateMemberGoal(fullName, goalVal) {
@@ -1262,13 +1058,14 @@ async function fetchMemberPercentages() {
     let goalIdx = headers.findIndex(h => h.includes('goal') || h.includes('primary'));
     let helpIdx = headers.findIndex(h => h.includes('help') || h.includes('status') || h.includes('pulse'));
 
-    if (nameIdx === -1) nameIdx = 0;
-    if (percentIdx === -1) percentIdx = 2;
+    if (nameIdx === -1) nameIdx = 0;      // Column A
+    if (percentIdx === -1) percentIdx = 2; // Column C
 
-    const memberKeys = TEAM_MEMBERS.map(m => m.id);
+    const memberKeys = ['art', 'felice', 'cyrus', 'tina', 'aparna', 'kar', 'siddharth', 'sheela'];
     const latestPct = {};
     const latestStatus = {};
 
+    // Read sequentially from top to bottom (latest row wins per team member)
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
       if (!row || !row[nameIdx]) continue;
@@ -1294,6 +1091,7 @@ async function fetchMemberPercentages() {
       }
     }
 
+    // Apply values to UI state
     memberKeys.forEach(key => {
       const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
 
@@ -1306,14 +1104,13 @@ async function fetchMemberPercentages() {
         updateProgressBarColor(key, clampedVal);
       }
 
+      // Restore pulse: Priority 1 CSV, Priority 2 LocalStorage cache
       const pulseVal = latestStatus[key] || memberPulseState[capitalizedKey];
       if (pulseVal) {
         memberPulseState[capitalizedKey] = pulseVal;
         updateStatusStyle(key, pulseVal);
       }
     });
-
-    renderScoreboard();
 
   } catch (err) {
     console.warn("Error loading progress percentages:", err);
@@ -1425,7 +1222,7 @@ function viewSelectedMinutes() {
   openModal('dynamicMinutesModal');
 }
 
-/* Speaking Timer */
+/* Speaking Timer Logic */
 let totalSeconds = 300; 
 let timerInterval = null;
 let timerRunning = false;
@@ -1475,7 +1272,7 @@ function resetTimer() {
   displayTimerValue(totalSeconds);
 }
 
-/* Modals Handlers */
+/* Modals & Google Form Handlers */
 function openModal(modalId, userName = '') {
   document.getElementById(modalId).style.display = 'flex';
   if(userName) {
@@ -1540,7 +1337,6 @@ function handleFormDone() {
 
 window.addEventListener('DOMContentLoaded', () => {
   loadPulseFromStorage();
-  renderScoreboard();
   fetchMemberPercentages();
   autoUpdateDashboard();
   loadMinutesFromCSV();
