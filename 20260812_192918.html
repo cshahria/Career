@@ -31,99 +31,89 @@
     font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
     background:var(--bg);
     color:var(--text);
-    padding:12px 12px 60px;
-    line-height:1.4;
+    padding:16px 16px 60px;
+    line-height:1.5;
   }
-  .wrap { max-width:880px; margin:0 auto; }
+  .wrap { max-width:860px; margin:0 auto; }
 
   header {
     text-align:center;
-    margin-bottom:10px;
+    margin-bottom:16px;
     border-bottom: 1px solid var(--border);
-    padding-bottom:8px;
+    padding-bottom:12px;
   }
-  header h1 { font-size:1.3rem; margin:0; color:#111827; }
+  header h1 { font-size:1.4rem; margin:0; color:#111827; }
 
-  /* Ultra-Condensed Header Panels */
+  /* Compact Dashboard Grid & Action Cards */
   .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 12px;
   }
-  @media (min-width: 600px) {
+  @media (min-width: 640px) {
     .dashboard-grid { grid-template-columns: 1fr 1fr; }
   }
   .panel-tile {
-    border-radius: 8px;
-    padding: 6px 10px;
+    border-radius: 10px;
+    padding: 10px 14px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     gap: 8px;
+    min-height: auto;
   }
   .panel-meeting { background: var(--sky-light); border: 1px solid var(--sky-border); }
   .panel-due { background: var(--slate-light); border: 1px solid var(--slate-border); }
 
-  .panel-info { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
   .tile-title {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     font-weight: 800;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     display: flex;
     align-items: center;
-    gap: 4px;
-    line-height: 1;
+    gap: 6px;
   }
   .panel-meeting .tile-title { color: var(--sky-dark); }
   .panel-due .tile-title { color: var(--slate-dark); }
-  
-  .tile-details {
-    font-size: 0.76rem;
-    color: #1f2937;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 2px;
-  }
+  .tile-details { font-size: 0.8rem; color: #1f2937; font-weight: 600; line-height: 1.3; }
 
-  .tile-btn-row { display: flex; gap: 4px; flex-shrink: 0; }
+  .tile-btn-row { display: flex; gap: 6px; margin-top: 4px; }
   .tile-btn {
-    background: var(--sky); color: white; border: none;
-    padding: 4px 8px; border-radius: 4px; font-weight: 700; font-size: 0.7rem;
+    flex: 1; background: var(--sky); color: white; border: none;
+    padding: 5px 8px; border-radius: 5px; font-weight: 700; font-size: 0.72rem;
     cursor: pointer; text-decoration: none; text-align: center;
-    white-space: nowrap; transition: background 0.15s ease;
+    transition: background 0.15s ease;
   }
   .tile-btn:hover { background: #1d6fa5; }
   .tile-btn.slate-btn { background: var(--slate-btn); }
   .tile-btn.slate-btn:hover { background: var(--slate-btn-hover); }
 
-  /* Executive Scorecard Section */
+  /* Executive Scorecard Overview */
   .score-section {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    padding: 14px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   }
   .score-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
-  .score-header h2 { font-size: 0.98rem; margin: 0; color: #111827; }
+  .score-header h2 { font-size: 1rem; margin: 0; color: #111827; }
   
   .metrics-strip {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 14px;
   }
   @media (min-width: 500px) {
     .metrics-strip { grid-template-columns: repeat(4, 1fr); }
@@ -131,95 +121,75 @@
   .metric-box {
     background: #f8fafc;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 8px;
+    border-radius: 8px;
+    padding: 8px 10px;
     text-align: center;
   }
-  .metric-value { font-size: 1.05rem; font-weight: 800; color: #0f172a; line-height: 1; }
-  .metric-label { font-size: 0.65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+  .metric-value { font-size: 1.1rem; font-weight: 800; color: #0f172a; line-height: 1.1; }
+  .metric-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
 
-  /* Expanded Team Member Score Grid Tiles */
+  /* Team Score Grid Tiles */
   .score-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
   }
   .score-card {
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 10px;
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 6px;
+    position: relative;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .score-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
     border-color: var(--sky-border);
   }
-
-  /* Scorecard Flashing / Highlight Behavior */
-  .score-card.state-yellow {
-    background-color: #fffde7;
-    border-color: #fbc02d;
-  }
-  .score-card.state-red {
-    border-color: #f87171;
-    animation: flashLightRed 1.2s infinite alternate ease-in-out;
-  }
-  @keyframes flashLightRed {
-    0% { background-color: #ffffff; }
-    100% { background-color: #fef2f2; }
-  }
-
   .score-card-top { display: flex; align-items: center; justify-content: space-between; }
-  .score-card-identity { display: flex; align-items: center; gap: 10px; }
-  .score-card-name { font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; gap: 4px; }
+  .score-card-identity { display: flex; align-items: center; gap: 8px; }
+  .score-card-name { font-weight: 800; font-size: 0.85rem; }
   
   .score-badge {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     font-weight: 900;
-    padding: 4px 10px;
-    border-radius: 8px;
-    min-width: 62px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    min-width: 48px;
     text-align: center;
-    line-height: 1;
   }
-  .score-badge.pending { background: #f3f4f6; color: #9ca3af; border: 1px dashed #d1d5db; font-size: 0.85rem; font-weight: 700; }
+  .score-badge.pending { background: #f3f4f6; color: #9ca3af; border: 1px dashed #d1d5db; }
   .score-badge.green { background: #dcfce7; color: #15803d; }
   .score-badge.yellow { background: #fef9c3; color: #a16207; }
   .score-badge.red { background: #fee2e2; color: #b91c1c; }
 
-  /* Condensed Progress Bar on Tile */
-  .tile-bar-track { width:100%; height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
-  .tile-bar-fill { height:100%; border-radius:999px; width:0%; transition: width 0.3s ease, background-color 0.3s ease; }
-
   .quick-edit-link {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--sky-dark);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 2px;
+    margin-top: 2px;
   }
 
-  /* Info Guide Accordion */
+  /* Info / Readme Guide */
   .readme-card {
     background: #ffffff;
     border: 1px solid var(--border);
     border-left: 4px solid var(--sky);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
   }
   .readme-title {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 800;
     display: flex;
     align-items: center;
@@ -228,11 +198,11 @@
   }
   .readme-content {
     display: none;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     color: #374151;
-    margin-top: 6px;
+    margin-top: 8px;
     border-top: 1px solid var(--border);
-    padding-top: 6px;
+    padding-top: 8px;
   }
   .readme-content.open { display: block; }
 
@@ -241,76 +211,104 @@
     background:var(--card);
     border:1px solid var(--border);
     border-radius:12px;
-    padding:12px 14px;
-    margin-bottom:12px;
-    box-shadow:0 1px 3px rgba(0,0,0,0.03);
+    padding:14px 16px;
+    margin-bottom:14px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.03);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
-  .card h2 { margin:0 0 8px; font-size:0.95rem; display:flex; align-items:center; gap:6px; color:#111827; }
+  .card h2 { margin:0 0 10px; font-size:1rem; display:flex; align-items:center; gap:8px; color:#111827; }
 
-  /* Detailed Board Rows */
-  .member-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  /* Member List & Row Integration */
+  .member-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
   .member-row {
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
+    border-radius: 10px;
+    padding: 12px 14px;
     background: #ffffff;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
-  .row-top { display: flex; align-items: center; gap: 10px; width: 100%; flex-wrap: wrap; }
-  .row-bottom { display: flex; align-items: center; gap: 10px; width: 100%; flex-wrap: wrap; }
+  /* Two-line row layout */
+  .row-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .row-bottom {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 
-  .member-identity { display: flex; align-items: center; gap: 8px; min-width: 110px; }
+  .member-identity { display: flex; align-items: center; gap: 8px; min-width: 120px; }
   .avatar {
-    width: 32px; height: 32px; border-radius: 50%;
+    width: 34px; height: 34px; border-radius: 50%;
     background: var(--sky-light); color: var(--sky-dark);
-    font-weight: 800; font-size: 0.78rem;
+    font-weight: 800; font-size: 0.8rem;
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .member-name { font-weight: 800; font-size: 0.85rem; line-height: 1.1; }
+  .member-name { font-weight: 800; font-size: 0.88rem; line-height: 1.1; }
 
   .member-goal-input {
     flex: 1;
-    min-width: 220px;
-    font-size: 0.9rem;
+    min-width: 240px;
+    font-size: 1rem;
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 5px 8px;
+    padding: 6px 10px;
     color: #1f2937;
     background: #fdfdfd;
   }
   .member-goal-input:focus { border-color: var(--sky); outline: none; background: #fff; }
 
-  .col-progress { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 4px; }
-  .bar-track { width:100%; height:16px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
-  .bar-fill { height:100%; border-radius:999px; width:0%; transition: width 0.3s ease, background-color 0.3s ease; }
+  /* Progress Column & Thicker Bar */
+  .col-progress { flex: 1; min-width: 160px; display: flex; flex-direction: column; gap: 4px; }
+  .bar-track { width:100%; height:18px; background:#e5e7eb; border-radius:999px; overflow:hidden; }
+  .bar-fill {
+    height:100%;
+    border-radius:999px;
+    width:0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+  }
 
-  /* Progress Bar Dynamic Colors */
+  /* Dynamic Progress Colors & 100% Effect */
   .bar-red { background-color: #ef4444 !important; }
   .bar-yellow { background-color: #f59e0b !important; }
   .bar-lightgreen { background-color: #4ade80 !important; }
   .bar-solidgreen { background-color: #16a34a !important; }
-  .bar-celebrate { animation: celebrateGlow 1.2s infinite alternate ease-in-out; }
+  .bar-celebrate {
+    animation: celebrateGlow 1.2s infinite alternate ease-in-out;
+  }
 
   @keyframes celebrateGlow {
-    0% { box-shadow: 0 0 4px #16a34a; filter: brightness(1); }
-    100% { box-shadow: 0 0 12px #22c55e; filter: brightness(1.2); }
+    0% {
+      box-shadow: 0 0 4px #16a34a;
+      filter: brightness(1);
+    }
+    100% {
+      box-shadow: 0 0 14px #22c55e, 0 0 20px #86efac;
+      filter: brightness(1.25);
+    }
   }
 
   .pulse-mini-row { display:flex; gap:4px; align-items:center; flex-shrink: 0; }
   .pulse-btn {
-    border: 1px solid var(--border); background: #fff; border-radius: 5px;
-    padding: 3px 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer;
-    display: flex; align-items: center; gap: 3px; color: #374151;
+    border: 1px solid var(--border); background: #fff; border-radius: 6px;
+    padding: 4px 8px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 4px; color: #374151;
   }
   .pulse-btn:hover { background: var(--bg); border-color: var(--sky); }
 
-  .symbol { display: none; font-size: 0.88rem; margin-left: 2px; }
+  .symbol { display: none; font-size: 0.9rem; margin-left: 4px; }
 
-  /* Member Row Pulse States */
+  /* State Styles */
   .member-row.state-green .member-name,
   .member-row.state-green .avatar { color: #2e7d32 !important; }
   .member-row.state-green .avatar { background-color: #e8f5e9; }
@@ -332,17 +330,17 @@
 
   .pct-wrap { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
   .col-pct-input {
-    width: 62px; height: 32px;
+    width: 68px; height: 36px;
     background: var(--sky-light); border: 1px solid #c3dafe;
     border-radius: 6px; text-align: center;
-    font-size: 0.98rem; font-weight: 900; color: var(--sky-dark); flex-shrink: 0;
-    outline: none;
+    font-size: 1.05rem; font-weight: 900; color: var(--sky-dark); flex-shrink: 0;
+    outline: none; transition: color 0.3s ease;
   }
   .col-pct-input:focus { border-color: var(--sky); background: #ffffff; }
 
   .action-btn {
     background: var(--pitch); color: white; border: none;
-    padding: 6px 10px; border-radius: 5px; font-weight: 700; font-size: 0.72rem;
+    padding: 7px 12px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;
     cursor: pointer; text-decoration: none; flex-shrink: 0;
   }
   .action-btn:hover { background: #186e3d; }
@@ -350,12 +348,12 @@
   /* Timer Elements */
   .timer-box {
     display: flex; align-items: center; justify-content: space-between;
-    background: #f9fafb; padding: 10px 14px; border-radius: 8px;
-    margin-top: 10px; border: 1px solid var(--border);
+    background: #f9fafb; padding: 12px 16px; border-radius: 8px;
+    margin-top: 14px; border: 1px solid var(--border);
   }
   .timer-display {
-    font-family: monospace; font-size: 1.8rem; font-weight: bold;
-    color: var(--text); padding: 2px 8px; border-radius: 4px; line-height: 1;
+    font-family: monospace; font-size: 2.2rem; font-weight: bold;
+    color: var(--text); padding: 4px 10px; border-radius: 4px; line-height: 1;
   }
   .timer-display.alert-red { background-color: #fee2e2; color: #dc2626; }
   .timer-display.blink-red {
@@ -364,8 +362,8 @@
   }
   @keyframes pulse-blink { 0% { opacity: 1; } 100% { opacity: 0.4; } }
   .timer-btn {
-    background: var(--sky); color: white; border: none; padding: 5px 10px;
-    border-radius: 4px; font-weight: 600; font-size: 0.78rem; cursor: pointer;
+    background: var(--sky); color: white; border: none; padding: 6px 12px;
+    border-radius: 4px; font-weight: 600; font-size: 0.8rem; cursor: pointer;
   }
   .timer-btn.reset { background: #9ca3af; margin-left: 4px; }
 
@@ -376,40 +374,40 @@
     justify-content: center; z-index: 1000; padding: 16px;
   }
   .modal-content {
-    background: #fff; border-radius: 12px; max-width: 500px; width: 100%;
-    padding: 16px; position: relative; max-height: 85vh; overflow-y: auto;
+    background: #fff; border-radius: 12px; max-width: 540px; width: 100%;
+    padding: 18px; position: relative; max-height: 85vh; overflow-y: auto;
   }
   .modal-close {
-    position: absolute; top: 10px; right: 12px; background: none; border: none;
-    font-size: 1.2rem; cursor: pointer; color: var(--muted);
+    position: absolute; top: 12px; right: 14px; background: none; border: none;
+    font-size: 1.3rem; cursor: pointer; color: var(--muted);
   }
   .submit-btn {
     display: inline-block; background: var(--pitch); color: white; border: none;
-    padding: 8px 12px; border-radius: 6px; font-weight: 700; font-size: 0.8rem;
+    padding: 8px 12px; border-radius: 6px; font-weight: 700; font-size: 0.82rem;
     cursor: pointer; width: 100%; text-align: center; margin-top: 8px;
   }
 
-  .form-group { margin-bottom: 8px; }
-  .form-group label { display: block; font-weight: 600; font-size: 0.78rem; margin-bottom: 2px; }
+  .form-group { margin-bottom: 10px; }
+  .form-group label { display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 3px; }
   .form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: 6px; border: 1px solid var(--border); border-radius: 6px;
-    font-family: inherit; font-size: 0.82rem;
+    width: 100%; padding: 7px; border: 1px solid var(--border); border-radius: 6px;
+    font-family: inherit; font-size: 0.85rem;
   }
 
   /* Toast Notification */
   .toast {
     position:fixed; left:50%; bottom:20px; transform:translate(-50%, 10px);
-    background:#1f2937; color:#fff; font-size:0.78rem; font-weight:600;
-    padding:6px 14px; border-radius:999px; opacity:0; pointer-events:none;
+    background:#1f2937; color:#fff; font-size:0.8rem; font-weight:600;
+    padding:8px 16px; border-radius:999px; opacity:0; pointer-events:none;
     transition:all 0.2s ease; z-index:2000;
   }
   .toast.show { opacity:1; transform:translate(-50%, 0); }
 
   footer {
-    text-align:center; margin-top:20px; color:var(--muted); font-size:0.72rem;
-    border-top: 1px solid var(--border); padding-top: 10px;
+    text-align:center; margin-top:24px; color:var(--muted); font-size:0.75rem;
+    border-top: 1px solid var(--border); padding-top: 12px;
   }
-  .footer-sub-nav { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
+  .footer-sub-nav { display: flex; justify-content: center; gap: 8px; margin-top: 6px; }
   .footer-sub-nav a { color: var(--muted); text-decoration: none; }
   .footer-sub-nav a:hover { text-decoration: underline; }
 </style>
@@ -423,13 +421,13 @@
     <h1>unPTO ACCOUNTABILITY</h1>
   </header>
 
-  <!-- Ultra-Condensed Dashboard Header Tiles -->
+  <!-- Compact Dashboard Overview Tiles -->
   <div class="dashboard-grid">
     <div class="panel-tile panel-meeting">
-      <div class="panel-info">
+      <div>
         <div class="tile-title">🗺️ Next Meeting</div>
-        <div id="displayNextMeeting" class="tile-details">Loading time...</div>
-        <div id="displayMeetingLoc" style="font-size:0.68rem; color:var(--muted);">📍 Loading address...</div>
+        <div id="displayNextMeeting" class="tile-details" style="margin-top:2px;">Loading meeting time...</div>
+        <div id="displayMeetingLoc" style="font-size:0.72rem; color:var(--muted); margin-top: 1px;">📍 Loading address...</div>
       </div>
       <div class="tile-btn-row">
         <button class="tile-btn" onclick="openModal('rsvpModal')">⚡ RSVP</button>
@@ -438,22 +436,22 @@
     </div>
 
     <div class="panel-tile panel-due">
-      <div class="panel-info">
+      <div>
         <div class="tile-title">📌 Reminders</div>
-        <div id="displayStandup" class="tile-details">⏱️ Stand-up: Loading...</div>
-        <div id="displayReportDue" style="font-size:0.7rem; color:#b91c1c; font-weight:700;">🚨 Report: Loading...</div>
+        <div id="displayStandup" class="tile-details" style="margin-top:2px;">⏱️ Stand-up: Loading...</div>
+        <div id="displayReportDue" style="font-size:0.75rem; color:#b91c1c; font-weight:700; margin-top:1px;">🚨 Report Due: Loading...</div>
       </div>
-      <div class="tile-btn-row">
-        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn slate-btn">📊 Master Sheet</a>
+      <div>
+        <a href="https://docs.google.com/spreadsheets/d/1Rglm73piMXdRMXWqwBxfEB9E7jm3AewcLKr3JekFzDA/edit?usp=sharing" target="_blank" class="tile-btn slate-btn" style="width:100%; display:block; text-align:center;">📊 Open Master Sheet</a>
       </div>
     </div>
   </div>
 
-  <!-- Executive Scoreboard Tiles Section (Prominent Member Tiles) -->
+  <!-- Executive Scoreboard Tiles Section -->
   <div class="score-section">
     <div class="score-header">
       <h2>📊 Executive Sprint Scoreboard</h2>
-      <span style="font-size: 0.72rem; font-weight: 700; color: var(--sky-dark); background: var(--sky-light); padding: 2px 6px; border-radius: 4px;">🎯 Sprint Target: 8/22</span>
+      <span style="font-size: 0.75rem; font-weight: 700; color: var(--sky-dark); background: var(--sky-light); padding: 3px 8px; border-radius: 4px;">🎯 Sprint Target: 8/22</span>
     </div>
 
     <div class="metrics-strip">
@@ -463,7 +461,7 @@
       </div>
       <div class="metric-box">
         <div class="metric-value" id="metricAvgGoal">0%</div>
-        <div class="metric-label">Avg Completion</div>
+        <div class="metric-label">Average Completion</div>
       </div>
       <div class="metric-box">
         <div class="metric-value" id="metricPending">8</div>
@@ -475,7 +473,6 @@
       </div>
     </div>
 
-    <!-- Scaled Up Team Tiles -->
     <div class="score-grid" id="scoreGrid">
       <!-- Dynamic score cards are rendered here via JS -->
     </div>
@@ -485,14 +482,14 @@
   <div class="card" style="border-left: 4px solid var(--pitch); background: #fafdfb;">
     <h2>📝 Meeting Minutes</h2>
     <div style="display: flex; gap: 8px; align-items: center;">
-      <select id="minutesDropdown" style="flex: 1; padding: 5px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.82rem; font-weight: 600;">
+      <select id="minutesDropdown" style="flex: 1; padding: 6px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; font-weight: 600;">
         <option value="">Loading meeting dates from CSV...</option>
       </select>
       <button class="action-btn" onclick="viewSelectedMinutes()">View Notes</button>
     </div>
   </div>
 
-  <!-- Detailed Team Board -->
+  <!-- Team Accountability Board (Moved Towards Bottom) -->
   <div class="card" id="sprintBoardCard">
     <h2>🏃 Weekly Sprint & Team Board</h2>
     
@@ -757,25 +754,26 @@
     </div>
   </div>
 
-  <!-- Readme Accordion -->
+  <!-- Readme & Guide Accordion (Moved to Bottom) -->
   <div class="readme-card">
     <div class="readme-title" onclick="toggleReadme()">
-      <span>💡 Sprint Guide: Percentage, Pulse & Direct CSV Syncing</span>
+      <span>💡 Sprint Guide: How Percentages, Pulse & Reports Work</span>
       <span id="readmeIcon">▼</span>
     </div>
     <div class="readme-content" id="readmeContent">
-      <p><strong>1. Live Source of Truth:</strong> All pulse statuses and percentages sync directly to/from the master CSV within seconds without browser storage dependency.</p>
-      <p><strong>2. Direct Score Cards:</strong> Click any expanded member tile on the executive scoreboard to jump straight to their detailed row on the sprint board.</p>
-      <p><strong>3. Status Highlights:</strong> Member tiles and detailed rows dynamically highlight or flash depending on pulse states (Green, Yellow, Red).</p>
+      <p><strong>1. Progress Tracking:</strong> Type your percentage completion directly into the large digit box or use arrow keys (20% increments).</p>
+      <p><strong>2. Daily Pulse:</strong> Click 🟢 On Track, 🟡 Review, or 🔴 Help to update status on the left.</p>
+      <p><strong>3. Primary Goal:</strong> Type your multi-word primary sprint goal directly into your row.</p>
+      <p><strong>4. Progress Report Submission:</strong> Click <strong>📝 Report</strong> on your row to log detailed weekly goals directly to the Master Spreadsheet.</p>
     </div>
   </div>
 
   <!-- Community Links -->
-  <div class="card" style="background:#fcfdfc; border-top: 2px solid var(--pitch); padding: 8px 12px;">
-    <p style="font-size: 0.8rem; margin: 0 0 4px 0;">
+  <div class="card" style="background:#fcfdfc; border-top: 2px solid var(--pitch); padding: 10px 14px;">
+    <p style="font-size: 0.85rem; margin: 0 0 6px 0;">
       <strong>Bay Area Accountability Buddies</strong> · Peer progress framework.
     </p>
-    <div style="display: flex; gap: 12px; font-size: 0.78rem;">
+    <div style="display: flex; gap: 12px; font-size: 0.8rem;">
       <a href="https://chat.whatsapp.com/AccountabilityPeninsulaSouthBay" target="_blank" style="color: #25d366; font-weight: 600; text-decoration: none;">💬 WhatsApp</a>
       <a href="https://discord.com/channels/1497468492322967604/1517618871169716447" target="_blank" style="color: #5865F2; font-weight: 600; text-decoration: none;">🎮 Discord</a>
     </div>
@@ -807,10 +805,10 @@
 
 <!-- RSVP Modal -->
 <div id="rsvpModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-  <div class="modal-content" style="max-width:400px;">
+  <div class="modal-content" style="max-width:420px;">
     <button class="modal-close" onclick="closeModal('rsvpModal')">×</button>
-    <h3 style="margin-top:0; color:#111827; font-size: 1rem;">⚡ Quick RSVP</h3>
-    <hr style="border:0; border-top:1px solid var(--border); margin:8px 0;">
+    <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">⚡ Quick RSVP</h3>
+    <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
     <form id="rsvpForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfonMYP5nUA3M_KDy7Dine4Mnjwu-SQ-EJyyfULnZE5HbtOzw/formResponse" target="hidden_iframe" onsubmit="handleRSVP(event)">
       <div class="form-group">
         <label>Your Name</label>
@@ -832,27 +830,27 @@
 
 <!-- Host Agenda & Timer Modal -->
 <div id="hostAgendaModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-  <div class="modal-content" style="max-width:520px;">
+  <div class="modal-content" style="max-width:560px;">
     <button class="modal-close" onclick="closeModal('hostAgendaModal')">×</button>
-    <h3 style="margin-top:0; color:#111827; font-size: 1rem;">📅 Host Agenda</h3>
-    <hr style="border:0; border-top:1px solid var(--border); margin:8px 0;">
-    <div id="displayHost" style="font-size: 0.82rem; margin-bottom: 8px;"><strong>Host:</strong> Loading...</div>
-    <ol style="padding-left: 16px; font-size: 0.82rem;">
-      <li style="margin-bottom: 4px;"><strong>Welcome & Check-in:</strong> Opening review and overview of goals.</li>
-      <li style="margin-bottom: 4px;"><strong>Roundtable Discussion:</strong> Individual updates and peer framework accountability.</li>
-      <li style="margin-bottom: 4px;"><strong>Blockers & Next Steps:</strong> Action mapping and troubleshooting session constraints.</li>
+    <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">📅 Host Agenda</h3>
+    <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+    <div id="displayHost" style="font-size: 0.85rem; margin-bottom: 10px;"><strong>Host:</strong> Loading...</div>
+    <ol style="padding-left: 18px; font-size: 0.88rem;">
+      <li style="margin-bottom: 6px;"><strong>Welcome & Check-in:</strong> Opening review and overview of goals.</li>
+      <li style="margin-bottom: 6px;"><strong>Roundtable Discussion:</strong> Individual updates and peer framework accountability.</li>
+      <li style="margin-bottom: 6px;"><strong>Blockers & Next Steps:</strong> Action mapping and troubleshooting session constraints.</li>
     </ol>
     
-    <div id="displayNotes" style="font-size:0.8rem; color:#374151; margin-top:10px; background:#f9fafb; padding:8px; border-radius:6px; border:1px solid var(--border); display:none;"></div>
+    <div id="displayNotes" style="font-size:0.85rem; color:#374151; margin-top:12px; background:#f9fafb; padding:10px; border-radius:6px; border:1px solid var(--border); display:none;"></div>
 
     <div class="timer-box">
       <div>
-        <div style="font-size: 0.68rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
-        <div style="font-size: 0.68rem; color: #4b5563;">5:00 limit · Turns red at limit · Blinks at 10:00</div>
+        <div style="font-size: 0.72rem; font-weight: 700; color: var(--muted); letter-spacing: 0.03em;">ROUNDTABLE SPEAKING TIMER</div>
+        <div style="font-size: 0.7rem; color: #4b5563;">5:00 limit · Turns red at limit · Blinks at 10:00</div>
       </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
         <div id="speakTimer" class="timer-display">05:00</div>
-        <div style="display: flex; flex-direction: column; gap: 3px;">
+        <div style="display: flex; flex-direction: column; gap: 4px;">
           <button id="timerToggleBtn" class="timer-btn" onclick="toggleTimer()">Start</button>
           <button class="timer-btn reset" onclick="resetTimer()">Reset</button>
         </div>
@@ -863,11 +861,11 @@
 
 <!-- Dynamic CSV Minutes Modal -->
 <div id="dynamicMinutesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-  <div class="modal-content" style="max-width:580px;">
+  <div class="modal-content" style="max-width:620px;">
     <button class="modal-close" onclick="closeModal('dynamicMinutesModal')">×</button>
-    <h3 style="margin-top:0; color:#111827; font-size: 1rem;" id="modalMinutesTitle">📝 Meeting Minutes</h3>
-    <hr style="border:0; border-top:1px solid var(--border); margin:8px 0;">
-    <div id="modalMinutesBody" style="background: #fafbfa; border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 0.82rem; max-height:60vh; overflow-y:auto; line-height: 1.4; color: #374151; white-space: pre-line;"></div>
+    <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;" id="modalMinutesTitle">📝 Meeting Minutes</h3>
+    <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+    <div id="modalMinutesBody" style="background: #fafbfa; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 0.85rem; max-height:60vh; overflow-y:auto; line-height: 1.45; color: #374151; white-space: pre-line;"></div>
   </div>
 </div>
 
@@ -875,7 +873,7 @@
 <div id="dueModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('dueModal')">×</button>
-    <h3 style="font-size:0.95rem; margin-top:0;">📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
+    <h3 style="font-size:1rem; margin-top:0;">📤 Submit Weekly Progress Report: <span id="modalTargetName">User</span></h3>
     
     <form id="weeklyReportForm" method="POST" onsubmit="handleReportSubmit(event)">
       <div class="form-group">
@@ -913,11 +911,11 @@
 
 <!-- MIT Disclaimer Modal -->
 <div id="disclaimerModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-  <div class="modal-content" style="max-width:450px;">
+  <div class="modal-content" style="max-width:480px;">
     <button class="modal-close" onclick="closeModal('disclaimerModal')">×</button>
-    <h3 style="margin-top:0; color:#111827; font-size: 0.95rem;">⚖️ MIT License & Disclaimer</h3>
-    <hr style="border:0; border-top:1px solid var(--border); margin:8px 0;">
-    <div style="font-size:0.72rem; color:#4b5563; line-height:1.4;">
+    <h3 style="margin-top:0; color:#111827; font-size: 1rem;">⚖️ MIT License & Disclaimer</h3>
+    <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
+    <div style="font-size:0.75rem; color:#4b5563; line-height:1.45;">
       <p><strong>Copyright (c) 2026 unPTO Accountability</strong></p>
       <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies.</p>
       <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY.</p>
@@ -927,11 +925,11 @@
 
 <!-- Admin Variables Modal -->
 <div id="adminVariablesModal" class="modal-overlay" onclick="closeModalOnBackdrop(event)">
-  <div class="modal-content" style="max-width:460px;">
+  <div class="modal-content" style="max-width:480px;">
     <button class="modal-close" onclick="closeModal('adminVariablesModal')">×</button>
-    <h3 style="margin-top:0; color:#111827; font-size: 1rem;">⚙️ Admin Variable Panel</h3>
-    <p style="font-size:0.75rem; color:var(--muted); margin: -4px 0 8px;">Select dates and times from the calendar to update variables.</p>
-    <hr style="border:0; border-top:1px solid var(--border); margin:8px 0;">
+    <h3 style="margin-top:0; color:#111827; font-size: 1.1rem;">⚙️ Admin Variable Panel</h3>
+    <p style="font-size:0.78rem; color:var(--muted); margin: -4px 0 10px;">Select dates and times from the calendar to update variables.</p>
+    <hr style="border:0; border-top:1px solid var(--border); margin:10px 0;">
     
     <form id="adminVariablesForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSfZsyzPVwHrDHH53b8BqvYNpRXJ0gEs9iScb0fUN7vci-E0Rg/formResponse" target="hidden_iframe" onsubmit="handleAdminFormSubmit(event)">
       <div class="form-group">
@@ -972,7 +970,7 @@
 </div>
 
 <script>
-// Published CSV Source Endpoints
+// Google Sheets CSV Sync URLs
 const PROGRESS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=825517087&single=true&output=csv";
 const DASHBOARD_VAR_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=1933583780&single=true&output=csv";
 const MINUTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPXa9fnKF30C0BLpHnei1LXnJlD309xn4OIBaC3ZpxG9j2AN46pPqjhI3a47H1sxskTXBYD3NyPa48/pub?gid=844992671&single=true&output=csv";
@@ -993,6 +991,29 @@ const TEAM_MEMBERS = [
   { name: 'Siddharth', id: 'siddharth', avatar: 'ST' },
   { name: 'Sheela', id: 'sheela', avatar: 'SH' }
 ];
+
+// Local Storage Keys
+const PULSE_STORAGE_KEY = 'unPTO_memberPulseState_v1';
+
+function loadPulseFromStorage() {
+  try {
+    const stored = localStorage.getItem(PULSE_STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      Object.assign(memberPulseState, parsed);
+    }
+  } catch (e) {
+    console.warn("Could not read pulse state from localStorage", e);
+  }
+}
+
+function savePulseToStorage() {
+  try {
+    localStorage.setItem(PULSE_STORAGE_KEY, JSON.stringify(memberPulseState));
+  } catch (e) {
+    console.warn("Could not save pulse state to localStorage", e);
+  }
+}
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1031,6 +1052,7 @@ function renderScoreboard() {
   const scoreGrid = document.getElementById('scoreGrid');
   if (!scoreGrid) return;
 
+  // Sort team members: Cyrus first, then descending by score
   const sortedMembers = [...TEAM_MEMBERS].sort((a, b) => {
     if (a.name === 'Cyrus') return -1;
     if (b.name === 'Cyrus') return 1;
@@ -1052,43 +1074,22 @@ function renderScoreboard() {
 
     let badgeClass = 'pending';
     let badgeText = 'Pending';
-    let pulseSymbol = '';
-    let cardStateClass = '';
-
-    const lowerPulse = pulse.toLowerCase();
-
-    if (lowerPulse.includes('green')) {
-      pulseSymbol = '🟢';
-    } else if (lowerPulse.includes('yellow') || lowerPulse.includes('amber')) {
-      pulseSymbol = '🟡';
-      cardStateClass = 'state-yellow';
-    } else if (lowerPulse.includes('red')) {
-      pulseSymbol = '🔴';
-      cardStateClass = 'state-red';
-    }
 
     if (!isPending) {
       reportedCount++;
       totalScoreSum += score;
       badgeText = `${score}%`;
 
-      if (lowerPulse.includes('red') || score < 25) {
-        badgeClass = 'red';
-        if (!cardStateClass) cardStateClass = 'state-red';
-      } else if (lowerPulse.includes('yellow') || lowerPulse.includes('amber') || score < 50) {
-        badgeClass = 'yellow';
-        if (!cardStateClass) cardStateClass = 'state-yellow';
-      } else {
-        badgeClass = 'green';
-      }
+      const lowerPulse = pulse.toLowerCase();
+      if (lowerPulse.includes('red') || score < 25) badgeClass = 'red';
+      else if (lowerPulse.includes('yellow') || lowerPulse.includes('amber') || score < 50) badgeClass = 'yellow';
+      else badgeClass = 'green';
     } else {
       pendingCount++;
     }
 
-    const clampedScore = isPending ? 0 : score;
-
     const card = document.createElement('a');
-    card.className = `score-card ${cardStateClass}`;
+    card.className = 'score-card';
     card.href = `#row-${m.id}`;
     card.onclick = (e) => {
       e.preventDefault();
@@ -1098,26 +1099,17 @@ function renderScoreboard() {
     card.innerHTML = `
       <div class="score-card-top">
         <div class="score-card-identity">
-          <div class="avatar" style="width: 36px; height: 36px; font-size: 0.85rem;">${m.avatar}</div>
-          <div class="score-card-name">
-            ${m.name} <span>${pulseSymbol}</span>
-          </div>
+          <div class="avatar" style="width: 28px; height: 28px; font-size: 0.72rem;">${m.avatar}</div>
+          <div class="score-card-name">${m.name}</div>
         </div>
         <div class="score-badge ${badgeClass}">${badgeText}</div>
       </div>
-      <div>
-        <div class="tile-bar-track">
-          <div class="tile-bar-fill" style="width: ${clampedScore}%; background-color: ${clampedScore < 25 ? '#ef4444' : clampedScore < 50 ? '#f59e0b' : '#16a34a'};"></div>
-        </div>
-      </div>
-      <div class="quick-edit-link">
-        <span>${memberGoalMap[m.name] ? memberGoalMap[m.name] : 'No goal entered'}</span>
-        <span style="flex-shrink:0;">Edit &rarr;</span>
-      </div>
+      <div class="quick-edit-link">⚡ Enter Details &rarr;</div>
     `;
     scoreGrid.appendChild(card);
   });
 
+  // Update Summary Metrics
   document.getElementById('metricTotalMembers').textContent = TEAM_MEMBERS.length;
   document.getElementById('metricPending').textContent = pendingCount;
   
@@ -1125,6 +1117,7 @@ function renderScoreboard() {
   document.getElementById('metricAvgGoal').textContent = `${avg}%`;
 }
 
+// Form Post Silent Handlers
 function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus, goalStr) {
   formSubmittedType = 'progress_pulse';
   const id = fullName.toLowerCase();
@@ -1207,6 +1200,7 @@ function quickPulse(name, statusKey) {
   };
   const statusLabel = statusMap[statusKey] || 'Green - On Track';
   memberPulseState[name] = statusLabel;
+  savePulseToStorage();
   
   let id = name.toLowerCase();
   updateStatusStyle(id, statusKey);
@@ -1312,7 +1306,7 @@ async function fetchMemberPercentages() {
         updateProgressBarColor(key, clampedVal);
       }
 
-      const pulseVal = latestStatus[key];
+      const pulseVal = latestStatus[key] || memberPulseState[capitalizedKey];
       if (pulseVal) {
         memberPulseState[capitalizedKey] = pulseVal;
         updateStatusStyle(key, pulseVal);
@@ -1322,13 +1316,13 @@ async function fetchMemberPercentages() {
     renderScoreboard();
 
   } catch (err) {
-    console.warn("Error loading progress percentages from CSV:", err);
+    console.warn("Error loading progress percentages:", err);
   }
 }
 
 async function autoUpdateDashboard() {
   try {
-    const response = await fetch(DASHBOARD_VAR_CSV_URL + '&_nocache=' + Date.now());
+    const response = await fetch(DASHBOARD_VAR_CSV_URL + '&t=' + Date.now());
     if (!response.ok) return;
 
     const csvText = await response.text();
@@ -1361,7 +1355,7 @@ async function autoUpdateDashboard() {
     if (standup) document.getElementById('displayStandup').textContent = `⏱️ Stand-up: ${standup}`;
 
     const reportDue = getVal('report due', 'due date', 'report');
-    if (reportDue) document.getElementById('displayReportDue').textContent = `🚨 Report: ${reportDue}`;
+    if (reportDue) document.getElementById('displayReportDue').textContent = `🚨 Report Due: ${reportDue}`;
 
     const host = getVal('host');
     if (host) document.getElementById('displayHost').innerHTML = `<strong>Host:</strong> ${host}`;
@@ -1380,7 +1374,7 @@ async function autoUpdateDashboard() {
 async function loadMinutesFromCSV() {
   const dropdown = document.getElementById('minutesDropdown');
   try {
-    const response = await fetch(MINUTES_CSV_URL + '&_nocache=' + Date.now());
+    const response = await fetch(MINUTES_CSV_URL + '&t=' + Date.now());
     if (!response.ok) throw new Error("Could not fetch minutes sheet");
 
     const csvText = await response.text();
@@ -1537,14 +1531,15 @@ function handleFormDone() {
   } else if (formSubmittedType === 'admin') {
     alert("Variables updated successfully! Refreshing view...");
     closeModal('adminVariablesModal');
-    setTimeout(() => { autoUpdateDashboard(); }, 1200);
+    setTimeout(() => { autoUpdateDashboard(); }, 1500);
   } else if (formSubmittedType === 'progress_pulse') {
-    console.log("Progress, pulse status, and primary goal logged directly.");
+    console.log("Progress, pulse status, and primary goal logged.");
   }
   formSubmittedType = '';
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  loadPulseFromStorage();
   renderScoreboard();
   fetchMemberPercentages();
   autoUpdateDashboard();
