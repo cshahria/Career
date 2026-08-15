@@ -42,7 +42,7 @@
     text-transform: uppercase;
   }
 
-  /* COUNTDOWN GRID STRUCTURE */
+  /* TWO-ROW COUNTDOWN GRID STRUCTURE */
   .countdown-section {
     display: flex;
     flex-direction: column;
@@ -52,12 +52,12 @@
 
   .countdown-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 6px;
   }
   @media (max-width: 640px) {
     .countdown-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
@@ -140,11 +140,6 @@
     gap: 6px;
     margin-bottom: 10px;
   }
-  @media (max-width: 640px) {
-    .all-dates-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
-    }
-  }
 
   .card{
     background:var(--card);
@@ -155,7 +150,7 @@
     box-shadow:0 2px 6px rgba(0,0,0,0.03);
   }
   
-  /* TILE GRID WITH ABBREVIATIONS & INCREASED ICON SIZES (5-10%) */
+  /* TILE GRID WITH ABBREVIATIONS */
   .tile-grid{
     display:grid;
     grid-template-columns:repeat(6, 1fr);
@@ -184,15 +179,15 @@
     box-shadow:0 3px 8px rgba(0,0,0,0.06);
   }
   .tile .icon{
-    width:30px; /* Scaled up ~8% from 28px */
-    height:30px;
+    width:28px;
+    height:28px;
     border-radius:50%;
     background:var(--sky-light);
     color:var(--sky);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:1.08rem; /* Scaled up ~8% from 1.0rem */
+    font-size:1.0rem;
     transition: background 0.15s ease;
   }
   .tile:hover .icon {
@@ -840,9 +835,9 @@
     <h1>Unified Dashboard</h1>
   </header>
 
-  <!-- REORGANIZED STATIC COUNTDOWN DASHBOARD -->
+  <!-- REORGANIZED 2-ROW COUNTDOWN DASHBOARD -->
   <div class="countdown-section">
-    <!-- ROW 1: UPCOMING DATES -->
+    <!-- ROW 1: FUTURE / UPCOMING DATES -->
     <div id="countdownFutureRow" class="countdown-grid">
       <div style="font-size: 0.81rem; color: var(--muted); padding: 4px; grid-column: 1/-1; text-align: center;">Loading upcoming count downs...</div>
     </div>
@@ -1019,6 +1014,10 @@ let pastDatesList = [];
 let futureDatesList = [];
 let activePastIndex = 0;
 let activeFutureIndex = 0;
+let autoRotatePastIndex = 0;
+let autoRotateFutureIndex = 0;
+let pastRotationTimer = null;
+let futureRotationTimer = null;
 let allCountdownRows = [];
 let showAllDates = false;
 
@@ -1108,66 +1107,126 @@ async function fetchAndRenderCountdowns() {
     pastDatesList.sort((a, b) => a.targetDate - b.targetDate); // Oldest first
     futureDatesList.sort((a, b) => a.targetDate - b.targetDate); // Closest first
 
-    // BUILD ROW 1: FUTURE DATES (2 TILES STATIC + POPUP TRIGGER)
+    // BUILD ROW 1: FUTURE DATES
     let futureHtml = "";
     
-    for (let i = 0; i < 2; i++) {
-      if (futureDatesList.length > i) {
-        const item = futureDatesList[i];
-        const dLabel = item.diffDays === 0 ? "Today" : `${item.diffDays}D`;
-        futureHtml += `
-          <div class="countdown-tile upcoming">
-            <div class="tile-val">${item.label} <span class="days-green">${dLabel}</span></div>
-          </div>
-        `;
-      } else {
-        futureHtml += `
-          <div class="countdown-tile upcoming">
-            <div class="tile-val">None</div>
-          </div>
-        `;
-      }
+    // Future 1: Closest approaching
+    if (futureDatesList.length > 0) {
+      const f1 = futureDatesList[0];
+      const dLabel = f1.diffDays === 0 ? "Today" : `${f1.diffDays}D`;
+      futureHtml += `
+        <div class="countdown-tile upcoming">
+          <div class="tile-title">UPCOMING 1</div>
+          <div class="tile-val">${f1.label} <span class="days-green">${dLabel}</span></div>
+        </div>
+      `;
+    } else {
+      futureHtml += `
+        <div class="countdown-tile upcoming">
+          <div class="tile-title">UPCOMING 1</div>
+          <div class="tile-val">None</div>
+        </div>
+      `;
     }
 
-    // Future Tile Popup trigger
+    // Future 2: Second closest approaching
+    if (futureDatesList.length > 1) {
+      const f2 = futureDatesList[1];
+      const dLabel = f2.diffDays === 0 ? "Today" : `${f2.diffDays}D`;
+      futureHtml += `
+        <div class="countdown-tile upcoming">
+          <div class="tile-title">UPCOMING 2</div>
+          <div class="tile-val">${f2.label} <span class="days-green">${dLabel}</span></div>
+        </div>
+      `;
+    } else {
+      futureHtml += `
+        <div class="countdown-tile upcoming">
+          <div class="tile-title">UPCOMING 2</div>
+          <div class="tile-val">None</div>
+        </div>
+      `;
+    }
+
+    // Future 3: Auto-rotating tile
+    futureHtml += `
+      <div class="countdown-tile upcoming">
+        <div class="tile-title">UPCOMING 🔄</div>
+        <div class="tile-val" id="futureRotatingTileVal">Loading...</div>
+      </div>
+    `;
+
+    // Future 4: Count & Popup trigger
     futureHtml += `
       <div class="countdown-tile upcoming interactive" onclick="openCountdownPopup('future')">
+        <div class="tile-title">Future Dates</div>
         <div class="tile-val">${futureDatesList.length} items <span style="font-size:0.82rem;">🔍</span></div>
       </div>
     `;
 
     futureContainer.innerHTML = futureHtml;
 
-    // BUILD ROW 2: PAST DATES (2 TILES STATIC + POPUP TRIGGER)
+    // BUILD ROW 2: PAST DATES
     let pastHtml = "";
 
-    for (let i = 0; i < 2; i++) {
-      if (pastDatesList.length > i) {
-        const item = pastDatesList[i];
-        const dur = formatPastDuration(item.targetDate, today);
-        pastHtml += `
-          <div class="countdown-tile passed">
-            <div class="tile-val">${item.label} - <span class="days-red">${dur}</span></div>
-          </div>
-        `;
-      } else {
-        pastHtml += `
-          <div class="countdown-tile passed">
-            <div class="tile-val">None</div>
-          </div>
-        `;
-      }
+    // Past 1: Oldest past date
+    if (pastDatesList.length > 0) {
+      const p1 = pastDatesList[0];
+      const dur1 = formatPastDuration(p1.targetDate, today);
+      pastHtml += `
+        <div class="countdown-tile passed">
+          <div class="tile-title">PAST 1</div>
+          <div class="tile-val">${p1.label} - <span class="days-red">${dur1}</span></div>
+        </div>
+      `;
+    } else {
+      pastHtml += `
+        <div class="countdown-tile passed">
+          <div class="tile-title">PAST 1</div>
+          <div class="tile-val">None</div>
+        </div>
+      `;
     }
 
-    // Past Tile Popup trigger
+    // Past 2: Second oldest past date
+    if (pastDatesList.length > 1) {
+      const p2 = pastDatesList[1];
+      const dur2 = formatPastDuration(p2.targetDate, today);
+      pastHtml += `
+        <div class="countdown-tile passed">
+          <div class="tile-title">PAST 2</div>
+          <div class="tile-val">${p2.label} - <span class="days-red">${dur2}</span></div>
+        </div>
+      `;
+    } else {
+      pastHtml += `
+        <div class="countdown-tile passed">
+          <div class="tile-title">PAST 2</div>
+          <div class="tile-val">None</div>
+        </div>
+      `;
+    }
+
+    // Past 3: Auto-rotating tile
+    pastHtml += `
+      <div class="countdown-tile passed">
+        <div class="tile-title">PAST 🔄</div>
+        <div class="tile-val" id="pastRotatingTileVal">Loading...</div>
+      </div>
+    `;
+
+    // Past 4: Count & Popup trigger
     pastHtml += `
       <div class="countdown-tile passed interactive" onclick="openCountdownPopup('past')">
+        <div class="tile-title">Past Dates</div>
         <div class="tile-val">${pastDatesList.length} items <span style="font-size:0.82rem;">🔍</span></div>
       </div>
     `;
 
     pastContainer.innerHTML = pastHtml;
 
+    // INIT AUTO-ROTATION LOOPS (EVERY 4 SECONDS)
+    startRotatingCountdownTiles(today);
     renderAllDatesGrid();
 
   } catch (err) {
@@ -1175,6 +1234,45 @@ async function fetchAndRenderCountdowns() {
     futureContainer.innerHTML = `<div style="color:#e74c3c; grid-column:1/-1; text-align:center; font-size:0.85rem;">Error loading count downs</div>`;
     pastContainer.style.display = 'none';
   }
+}
+
+function startRotatingCountdownTiles(today) {
+  if (pastRotationTimer) clearInterval(pastRotationTimer);
+  if (futureRotationTimer) clearInterval(futureRotationTimer);
+
+  // Future rotating tile
+  const updateFutureRotatingTile = () => {
+    const elem = document.getElementById("futureRotatingTileVal");
+    if (!elem) return;
+    if (futureDatesList.length === 0) {
+      elem.innerHTML = "None";
+      return;
+    }
+    const item = futureDatesList[autoRotateFutureIndex];
+    const dLabel = item.diffDays === 0 ? "Today" : `${item.diffDays}D`;
+    elem.innerHTML = `${item.label} <span class="days-green">${dLabel}</span>`;
+    autoRotateFutureIndex = (autoRotateFutureIndex + 1) % futureDatesList.length;
+  };
+
+  // Past rotating tile
+  const updatePastRotatingTile = () => {
+    const elem = document.getElementById("pastRotatingTileVal");
+    if (!elem) return;
+    if (pastDatesList.length === 0) {
+      elem.innerHTML = "None";
+      return;
+    }
+    const item = pastDatesList[autoRotatePastIndex];
+    const dur = formatPastDuration(item.targetDate, today);
+    elem.innerHTML = `${item.label} - <span class="days-red">${dur}</span>`;
+    autoRotatePastIndex = (autoRotatePastIndex + 1) % pastDatesList.length;
+  };
+
+  updateFutureRotatingTile();
+  updatePastRotatingTile();
+
+  futureRotationTimer = setInterval(updateFutureRotatingTile, 4000);
+  pastRotationTimer = setInterval(updatePastRotatingTile, 4000);
 }
 
 function openCountdownPopup(type) {
@@ -1248,15 +1346,12 @@ function renderAllDatesGrid() {
   const container = document.getElementById("countdownAllContainer");
   if (allCountdownRows.length === 0) return;
 
-  const today = new Date();
-  today.setHours(0,0,0,0);
-
   let html = "";
   allCountdownRows.forEach(item => {
     const isPast = item.diffDays < 0;
     const tileClass = isPast ? "passed" : "upcoming";
     const daysClass = isPast ? "days-red" : "days-green";
-    const valStr = isPast ? formatPastDuration(item.targetDate, today) : (item.diffDays === 0 ? "Today" : `${item.diffDays}D`);
+    const valStr = isPast ? `(${Math.abs(item.diffDays)}D)` : (item.diffDays === 0 ? "Today" : `${item.diffDays}D`);
 
     html += `
       <div class="countdown-tile ${tileClass}">
