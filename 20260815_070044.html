@@ -951,43 +951,6 @@ const memberPulseState = {};
 const memberGoalMap = {};
 let formSubmittedType = '';
 
-// Optimistic local cache: bridges the gap while the published CSV
-// (which only refreshes every few minutes) catches up to a submission.
-const PULSE_CACHE_KEY = 'unpto_pulse_cache_v1';
-const PULSE_CACHE_WINDOW_MS = 6 * 60 * 1000; // trust local cache for 6 min after a submit
-
-function loadPulseCache() {
-  try { return JSON.parse(localStorage.getItem(PULSE_CACHE_KEY)) || {}; }
-  catch (e) { return {}; }
-}
-
-function savePulseCacheEntry(id, pct, pulse) {
-  try {
-    const cache = loadPulseCache();
-    cache[id] = { pct, pulse, ts: Date.now() };
-    localStorage.setItem(PULSE_CACHE_KEY, JSON.stringify(cache));
-  } catch (e) { /* localStorage unavailable — silently skip */ }
-}
-
-function applyPulseCache() {
-  const cache = loadPulseCache();
-  Object.keys(cache).forEach(id => {
-    const entry = cache[id];
-    if (!entry || (Date.now() - entry.ts) > PULSE_CACHE_WINDOW_MS) return;
-    if (typeof entry.pct === 'number') {
-      memberPctState[id] = entry.pct;
-      const tile = document.getElementById(`tile-${id}`);
-      if (tile) tile.value = entry.pct;
-      updateProgressBarColor(id, entry.pct);
-    }
-    if (entry.pulse) {
-      const capitalizedKey = id.charAt(0).toUpperCase() + id.slice(1);
-      memberPulseState[capitalizedKey] = entry.pulse;
-      updateStatusStyle(id, entry.pulse);
-    }
-  });
-}
-
 const TEAM_MEMBERS = [
   { name: 'Cyrus', id: 'cyrus', avatar: 'CS' },
   { name: 'Art', id: 'art', avatar: 'AT' },
@@ -1082,8 +1045,7 @@ function submitProgressAndPulse(fullName, deltaValueStr, pulseStatus, goalStr) {
   document.getElementById('progFormPercent').value = pctStr;
   document.getElementById('progFormHelp').value = currentPulse;
   document.getElementById('progressSilentForm').submit();
-
-  savePulseCacheEntry(id, parseInt(pctStr, 10), currentPulse);
+  
   renderScoreboard();
 }
 
@@ -1247,20 +1209,17 @@ async function fetchMemberPercentages() {
     memberKeys.forEach(key => {
       const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
 
-      const cached = loadPulseCache()[key];
-      const withinCacheWindow = cached && (Date.now() - cached.ts) <= PULSE_CACHE_WINDOW_MS;
-
-      if (latestPct[key] !== undefined && !withinCacheWindow) {
+      if (latestPct[key] !== undefined) {
         const clampedVal = Math.min(100, Math.max(0, latestPct[key]));
         memberPctState[key] = clampedVal;
-
+        
         const tile = document.getElementById(`tile-${key}`);
         if (tile) tile.value = clampedVal;
         updateProgressBarColor(key, clampedVal);
       }
 
       const pulseVal = latestStatus[key];
-      if (pulseVal && !withinCacheWindow) {
+      if (pulseVal) {
         memberPulseState[capitalizedKey] = pulseVal;
         updateStatusStyle(key, pulseVal);
       }
@@ -1492,7 +1451,6 @@ function handleFormDone() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  applyPulseCache();
   renderScoreboard();
   fetchMemberPercentages();
   autoUpdateDashboard();
