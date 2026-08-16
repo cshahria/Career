@@ -12,7 +12,9 @@
       --muted: #64748b;
       --border: #e2e8f0;
       --primary: #2563eb;
+      --primary-hover: #1d4ed8;
       --success: #16a34a;
+      --warning: #d97706;
       --danger: #dc2626;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,6 +48,7 @@
       white-space: pre-wrap;
     }
 
+    /* Today's progress */
     .today-total { font-size: 2.6rem; font-weight: 700; text-align: center; letter-spacing: -0.02em; }
     .today-sub { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 4px; margin-bottom: 16px; }
     .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
@@ -53,6 +56,7 @@
     .progress-fill.over { background: var(--success); }
     .progress-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
 
+    /* Punch control */
     .punch-btn {
       width: 100%;
       font-size: 1.15rem;
@@ -70,6 +74,7 @@
     .punch-btn.start:hover { background: #15803d; }
     .punch-btn.stop { background: var(--danger); }
     .punch-btn.stop:hover { background: #b91c1c; }
+    .punch-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .form-group { margin-top: 12px; }
     label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
@@ -96,6 +101,7 @@
 
   <div id="errorBanner" class="error-banner"></div>
 
+  <!-- Today's progress -->
   <div class="card">
     <div id="todayTotal" class="today-total">0h 00m</div>
     <div id="todaySub" class="today-sub">worked today · goal 8h 00m</div>
@@ -105,21 +111,24 @@
     <div class="progress-labels"><span>0h</span><span>8h</span></div>
   </div>
 
+  <!-- Punch control -->
   <div class="card">
     <button id="punchBtn" class="punch-btn start" onclick="sendPunch()">▶ Start Work</button>
     <div class="form-group">
       <label>Optional Note</label>
-      <input type="text" id="eventNote" placeholder="e.g., Working on task tickets...">
+      <input type="text" id="eventNote" placeholder="e.g., Working on migration tickets...">
     </div>
     <div id="statusToast" class="status-toast"></div>
   </div>
 
+  <!-- Submission debug panel -->
   <div class="card">
     <h2>Last Submission (for verification)</h2>
     <div id="debugPanel" style="font-size:0.85rem; color:var(--muted);">Nothing submitted yet.</div>
-    <button id="verifyBtn" class="btn" style="margin-top:12px; display:none;" onclick="openVerifyForm()">↗ Open real Google Form with these values</button>
+    <button id="verifyBtn" class="btn" style="margin-top:12px; display:none;" onclick="openVerifyForm()">↗ Open real Google Form with these values (to confirm it saves)</button>
   </div>
 
+  <!-- Today's chunks -->
   <div class="card">
     <h2>Today's Chunks</h2>
     <div class="table-container">
@@ -130,6 +139,7 @@
     </div>
   </div>
 
+  <!-- Daily log -->
   <div class="card">
     <h2>Daily Log</h2>
     <div class="table-container">
@@ -145,8 +155,9 @@
   <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=110061672&single=true&output=csv";
     const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe6i9MDQ2PFz6BbNyrtbf-OlgD7RHJ1WsBBqIEI00LmgVpbkw/formResponse";
-    const GOAL_MINS = 480;
+    const GOAL_MINS = 480; // 8 hours
 
+    // Google Form Field Entry IDs
     const FORM_ENTRIES = {
       start: "entry.1993262794",
       end: "entry.34529801",
@@ -157,7 +168,7 @@
     };
 
     window.processedDailyMap = {};
-    window.punchState = 'OUT';
+    window.punchState = 'OUT'; // 'OUT' or 'IN'
     window.openChunkStartMins = null;
     window.openChunkStartLabel = null;
 
@@ -176,6 +187,7 @@
       document.getElementById('errorBanner').style.display = 'none';
     }
 
+    /* --- CSV FETCH & PARSE --- */
     async function fetchAndProcess() {
       const statusEl = document.getElementById('statusText');
       statusEl.innerText = "Fetching live sheet data...";
@@ -196,7 +208,10 @@
         statusEl.innerText = `Updated live (${rawRows.length} rows).`;
       } catch (err) {
         statusEl.innerText = "Could not load live data.";
-        showError("Error loading the sheet: " + err.message);
+        showError(
+          "Error loading the sheet: " + err.message +
+          "\n\nVerify that the sheet is published to the web (File > Share > Publish to web)."
+        );
       }
     }
 
@@ -377,23 +392,26 @@
       renderDashboard(window.processedDailyMap, todayKey);
     }
 
-    function getTimeParts() {
+    /* --- PUNCH --- */
+    function getCurrentTimeString12h() {
       const d = new Date();
-      let h = String(d.getHours()).padStart(2, '0');
-      let m = String(d.getMinutes()).padStart(2, '0');
-      return { hour: h, minute: m, full: `${h}:${m}` };
+      let h = d.getHours();
+      const m = String(d.getMinutes()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12; if (h === 0) h = 12;
+      return `${h}:${m}:00 ${ampm}`;
     }
 
     function sendPunch() {
       const wantIn = window.punchState !== 'IN';
       const eventType = wantIn ? 'Clock In' : 'Clock Out';
       const noteVal = document.getElementById('eventNote').value.trim();
-      const timeParts = getTimeParts();
+      const timeStr = getCurrentTimeString12h();
 
       window.punchState = wantIn ? 'IN' : 'OUT';
       if (wantIn) {
-        window.openChunkStartMins = timeToMins(timeParts.full);
-        window.openChunkStartLabel = timeParts.full;
+        window.openChunkStartMins = timeToMins(timeStr);
+        window.openChunkStartLabel = timeStr;
       } else {
         window.openChunkStartMins = null;
         window.openChunkStartLabel = null;
@@ -415,17 +433,16 @@
       };
 
       if (wantIn) {
-        // Send primary value and sub-fields for native Time question compatibility
-        addField(FORM_ENTRIES.start, timeParts.full);
-        addField(`${FORM_ENTRIES.start}_hour`, timeParts.hour);
-        addField(`${FORM_ENTRIES.start}_minute`, timeParts.minute);
+        addField(FORM_ENTRIES.start, timeStr);
+        addField(FORM_ENTRIES.end, '');
       } else {
-        addField(FORM_ENTRIES.end, timeParts.full);
-        addField(`${FORM_ENTRIES.end}_hour`, timeParts.hour);
-        addField(`${FORM_ENTRIES.end}_minute`, timeParts.minute);
+        addField(FORM_ENTRIES.start, '');
+        addField(FORM_ENTRIES.end, timeStr);
       }
 
       addField(FORM_ENTRIES.notes, noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`);
+      
+      // Included auxiliary fields to avoid validation rejections on required questions
       addField(FORM_ENTRIES.duration, '');
       addField(FORM_ENTRIES.netHours, '');
       addField(FORM_ENTRIES.breakDetails, '');
@@ -444,7 +461,7 @@
       document.getElementById('eventNote').value = '';
 
       const toast = document.getElementById('statusToast');
-      toast.innerText = `Logged "${eventType}" at ${timeParts.full}`;
+      toast.innerText = `Logged "${eventType}" at ${timeStr}`;
       toast.style.display = 'block';
       setTimeout(() => { toast.style.display = 'none'; }, 4000);
 
