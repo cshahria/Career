@@ -80,6 +80,7 @@
     label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
     input { width: 100%; font-size: 1rem; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
     .status-toast { text-align: center; font-size: 0.9rem; padding: 10px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 12px; display: none; }
+    details summary { cursor: pointer; color: var(--muted); font-size: 0.85rem; }
 
     .table-container { overflow-x: auto; margin-top: 12px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -128,6 +129,30 @@
     <button id="verifyBtn" class="btn" style="margin-top:12px; display:none;" onclick="openVerifyForm()">↗ Open real Google Form with these values (to confirm it saves)</button>
   </div>
 
+  <!-- Config -->
+  <div class="card">
+    <details>
+      <summary>Form Config & Field Mapping</summary>
+      <div style="font-size:0.8rem; color:var(--muted); margin: 8px 0;">Pre-populated with your Google Form action URL and entry IDs:</div>
+      <div class="form-group">
+        <label>Form Action URL</label>
+        <input type="text" id="cfgUrl" value="https://docs.google.com/forms/d/e/1FAIpQLSe6i9MDQ2PFz6BbNyrtbf-OlgD7RHJ1WsBBqIEI00LmgVpbkw/formResponse" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Start Entry ID</label>
+        <input type="text" id="cfgStart" value="entry.1993262794" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>End Entry ID</label>
+        <input type="text" id="cfgEnd" value="entry.34529801" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Notes Entry ID</label>
+<input type="text" id="cfgNotes" value="entry.2079200242" onchange="saveConfig()">
+      </div>
+    </details>
+  </div>
+
   <!-- Today's chunks -->
   <div class="card">
     <h2>Today's Chunks</h2>
@@ -154,29 +179,37 @@
 
   <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=110061672&single=true&output=csv";
-    const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe6i9MDQ2PFz6BbNyrtbf-OlgD7RHJ1WsBBqIEI00LmgVpbkw/formResponse";
     const GOAL_MINS = 480; // 8 hours
-
-    // Google Form Field Entry IDs
-    const FORM_ENTRIES = {
-      start: "entry.1993262794",
-      end: "entry.34529801",
-      duration: "entry.584946386",
-      netHours: "entry.1856196274",
-      breakDetails: "entry.1542521835",
-      notes: "entry.2079200242"
-    };
 
     window.processedDailyMap = {};
     window.punchState = 'OUT'; // 'OUT' or 'IN'
-    window.openChunkStartMins = null;
+    window.openChunkStartMins = null; // minutes-since-midnight of an open (unfinished) chunk today
     window.openChunkStartLabel = null;
 
     window.onload = function() {
-      applyButtonState();
+      loadConfig();
+      applyButtonState(); // button works immediately, independent of the CSV read
       fetchAndProcess();
-      setInterval(tickLiveTotal, 30000);
+      setInterval(tickLiveTotal, 30000); // keep today's total live while clocked in
     };
+
+    function saveConfig() {
+      const cfg = {
+        url: document.getElementById('cfgUrl').value,
+        s: document.getElementById('cfgStart').value,
+        e: document.getElementById('cfgEnd').value,
+        n: document.getElementById('cfgNotes').value,
+      };
+      localStorage.setItem('punch_card_cfg_v2', JSON.stringify(cfg));
+    }
+
+    function loadConfig() {
+      const cfg = JSON.parse(localStorage.getItem('punch_card_cfg_v2') || '{}');
+      if (cfg.url) document.getElementById('cfgUrl').value = cfg.url;
+      if (cfg.s) document.getElementById('cfgStart').value = cfg.s;
+      if (cfg.e) document.getElementById('cfgEnd').value = cfg.e;
+      if (cfg.n) document.getElementById('cfgNotes').value = cfg.n;
+    }
 
     function showError(msg) {
       const el = document.getElementById('errorBanner');
@@ -195,7 +228,7 @@
 
       try {
         const resp = await fetch(CSV_URL, { cache: 'no-store' });
-        if (!resp.ok) throw new Error("HTTP " + resp.status + " fetching the published CSV.");
+        if (!resp.ok) throw new Error("HTTP " + resp.status + " fetching the published CSV. Check that the sheet is still published (File > Share > Publish to web).");
         const csvText = await resp.text();
         const rawRows = parseCSV(csvText);
 
@@ -210,7 +243,8 @@
         statusEl.innerText = "Could not load live data.";
         showError(
           "Error loading the sheet: " + err.message +
-          "\n\nVerify that the sheet is published to the web (File > Share > Publish to web)."
+          "\n\nThis is usually either: (1) the published CSV URL/gid changed, " +
+          "(2) the sheet's 'Publish to web' was turned off, or (3) a network/CORS block on this device."
         );
       }
     }
@@ -263,6 +297,9 @@
       return null;
     }
 
+    /* --- CORE LOGIC: replay events per day, pairing Start/Stop into chunks.
+       Two states only: OUT and IN. Any event that doesn't match a valid
+       transition (e.g. a duplicate double-click) is simply skipped. --- */
     function processLogs(rows) {
       const sorted = rows.slice().sort((a, b) => {
         const ta = new Date(a['Timestamp'] || 0).getTime();
@@ -292,12 +329,12 @@
         const label = timeStr || dObj.toTimeString().slice(0, 5);
 
         if (eventType === 'IN') {
-          if (day.state !== 'OUT') return;
+          if (day.state !== 'OUT') return; // ignore duplicate Start
           day.state = 'IN';
           day.openStartMins = mins;
           day.openStartLabel = label;
         } else if (eventType === 'OUT') {
-          if (day.state !== 'IN') return;
+          if (day.state !== 'IN') return; // ignore duplicate Stop
           if (day.openStartMins !== null && mins > day.openStartMins) {
             const dur = mins - day.openStartMins;
             day.chunks.push({ start: day.openStartLabel, end: label, mins: dur });
@@ -337,6 +374,7 @@
     function currentTodayTotalMins(todayKey) {
       const day = window.processedDailyMap[todayKey];
       let total = day ? day.totalMins : 0;
+      // If currently clocked in, add the elapsed time of the open chunk for a live total
       if (window.punchState === 'IN' && window.openChunkStartMins !== null) {
         const now = new Date();
         const nowMins = now.getHours() * 60 + now.getMinutes();
@@ -348,6 +386,7 @@
     }
 
     function renderDashboard(dailyMap, todayKey) {
+      // Today progress
       const totalMins = currentTodayTotalMins(todayKey);
       document.getElementById('todayTotal').innerText = minsToLabel(totalMins);
       const pct = Math.min(100, (totalMins / GOAL_MINS) * 100);
@@ -361,6 +400,7 @@
         sub.innerText = `worked today · ${minsToLabel(GOAL_MINS - totalMins)} to go`;
       }
 
+      // Today's chunks
       const today = dailyMap[todayKey];
       let chunksHtml = '';
       if (today && today.chunks.length > 0) {
@@ -373,12 +413,13 @@
       }
       document.getElementById('chunksBody').innerHTML = chunksHtml || '<tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr>';
 
+      // Daily log (most recent first)
       const dates = Object.keys(dailyMap).sort().reverse();
       let dailyHtml = '';
       dates.forEach(dKey => {
         const day = dailyMap[dKey];
         let mins = day.totalMins;
-        if (dKey === todayKey) mins = totalMins;
+        if (dKey === todayKey) mins = totalMins; // live total for today
         const d = new Date(dKey + 'T00:00:00');
         const friendly = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         dailyHtml += `<tr><td>${friendly}</td><td><b>${minsToLabel(mins)}</b></td></tr>`;
@@ -403,11 +444,19 @@
     }
 
     function sendPunch() {
-      const wantIn = window.punchState !== 'IN';
+      const wantIn = window.punchState !== 'IN'; // if not IN, this click means "Start"
       const eventType = wantIn ? 'Clock In' : 'Clock Out';
+
+      const url = document.getElementById('cfgUrl').value.trim();
       const noteVal = document.getElementById('eventNote').value.trim();
       const timeStr = getCurrentTimeString12h();
 
+      if (!url) {
+        alert('Please ensure your Google Form Action URL is configured.');
+        return;
+      }
+
+      // Optimistic lock: flip state immediately so a double-tap can't double-submit
       window.punchState = wantIn ? 'IN' : 'OUT';
       if (wantIn) {
         window.openChunkStartMins = timeToMins(timeStr);
@@ -420,7 +469,7 @@
 
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = FORM_ACTION_URL;
+      form.action = url;
       form.target = 'hidden_iframe';
 
       const addField = (name, val) => {
@@ -433,26 +482,20 @@
       };
 
       if (wantIn) {
-        addField(FORM_ENTRIES.start, timeStr);
-        addField(FORM_ENTRIES.end, '');
+        addField(document.getElementById('cfgStart').value, timeStr);
       } else {
-        addField(FORM_ENTRIES.start, '');
-        addField(FORM_ENTRIES.end, timeStr);
+        addField(document.getElementById('cfgEnd').value, timeStr);
       }
+      addField(document.getElementById('cfgNotes').value, noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`);
 
-      addField(FORM_ENTRIES.notes, noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`);
-      
-      // Included auxiliary fields to avoid validation rejections on required questions
-      addField(FORM_ENTRIES.duration, '');
-      addField(FORM_ENTRIES.netHours, '');
-      addField(FORM_ENTRIES.breakDetails, '');
-
+      // Capture exactly what's being sent, for on-page verification
       const submittedFields = [];
       Array.from(form.elements).forEach(el => {
         if (el.name) submittedFields.push({ name: el.name, value: el.value });
       });
-      window.lastSubmission = { url: FORM_ACTION_URL, fields: submittedFields, at: new Date().toLocaleTimeString() };
+      window.lastSubmission = { url, fields: submittedFields, at: new Date().toLocaleTimeString() };
       renderDebugPanel();
+      console.log('[TimeTracker] Submitting to', url, submittedFields);
 
       document.body.appendChild(form);
       form.submit();
@@ -486,6 +529,9 @@
       verifyBtn.style.display = 'inline-block';
     }
 
+    // Opens the actual human-facing Google Form, pre-filled with the same values
+    // just POSTed blindly. Submitting THIS will show Google's own confirmation
+    // screen, which is the only fully reliable way to prove the entry IDs work.
     function openVerifyForm() {
       if (!window.lastSubmission) return;
       const viewUrl = window.lastSubmission.url.replace(/\/formResponse.*$/, '/viewform');
