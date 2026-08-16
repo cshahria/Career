@@ -114,7 +114,7 @@
 
   <!-- Punch control -->
   <div class="card">
-    <button id="punchBtn" class="punch-btn start" onclick="sendPunch()">▶ Start Work</button>
+    <button id="punchBtn" class="punch-btn start" onclick="sendPunch()" disabled>▶ Start Work</button>
     <div class="form-group">
       <label>Optional Note</label>
       <input type="text" id="eventNote" placeholder="e.g., Working on migration tickets...">
@@ -181,7 +181,6 @@
 
     window.onload = function() {
       loadConfig();
-      applyButtonState(); // button works immediately, independent of the CSV read
       fetchAndProcess();
       setInterval(tickLiveTotal, 30000); // keep today's total live while clocked in
     };
@@ -347,6 +346,7 @@
       window.openChunkStartMins = today ? today.openStartMins : null;
       window.openChunkStartLabel = today ? today.openStartLabel : null;
 
+      document.getElementById('punchBtn').disabled = false;
       applyButtonState();
       renderDashboard(dailyMap, todayKey);
     }
