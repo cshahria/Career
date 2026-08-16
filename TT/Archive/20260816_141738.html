@@ -106,24 +106,6 @@
     .btn-break-start { border-color: #fef08a; background: #fefce8; color: var(--warning); }
     .btn-break-end { border-color: #e2e8f0; background: #f8fafc; color: var(--muted); }
     .btn-out { border-color: #fecaca; background: #fef2f2; color: var(--danger); }
-    button.punch-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-    .state-pill {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 999px;
-      margin-bottom: 12px;
-      background: #f1f5f9;
-      color: var(--muted);
-    }
-    .state-pill.st-in { background: #f0fdf4; color: var(--success); }
-    .state-pill.st-break { background: #fefce8; color: var(--warning); }
-    .state-pill.st-out { background: #f1f5f9; color: var(--muted); }
 
     .form-group { margin-top: 12px; }
     label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
@@ -220,18 +202,17 @@
 
   <!-- Punch Card Control Card -->
   <div class="card">
-    <div id="statePill" class="state-pill st-out">Status: Loading…</div>
     <div class="punch-grid">
-      <button id="btnClockIn" class="punch-btn btn-in" onclick="sendPunch('Clock In')">
+      <button class="punch-btn btn-in" onclick="sendPunch('Clock In')">
         <span>▶ Start Work</span>
       </button>
-      <button id="btnClockOut" class="punch-btn btn-out" onclick="sendPunch('Clock Out')">
+      <button class="punch-btn btn-out" onclick="sendPunch('Clock Out')">
         <span>■ End Work</span>
       </button>
-      <button id="btnBreakStart" class="punch-btn btn-break-start" onclick="sendPunch('Start Break')">
+      <button class="punch-btn btn-break-start" onclick="sendPunch('Start Break')">
         <span>☕ Start Break</span>
       </button>
-      <button id="btnBreakEnd" class="punch-btn btn-break-end" onclick="sendPunch('End Break')">
+      <button class="punch-btn btn-break-end" onclick="sendPunch('End Break')">
         <span>↩ End Break</span>
       </button>
     </div>
@@ -342,76 +323,16 @@
 
     window.onload = function() {
       loadConfig();
-      applyPunchState(STATES.OUT); // sane default until the sheet reconciles it
       fetchAndProcess();
     };
 
-    /* --- PUNCH CARD STATE MACHINE ---
-       States: 'OUT' (not clocked in / clocked out), 'IN' (working), 'BREAK' (on break)
-       This is the single source of truth for which buttons are allowed next,
-       both for rendering button state AND for validating outgoing punches. */
-    const STATES = { OUT: 'OUT', IN: 'IN', BREAK: 'BREAK' };
-
-    // Which event types are valid FROM each state, and what state they lead TO
-    const TRANSITIONS = {
-      'Clock In':    { from: [STATES.OUT],           to: STATES.IN },
-      'Start Break': { from: [STATES.IN],             to: STATES.BREAK },
-      'End Break':   { from: [STATES.BREAK],          to: STATES.IN },
-      'Clock Out':   { from: [STATES.IN],             to: STATES.OUT }
-    };
-
-    // Current known state — reconciled from the published sheet on every refresh,
-    // and optimistically advanced the instant a button is clicked (so a second
-    // click can't slip through before the sheet round-trips).
-    window.currentPunchState = STATES.OUT;
-
+    /* --- PUNCH CARD LOGIC --- */
     function getCurrentTimeString() {
       const d = new Date();
       return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
     }
 
-    function applyPunchState(state) {
-      window.currentPunchState = state;
-
-      const btnIn = document.getElementById('btnClockIn');
-      const btnOut = document.getElementById('btnClockOut');
-      const btnBS = document.getElementById('btnBreakStart');
-      const btnBE = document.getElementById('btnBreakEnd');
-      const pill = document.getElementById('statePill');
-
-      // Enable only the buttons whose transition is valid from this state
-      btnIn.disabled  = !TRANSITIONS['Clock In'].from.includes(state);
-      btnOut.disabled = !TRANSITIONS['Clock Out'].from.includes(state);
-      btnBS.disabled  = !TRANSITIONS['Start Break'].from.includes(state);
-      btnBE.disabled  = !TRANSITIONS['End Break'].from.includes(state);
-
-      pill.classList.remove('st-in', 'st-break', 'st-out');
-      if (state === STATES.IN) {
-        pill.innerText = 'Status: Clocked In — working';
-        pill.classList.add('st-in');
-      } else if (state === STATES.BREAK) {
-        pill.innerText = 'Status: On Break';
-        pill.classList.add('st-break');
-      } else {
-        pill.innerText = 'Status: Clocked Out';
-        pill.classList.add('st-out');
-      }
-    }
-
     function sendPunch(eventType) {
-      const transition = TRANSITIONS[eventType];
-
-      // Guard: block the punch entirely if it's not valid from the current state.
-      // (Buttons are already disabled for this, but this protects against stale
-      // UI / rapid clicks / programmatic calls.)
-      if (transition && !transition.from.includes(window.currentPunchState)) {
-        const toast = document.getElementById('statusToast');
-        toast.innerText = `Can't "${eventType}" from current state (${window.currentPunchState}). End the current slot first.`;
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 4000);
-        return;
-      }
-
       const url = document.getElementById('cfgUrl').value.trim();
       const noteVal = document.getElementById('eventNote').value.trim();
       const timeStr = getCurrentTimeString();
@@ -420,10 +341,6 @@
         alert('Please ensure your Google Form Action URL is configured.');
         return;
       }
-
-      // Optimistically lock in the new state immediately, before the network
-      // round-trip, so a double-click can't fire the same event twice.
-      if (transition) applyPunchState(transition.to);
 
       const form = document.createElement('form');
       form.method = 'POST';
@@ -460,9 +377,8 @@
       toast.style.display = 'block';
       setTimeout(() => { toast.style.display = 'none'; }, 4000);
 
-      // Refresh dashboard after a short delay to allow Google Sheets to capture submission.
-      // This will reconcile currentPunchState against what's actually on the sheet.
-      setTimeout(fetchAndProcess, 2500);
+      // Refresh dashboard after a short delay to allow Google Sheets to capture submission
+      setTimeout(fetchAndProcess, 2000);
     }
 
     function saveConfig() {
@@ -548,36 +464,10 @@
       }
     }
 
-    // Identify the punch-event type of a raw sheet row. The Notes column carries
-    // a reliable bracketed tag (e.g. "[Clock In]") regardless of which other
-    // columns are populated, so it's the source of truth for event type.
-    function detectEventType(r) {
-      const notes = (r['Work Performed / Notes'] || '').toLowerCase();
-      if (notes.includes('[clock in]')) return 'Clock In';
-      if (notes.includes('[clock out]')) return 'Clock Out';
-      if (notes.includes('[start break]')) return 'Start Break';
-      if (notes.includes('[end break]')) return 'End Break';
-      // Fallback for older rows without a bracket tag
-      if (r['Start Time']) return 'Clock In';
-      if (r['End Time']) return 'Clock Out';
-      const bd = (r['Break Details'] || '').toLowerCase();
-      if (bd.startsWith('start break')) return 'Start Break';
-      if (bd.startsWith('end break')) return 'End Break';
-      return null;
-    }
-
     function processLogs(rows) {
       let dailyMap = {};
 
-      // Rows are already chronological in the sheet (appended in submission order),
-      // but sort defensively by Timestamp to be safe.
-      const sorted = rows.slice().sort((a, b) => {
-        const ta = new Date(a['Timestamp'] || 0).getTime();
-        const tb = new Date(b['Timestamp'] || 0).getTime();
-        return ta - tb;
-      });
-
-      sorted.forEach(r => {
+      rows.forEach(r => {
         const tsRaw = r['Timestamp'] || r['Date'] || Object.values(r)[0];
         if (!tsRaw) return;
 
@@ -593,50 +483,31 @@
             endTime: null,
             breakMins: 0,
             netHours: 0,
-            state: STATES.OUT,       // running state machine for this day
-            breakStartMins: null,    // clock-time (mins since midnight) of open break
-            complete: false          // true once a Clock Out has been recorded
+            hasFormNet: false
           };
         }
 
-        const day = dailyMap[dateKey];
-        const eventType = detectEventType(r);
-        if (!eventType) return;
+        const preNet = r['Net Worked Hours'] || r['Net Hours'] || r['Hours'];
+        const preBreak = r['Total Break Duration (Minutes)'] || r['Break Duration'] || r['Break'];
+        const startVal = r['Start Time'] || r['Start'];
+        const endVal = r['End Time'] || r['End'];
 
-        const transition = TRANSITIONS[eventType];
-        if (!transition) return;
+        if (startVal && !dailyMap[dateKey].startTime) dailyMap[dateKey].startTime = startVal;
+        if (endVal) dailyMap[dateKey].endTime = endVal;
 
-        // Only act on the event if it's a VALID transition from the day's current
-        // state. Duplicate / out-of-order clicks (e.g. a second "Start Break" while
-        // already on break) are simply ignored here, exactly like the buttons
-        // prevent them from being sent going forward.
-        if (!transition.from.includes(day.state)) return;
-
-        const timeStr = r['Start Time'] || r['End Time'] ||
-          (r['Timestamp'] ? dObj.toTimeString().slice(0, 5) : null);
-        const mins = timeToMins(timeStr) !== null ? timeToMins(timeStr)
-          : (dObj.getHours() * 60 + dObj.getMinutes());
-
-        if (eventType === 'Clock In') {
-          if (!day.startTime) day.startTime = r['Start Time'] || dObj.toTimeString().slice(0, 5);
-        } else if (eventType === 'Clock Out') {
-          day.endTime = r['End Time'] || dObj.toTimeString().slice(0, 5);
-          day.complete = true;
-        } else if (eventType === 'Start Break') {
-          day.breakStartMins = mins;
-        } else if (eventType === 'End Break') {
-          if (day.breakStartMins !== null && mins > day.breakStartMins) {
-            day.breakMins += (mins - day.breakStartMins);
-          }
-          day.breakStartMins = null;
+        if (preNet && !isNaN(parseFloat(preNet))) {
+          dailyMap[dateKey].netHours += parseFloat(preNet);
+          dailyMap[dateKey].hasFormNet = true;
         }
 
-        day.state = transition.to;
+        if (preBreak && !isNaN(parseInt(preBreak, 10))) {
+          dailyMap[dateKey].breakMins += parseInt(preBreak, 10);
+        }
       });
 
       Object.keys(dailyMap).forEach(k => {
         let day = dailyMap[k];
-        if (day.startTime && day.endTime) {
+        if (!day.hasFormNet && day.startTime && day.endTime) {
           const sMins = timeToMins(day.startTime);
           const eMins = timeToMins(day.endTime);
           if (sMins !== null && eMins !== null && eMins > sMins) {
@@ -648,11 +519,6 @@
 
       window.processedDailyMap = dailyMap;
       renderDashboard(dailyMap);
-
-      // Reconcile the live punch buttons against today's replayed state
-      const todayKey = new Date().toISOString().split('T')[0];
-      const todayState = dailyMap[todayKey] ? dailyMap[todayKey].state : STATES.OUT;
-      applyPunchState(todayState);
     }
 
     // Convert YYYY-MM-DD to friendly string (e.g., Mon, Aug 16, 2026)
