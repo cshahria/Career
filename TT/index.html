@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Punch Card & Hours Dashboard</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px 16px;
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    /* Header Styles */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .header p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Buttons & Controls */
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-export { background: #0f172a; color: #fff; }
+    .btn-export:hover { background: #334155; }
+
+    /* Card Component */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Punch Card Section */
+    .punch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    button.punch-btn {
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 16px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ffffff;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.1s, background 0.15s;
+    }
+    button.punch-btn:active { transform: scale(0.98); }
+    .btn-in { border-color: #bbf7d0; background: #f0fdf4; color: var(--success); }
+    .btn-break-start { border-color: #fef08a; background: #fefce8; color: var(--warning); }
+    .btn-break-end { border-color: #e2e8f0; background: #f8fafc; color: var(--muted); }
+    .btn-out { border-color: #fecaca; background: #fef2f2; color: var(--danger); }
+
+    .form-group { margin-top: 12px; }
+    label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
+    input {
+      width: 100%;
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+    }
+    .status-toast {
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: var(--muted);
+      margin-top: 12px;
+      display: none;
+    }
+    details summary { cursor: pointer; color: var(--muted); font-size: 0.85rem; }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .metric-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .metric-val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .metric-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Table Component */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #f1f5f9;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    tr:hover { background: #f8fafc; }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <div class="header">
+    <div>
+      <h1>Time Punch & Hours Portal</h1>
+      <p id="statusText">Auto-loading live published Google Sheet...</p>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="fetchAndProcess()">↻ Refresh Sheet</button>
+      <button class="btn btn-export" onclick="exportFriendlyCSV()">📄 Export Clean CSV</button>
+    </div>
+  </div>
+
+  <!-- Punch Card Control Card -->
+  <div class="card">
+    <div class="punch-grid">
+      <button class="punch-btn btn-in" onclick="sendPunch('Clock In')">
+        <span>▶ Start Work</span>
+      </button>
+      <button class="punch-btn btn-out" onclick="sendPunch('Clock Out')">
+        <span>■ End Work</span>
+      </button>
+      <button class="punch-btn btn-break-start" onclick="sendPunch('Start Break')">
+        <span>☕ Start Break</span>
+      </button>
+      <button class="punch-btn btn-break-end" onclick="sendPunch('End Break')">
+        <span>↩ End Break</span>
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label>Optional Note</label>
+      <input type="text" id="eventNote" placeholder="e.g., Morning queue review, Lunch break...">
+    </div>
+
+    <div id="statusToast" class="status-toast"></div>
+  </div>
+
+  <!-- Form Mapping Config Dropdown -->
+  <div class="card">
+    <details>
+      <summary>Form Config & Field Mapping</summary>
+      <div style="font-size:0.8rem; color:var(--muted); margin: 8px 0;">Pre-populated with your Google Form action URL and entry IDs:</div>
+      <div class="form-group">
+        <label>Form Action URL</label>
+        <input type="text" id="cfgUrl" value="https://docs.google.com/forms/d/e/1FAIpQLSe6i9MDQ2PFz6BbNyrtbf-OlgD7RHJ1WsBBqIEI00LmgVpbkw/formResponse" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Start Entry ID</label>
+        <input type="text" id="cfgStart" value="entry.1993262794" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>End Entry ID</label>
+        <input type="text" id="cfgEnd" value="entry.34529801" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Break Details Entry ID</label>
+        <input type="text" id="cfgBreakLog" value="entry.1542521835" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Notes Entry ID</label>
+        <input type="text" id="cfgNotes" value="entry.2079200242" onchange="saveConfig()">
+      </div>
+    </details>
+  </div>
+
+  <!-- Key Metrics Grid -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Today's Hours</div>
+      <div id="mToday" class="metric-val">0.00</div>
+      <div class="metric-sub">hrs worked today</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Current Week</div>
+      <div id="mThisWeek" class="metric-val">0.00</div>
+      <div class="metric-sub">hrs this week</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Total Logged</div>
+      <div id="mTotal" class="metric-val">0.00</div>
+      <div class="metric-sub">cumulative contract hrs</div>
+    </div>
+  </div>
+
+  <!-- Weekly Rollup Section -->
+  <div class="card">
+    <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 12px;">Weekly Summaries</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Week Commencing</th>
+            <th>Days Worked</th>
+            <th>Total Hours</th>
+          </tr>
+        </thead>
+        <tbody id="weeklyTableBody">
+          <tr><td colspan="3" style="text-align:center; color:var(--muted);">Loading live data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Daily Activity Log Section -->
+  <div class="card">
+    <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 12px;">Daily Activity Log</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Break (m)</th>
+            <th>Net Hours</th>
+          </tr>
+        </thead>
+        <tbody id="dailyTableBody">
+          <tr><td colspan="5" style="text-align:center; color:var(--muted);">Loading live data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+  <script>
+    // Integration Endpoints
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=110061672&single=true&output=csv";
+    
+    // Global store for friendly export
+    window.processedDailyMap = {};
+
+    window.onload = function() {
+      loadConfig();
+      fetchAndProcess();
+    };
+
+    /* --- PUNCH CARD LOGIC --- */
+    function getCurrentTimeString() {
+      const d = new Date();
+      return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    function sendPunch(eventType) {
+      const url = document.getElementById('cfgUrl').value.trim();
+      const noteVal = document.getElementById('eventNote').value.trim();
+      const timeStr = getCurrentTimeString();
+
+      if (!url) {
+        alert('Please ensure your Google Form Action URL is configured.');
+        return;
+      }
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      form.target = 'hidden_iframe';
+
+      const addField = (name, val) => {
+        if (!name || val === undefined) return;
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = val;
+        form.appendChild(input);
+      };
+
+      if (eventType === 'Clock In') {
+        addField(document.getElementById('cfgStart').value, timeStr);
+      } else if (eventType === 'Clock Out') {
+        addField(document.getElementById('cfgEnd').value, timeStr);
+      } else {
+        addField(document.getElementById('cfgBreakLog').value, `${eventType} at ${timeStr}`);
+      }
+
+      addField(document.getElementById('cfgNotes').value, noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`);
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+
+      document.getElementById('eventNote').value = '';
+
+      const toast = document.getElementById('statusToast');
+      toast.innerText = `Logged "${eventType}" at ${timeStr}`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+
+      // Refresh dashboard after a short delay to allow Google Sheets to capture submission
+      setTimeout(fetchAndProcess, 2000);
+    }
+
+    function saveConfig() {
+      const cfg = {
+        url: document.getElementById('cfgUrl').value,
+        s: document.getElementById('cfgStart').value,
+        e: document.getElementById('cfgEnd').value,
+        bl: document.getElementById('cfgBreakLog').value,
+        n: document.getElementById('cfgNotes').value,
+      };
+      localStorage.setItem('punch_card_cfg', JSON.stringify(cfg));
+    }
+
+    function loadConfig() {
+      const cfg = JSON.parse(localStorage.getItem('punch_card_cfg') || '{}');
+      if (cfg.url) document.getElementById('cfgUrl').value = cfg.url;
+      if (cfg.s) document.getElementById('cfgStart').value = cfg.s;
+      if (cfg.e) document.getElementById('cfgEnd').value = cfg.e;
+      if (cfg.bl) document.getElementById('cfgBreakLog').value = cfg.bl;
+      if (cfg.n) document.getElementById('cfgNotes').value = cfg.n;
+    }
+
+    /* --- DASHBOARD & PARSING LOGIC --- */
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r\n|\n/);
+      if (lines.length < 2) return [];
+      
+      const headers = lines[0].split(',').map(h => h.replace(/^"(.*)"$/, '$1').trim());
+      const rows = [];
+      
+      for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const values = lines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
+        const cleanValues = values.map(v => (v || '').replace(/^"(.*)"$/, '$1').trim());
+        
+        let rowObj = {};
+        headers.forEach((h, idx) => {
+          rowObj[h] = cleanValues[idx] || '';
+        });
+        rows.push(rowObj);
+      }
+      return rows;
+    }
+
+    function timeToMins(tStr) {
+      if (!tStr) return null;
+      const clean = tStr.trim();
+      const parts = clean.split(':');
+      if (parts.length < 2) return null;
+      let h = parseInt(parts[0], 10);
+      let m = parseInt(parts[1], 10);
+      return (isNaN(h) || isNaN(m)) ? null : (h * 60 + m);
+    }
+
+    function getWeekStartDate(dateObj) {
+      const d = new Date(dateObj);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      const monday = new Date(d.setDate(diff));
+      monday.setHours(0, 0, 0, 0);
+      return monday.toISOString().split('T')[0];
+    }
+
+    async function fetchAndProcess() {
+      const statusEl = document.getElementById('statusText');
+      statusEl.innerText = "Fetching live sheet data...";
+
+      try {
+        const resp = await fetch(CSV_URL);
+        if (!resp.ok) throw new Error("HTTP error " + resp.status);
+        const csvText = await resp.text();
+        const rawRows = parseCSV(csvText);
+
+        if (rawRows.length === 0) {
+          statusEl.innerText = "CSV loaded, but no data entries found.";
+          return;
+        }
+
+        processLogs(rawRows);
+        statusEl.innerText = `Updated live (${rawRows.length} records processed).`;
+      } catch (err) {
+        statusEl.innerText = "Error loading CSV: " + err.message;
+      }
+    }
+
+    function processLogs(rows) {
+      let dailyMap = {};
+
+      rows.forEach(r => {
+        const tsRaw = r['Timestamp'] || r['Date'] || Object.values(r)[0];
+        if (!tsRaw) return;
+
+        const dObj = new Date(tsRaw);
+        if (isNaN(dObj.getTime())) return;
+
+        const dateKey = dObj.toISOString().split('T')[0];
+
+        if (!dailyMap[dateKey]) {
+          dailyMap[dateKey] = {
+            date: dateKey,
+            startTime: null,
+            endTime: null,
+            breakMins: 0,
+            netHours: 0,
+            hasFormNet: false
+          };
+        }
+
+        const preNet = r['Net Worked Hours'] || r['Net Hours'] || r['Hours'];
+        const preBreak = r['Total Break Duration (Minutes)'] || r['Break Duration'] || r['Break'];
+        const startVal = r['Start Time'] || r['Start'];
+        const endVal = r['End Time'] || r['End'];
+
+        if (startVal && !dailyMap[dateKey].startTime) dailyMap[dateKey].startTime = startVal;
+        if (endVal) dailyMap[dateKey].endTime = endVal;
+
+        if (preNet && !isNaN(parseFloat(preNet))) {
+          dailyMap[dateKey].netHours += parseFloat(preNet);
+          dailyMap[dateKey].hasFormNet = true;
+        }
+
+        if (preBreak && !isNaN(parseInt(preBreak, 10))) {
+          dailyMap[dateKey].breakMins += parseInt(preBreak, 10);
+        }
+      });
+
+      Object.keys(dailyMap).forEach(k => {
+        let day = dailyMap[k];
+        if (!day.hasFormNet && day.startTime && day.endTime) {
+          const sMins = timeToMins(day.startTime);
+          const eMins = timeToMins(day.endTime);
+          if (sMins !== null && eMins !== null && eMins > sMins) {
+            let total = (eMins - sMins) - day.breakMins;
+            day.netHours = Math.max(0, total / 60);
+          }
+        }
+      });
+
+      window.processedDailyMap = dailyMap;
+      renderDashboard(dailyMap);
+    }
+
+    // Convert YYYY-MM-DD to friendly string (e.g., Mon, Aug 16, 2026)
+    function formatFriendlyDate(dateStr) {
+      const parts = dateStr.split('-');
+      if (parts.length !== 3) return dateStr;
+      const d = new Date(parts[0], parts[1] - 1, parts[2]);
+      return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function renderDashboard(dailyMap) {
+      const dates = Object.keys(dailyMap).sort().reverse();
+      const todayStr = new Date().toISOString().split('T')[0];
+      const currentWeekMonday = getWeekStartDate(new Date());
+
+      let todayHours = 0;
+      let thisWeekHours = 0;
+      let totalHours = 0;
+
+      let weeklyMap = {};
+      let dailyHtml = '';
+
+      dates.forEach(dKey => {
+        const day = dailyMap[dKey];
+        const nHours = day.netHours;
+
+        totalHours += nHours;
+
+        if (dKey === todayStr) {
+          todayHours += nHours;
+        }
+
+        const weekMon = getWeekStartDate(new Date(dKey));
+        if (weekMon === currentWeekMonday) {
+          thisWeekHours += nHours;
+        }
+
+        if (!weeklyMap[weekMon]) {
+          weeklyMap[weekMon] = { weekStart: weekMon, daysCount: 0, totalHours: 0 };
+        }
+        weeklyMap[weekMon].daysCount += 1;
+        weeklyMap[weekMon].totalHours += nHours;
+
+        dailyHtml += `
+          <tr>
+            <td><b>${formatFriendlyDate(dKey)}</b></td>
+            <td>${day.startTime || '--'}</td>
+            <td>${day.endTime || '--'}</td>
+            <td>${day.breakMins} m</td>
+            <td><b>${nHours.toFixed(2)} hrs</b></td>
+          </tr>
+        `;
+      });
+
+      document.getElementById('mToday').innerText = todayHours.toFixed(2);
+      document.getElementById('mThisWeek').innerText = thisWeekHours.toFixed(2);
+      document.getElementById('mTotal').innerText = totalHours.toFixed(2);
+
+      document.getElementById('dailyTableBody').innerHTML = dailyHtml || '<tr><td colspan="5" style="text-align:center;">No activity recorded</td></tr>';
+
+      let weeklyHtml = '';
+      const weekKeys = Object.keys(weeklyMap).sort().reverse();
+      weekKeys.forEach(wKey => {
+        const w = weeklyMap[wKey];
+        weeklyHtml += `
+          <tr>
+            <td><b>Week of ${formatFriendlyDate(w.weekStart)}</b></td>
+            <td>${w.daysCount} days</td>
+            <td><b>${w.totalHours.toFixed(2)} hrs</b></td>
+          </tr>
+        `;
+      });
+      document.getElementById('weeklyTableBody').innerHTML = weeklyHtml || '<tr><td colspan="3" style="text-align:center;">No weekly rollup available</td></tr>';
+    }
+
+    /* --- CLEAN CSV MANUAL EXTRACT --- */
+    function exportFriendlyCSV() {
+      if (!window.processedDailyMap || Object.keys(window.processedDailyMap).length === 0) {
+        alert("No processed data available to export.");
+        return;
+      }
+      
+      let csvLines = ["Date,Formatted Date,Start Time,End Time,Break Duration (Mins),Net Hours"];
+      const dates = Object.keys(window.processedDailyMap).sort().reverse();
+      
+      dates.forEach(dKey => {
+        const day = window.processedDailyMap[dKey];
+        const friendlyDate = formatFriendlyDate(dKey);
+        const row = [
+          `"${dKey}"`,
+          `"${friendlyDate}"`,
+          `"${day.startTime || '--'}"`,
+          `"${day.endTime || '--'}"`,
+          day.breakMins,
+          day.netHours.toFixed(2)
+        ].join(",");
+        csvLines.push(row);
+      });
+
+      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Hours_Export_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

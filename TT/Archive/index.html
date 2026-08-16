@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Punch Card</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h1 { font-size: 1.5rem; font-weight: 600; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .punch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    button.punch-btn {
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 20px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ffffff;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s;
+    }
+    button.punch-btn:active { transform: scale(0.98); }
+    .btn-in { border-color: #bbf7d0; background: #f0fdf4; color: var(--success); }
+    .btn-break-start { border-color: #fef08a; background: #fefce8; color: var(--warning); }
+    .btn-break-end { border-color: #e2e8f0; background: #f8fafc; color: var(--muted); }
+    .btn-out { border-color: #fecaca; background: #fef2f2; color: var(--danger); }
+    
+    .form-group { margin-top: 12px; }
+    label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
+    input {
+      width: 100%;
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+    }
+    .status-toast {
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 10px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      color: var(--muted);
+      margin-top: 12px;
+      display: none;
+    }
+    details summary { cursor: pointer; color: var(--muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Time Punch Card</h1>
+  </div>
+
+  <div class="card">
+    <div class="punch-grid">
+      <button class="punch-btn btn-in" onclick="sendPunch('Clock In')">
+        <span>▶ Start Work</span>
+      </button>
+      <button class="punch-btn btn-out" onclick="sendPunch('Clock Out')">
+        <span>■ End Work</span>
+      </button>
+      <button class="punch-btn btn-break-start" onclick="sendPunch('Start Break')">
+        <span>☕ Start Break</span>
+      </button>
+      <button class="punch-btn btn-break-end" onclick="sendPunch('End Break')">
+        <span>↩ End Break</span>
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label>Optional Note</label>
+      <input type="text" id="eventNote" placeholder="e.g., Morning queue review, Lunch break...">
+    </div>
+
+    <div id="statusToast" class="status-toast"></div>
+  </div>
+
+  <!-- Integration Settings (Pre-Populated) -->
+  <div class="card">
+    <details>
+      <summary>Form Config & Field Mapping</summary>
+      <div style="font-size:0.8rem; color:var(--muted); margin: 8px 0;">Pre-populated with your Google Form action URL and entry IDs:</div>
+      <div class="form-group">
+        <label>Form Action URL</label>
+        <input type="text" id="cfgUrl" value="https://docs.google.com/forms/d/e/1FAIpQLSe6i9MDQ2PFz6BbNyrtbf-OlgD7RHJ1WsBBqIEI00LmgVpbkw/formResponse" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Start Entry ID</label>
+        <input type="text" id="cfgStart" value="entry.1993262794" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>End Entry ID</label>
+        <input type="text" id="cfgEnd" value="entry.34529801" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Break Details Entry ID</label>
+        <input type="text" id="cfgBreakLog" value="entry.1542521835" onchange="saveConfig()">
+      </div>
+      <div class="form-group">
+        <label>Notes Entry ID</label>
+        <input type="text" id="cfgNotes" value="entry.2079200242" onchange="saveConfig()">
+      </div>
+    </details>
+  </div>
+
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+  <script>
+    window.onload = function() {
+      loadConfig();
+    };
+
+    function getCurrentTimeString() {
+      const d = new Date();
+      return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    function sendPunch(eventType) {
+      const url = document.getElementById('cfgUrl').value.trim();
+      const noteVal = document.getElementById('eventNote').value.trim();
+      const timeStr = getCurrentTimeString();
+
+      if (!url) {
+        alert('Please ensure your Google Form Action URL is configured.');
+        return;
+      }
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      form.target = 'hidden_iframe';
+
+      const addField = (name, val) => {
+        if (!name || val === undefined) return;
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = val;
+        form.appendChild(input);
+      };
+
+      // Map action to specific fields on your Google Form
+      if (eventType === 'Clock In') {
+        addField(document.getElementById('cfgStart').value, timeStr);
+      } else if (eventType === 'Clock Out') {
+        addField(document.getElementById('cfgEnd').value, timeStr);
+      } else {
+        addField(document.getElementById('cfgBreakLog').value, `${eventType} at ${timeStr}`);
+      }
+
+      addField(document.getElementById('cfgNotes').value, noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`);
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+
+      // Reset note field
+      document.getElementById('eventNote').value = '';
+
+      // UI Toast Feedback
+      const toast = document.getElementById('statusToast');
+      toast.innerText = `Logged "${eventType}" at ${timeStr}`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }
+
+    function saveConfig() {
+      const cfg = {
+        url: document.getElementById('cfgUrl').value,
+        s: document.getElementById('cfgStart').value,
+        e: document.getElementById('cfgEnd').value,
+        bl: document.getElementById('cfgBreakLog').value,
+        n: document.getElementById('cfgNotes').value,
+      };
+      localStorage.setItem('punch_card_cfg', JSON.stringify(cfg));
+    }
+
+    function loadConfig() {
+      const cfg = JSON.parse(localStorage.getItem('punch_card_cfg') || '{}');
+      if (cfg.url) document.getElementById('cfgUrl').value = cfg.url;
+      if (cfg.s) document.getElementById('cfgStart').value = cfg.s;
+      if (cfg.e) document.getElementById('cfgEnd').value = cfg.e;
+      if (cfg.bl) document.getElementById('cfgBreakLog').value = cfg.bl;
+      if (cfg.n) document.getElementById('cfgNotes').value = cfg.n;
+    }
+  </script>
+</body>
+</html>
