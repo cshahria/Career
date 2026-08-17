@@ -14,7 +14,6 @@
       --primary: #2563eb;
       --success: #16a34a;
       --danger: #dc2626;
-      --warning: #eab308;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -30,8 +29,8 @@
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
     .header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
     .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
-    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn { padding: 6px 12px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; }
+    .header-actions { display: flex; gap: 8px; }
+    .btn { padding: 8px 14px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; }
     .btn:hover { background: #334155; }
     .btn-secondary { background: #e2e8f0; color: #0f172a; }
     .btn-secondary:hover { background: #cbd5e1; }
@@ -57,21 +56,20 @@
 
     .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease, background 0.4s ease; }
-    .progress-fill.over { background: var(--danger); }
+    .progress-fill.over { background: var(--success); }
     .progress-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
 
-    /* Punch button size reduced by ~50% */
     .punch-btn {
       width: 100%;
-      font-size: 0.95rem;
-      font-weight: 600;
-      padding: 10px 16px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 20px;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
       cursor: pointer;
       color: #fff;
       transition: transform 0.1s, background 0.15s;
-      margin-top: 8px;
+      margin-top: 16px;
     }
     .punch-btn:active { transform: scale(0.98); }
     .punch-btn.start { background: var(--success); }
@@ -79,11 +77,11 @@
     .punch-btn.stop { background: var(--danger); }
     .punch-btn.stop:hover { background: #b91c1c; }
 
-    .form-group { margin-top: 10px; }
+    .form-group { margin-top: 12px; }
     .form-row { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
     label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
-    input { width: 100%; font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
-    .status-toast { text-align: center; font-size: 0.9rem; padding: 8px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 10px; display: none; }
+    input { width: 100%; font-size: 1rem; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
+    .status-toast { text-align: center; font-size: 0.9rem; padding: 10px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 12px; display: none; }
 
     .table-container { overflow-x: auto; margin-top: 12px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -101,7 +99,6 @@
       <p id="statusText">Loading…</p>
     </div>
     <div class="header-actions">
-      <a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/1pSUsG4MNXQnqV02MOI37p69HgY--uzDXNZ2tI9FlZNA/edit" target="_blank">📊 Google Sheet</a>
       <button class="btn btn-secondary" onclick="exportToCSV()">📥 Export CSV</button>
       <button class="btn" onclick="fetchAndProcess()">↻ Refresh</button>
     </div>
@@ -136,10 +133,10 @@
   </div>
 
   <div class="card">
-    <h2>Weekly Target vs. Actual (Sun–Sat)</h2>
+    <h2>Weekly Target vs. Actual</h2>
     <div class="form-row" style="margin-bottom: 12px;">
       <label style="margin:0; white-space:nowrap;">Carryover Credit (m):</label>
-      <input type="number" id="carryoverMins" value="90" style="width: 100px; padding: 4px 8px;" onchange="renderDashboard()">
+      <input type="number" id="carryoverMins" value="90" style="width: 100px; padding: 6px 10px;" onchange="renderDashboard()">
       <span style="font-size:0.8rem; color:var(--muted);">(90m = +01:30 from prior week)</span>
     </div>
     <div class="table-container">
@@ -172,7 +169,6 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxYUpWgw0Ay5VJQ9GHPYS5VJBrI_O5Cj30Sgg0yBLd7PFIMbibrO3OpMQ2ce3MvQ4lbxA/exec";
-    const TZ = "America/Los_Angeles";
     const DAILY_GOAL_MINS = 480; // 8 hours
     const WEEKLY_GOAL_MINS = 2400; // 40 hours
 
@@ -221,36 +217,15 @@
       }
     }
 
-    // Convert string or ISO timestamp into minutes from midnight in Pacific Time
-    function parseToMins(val) {
-      if (!val) return null;
-      let str = String(val).trim();
-
-      if (str.includes('T') || str.includes('Z')) {
-        const d = new Date(str);
-        if (!isNaN(d.getTime())) {
-          const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(d);
-          let h = 0, m = 0;
-          parts.forEach(p => {
-            if (p.type === 'hour') h = parseInt(p.value, 10) % 24;
-            if (p.type === 'minute') m = parseInt(p.value, 10);
-          });
-          return h * 60 + m;
-        }
-      }
-
-      const clean = str.replace(/(AM|PM)/i, '').trim();
+    function timeToMins(tStr) {
+      if (!tStr) return null;
+      const clean = String(tStr).trim();
       const parts = clean.split(':');
-      if (parts.length >= 2) {
-        let h = parseInt(parts[0], 10);
-        let m = parseInt(parts[1], 10);
-        if (!isNaN(h) && !isNaN(m)) {
-          if (str.match(/PM/i) && h < 12) h += 12;
-          if (str.match(/AM/i) && h === 12) h = 0;
-          return h * 60 + m;
-        }
-      }
-      return null;
+      if (parts.length < 2) return null;
+      let h = parseInt(parts[0], 10);
+      let m = parseInt(parts[1], 10);
+      if (isNaN(h) || isNaN(m)) return null;
+      return h * 60 + m;
     }
 
     function minsToLabel(mins) {
@@ -258,19 +233,6 @@
       const m = Math.round(Math.abs(mins) % 60);
       const sign = mins < 0 ? '-' : '';
       return `${sign}${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-    }
-
-    function getPacificDateKey(tsVal) {
-      const d = tsVal ? new Date(tsVal) : new Date();
-      if (isNaN(d.getTime())) return new Date().toISOString().split('T')[0];
-      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
-      let y, m, day;
-      parts.forEach(p => {
-        if (p.type === 'year') y = p.value;
-        if (p.type === 'month') m = p.value;
-        if (p.type === 'day') day = p.value;
-      });
-      return `${y}-${m}-${day}`;
     }
 
     function detectEventType(r) {
@@ -296,8 +258,7 @@
         if (!tsRaw) return;
         const dObj = new Date(tsRaw);
         if (isNaN(dObj.getTime())) return;
-
-        const dateKey = getPacificDateKey(tsRaw);
+        const dateKey = dObj.toISOString().split('T')[0];
 
         if (!dailyMap[dateKey]) {
           dailyMap[dateKey] = { date: dateKey, chunks: [], totalMins: 0, state: 'OUT', openStartMins: null, openStartLabel: null };
@@ -307,11 +268,9 @@
         const eventType = detectEventType(r);
         if (!eventType) return;
 
-        const timeStr = r['Start Time'] || r['startTime'] || r['End Time'] || r['endTime'] || tsRaw;
-        const mins = parseToMins(timeStr);
-        if (mins === null) return;
-
-        const label = minsToLabel(mins);
+        const timeStr = String(r['Start Time'] || r['startTime'] || r['End Time'] || r['endTime'] || '');
+        const mins = timeToMins(timeStr) !== null ? timeToMins(timeStr) : (dObj.getHours() * 60 + dObj.getMinutes());
+        const label = timeStr || `${String(dObj.getHours()).padStart(2, '0')}:${String(dObj.getMinutes()).padStart(2, '0')}`;
 
         if (eventType === 'IN') {
           if (day.state !== 'OUT') return;
@@ -333,7 +292,7 @@
 
       window.processedDailyMap = dailyMap;
 
-      const todayKey = getPacificDateKey();
+      const todayKey = new Date().toISOString().split('T')[0];
       const today = dailyMap[todayKey];
       window.punchState = today ? today.state : 'OUT';
       window.openChunkStartMins = today ? today.openStartMins : null;
@@ -360,7 +319,8 @@
       const day = window.processedDailyMap[todayKey];
       let total = day ? day.totalMins : 0;
       if (window.punchState === 'IN' && window.openChunkStartMins !== null) {
-        const nowMins = parseToMins(new Date());
+        const now = new Date();
+        const nowMins = now.getHours() * 60 + now.getMinutes();
         if (nowMins > window.openChunkStartMins) {
           total += (nowMins - window.openChunkStartMins);
         }
@@ -369,42 +329,29 @@
     }
 
     function renderDashboard() {
-      const todayKey = getPacificDateKey();
+      const todayKey = new Date().toISOString().split('T')[0];
       const dailyMap = window.processedDailyMap;
       const carryover = parseInt(document.getElementById('carryoverMins').value, 10) || 0;
 
       const totalTodayMins = currentTodayTotalMins(todayKey);
       document.getElementById('todayTotal').innerText = minsToLabel(totalTodayMins);
 
-      // Sunday to Saturday week alignment
-      const now = new Date();
-      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short' }).formatToParts(now);
-      let year, month, day, weekday;
-      parts.forEach(p => {
-        if (p.type === 'year') year = parseInt(p.value, 10);
-        if (p.type === 'month') month = parseInt(p.value, 10) - 1;
-        if (p.type === 'day') day = parseInt(p.value, 10);
-      });
-
-      const todayPacific = new Date(Date.UTC(year, month, day));
-      const dayOfWeek = todayPacific.getUTCDay(); // 0 = Sunday
-      const sunDate = new Date(todayPacific);
-      sunDate.setUTCDate(todayPacific.getUTCDate() - dayOfWeek);
-
+      // Weekly calculation (Mon-Sun of current week)
+      const curr = new Date();
+      const firstDayMins = curr.getDate() - (curr.getDay() === 0 ? 6 : curr.getDay() - 1);
       let weekTotalMins = carryover;
+
       let weeklyTableHtml = '';
-      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
       for (let i = 0; i < 7; i++) {
-        const d = new Date(sunDate);
-        d.setUTCDate(sunDate.getUTCDate() + i);
+        const d = new Date(curr.setDate(firstDayMins + i));
         const dKey = d.toISOString().split('T')[0];
-
         let dayMins = dailyMap[dKey] ? dailyMap[dKey].totalMins : 0;
         if (dKey === todayKey) dayMins = totalTodayMins;
 
         weekTotalMins += dayMins;
-        const target = (i >= 1 && i <= 5) ? DAILY_GOAL_MINS : 0; // Mon-Fri default target
+        const target = i < 5 ? DAILY_GOAL_MINS : 0;
         const diff = dayMins - target;
         const statusStr = diff >= 0 ? `+${minsToLabel(diff)}` : minsToLabel(diff);
 
@@ -419,27 +366,19 @@
       document.getElementById('weeklyBody').innerHTML = weeklyTableHtml;
       document.getElementById('weekTotal').innerText = minsToLabel(weekTotalMins);
 
-      // Extendable Progress Bar with Red Overtime Indicator
-      const pct = (weekTotalMins / WEEKLY_GOAL_MINS) * 100;
+      const pct = Math.min(100, (weekTotalMins / WEEKLY_GOAL_MINS) * 100);
       const fill = document.getElementById('progressFill');
-      fill.style.width = Math.min(100, pct) + '%';
+      fill.style.width = pct + '%';
+      fill.classList.toggle('over', weekTotalMins >= WEEKLY_GOAL_MINS);
 
       const weekSub = document.getElementById('weekSub');
-      if (weekTotalMins > WEEKLY_GOAL_MINS) {
-        fill.classList.add('over'); // Turns red in overtime
-        weekSub.innerText = `🚨 Overtime: +${minsToLabel(weekTotalMins - WEEKLY_GOAL_MINS)} over 40:00`;
-        weekSub.style.color = "var(--danger)";
-      } else if (weekTotalMins === WEEKLY_GOAL_MINS) {
-        fill.classList.remove('over');
-        weekSub.innerText = `🎉 Exactly 40:00 reached`;
-        weekSub.style.color = "var(--success)";
+      if (weekTotalMins >= WEEKLY_GOAL_MINS) {
+        weekSub.innerText = `🎉 40h goal reached (+${minsToLabel(weekTotalMins - WEEKLY_GOAL_MINS)})`;
       } else {
-        fill.classList.remove('over');
         weekSub.innerText = `${minsToLabel(WEEKLY_GOAL_MINS - weekTotalMins)} remaining to 40:00`;
-        weekSub.style.color = "var(--muted)";
       }
 
-      // Today's chunks
+      // Render today's chunks
       const today = dailyMap[todayKey];
       let chunksHtml = '';
       if (today && today.chunks.length > 0) {
@@ -452,15 +391,15 @@
       }
       document.getElementById('chunksBody').innerHTML = chunksHtml || '<tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr>';
 
-      // Daily history
+      // Render daily history
       const dates = Object.keys(dailyMap).sort().reverse();
       let dailyHtml = '';
       dates.forEach(dKey => {
         const day = dailyMap[dKey];
         let mins = day.totalMins;
         if (dKey === todayKey) mins = totalTodayMins;
-        const parts = dKey.split('-');
-        const friendly = new Date(parts[0], parts[1]-1, parts[2]).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        const d = new Date(dKey + 'T00:00:00');
+        const friendly = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         dailyHtml += `<tr><td>${friendly}</td><td><b>${minsToLabel(mins)}</b></td></tr>`;
       });
       document.getElementById('dailyBody').innerHTML = dailyHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No activity yet</td></tr>';
@@ -471,26 +410,22 @@
       renderDashboard();
     }
 
-    function getPacificNowTimeStr() {
+    function getTimeParts() {
       const d = new Date();
-      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(d);
-      let h = '00', m = '00';
-      parts.forEach(p => {
-        if (p.type === 'hour') h = p.value;
-        if (p.type === 'minute') m = p.value;
-      });
-      return `${h}:${m}`;
+      let h = String(d.getHours()).padStart(2, '0');
+      let m = String(d.getMinutes()).padStart(2, '0');
+      return { full: `${h}:${m}` };
     }
 
     async function sendPunch() {
       const wantIn = window.punchState !== 'IN';
       const eventType = wantIn ? 'Clock In' : 'Clock Out';
       const noteVal = document.getElementById('eventNote').value.trim();
-      const timeStr = getPacificNowTimeStr();
+      const timeParts = getTimeParts();
 
       const payload = {
-        startTime: wantIn ? timeStr : "",
-        endTime: !wantIn ? timeStr : "",
+        startTime: wantIn ? timeParts.full : "",
+        endTime: !wantIn ? timeParts.full : "",
         notes: noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`,
         duration: "",
         netHours: "",
@@ -509,7 +444,7 @@
         const res = await resp.json();
 
         if (res.status === "success") {
-          toast.innerText = `Logged "${eventType}" at ${timeStr} PDT`;
+          toast.innerText = `Logged "${eventType}" at ${timeParts.full}`;
           document.getElementById('eventNote').value = '';
           setTimeout(() => { toast.style.display = 'none'; }, 4000);
           fetchAndProcess();
@@ -532,23 +467,17 @@
 
       window.rawSheetData.forEach(row => {
         const values = headers.map(h => {
-          let val = String(row[h] || '');
-          if (h.toLowerCase().includes('timestamp') && val) {
-            const d = new Date(val);
-            if (!isNaN(d.getTime())) {
-              val = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(d);
-            }
-          }
-          return `"${val.replace(/"/g, '""')}"`;
+          const val = String(row[h] || '').replace(/"/g, '""');
+          return `"${val}"`;
         });
         csvRows.push(values.join(","));
       });
 
-      const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.setAttribute("href", url);
-      a.setAttribute("download", `Time_Tracker_PDT_Export_${getPacificDateKey()}.csv`);
+      a.setAttribute("download", `Time_Tracker_Export_${new Date().toISOString().split('T')[0]}.csv`);
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
