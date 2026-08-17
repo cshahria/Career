@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Tracker</title>
-  <!-- Library for PNG Exporting -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     :root {
       --bg: #f8fafc;
@@ -16,7 +14,7 @@
       --primary: #2563eb;
       --success: #16a34a;
       --danger: #dc2626;
-      --warning: #d97706;
+      --warning: #eab308;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -24,7 +22,7 @@
       background: var(--bg);
       color: var(--text);
       padding: 24px 16px;
-      max-width: 800px;
+      max-width: 760px;
       margin: 0 auto;
       font-size: 16px;
       line-height: 1.5;
@@ -33,48 +31,12 @@
     .header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
     .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
     .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .btn { padding: 6px 12px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .btn { padding: 6px 12px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; }
     .btn:hover { background: #334155; }
     .btn-secondary { background: #e2e8f0; color: #0f172a; }
     .btn-secondary:hover { background: #cbd5e1; }
 
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-
-    /* Compact Side-by-Side Status & Action Bar */
-    .action-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 14px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-    }
-    .status-badge.in { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-    .status-badge.out { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
-
-    .punch-btn {
-      font-size: 0.95rem;
-      font-weight: 600;
-      padding: 8px 18px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      color: #fff;
-      transition: transform 0.1s, background 0.15s;
-    }
-    .punch-btn:active { transform: scale(0.98); }
-    .punch-btn.start { background: var(--success); }
-    .punch-btn.start:hover { background: #15803d; }
-    .punch-btn.stop { background: var(--danger); }
-    .punch-btn.stop:hover { background: #b91c1c; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
     .error-banner {
       display: none;
@@ -88,42 +50,58 @@
       white-space: pre-wrap;
     }
 
-    /* 3-column Stat Grid */
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; text-align: center; }
-    .stat-box .val { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; }
-    .stat-box .val-large { font-size: 2.6rem; color: var(--primary); }
-    .stat-box .lbl { color: var(--muted); font-size: 0.8rem; margin-top: 2px; font-weight: 500; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .stat-box { text-align: center; }
+    .stat-box .val { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; }
+    .stat-box .lbl { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
 
     .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease, background 0.4s ease; }
     .progress-fill.over { background: var(--danger); }
     .progress-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
 
+    /* Punch button size reduced by ~50% */
+    .punch-btn {
+      width: 100%;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+      transition: transform 0.1s, background 0.15s;
+      margin-top: 8px;
+    }
+    .punch-btn:active { transform: scale(0.98); }
+    .punch-btn.start { background: var(--success); }
+    .punch-btn.start:hover { background: #15803d; }
+    .punch-btn.stop { background: var(--danger); }
+    .punch-btn.stop:hover { background: #b91c1c; }
+
+    .form-group { margin-top: 10px; }
     .form-row { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
     label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
-    input { font-size: 0.95rem; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
-    .status-toast { text-align: center; font-size: 0.85rem; padding: 8px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 10px; display: none; }
+    input { width: 100%; font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
+    .status-toast { text-align: center; font-size: 0.9rem; padding: 8px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 10px; display: none; }
 
     .table-container { overflow-x: auto; margin-top: 12px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
     th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
     th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
     tr:hover { background: #f8fafc; }
-    h2 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-
-    .toggle-btn { background: none; border: none; color: var(--primary); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+    h2 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; }
   </style>
 </head>
 <body>
 
   <div class="header">
     <div>
-      <h1>Time Tracker (PDT)</h1>
+      <h1>Time Tracker</h1>
       <p id="statusText">Loading…</p>
     </div>
     <div class="header-actions">
       <a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/1pSUsG4MNXQnqV02MOI37p69HgY--uzDXNZ2tI9FlZNA/edit" target="_blank">📊 Google Sheet</a>
-      <button class="btn btn-secondary" onclick="exportToPNG()">📷 Save PNG</button>
       <button class="btn btn-secondary" onclick="exportToCSV()">📥 Export CSV</button>
       <button class="btn" onclick="fetchAndProcess()">↻ Refresh</button>
     </div>
@@ -131,84 +109,63 @@
 
   <div id="errorBanner" class="error-banner"></div>
 
-  <!-- Compact Action Bar (Status Badge Side-by-Side with Action Button) -->
   <div class="card">
-    <div class="action-bar">
-      <div id="statusBadge" class="status-badge out">🔴 CLOCKED OUT</div>
-      <button id="punchBtn" class="punch-btn start" onclick="sendPunch()">▶ Start Work</button>
-    </div>
-    <div id="statusToast" class="status-toast"></div>
-  </div>
-
-  <!-- Top Metrics -->
-  <div class="card" id="dashboardSnapshot">
     <div class="stat-grid">
       <div class="stat-box">
-        <div id="todayTotal" class="val val-large">00:00</div>
+        <div id="todayTotal" class="val">00:00</div>
         <div class="lbl">Worked Today (Goal 08:00)</div>
       </div>
       <div class="stat-box">
-        <div id="todayRemaining" class="val" style="color: var(--warning);">08:00</div>
-        <div class="lbl">Remaining Today</div>
-      </div>
-      <div class="stat-box">
         <div id="weekTotal" class="val">00:00</div>
-        <div id="weekSub" class="lbl">Week Total (Goal 40:00)</div>
+        <div id="weekSub" class="lbl">This Week (Goal 40:00)</div>
       </div>
     </div>
     <div class="progress-track">
       <div id="progressFill" class="progress-fill" style="width:0%"></div>
     </div>
-    <div class="progress-labels"><span>00:00</span><span id="targetLabel">40:00 Goal</span></div>
+    <div class="progress-labels"><span>00:00</span><span id="targetLabel">40:00</span></div>
   </div>
 
-  <!-- Today's Chunks & Detailed Logs -->
   <div class="card">
-    <h2>
-      <span>Today's Chunks</span>
-      <button class="toggle-btn" onclick="toggleRawLogs()" id="logToggleBtn">Show All Log Entries</button>
-    </h2>
+    <button id="punchBtn" class="punch-btn start" onclick="sendPunch()">▶ Start Work</button>
+    <div class="form-group">
+      <label>Optional Note</label>
+      <input type="text" id="eventNote" placeholder="e.g., Working on task tickets...">
+    </div>
+    <div id="statusToast" class="status-toast"></div>
+  </div>
+
+  <div class="card">
+    <h2>Weekly Target vs. Actual (Sun–Sat)</h2>
+    <div class="form-row" style="margin-bottom: 12px;">
+      <label style="margin:0; white-space:nowrap;">Carryover Credit (m):</label>
+      <input type="number" id="carryoverMins" value="90" style="width: 100px; padding: 4px 8px;" onchange="renderDashboard()">
+      <span style="font-size:0.8rem; color:var(--muted);">(90m = +01:30 from prior week)</span>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Day</th><th>Target</th><th>Actual</th><th>Status</th></tr></thead>
+        <tbody id="weeklyBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Today's Chunks</h2>
     <div class="table-container">
       <table>
         <thead><tr><th>Start</th><th>End</th><th>Duration</th></tr></thead>
         <tbody id="chunksBody"><tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr></tbody>
       </table>
     </div>
-
-    <div id="rawLogsContainer" style="display: none; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px;">
-      <h3 style="font-size:0.85rem; color:var(--muted); margin-bottom:8px;">All Raw Punch Logs (Today)</h3>
-      <div class="table-container">
-        <table>
-          <thead><tr><th>Time (PDT)</th><th>Event / Notes</th></tr></thead>
-          <tbody id="rawLogsBody"></tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
-  <!-- Daily History -->
   <div class="card">
     <h2>Daily History</h2>
     <div class="table-container">
       <table>
-        <thead><tr><th>Date</th><th>Total Hours</th></tr></thead>
+        <thead><tr><th>Date</th><th>Total</th></tr></thead>
         <tbody id="dailyBody"><tr><td colspan="2" style="text-align:center; color:var(--muted);">Loading…</td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Weekly Target vs. Actual -->
-  <div class="card">
-    <h2>Weekly Target vs. Actual (Sun–Sat)</h2>
-    <div class="form-row" style="margin-bottom: 12px;">
-      <label style="margin:0; white-space:nowrap;">Carryover Credit (mins):</label>
-      <input type="number" id="carryoverMins" value="0" style="width: 90px; padding: 4px 8px;" onchange="saveCarryoverAndRender()">
-      <span style="font-size:0.8rem; color:var(--muted);">(e.g., 90 = +01:30 credit from prior week)</span>
-    </div>
-    <div class="table-container">
-      <table>
-        <thead><tr><th>Day</th><th>Target</th><th>Actual</th><th>Status</th></tr></thead>
-        <tbody id="weeklyBody"></tbody>
       </table>
     </div>
   </div>
@@ -226,21 +183,10 @@
     window.openChunkStartLabel = null;
 
     window.onload = function() {
-      const savedCarryover = localStorage.getItem('carryoverMins');
-      if (savedCarryover !== null) {
-        document.getElementById('carryoverMins').value = savedCarryover;
-      }
-
       applyButtonState();
       fetchAndProcess();
       setInterval(tickLiveTotal, 30000);
     };
-
-    function saveCarryoverAndRender() {
-      const val = document.getElementById('carryoverMins').value || "0";
-      localStorage.setItem('carryoverMins', val);
-      renderDashboard();
-    }
 
     function showError(msg) {
       const el = document.getElementById('errorBanner');
@@ -268,13 +214,14 @@
 
         window.rawSheetData = json.data;
         processLogs(json.data);
-        statusEl.innerText = `Updated live (${json.data.length} records).`;
+        statusEl.innerText = `Updated live (${json.data.length} rows).`;
       } catch (err) {
         statusEl.innerText = "Could not load live data.";
         showError("Error loading the sheet API: " + err.message);
       }
     }
 
+    // Convert string or ISO timestamp into minutes from midnight in Pacific Time
     function parseToMins(val) {
       if (!val) return null;
       let str = String(val).trim();
@@ -292,7 +239,7 @@
         }
       }
 
-      const clean = str.replace(/(AM|PM|PDT|PST)/gi, '').trim();
+      const clean = str.replace(/(AM|PM)/i, '').trim();
       const parts = clean.split(':');
       if (parts.length >= 2) {
         let h = parseInt(parts[0], 10);
@@ -327,7 +274,7 @@
     }
 
     function detectEventType(r) {
-      const notes = (r['Work Performed / Notes'] || r['notes'] || r['Break Details'] || '').toLowerCase();
+      const notes = (r['Work Performed / Notes'] || r['notes'] || '').toLowerCase();
       if (notes.includes('clock in')) return 'IN';
       if (notes.includes('clock out')) return 'OUT';
       if (r['Start Time'] || r['startTime']) return 'IN';
@@ -347,22 +294,23 @@
       sorted.forEach(r => {
         const tsRaw = r['Timestamp'] || r['timestamp'];
         if (!tsRaw) return;
+        const dObj = new Date(tsRaw);
+        if (isNaN(dObj.getTime())) return;
 
         const dateKey = getPacificDateKey(tsRaw);
 
         if (!dailyMap[dateKey]) {
-          dailyMap[dateKey] = { date: dateKey, chunks: [], rawLogs: [], totalMins: 0, state: 'OUT', openStartMins: null, openStartLabel: null };
+          dailyMap[dateKey] = { date: dateKey, chunks: [], totalMins: 0, state: 'OUT', openStartMins: null, openStartLabel: null };
         }
         const day = dailyMap[dateKey];
 
         const eventType = detectEventType(r);
+        if (!eventType) return;
+
         const timeStr = r['Start Time'] || r['startTime'] || r['End Time'] || r['endTime'] || tsRaw;
         const mins = parseToMins(timeStr);
-        const noteText = r['Work Performed / Notes'] || r['notes'] || r['Break Details'] || '';
+        if (mins === null) return;
 
-        day.rawLogs.push({ timeStr: mins !== null ? minsToLabel(mins) : timeStr, note: noteText });
-
-        if (!eventType || mins === null) return;
         const label = minsToLabel(mins);
 
         if (eventType === 'IN') {
@@ -397,17 +345,11 @@
 
     function applyButtonState() {
       const btn = document.getElementById('punchBtn');
-      const badge = document.getElementById('statusBadge');
-
       if (window.punchState === 'IN') {
-        badge.innerText = '🟢 CLOCKED IN';
-        badge.className = 'status-badge in';
         btn.innerText = '■ Stop Work';
         btn.classList.remove('start');
         btn.classList.add('stop');
       } else {
-        badge.innerText = '🔴 CLOCKED OUT';
-        badge.className = 'status-badge out';
         btn.innerText = '▶ Start Work';
         btn.classList.remove('stop');
         btn.classList.add('start');
@@ -434,19 +376,10 @@
       const totalTodayMins = currentTodayTotalMins(todayKey);
       document.getElementById('todayTotal').innerText = minsToLabel(totalTodayMins);
 
-      const remainingToday = DAILY_GOAL_MINS - totalTodayMins;
-      const remEl = document.getElementById('todayRemaining');
-      if (remainingToday <= 0) {
-        remEl.innerText = "00:00";
-        remEl.style.color = "var(--success)";
-      } else {
-        remEl.innerText = minsToLabel(remainingToday);
-        remEl.style.color = "var(--warning)";
-      }
-
+      // Sunday to Saturday week alignment
       const now = new Date();
       const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short' }).formatToParts(now);
-      let year, month, day;
+      let year, month, day, weekday;
       parts.forEach(p => {
         if (p.type === 'year') year = parseInt(p.value, 10);
         if (p.type === 'month') month = parseInt(p.value, 10) - 1;
@@ -471,7 +404,7 @@
         if (dKey === todayKey) dayMins = totalTodayMins;
 
         weekTotalMins += dayMins;
-        const target = (i >= 1 && i <= 5) ? DAILY_GOAL_MINS : 0;
+        const target = (i >= 1 && i <= 5) ? DAILY_GOAL_MINS : 0; // Mon-Fri default target
         const diff = dayMins - target;
         const statusStr = diff >= 0 ? `+${minsToLabel(diff)}` : minsToLabel(diff);
 
@@ -486,21 +419,27 @@
       document.getElementById('weeklyBody').innerHTML = weeklyTableHtml;
       document.getElementById('weekTotal').innerText = minsToLabel(weekTotalMins);
 
+      // Extendable Progress Bar with Red Overtime Indicator
       const pct = (weekTotalMins / WEEKLY_GOAL_MINS) * 100;
       const fill = document.getElementById('progressFill');
       fill.style.width = Math.min(100, pct) + '%';
 
       const weekSub = document.getElementById('weekSub');
       if (weekTotalMins > WEEKLY_GOAL_MINS) {
-        fill.classList.add('over');
+        fill.classList.add('over'); // Turns red in overtime
         weekSub.innerText = `🚨 Overtime: +${minsToLabel(weekTotalMins - WEEKLY_GOAL_MINS)} over 40:00`;
         weekSub.style.color = "var(--danger)";
+      } else if (weekTotalMins === WEEKLY_GOAL_MINS) {
+        fill.classList.remove('over');
+        weekSub.innerText = `🎉 Exactly 40:00 reached`;
+        weekSub.style.color = "var(--success)";
       } else {
         fill.classList.remove('over');
-        weekSub.innerText = `Week Total (Goal 40:00)`;
+        weekSub.innerText = `${minsToLabel(WEEKLY_GOAL_MINS - weekTotalMins)} remaining to 40:00`;
         weekSub.style.color = "var(--muted)";
       }
 
+      // Today's chunks
       const today = dailyMap[todayKey];
       let chunksHtml = '';
       if (today && today.chunks.length > 0) {
@@ -513,14 +452,7 @@
       }
       document.getElementById('chunksBody').innerHTML = chunksHtml || '<tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr>';
 
-      let rawLogsHtml = '';
-      if (today && today.rawLogs.length > 0) {
-        today.rawLogs.forEach(l => {
-          rawLogsHtml += `<tr><td><b>${l.timeStr}</b></td><td>${l.note || '<i>None</i>'}</td></tr>`;
-        });
-      }
-      document.getElementById('rawLogsBody').innerHTML = rawLogsHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No log entries today</td></tr>';
-
+      // Daily history
       const dates = Object.keys(dailyMap).sort().reverse();
       let dailyHtml = '';
       dates.forEach(dKey => {
@@ -534,59 +466,35 @@
       document.getElementById('dailyBody').innerHTML = dailyHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No activity yet</td></tr>';
     }
 
-    function toggleRawLogs() {
-      const container = document.getElementById('rawLogsContainer');
-      const btn = document.getElementById('logToggleBtn');
-      if (container.style.display === 'none') {
-        container.style.display = 'block';
-        btn.innerText = 'Hide Raw Entries';
-      } else {
-        container.style.display = 'none';
-        btn.innerText = 'Show All Log Entries';
-      }
-    }
-
     function tickLiveTotal() {
       if (window.punchState !== 'IN') return;
       renderDashboard();
     }
 
-    function getPacificNowFormatted() {
+    function getPacificNowTimeStr() {
       const d = new Date();
-      const dateParts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
-      const timeParts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(d);
-
-      let y, m, day, hh, mm, ss;
-      dateParts.forEach(p => {
-        if (p.type === 'year') y = p.value;
-        if (p.type === 'month') m = p.value;
-        if (p.type === 'day') day = p.value;
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(d);
+      let h = '00', m = '00';
+      parts.forEach(p => {
+        if (p.type === 'hour') h = p.value;
+        if (p.type === 'minute') m = p.value;
       });
-      timeParts.forEach(p => {
-        if (p.type === 'hour') hh = p.value;
-        if (p.type === 'minute') mm = p.value;
-        if (p.type === 'second') ss = p.value;
-      });
-
-      return {
-        fullTimestamp: `${y}-${m}-${day} ${hh}:${mm}:${ss} PDT`,
-        timeOnly: `${hh}:${mm}`
-      };
+      return `${h}:${m}`;
     }
 
     async function sendPunch() {
       const wantIn = window.punchState !== 'IN';
       const eventType = wantIn ? 'Clock In' : 'Clock Out';
-      const pdt = getPacificNowFormatted();
+      const noteVal = document.getElementById('eventNote').value.trim();
+      const timeStr = getPacificNowTimeStr();
 
       const payload = {
-        timestamp: pdt.fullTimestamp,
-        startTime: wantIn ? pdt.timeOnly : "",
-        endTime: !wantIn ? pdt.timeOnly : "",
-        notes: `[${eventType}]`,
-        breakDetails: "",
+        startTime: wantIn ? timeStr : "",
+        endTime: !wantIn ? timeStr : "",
+        notes: noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`,
         duration: "",
-        netHours: ""
+        netHours: "",
+        breakDetails: ""
       };
 
       const toast = document.getElementById('statusToast');
@@ -601,7 +509,8 @@
         const res = await resp.json();
 
         if (res.status === "success") {
-          toast.innerText = `Logged "${eventType}" at ${pdt.timeOnly} PDT`;
+          toast.innerText = `Logged "${eventType}" at ${timeStr} PDT`;
+          document.getElementById('eventNote').value = '';
           setTimeout(() => { toast.style.display = 'none'; }, 4000);
           fetchAndProcess();
         } else {
@@ -618,17 +527,16 @@
         alert("No data available to export.");
         return;
       }
-
-      const headers = ["Timestamp", "Start Time", "End Time", "Duration", "Net Worked Hours", "Break Details", "Work Performed / Notes"];
+      const headers = Object.keys(window.rawSheetData[0]);
       const csvRows = [headers.join(",")];
 
       window.rawSheetData.forEach(row => {
         const values = headers.map(h => {
-          let val = String(row[h] || row[h.toLowerCase()] || '');
-          if (h === 'Timestamp' && val) {
+          let val = String(row[h] || '');
+          if (h.toLowerCase().includes('timestamp') && val) {
             const d = new Date(val);
             if (!isNaN(d.getTime())) {
-              val = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(d) + " PDT";
+              val = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(d);
             }
           }
           return `"${val.replace(/"/g, '""')}"`;
@@ -644,15 +552,6 @@
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-    }
-
-    function exportToPNG() {
-      html2canvas(document.body).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Time_Tracker_Summary_${getPacificDateKey()}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
     }
   </script>
 </body>
