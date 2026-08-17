@@ -115,6 +115,12 @@
   </div>
 
   <div class="card">
+    <h2>Last Submission (for verification)</h2>
+    <div id="debugPanel" style="font-size:0.85rem; color:var(--muted);">Nothing submitted yet.</div>
+    <button id="verifyBtn" class="btn" style="margin-top:12px; display:none;" onclick="openVerifyForm()">↗ Open real Google Form with these values</button>
+  </div>
+
+  <div class="card">
     <h2>Today's Chunks</h2>
     <div class="table-container">
       <table>
@@ -134,9 +140,21 @@
     </div>
   </div>
 
+  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxYUpWgw0Ay5VJQ9GHPYS5VJBrI_O5Cj30Sgg0yBLd7PFIMbibrO3OpMQ2ce3MvQ4lbxA/exec";
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsSQFnexCOm9eDc1Ivhhj2c2PsagpVvubdLoBMkGxHGaYj_8V8fnhcz47N_nX6lNp0UwzAozaffaFb/pub?gid=110061672&single=true&output=csv";
+    const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe6i9MDQ2PFz6BbNyrtbf-OlgD7RHJ1WsBBqIEI00LmgVpbkw/formResponse";
     const GOAL_MINS = 480;
+
+    const FORM_ENTRIES = {
+      start: "entry.1993262794",
+      end: "entry.34529801",
+      duration: "entry.584946386",
+      netHours: "entry.1856196274",
+      breakDetails: "entry.1542521835",
+      notes: "entry.2079200242"
+    };
 
     window.processedDailyMap = {};
     window.punchState = 'OUT';
@@ -154,7 +172,6 @@
       el.innerText = msg;
       el.style.display = 'block';
     }
-
     function clearError() {
       document.getElementById('errorBanner').style.display = 'none';
     }
@@ -165,20 +182,38 @@
       clearError();
 
       try {
-        const resp = await fetch(API_URL);
-        if (!resp.ok) throw new Error("HTTP " + resp.status + " fetching API data.");
-        const json = await resp.json();
+        const resp = await fetch(CSV_URL, { cache: 'no-store' });
+        if (!resp.ok) throw new Error("HTTP " + resp.status + " fetching the published CSV.");
+        const csvText = await resp.text();
+        const rawRows = parseCSV(csvText);
 
-        if (json.status !== "success" || !json.data) {
-          throw new Error(json.message || "Invalid JSON returned from API.");
+        if (rawRows.length === 0) {
+          statusEl.innerText = "Sheet loaded, but no rows found yet.";
+          return;
         }
 
-        processLogs(json.data);
-        statusEl.innerText = `Updated live (${json.data.length} rows).`;
+        processLogs(rawRows);
+        statusEl.innerText = `Updated live (${rawRows.length} rows).`;
       } catch (err) {
         statusEl.innerText = "Could not load live data.";
-        showError("Error loading the sheet API: " + err.message);
+        showError("Error loading the sheet: " + err.message);
       }
+    }
+
+    function parseCSV(text) {
+      const lines = text.trim().split(/\r\n|\n/);
+      if (lines.length < 2) return [];
+      const headers = lines[0].split(',').map(h => h.replace(/^"(.*)"$/, '$1').trim());
+      const rows = [];
+      for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const values = lines[i].match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
+        const cleanValues = values.map(v => (v || '').replace(/^"(.*)"$/, '$1').trim());
+        let rowObj = {};
+        headers.forEach((h, idx) => { rowObj[h] = cleanValues[idx] || ''; });
+        rows.push(rowObj);
+      }
+      return rows;
     }
 
     function timeToMins(tStr) {
@@ -208,8 +243,8 @@
       const notes = (r['Work Performed / Notes'] || '').toLowerCase();
       if (notes.includes('clock in')) return 'IN';
       if (notes.includes('clock out')) return 'OUT';
-      if (r['Start Time'] && String(r['Start Time']).trim()) return 'IN';
-      if (r['End Time'] && String(r['End Time']).trim()) return 'OUT';
+      if (r['Start Time'] && r['Start Time'].trim()) return 'IN';
+      if (r['End Time'] && r['End Time'].trim()) return 'OUT';
       return null;
     }
 
@@ -237,7 +272,7 @@
         const eventType = detectEventType(r);
         if (!eventType) return;
 
-        const timeStr = String(r['Start Time'] || r['End Time'] || '');
+        const timeStr = r['Start Time'] || r['End Time'];
         const mins = timeToMins(timeStr) !== null ? timeToMins(timeStr) : (dObj.getHours() * 60 + dObj.getMinutes());
         const label = timeStr || dObj.toTimeString().slice(0, 5);
 
@@ -346,47 +381,103 @@
       const d = new Date();
       let h = String(d.getHours()).padStart(2, '0');
       let m = String(d.getMinutes()).padStart(2, '0');
-      return { full: `${h}:${m}` };
+      return { hour: h, minute: m, full: `${h}:${m}` };
     }
 
-    async function sendPunch() {
+    function sendPunch() {
       const wantIn = window.punchState !== 'IN';
       const eventType = wantIn ? 'Clock In' : 'Clock Out';
       const noteVal = document.getElementById('eventNote').value.trim();
       const timeParts = getTimeParts();
 
-      const payload = {
-        startTime: wantIn ? timeParts.full : "",
-        endTime: !wantIn ? timeParts.full : "",
-        notes: noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`,
-        duration: "",
-        netHours: "",
-        breakDetails: ""
+      window.punchState = wantIn ? 'IN' : 'OUT';
+      if (wantIn) {
+        window.openChunkStartMins = timeToMins(timeParts.full);
+        window.openChunkStartLabel = timeParts.full;
+      } else {
+        window.openChunkStartMins = null;
+        window.openChunkStartLabel = null;
+      }
+      applyButtonState();
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = FORM_ACTION_URL;
+      form.target = 'hidden_iframe';
+
+      const addField = (name, val) => {
+        if (!name || val === undefined) return;
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = val;
+        form.appendChild(input);
       };
 
-      const toast = document.getElementById('statusToast');
-      toast.innerText = `Logging "${eventType}"...`;
-      toast.style.display = 'block';
-
-      try {
-        const resp = await fetch(API_URL, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-        const res = await resp.json();
-
-        if (res.status === "success") {
-          toast.innerText = `Logged "${eventType}" at ${timeParts.full}`;
-          document.getElementById('eventNote').value = '';
-          setTimeout(() => { toast.style.display = 'none'; }, 4000);
-          fetchAndProcess();
-        } else {
-          throw new Error(res.message || "API error");
-        }
-      } catch (err) {
-        toast.style.display = 'none';
-        showError("Failed to write entry: " + err.message);
+      if (wantIn) {
+        // Send primary value and sub-fields for native Time question compatibility
+        addField(FORM_ENTRIES.start, timeParts.full);
+        addField(`${FORM_ENTRIES.start}_hour`, timeParts.hour);
+        addField(`${FORM_ENTRIES.start}_minute`, timeParts.minute);
+      } else {
+        addField(FORM_ENTRIES.end, timeParts.full);
+        addField(`${FORM_ENTRIES.end}_hour`, timeParts.hour);
+        addField(`${FORM_ENTRIES.end}_minute`, timeParts.minute);
       }
+
+      addField(FORM_ENTRIES.notes, noteVal ? `[${eventType}] ${noteVal}` : `[${eventType}]`);
+      addField(FORM_ENTRIES.duration, '');
+      addField(FORM_ENTRIES.netHours, '');
+      addField(FORM_ENTRIES.breakDetails, '');
+
+      const submittedFields = [];
+      Array.from(form.elements).forEach(el => {
+        if (el.name) submittedFields.push({ name: el.name, value: el.value });
+      });
+      window.lastSubmission = { url: FORM_ACTION_URL, fields: submittedFields, at: new Date().toLocaleTimeString() };
+      renderDebugPanel();
+
+      document.body.appendChild(form);
+      form.submit();
+      document.body.removeChild(form);
+
+      document.getElementById('eventNote').value = '';
+
+      const toast = document.getElementById('statusToast');
+      toast.innerText = `Logged "${eventType}" at ${timeParts.full}`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+
+      setTimeout(fetchAndProcess, 2500);
+    }
+
+    function renderDebugPanel() {
+      const panel = document.getElementById('debugPanel');
+      const verifyBtn = document.getElementById('verifyBtn');
+      if (!window.lastSubmission) {
+        panel.innerText = 'Nothing submitted yet.';
+        verifyBtn.style.display = 'none';
+        return;
+      }
+      const s = window.lastSubmission;
+      let rows = s.fields.map(f => `<tr><td style="padding:4px 8px 4px 0; color:var(--muted);">${f.name}</td><td style="padding:4px 0;"><b>${f.value || '(empty)'}</b></td></tr>`).join('');
+      panel.innerHTML = `
+        <div>Sent at ${s.at} to:</div>
+        <div style="word-break:break-all; font-size:0.75rem; margin: 4px 0 10px;">${s.url}</div>
+        <table style="width:auto;">${rows}</table>
+      `;
+      verifyBtn.style.display = 'inline-block';
+    }
+
+    function openVerifyForm() {
+      if (!window.lastSubmission) return;
+      const viewUrl = window.lastSubmission.url.replace(/\/formResponse.*$/, '/viewform');
+      const params = new URLSearchParams();
+      params.set('usp', 'pp_url');
+      window.lastSubmission.fields.forEach(f => {
+        if (f.value) params.set(f.name, f.value);
+      });
+      window.open(viewUrl + '?' + params.toString(), '_blank');
     }
   </script>
 </body>
