@@ -21,7 +21,7 @@
       background: var(--bg);
       color: var(--text);
       padding: 24px 16px;
-      max-width: 760px;
+      max-width: 720px;
       margin: 0 auto;
       font-size: 16px;
       line-height: 1.5;
@@ -29,11 +29,8 @@
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
     .header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
     .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
-    .header-actions { display: flex; gap: 8px; }
     .btn { padding: 8px 14px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; }
     .btn:hover { background: #334155; }
-    .btn-secondary { background: #e2e8f0; color: #0f172a; }
-    .btn-secondary:hover { background: #cbd5e1; }
 
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
@@ -49,11 +46,8 @@
       white-space: pre-wrap;
     }
 
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    .stat-box { text-align: center; }
-    .stat-box .val { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; }
-    .stat-box .lbl { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
-
+    .today-total { font-size: 2.6rem; font-weight: 700; text-align: center; letter-spacing: -0.02em; }
+    .today-sub { text-align: center; color: var(--muted); font-size: 0.85rem; margin-top: 4px; margin-bottom: 16px; }
     .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease, background 0.4s ease; }
     .progress-fill.over { background: var(--success); }
@@ -78,7 +72,6 @@
     .punch-btn.stop:hover { background: #b91c1c; }
 
     .form-group { margin-top: 12px; }
-    .form-row { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
     label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
     input { width: 100%; font-size: 1rem; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
     .status-toast { text-align: center; font-size: 0.9rem; padding: 10px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 12px; display: none; }
@@ -98,29 +91,18 @@
       <h1>Time Tracker</h1>
       <p id="statusText">Loading…</p>
     </div>
-    <div class="header-actions">
-      <button class="btn btn-secondary" onclick="exportToCSV()">📥 Export CSV</button>
-      <button class="btn" onclick="fetchAndProcess()">↻ Refresh</button>
-    </div>
+    <button class="btn" onclick="fetchAndProcess()">↻ Refresh</button>
   </div>
 
   <div id="errorBanner" class="error-banner"></div>
 
   <div class="card">
-    <div class="stat-grid">
-      <div class="stat-box">
-        <div id="todayTotal" class="val">00:00</div>
-        <div class="lbl">Worked Today (Goal 08:00)</div>
-      </div>
-      <div class="stat-box">
-        <div id="weekTotal" class="val">00:00</div>
-        <div id="weekSub" class="lbl">This Week (Goal 40:00)</div>
-      </div>
-    </div>
+    <div id="todayTotal" class="today-total">0h 00m</div>
+    <div id="todaySub" class="today-sub">worked today · goal 8h 00m</div>
     <div class="progress-track">
       <div id="progressFill" class="progress-fill" style="width:0%"></div>
     </div>
-    <div class="progress-labels"><span>00:00</span><span id="targetLabel">40:00</span></div>
+    <div class="progress-labels"><span>0h</span><span>8h</span></div>
   </div>
 
   <div class="card">
@@ -130,21 +112,6 @@
       <input type="text" id="eventNote" placeholder="e.g., Working on task tickets...">
     </div>
     <div id="statusToast" class="status-toast"></div>
-  </div>
-
-  <div class="card">
-    <h2>Weekly Target vs. Actual</h2>
-    <div class="form-row" style="margin-bottom: 12px;">
-      <label style="margin:0; white-space:nowrap;">Carryover Credit (m):</label>
-      <input type="number" id="carryoverMins" value="90" style="width: 100px; padding: 6px 10px;" onchange="renderDashboard()">
-      <span style="font-size:0.8rem; color:var(--muted);">(90m = +01:30 from prior week)</span>
-    </div>
-    <div class="table-container">
-      <table>
-        <thead><tr><th>Day</th><th>Target</th><th>Actual</th><th>Status</th></tr></thead>
-        <tbody id="weeklyBody"></tbody>
-      </table>
-    </div>
   </div>
 
   <div class="card">
@@ -158,7 +125,7 @@
   </div>
 
   <div class="card">
-    <h2>Daily History</h2>
+    <h2>Daily Log</h2>
     <div class="table-container">
       <table>
         <thead><tr><th>Date</th><th>Total</th></tr></thead>
@@ -169,10 +136,8 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxYUpWgw0Ay5VJQ9GHPYS5VJBrI_O5Cj30Sgg0yBLd7PFIMbibrO3OpMQ2ce3MvQ4lbxA/exec";
-    const DAILY_GOAL_MINS = 480; // 8 hours
-    const WEEKLY_GOAL_MINS = 2400; // 40 hours
+    const GOAL_MINS = 480;
 
-    window.rawSheetData = [];
     window.processedDailyMap = {};
     window.punchState = 'OUT';
     window.openChunkStartMins = null;
@@ -208,7 +173,6 @@
           throw new Error(json.message || "Invalid JSON returned from API.");
         }
 
-        window.rawSheetData = json.data;
         processLogs(json.data);
         statusEl.innerText = `Updated live (${json.data.length} rows).`;
       } catch (err) {
@@ -219,42 +183,47 @@
 
     function timeToMins(tStr) {
       if (!tStr) return null;
-      const clean = String(tStr).trim();
-      const parts = clean.split(':');
+      const clean = tStr.trim();
+      const ampmMatch = clean.match(/(AM|PM)$/i);
+      const parts = clean.replace(/(AM|PM)/i, '').trim().split(':');
       if (parts.length < 2) return null;
       let h = parseInt(parts[0], 10);
       let m = parseInt(parts[1], 10);
       if (isNaN(h) || isNaN(m)) return null;
+      if (ampmMatch) {
+        const suffix = ampmMatch[1].toUpperCase();
+        if (suffix === 'PM' && h !== 12) h += 12;
+        if (suffix === 'AM' && h === 12) h = 0;
+      }
       return h * 60 + m;
     }
 
     function minsToLabel(mins) {
-      const h = Math.floor(Math.abs(mins) / 60);
-      const m = Math.round(Math.abs(mins) % 60);
-      const sign = mins < 0 ? '-' : '';
-      return `${sign}${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+      const h = Math.floor(mins / 60);
+      const m = Math.round(mins % 60);
+      return `${h}h ${String(m).padStart(2, '0')}m`;
     }
 
     function detectEventType(r) {
-      const notes = (r['Work Performed / Notes'] || r['notes'] || '').toLowerCase();
+      const notes = (r['Work Performed / Notes'] || '').toLowerCase();
       if (notes.includes('clock in')) return 'IN';
       if (notes.includes('clock out')) return 'OUT';
-      if (r['Start Time'] || r['startTime']) return 'IN';
-      if (r['End Time'] || r['endTime']) return 'OUT';
+      if (r['Start Time'] && String(r['Start Time']).trim()) return 'IN';
+      if (r['End Time'] && String(r['End Time']).trim()) return 'OUT';
       return null;
     }
 
     function processLogs(rows) {
       const sorted = rows.slice().sort((a, b) => {
-        const ta = new Date(a['Timestamp'] || a['timestamp'] || 0).getTime();
-        const tb = new Date(b['Timestamp'] || b['timestamp'] || 0).getTime();
+        const ta = new Date(a['Timestamp'] || 0).getTime();
+        const tb = new Date(b['Timestamp'] || 0).getTime();
         return ta - tb;
       });
 
       let dailyMap = {};
 
       sorted.forEach(r => {
-        const tsRaw = r['Timestamp'] || r['timestamp'];
+        const tsRaw = r['Timestamp'];
         if (!tsRaw) return;
         const dObj = new Date(tsRaw);
         if (isNaN(dObj.getTime())) return;
@@ -268,9 +237,9 @@
         const eventType = detectEventType(r);
         if (!eventType) return;
 
-        const timeStr = String(r['Start Time'] || r['startTime'] || r['End Time'] || r['endTime'] || '');
+        const timeStr = String(r['Start Time'] || r['End Time'] || '');
         const mins = timeToMins(timeStr) !== null ? timeToMins(timeStr) : (dObj.getHours() * 60 + dObj.getMinutes());
-        const label = timeStr || `${String(dObj.getHours()).padStart(2, '0')}:${String(dObj.getMinutes()).padStart(2, '0')}`;
+        const label = timeStr || dObj.toTimeString().slice(0, 5);
 
         if (eventType === 'IN') {
           if (day.state !== 'OUT') return;
@@ -299,13 +268,13 @@
       window.openChunkStartLabel = today ? today.openStartLabel : null;
 
       applyButtonState();
-      renderDashboard();
+      renderDashboard(dailyMap, todayKey);
     }
 
     function applyButtonState() {
       const btn = document.getElementById('punchBtn');
       if (window.punchState === 'IN') {
-        btn.innerText = '■ Stop Work';
+        btn.innerText = '■ Stop';
         btn.classList.remove('start');
         btn.classList.add('stop');
       } else {
@@ -328,57 +297,20 @@
       return total;
     }
 
-    function renderDashboard() {
-      const todayKey = new Date().toISOString().split('T')[0];
-      const dailyMap = window.processedDailyMap;
-      const carryover = parseInt(document.getElementById('carryoverMins').value, 10) || 0;
-
-      const totalTodayMins = currentTodayTotalMins(todayKey);
-      document.getElementById('todayTotal').innerText = minsToLabel(totalTodayMins);
-
-      // Weekly calculation (Mon-Sun of current week)
-      const curr = new Date();
-      const firstDayMins = curr.getDate() - (curr.getDay() === 0 ? 6 : curr.getDay() - 1);
-      let weekTotalMins = carryover;
-
-      let weeklyTableHtml = '';
-      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(curr.setDate(firstDayMins + i));
-        const dKey = d.toISOString().split('T')[0];
-        let dayMins = dailyMap[dKey] ? dailyMap[dKey].totalMins : 0;
-        if (dKey === todayKey) dayMins = totalTodayMins;
-
-        weekTotalMins += dayMins;
-        const target = i < 5 ? DAILY_GOAL_MINS : 0;
-        const diff = dayMins - target;
-        const statusStr = diff >= 0 ? `+${minsToLabel(diff)}` : minsToLabel(diff);
-
-        weeklyTableHtml += `<tr>
-          <td><b>${days[i]}</b> (${dKey.slice(5)})</td>
-          <td>${minsToLabel(target)}</td>
-          <td>${minsToLabel(dayMins)}</td>
-          <td style="color:${diff >= 0 ? 'var(--success)' : 'var(--muted)'};">${statusStr}</td>
-        </tr>`;
-      }
-
-      document.getElementById('weeklyBody').innerHTML = weeklyTableHtml;
-      document.getElementById('weekTotal').innerText = minsToLabel(weekTotalMins);
-
-      const pct = Math.min(100, (weekTotalMins / WEEKLY_GOAL_MINS) * 100);
+    function renderDashboard(dailyMap, todayKey) {
+      const totalMins = currentTodayTotalMins(todayKey);
+      document.getElementById('todayTotal').innerText = minsToLabel(totalMins);
+      const pct = Math.min(100, (totalMins / GOAL_MINS) * 100);
       const fill = document.getElementById('progressFill');
       fill.style.width = pct + '%';
-      fill.classList.toggle('over', weekTotalMins >= WEEKLY_GOAL_MINS);
-
-      const weekSub = document.getElementById('weekSub');
-      if (weekTotalMins >= WEEKLY_GOAL_MINS) {
-        weekSub.innerText = `🎉 40h goal reached (+${minsToLabel(weekTotalMins - WEEKLY_GOAL_MINS)})`;
+      fill.classList.toggle('over', totalMins >= GOAL_MINS);
+      const sub = document.getElementById('todaySub');
+      if (totalMins >= GOAL_MINS) {
+        sub.innerText = `🎉 8h goal reached — ${minsToLabel(totalMins - GOAL_MINS)} over`;
       } else {
-        weekSub.innerText = `${minsToLabel(WEEKLY_GOAL_MINS - weekTotalMins)} remaining to 40:00`;
+        sub.innerText = `worked today · ${minsToLabel(GOAL_MINS - totalMins)} to go`;
       }
 
-      // Render today's chunks
       const today = dailyMap[todayKey];
       let chunksHtml = '';
       if (today && today.chunks.length > 0) {
@@ -391,13 +323,12 @@
       }
       document.getElementById('chunksBody').innerHTML = chunksHtml || '<tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr>';
 
-      // Render daily history
       const dates = Object.keys(dailyMap).sort().reverse();
       let dailyHtml = '';
       dates.forEach(dKey => {
         const day = dailyMap[dKey];
         let mins = day.totalMins;
-        if (dKey === todayKey) mins = totalTodayMins;
+        if (dKey === todayKey) mins = totalMins;
         const d = new Date(dKey + 'T00:00:00');
         const friendly = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         dailyHtml += `<tr><td>${friendly}</td><td><b>${minsToLabel(mins)}</b></td></tr>`;
@@ -407,7 +338,8 @@
 
     function tickLiveTotal() {
       if (window.punchState !== 'IN') return;
-      renderDashboard();
+      const todayKey = new Date().toISOString().split('T')[0];
+      renderDashboard(window.processedDailyMap, todayKey);
     }
 
     function getTimeParts() {
@@ -455,32 +387,6 @@
         toast.style.display = 'none';
         showError("Failed to write entry: " + err.message);
       }
-    }
-
-    function exportToCSV() {
-      if (!window.rawSheetData || window.rawSheetData.length === 0) {
-        alert("No data available to export.");
-        return;
-      }
-      const headers = Object.keys(window.rawSheetData[0]);
-      const csvRows = [headers.join(",")];
-
-      window.rawSheetData.forEach(row => {
-        const values = headers.map(h => {
-          const val = String(row[h] || '').replace(/"/g, '""');
-          return `"${val}"`;
-        });
-        csvRows.push(values.join(","));
-      });
-
-      const blob = new Blob([csvRows.join("\n")], { type: "text/csv" });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.setAttribute("href", url);
-      a.setAttribute("download", `Time_Tracker_Export_${new Date().toISOString().split('T')[0]}.csv`);
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
     }
   </script>
 </body>
