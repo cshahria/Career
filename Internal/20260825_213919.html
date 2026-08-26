@@ -692,7 +692,7 @@
   .cal-btn:hover { background: #e5e7eb; }
   .cal-header-nav {
     display: flex;
-    justify-between: space-between;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
     padding-right: 32px;
@@ -1071,7 +1071,7 @@ async function fetchAndRenderCountdowns() {
   const futureContainer = document.getElementById("countdownFutureRow");
   const pastContainer = document.getElementById("countdownPastRow");
   try {
-    const fetchUrl = COUNTDOWN_CSV_URL + "&t=" + new Date().getTime();
+    const fetchUrl = "https://corsproxy.io/?" + encodeURIComponent(COUNTDOWN_CSV_URL + "&t=" + new Date().getTime());
     const response = await fetch(fetchUrl);
     const data = await response.text();
     const lines = data.split(/\r?\n/);
@@ -1338,7 +1338,7 @@ function add30MinutesToEndTime() {
 async function fetchAndRenderNotesCard() {
   const container = document.getElementById("notesCardContentBox");
   try {
-    const fetchUrl = NOTES_CSV_URL + "&t=" + new Date().getTime();
+    const fetchUrl = "https://corsproxy.io/?" + encodeURIComponent(NOTES_CSV_URL + "&t=" + new Date().getTime());
     const response = await fetch(fetchUrl);
     const data = await response.text();
     const lines = data.split(/\r?\n/);
@@ -1450,7 +1450,7 @@ async function fetchAndRenderSchedule() {
   }
 
   try {
-    const fetchUrl = MEETINGS_CSV_URL + "&t=" + new Date().getTime();
+    const fetchUrl = "https://corsproxy.io/?" + encodeURIComponent(MEETINGS_CSV_URL + "&t=" + new Date().getTime());
     const response = await fetch(fetchUrl);
     const data = await response.text();
     
