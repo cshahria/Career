@@ -57,7 +57,6 @@
     .stat-box .val { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; }
     .stat-box .val-large { font-size: 2.6rem; color: var(--primary); }
     .stat-box .lbl { color: var(--muted); font-size: 0.8rem; margin-top: 2px; font-weight: 500; }
-    .stat-box .sub-val { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
     .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease, background 0.4s ease; }
@@ -111,6 +110,7 @@
 
   <div id="errorBanner" class="error-banner"></div>
 
+  <!-- Swapped Layout: Action Button on Left, Status Badge on Right -->
   <div class="card">
     <div class="action-bar">
       <button id="punchBtn" class="punch-btn start" onclick="sendPunch()">▶ Start Work</button>
@@ -124,23 +124,20 @@
       <div class="stat-box">
         <div id="todayTotal" class="val val-large">00:00</div>
         <div class="lbl">Worked Today (Goal 08:00)</div>
-        <div id="todayPct" class="sub-val">0% Complete</div>
       </div>
       <div class="stat-box">
         <div id="todayRemaining" class="val" style="color: var(--warning);">08:00</div>
         <div class="lbl">Remaining Today</div>
-        <div id="todayRemPct" class="sub-val">100% Left</div>
       </div>
       <div class="stat-box">
         <div id="weekTotal" class="val">00:00</div>
         <div id="weekSub" class="lbl">Week Total (Goal 40:00)</div>
-        <div id="weekPct" class="sub-val">0% Complete | 40:00 Left</div>
       </div>
     </div>
     <div class="progress-track">
       <div id="progressFill" class="progress-fill" style="width:0%"></div>
     </div>
-    <div class="progress-labels"><span id="pctLabel">0%</span><span id="targetLabel">40:00 Goal</span></div>
+    <div class="progress-labels"><span>00:00</span><span id="targetLabel">40:00 Goal</span></div>
   </div>
 
   <div class="card">
@@ -167,10 +164,7 @@
   </div>
 
   <div class="card">
-    <h2>
-      <span>Daily History</span>
-      <button class="toggle-btn" onclick="toggleDailyHistory()" id="dailyToggleBtn">Show Previous Weeks</button>
-    </h2>
+    <h2>Daily History</h2>
     <div class="table-container">
       <table>
         <thead><tr><th>Date</th><th>Total Hours</th></tr></thead>
@@ -180,10 +174,7 @@
   </div>
 
   <div class="card">
-    <h2>
-      <span>Weekly Target vs. Actual (Mon–Sun)</span>
-      <button class="toggle-btn" onclick="toggleWeeklyView()" id="weeklyToggleBtn">Show Full Week</button>
-    </h2>
+    <h2>Weekly Target vs. Actual (Mon–Sun)</h2>
     <div class="form-row" style="margin-bottom: 12px;">
       <label style="margin:0; white-space:nowrap;">Carryover Credit (mins):</label>
       <input type="number" id="carryoverMins" value="0" style="width: 90px; padding: 4px 8px;" onchange="saveCarryoverAndRender()">
@@ -272,9 +263,6 @@ SOFTWARE.
     window.punchState = 'OUT';
     window.openChunkStartMins = null;
     window.openChunkStartLabel = null;
-
-    window.showAllDaily = false;
-    window.showFullWeek = false;
 
     window.onload = function() {
       const savedCarryover = localStorage.getItem('carryoverMins');
@@ -489,20 +477,14 @@ SOFTWARE.
       const totalTodayMins = currentTodayTotalMins(todayKey);
       document.getElementById('todayTotal').innerText = minsToLabel(totalTodayMins);
 
-      const todayPctVal = Math.min(100, Math.round((totalTodayMins / DAILY_GOAL_MINS) * 100));
-      document.getElementById('todayPct').innerText = `${todayPctVal}% Complete`;
-
       const remainingToday = DAILY_GOAL_MINS - totalTodayMins;
       const remEl = document.getElementById('todayRemaining');
       if (remainingToday <= 0) {
         remEl.innerText = "00:00";
         remEl.style.color = "var(--success)";
-        document.getElementById('todayRemPct').innerText = "0% Left (Goal Reached)";
       } else {
         remEl.innerText = minsToLabel(remainingToday);
         remEl.style.color = "var(--warning)";
-        const remPctVal = Math.round((remainingToday / DAILY_GOAL_MINS) * 100);
-        document.getElementById('todayRemPct').innerText = `${remPctVal}% Left`;
       }
 
       const now = new Date();
@@ -515,13 +497,15 @@ SOFTWARE.
       });
 
       const todayPacific = new Date(Date.UTC(year, month, day));
-      const dayOfWeek = todayPacific.getUTCDay();
+      const dayOfWeek = todayPacific.getUTCDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+      
+      // Calculate Monday start date: (dayOfWeek + 6) % 7 calculates days back to Monday
       const daysToMon = (dayOfWeek + 6) % 7;
       const monDate = new Date(todayPacific);
       monDate.setUTCDate(todayPacific.getUTCDate() - daysToMon);
 
       let weekTotalMins = carryover;
-      let weeklyRows = [];
+      let weeklyTableHtml = '';
       const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
       for (let i = 0; i < 7; i++) {
@@ -533,30 +517,24 @@ SOFTWARE.
         if (dKey === todayKey) dayMins = totalTodayMins;
 
         weekTotalMins += dayMins;
-        const target = (i < 5) ? DAILY_GOAL_MINS : 0;
+        const target = (i < 5) ? DAILY_GOAL_MINS : 0; // Mon-Fri = 8 hrs, Sat-Sun = 0 hrs
         const diff = dayMins - target;
         const statusStr = diff >= 0 ? `+${minsToLabel(diff)}` : minsToLabel(diff);
 
-        weeklyRows.push({
-          index: i,
-          dateKey: dKey,
-          dayName: days[i],
-          target: target,
-          actual: dayMins,
-          diff: diff,
-          statusStr: statusStr
-        });
+        weeklyTableHtml += `<tr>
+          <td><b>${days[i]}</b> (${dKey.slice(5)})</td>
+          <td>${minsToLabel(target)}</td>
+          <td>${minsToLabel(dayMins)}</td>
+          <td style="color:${diff >= 0 ? 'var(--success)' : 'var(--muted)'};">${statusStr}</td>
+        </tr>`;
       }
 
+      document.getElementById('weeklyBody').innerHTML = weeklyTableHtml;
       document.getElementById('weekTotal').innerText = minsToLabel(weekTotalMins);
 
-      const weekPctVal = Math.min(100, Math.round((weekTotalMins / WEEKLY_GOAL_MINS) * 100));
-      const weekRemMins = Math.max(0, WEEKLY_GOAL_MINS - weekTotalMins);
-      document.getElementById('weekPct').innerText = `${weekPctVal}% Complete | ${minsToLabel(weekRemMins)} Left`;
-      document.getElementById('pctLabel').innerText = `${weekPctVal}%`;
-
+      const pct = (weekTotalMins / WEEKLY_GOAL_MINS) * 100;
       const fill = document.getElementById('progressFill');
-      fill.style.width = Math.min(100, (weekTotalMins / WEEKLY_GOAL_MINS) * 100) + '%';
+      fill.style.width = Math.min(100, pct) + '%';
 
       const weekSub = document.getElementById('weekSub');
       if (weekTotalMins > WEEKLY_GOAL_MINS) {
@@ -569,26 +547,6 @@ SOFTWARE.
         weekSub.style.color = "var(--muted)";
       }
 
-      // Render Weekly Target vs Actual Table
-      let visibleWeeklyRows = weeklyRows;
-      if (!window.showFullWeek) {
-        const todayIndex = daysToMon; // 0 for Mon ... 6 for Sun
-        const startIdx = Math.max(0, todayIndex - 2);
-        visibleWeeklyRows = weeklyRows.slice(startIdx, todayIndex + 1);
-      }
-
-      let weeklyTableHtml = '';
-      visibleWeeklyRows.forEach(r => {
-        weeklyTableHtml += `<tr>
-          <td><b>${r.dayName}</b> (${r.dateKey.slice(5)})</td>
-          <td>${minsToLabel(r.target)}</td>
-          <td>${minsToLabel(r.actual)}</td>
-          <td style="color:${r.diff >= 0 ? 'var(--success)' : 'var(--muted)'};">${r.statusStr}</td>
-        </tr>`;
-      });
-      document.getElementById('weeklyBody').innerHTML = weeklyTableHtml;
-
-      // Render Today's Chunks
       const today = dailyMap[todayKey];
       let chunksHtml = '';
       if (today && today.chunks.length > 0) {
@@ -601,7 +559,6 @@ SOFTWARE.
       }
       document.getElementById('chunksBody').innerHTML = chunksHtml || '<tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr>';
 
-      // Render Today's Raw Logs
       let rawLogsHtml = '';
       if (today && today.rawLogs.length > 0) {
         today.rawLogs.forEach(l => {
@@ -610,17 +567,9 @@ SOFTWARE.
       }
       document.getElementById('rawLogsBody').innerHTML = rawLogsHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No log entries today</td></tr>';
 
-      // Render Daily History Table
-      const monDateStr = monDate.toISOString().split('T')[0];
       const dates = Object.keys(dailyMap).sort().reverse();
-
-      let visibleDates = dates;
-      if (!window.showAllDaily) {
-        visibleDates = dates.filter(dKey => dKey >= monDateStr);
-      }
-
       let dailyHtml = '';
-      visibleDates.forEach(dKey => {
+      dates.forEach(dKey => {
         const day = dailyMap[dKey];
         let mins = day.totalMins;
         if (dKey === todayKey) mins = totalTodayMins;
@@ -628,19 +577,7 @@ SOFTWARE.
         const friendly = new Date(parts[0], parts[1]-1, parts[2]).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         dailyHtml += `<tr><td>${friendly}</td><td><b>${minsToLabel(mins)}</b></td></tr>`;
       });
-      document.getElementById('dailyBody').innerHTML = dailyHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No activity recorded for this week</td></tr>';
-    }
-
-    function toggleDailyHistory() {
-      window.showAllDaily = !window.showAllDaily;
-      document.getElementById('dailyToggleBtn').innerText = window.showAllDaily ? "Show Current Week Only" : "Show Previous Weeks";
-      renderDashboard();
-    }
-
-    function toggleWeeklyView() {
-      window.showFullWeek = !window.showFullWeek;
-      document.getElementById('weeklyToggleBtn').innerText = window.showFullWeek ? "Show Past 3 Days" : "Show Full Week";
-      renderDashboard();
+      document.getElementById('dailyBody').innerHTML = dailyHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No activity yet</td></tr>';
     }
 
     function toggleRawLogs() {
@@ -679,8 +616,7 @@ SOFTWARE.
 
       return {
         fullTimestamp: `${y}-${m}-${day} ${hh}:${mm}:${ss} PDT`,
-        timeOnly: `${hh}:${mm}`,
-        suffixTime: `${hh}${mm}`
+        timeOnly: `${hh}:${mm}`
       };
     }
 
@@ -729,7 +665,6 @@ SOFTWARE.
         return;
       }
 
-      const pdt = getPacificNowFormatted();
       const headers = ["Timestamp", "Start Time", "End Time", "Duration", "Net Worked Hours", "Break Details", "Work Performed / Notes"];
       const csvRows = [headers.join(",")];
 
@@ -751,7 +686,7 @@ SOFTWARE.
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.setAttribute("href", url);
-      a.setAttribute("download", `Time_Tracker_PDT_Export_${getPacificDateKey()}_${pdt.suffixTime}.csv`);
+      a.setAttribute("download", `Time_Tracker_PDT_Export_${getPacificDateKey()}.csv`);
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -770,7 +705,7 @@ SOFTWARE.
 
       html2canvas(document.body).then(canvas => {
         const link = document.createElement('a');
-        link.download = `Time_Tracker_Summary_${getPacificDateKey()}_${pdt.suffixTime}.png`;
+        link.download = `Time_Tracker_Summary_${getPacificDateKey()}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
 
