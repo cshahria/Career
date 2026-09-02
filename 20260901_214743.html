@@ -33,7 +33,7 @@
     margin-top:12px;
   }
   header h1{
-    font-size:1.4rem;
+    font-size:1.4rem; /* Scaled down header font size */
     margin:0;
     color:#111827;
     font-weight: 800;
@@ -153,6 +153,7 @@
     margin-bottom: 8px;
   }
 
+  /* Small Pill Styling for Boards */
   .boards-pill {
     display: inline-flex;
     align-items: center;
@@ -173,6 +174,7 @@
     transform: translateY(-1px);
   }
 
+  /* Modal System */
   .modal-overlay {
     position: fixed;
     top:0; left:0; right:0; bottom:0;
@@ -219,6 +221,7 @@
   }
   .submit-btn:hover { background: #176839; }
 
+  /* Form Styling */
   .form-group { margin-bottom: 14px; }
   .form-group label {
     display: block;
@@ -240,6 +243,7 @@
     border-color: var(--sky);
   }
 
+  /* Speech Input Styling */
   .input-with-mic {
     position: relative;
     display: block;
@@ -274,6 +278,7 @@
     100% { transform: scale(1); }
   }
 
+  /* Boards Detail Styling */
   .board-section {
     margin-top: 16px;
     padding-bottom: 12px;
@@ -308,7 +313,7 @@
   <div class="card">
     <div class="tile-grid">
       
-      <!-- FIRST ROW -->
+      <!-- FIRST ROW: Schedule Meeting, Zoom Room, SMS Text -->
       <a href="https://cal.com/cyrus-shahriari-7wjit2/20min?overlayCalendar=true" target="_blank" class="tile-link">
         <div class="icon">📅</div>
         <div class="name">Schedule Meet</div>
@@ -339,7 +344,7 @@
         </div>
       </div>
 
-      <!-- SECOND ROW -->
+      <!-- SECOND ROW: Career Analytics, Develop, Career Site -->
       <a href="https://cshahria.github.io/Career/career_analytics.html" target="_blank" class="tile-link">
         <div class="icon">📊</div>
         <div class="name">Career Analytics</div>
@@ -358,11 +363,11 @@
         <div class="desc">Browse professional background & portfolio</div>
       </a>
 
-      <!-- THIRD ROW: DashApps, World Cup, LinkedIn Group -->
-      <a href="https://cshahria.github.io/Career/DashApps/index.html" target="_blank" class="tile-link">
-        <div class="icon">⚡</div>
-        <div class="name">DashApps</div>
-        <div class="desc">Interactive client-side utilities and calculators</div>
+      <!-- THIRD ROW: Transition, World Cup, LinkedIn Group -->
+      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
+        <div class="icon">🌲</div>
+        <div class="name">Transition</div>
+        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
       </a>
 
       <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
@@ -380,6 +385,7 @@
     </div>
   </div>
 
+  <!-- Objective, Boards Pill, and Disclaimer Section -->
   <footer class="footer-info">
     <button class="boards-pill" onclick="openModal('boardsModal')">
       <span>📋 Boards & Vision</span>
@@ -394,6 +400,7 @@
 
 </div>
 
+<!-- Hidden Iframe to hold responses without page redirection -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { handleFormResponse(); }"></iframe>
 
 <script>
@@ -477,6 +484,7 @@ function stopDictation() {
 }
 </script>
 
+<!-- MODAL: DEVELOP ENTRY -->
 <div id="developModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('developModal')">×</button>
@@ -517,6 +525,7 @@ function stopDictation() {
   </div>
 </div>
 
+<!-- MODAL: BOARDS OBJECTIVES & SYSTEMS STRATEGY -->
 <div id="boardsModal" class="modal-overlay">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('boardsModal')">×</button>
@@ -532,7 +541,7 @@ function stopDictation() {
     <div class="board-section">
       <div class="board-title">🤝 Community & Engagement Board</div>
       <p class="board-desc">
-        A public-facing navigational interface designed to map resources and directory pathways for coordinated teams, such as WC26, DashApps, and incoming collaborative micro-modules.
+        A public-facing navigational interface designed to map resources and directory pathways for coordinated teams, such as unPTO, WC26, and incoming collaborative micro-modules.
       </p>
     </div>
 
