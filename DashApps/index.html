@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashApps | Micro-Utility Hub</title>
+<style>
+  :root {
+    --bg: #f6f8f7;
+    --card: #ffffff;
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --sky: #2b7fd6;
+    --sky-light: #e8f1fc;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 60px;
+    line-height: 1.55;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+    margin-top: 12px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #111827;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 6px auto 0;
+    line-height: 1.5;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  @media (min-width: 520px) {
+    .tile-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .tile-link {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 14px;
+    text-align: center;
+    background: #fafbfa;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+  }
+
+  .tile-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .tile-link .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 10px;
+    flex-shrink: 0;
+  }
+
+  .tile-link .name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+
+  .tile-link .desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.3;
+    font-weight: 400;
+  }
+
+  .tile-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .tile-link.disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>DashApps Hub</h1>
+    <p class="subtitle">Lightweight, single-page browser utilities and interactive calculators.</p>
+  </header>
+
+  <div class="card">
+    <div class="tile-grid">
+
+      <!-- MileGuard Tile -->
+      <a href="https://cshahria.github.io/Career/DashApps/MileGuard.html" class="tile-link">
+        <div class="icon">🚗</div>
+        <div class="name">MileGuard</div>
+        <div class="desc">Track annual policy mileage limits and split vehicle premiums</div>
+      </a>
+
+      <!-- Transition Tile -->
+      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
+        <div class="icon">🌲</div>
+        <div class="name">Transition</div>
+        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
+      </a>
+
+
+      <!-- Placeholder for Future DashApps -->
+      <div class="tile-link disabled">
+        <div class="icon">⚡</div>
+        <div class="name">Upcoming Utility</div>
+        <div class="desc">Client-side micro-tool currently in development</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>DashApps Suite • Client-side local storage utilities</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
