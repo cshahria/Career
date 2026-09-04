@@ -41,7 +41,6 @@
     th, td { padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: center; }
     th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.02em; }
     input[type="time"], input[type="number"] { padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; text-align: center; width: 85px; }
-    .break-input { width: 55px !important; }
     .note { font-size: 0.75rem; color: var(--muted); }
   </style>
 </head>
@@ -90,10 +89,10 @@
           <tr>
             <th>Day</th>
             <th>Start</th>
-            <th>Break 1 (m)</th>
+            <th>Break 1 (10m)</th>
             <th>Lunch Out</th>
             <th>Lunch In</th>
-            <th>Break 2 (m)</th>
+            <th>Break 2 (10m)</th>
             <th>End</th>
             <th>After Start</th>
             <th>After End</th>
@@ -108,13 +107,13 @@
   <script>
     const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-    // Default schedule (24h format): Mon-Fri 07:30 to 16:30 with 30-min unpaid lunch and blank break defaults
+    // Default schedule (24h format): Mon-Fri 07:30 to 16:30 with 30-min unpaid lunch and paid breaks
     const TYPICAL_SCHEDULE = {
-      Mon: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '' },
-      Tue: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '' },
-      Wed: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '' },
-      Thu: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '' },
-      Fri: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '' },
+      Mon: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
+      Tue: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
+      Wed: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
+      Thu: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
+      Fri: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
       Sat: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '' },
       Sun: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '' }
     };
@@ -138,12 +137,6 @@
       return `${sign}${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     }
 
-    function enforceTwoDigits(input) {
-      if (input.value.length > 2) {
-        input.value = input.value.slice(0, 2);
-      }
-    }
-
     function renderTable() {
       const sched = loadSchedule();
       const savedOt = localStorage.getItem('weekly_projection_ot') || '0';
@@ -157,10 +150,10 @@
           <tr>
             <td><b>${day}</b></td>
             <td><input type="time" value="${d.s1 || ''}" onchange="updateDay('${day}', 's1', this.value)"></td>
-            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="" value="${d.b1 || ''}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b1', this.value)"></td>
+            <td><input type="time" value="${d.b1 || ''}" onchange="updateDay('${day}', 'b1', this.value)"></td>
             <td><input type="time" value="${d.l1 || ''}" onchange="updateDay('${day}', 'l1', this.value)"></td>
             <td><input type="time" value="${d.l2 || ''}" onchange="updateDay('${day}', 'l2', this.value)"></td>
-            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="" value="${d.b2 || ''}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b2', this.value)"></td>
+            <td><input type="time" value="${d.b2 || ''}" onchange="updateDay('${day}', 'b2', this.value)"></td>
             <td><input type="time" value="${d.e1 || ''}" onchange="updateDay('${day}', 'e1', this.value)"></td>
             <td><input type="time" value="${d.s2 || ''}" onchange="updateDay('${day}', 's2', this.value)"></td>
             <td><input type="time" value="${d.e2 || ''}" onchange="updateDay('${day}', 'e2', this.value)"></td>
