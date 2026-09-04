@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Tracker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px 16px;
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
+    .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .btn { padding: 6px 12px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .btn:hover { background: #334155; }
+    .btn-secondary { background: #e2e8f0; color: #0f172a; }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-nav { background: #2563eb; color: #fff; }
+    .btn-nav:hover { background: #1d4ed8; }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+    .action-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .status-badge { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 6px; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; }
+    .status-badge.in { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .status-badge.out { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+    .punch-btn { font-size: 0.95rem; font-weight: 600; padding: 8px 18px; border: none; border-radius: 6px; cursor: pointer; color: #fff; transition: transform 0.1s, background 0.15s; }
+    .punch-btn:active { transform: scale(0.98); }
+    .punch-btn.start { background: var(--success); }
+    .punch-btn.start:hover { background: #15803d; }
+    .punch-btn.stop { background: var(--danger); }
+    .punch-btn.stop:hover { background: #b91c1c; }
+
+    .error-banner { display: none; background: #fef2f2; border: 1px solid #fecaca; color: var(--danger); padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 0.85rem; white-space: pre-wrap; }
+
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; text-align: center; }
+    .stat-box .val { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; }
+    .stat-box .val-large { font-size: 2.6rem; color: var(--primary); }
+    .stat-box .lbl { color: var(--muted); font-size: 0.8rem; margin-top: 2px; font-weight: 500; }
+    .stat-box .sub-val { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    .weekly-40-banner { display: none; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; font-size: 0.85rem; text-align: center; }
+
+    .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease, background 0.4s ease; }
+    .progress-fill.over { background: var(--danger); }
+    .progress-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
+
+    .form-row { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+    label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--muted); margin-bottom: 4px; }
+    input { font-size: 0.95rem; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; }
+    .status-toast { text-align: center; font-size: 0.85rem; padding: 8px; border-radius: 6px; background: #f1f5f9; color: var(--muted); margin-top: 10px; display: none; }
+
+    .table-container { overflow-x: auto; margin-top: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    tr:hover { background: #f8fafc; }
+    h2 { font-size: 1rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+    .toggle-btn { background: none; border: none; color: var(--primary); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+
+    .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 8px; }
+    
+    .totals-summary { display: flex; gap: 16px; margin-bottom: 12px; background: #f1f5f9; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; }
+    .totals-summary div { font-weight: 600; }
+    .totals-summary span { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>Time Tracker</h1>
+      <p id="statusText">Ready</p>
+      <div id="exportStamp" class="export-stamp"></div>
+    </div>
+    <div class="header-actions">
+      <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">
+        <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" style="vertical-align: middle;">
+      </a>
+      <a class="btn btn-nav" href="projection.html">🔮 Projection</a>
+      <button class="btn btn-secondary" onclick="exportJSON()">📥 Export JSON</button>
+      <button class="btn btn-secondary" onclick="triggerImport()">📤 Import JSON</button>
+      <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
+      <button class="btn btn-secondary" onclick="exportToPNG()">📷 Save PNG</button>
+      <button class="btn btn-secondary" onclick="exportToCSV()">📊 Export CSV</button>
+    </div>
+  </div>
+
+  <div id="errorBanner" class="error-banner"></div>
+
+  <div class="card">
+    <div class="action-bar">
+      <button id="punchBtn" class="punch-btn start" onclick="sendPunch()">▶ Start Work</button>
+      <div id="statusBadge" class="status-badge out">🔴 CLOCKED OUT</div>
+    </div>
+    <div id="statusToast" class="status-toast"></div>
+  </div>
+
+  <div class="card" id="dashboardSnapshot">
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div id="todayTotal" class="val val-large">00:00</div>
+        <div class="lbl">Worked Today (Goal 08:00)</div>
+        <div id="todayPct" class="sub-val">0% Complete</div>
+      </div>
+      <div class="stat-box">
+        <div id="todayRemaining" class="val" style="color: var(--warning);">08:00</div>
+        <div class="lbl">Remaining Today</div>
+        <div id="todayRemPct" class="sub-val">100% Left</div>
+      </div>
+      <div class="stat-box">
+        <div id="weekTotal" class="val">00:00</div>
+        <div id="weekSub" class="lbl">Week Total (Goal 40:00)</div>
+        <div id="weekPct" class="sub-val">0% Complete | 40:00 Left</div>
+      </div>
+    </div>
+
+    <div id="weekly40Banner" class="weekly-40-banner">
+      🔔 40 hours target reached for this week.
+    </div>
+
+    <div class="progress-track">
+      <div id="progressFill" class="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-labels"><span id="pctLabel">0%</span><span id="targetLabel">40:00 Goal</span></div>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span>Today's Chunks</span>
+    </h2>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Start</th><th>End</th><th>Duration</th></tr></thead>
+        <tbody id="chunksBody"><tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr></tbody>
+      </table>
+    </div>
+
+    <div id="rawLogsContainer" style="margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px;">
+      <h3 style="font-size:0.85rem; color:var(--muted); margin-bottom:8px;">All Punch Logs (Today)</h3>
+      <div class="table-container">
+        <table>
+          <thead><tr><th>Time</th><th>Event / Notes</th></tr></thead>
+          <tbody id="rawLogsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span>Daily History</span>
+      <button class="toggle-btn" onclick="toggleDailyHistory()" id="dailyToggleBtn">Show Previous Weeks</button>
+    </h2>
+    <div class="totals-summary">
+      <div>This Month Total: <span id="monthTotalScore">00:00</span></div>
+      <div>This Year Total: <span id="yearTotalScore">00:00</span></div>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Date</th><th>Total Hours</th></tr></thead>
+        <tbody id="dailyBody"><tr><td colspan="2" style="text-align:center; color:var(--muted);">No records found</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span>Weekly Target vs. Actual (Mon–Sun)</span>
+      <button class="toggle-btn" onclick="toggleWeeklyView()" id="weeklyToggleBtn">Show Full Week</button>
+    </h2>
+    <div class="form-row" style="margin-bottom: 12px;">
+      <label style="margin:0; white-space:nowrap;">Carryover Credit (mins):</label>
+      <input type="number" id="carryoverMins" value="0" style="width: 90px; padding: 4px 8px;" onchange="saveCarryoverAndRender()">
+      <span style="font-size:0.8rem; color:var(--muted);">(e.g., 90 = +01:30 credit from prior week)</span>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead><tr><th>Day</th><th>Target</th><th>Actual</th><th>Status</th></tr></thead>
+        <tbody id="weeklyBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer style="margin-top: 32px; padding: 16px 0; border-top: 1px solid var(--border); text-align: center; color: var(--muted); font-size: 0.75rem; line-height: 1.4;">
+    <p style="margin-bottom: 6px;">
+      <strong>MIT License</strong> — Copyright (c) 2026. Free for public and personal use.
+    </p>
+    <p style="max-width: 650px; margin: 0 auto; font-size: 0.7rem;">
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY.
+    </p>
+  </footer>
+
+  <script>
+    const DAILY_GOAL_MINS = 480;
+    const WEEKLY_GOAL_MINS = 2400;
+
+    window.rawSheetData = [];
+    window.processedDailyMap = {};
+    window.punchState = 'OUT';
+    window.openChunkStartMins = null;
+    window.openChunkStartLabel = null;
+
+    window.showAllDaily = false;
+    window.showFullWeek = false;
+
+    window.onload = function() {
+      const savedCarryover = localStorage.getItem('carryoverMins');
+      if (savedCarryover !== null) {
+        document.getElementById('carryoverMins').value = savedCarryover;
+      }
+      loadFromLocalStorage();
+      setInterval(tickLiveTotal, 30000);
+    };
+
+    function saveCarryoverAndRender() {
+      const val = document.getElementById('carryoverMins').value || "0";
+      localStorage.setItem('carryoverMins', val);
+      renderDashboard();
+    }
+
+    function loadFromLocalStorage() {
+      const stored = localStorage.getItem('timetracker_logs');
+      window.rawSheetData = stored ? JSON.parse(stored) : [];
+      processLogs(window.rawSheetData);
+      document.getElementById('statusText').innerText = `Local Data Loaded (${window.rawSheetData.length} logs)`;
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem('timetracker_logs', JSON.stringify(window.rawSheetData));
+      processLogs(window.rawSheetData);
+    }
+
+    function parseToMins(val) {
+      if (!val) return null;
+      let str = String(val).trim();
+
+      if (str.includes('T') || str.includes('Z')) {
+        const d = new Date(str);
+        if (!isNaN(d.getTime())) {
+          return d.getHours() * 60 + d.getMinutes();
+        }
+      }
+
+      const clean = str.replace(/(AM|PM)/gi, '').trim();
+      const parts = clean.split(':');
+      if (parts.length >= 2) {
+        let h = parseInt(parts[0], 10);
+        let m = parseInt(parts[1], 10);
+        if (!isNaN(h) && !isNaN(m)) {
+          if (str.match(/PM/i) && h < 12) h += 12;
+          if (str.match(/AM/i) && h === 12) h = 0;
+          return h * 60 + m;
+        }
+      }
+      return null;
+    }
+
+    function minsToLabel(mins) {
+      const h = Math.floor(Math.abs(mins) / 60);
+      const m = Math.round(Math.abs(mins) % 60);
+      const sign = mins < 0 ? '-' : '';
+      return `${sign}${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
+    function getDateKey(d = new Date()) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function processLogs(rows) {
+      const sorted = rows.slice().sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      let dailyMap = {};
+
+      sorted.forEach(r => {
+        if (!r.timestamp) return;
+        const d = new Date(r.timestamp);
+        const dateKey = getDateKey(d);
+
+        if (!dailyMap[dateKey]) {
+          dailyMap[dateKey] = { date: dateKey, chunks: [], rawLogs: [], totalMins: 0, state: 'OUT', openStartMins: null, openStartLabel: null };
+        }
+        const day = dailyMap[dateKey];
+        const mins = parseToMins(r.startTime || r.endTime || r.timestamp);
+        const label = mins !== null ? minsToLabel(mins) : '';
+
+        day.rawLogs.push({ timeStr: label, note: r.notes || '' });
+
+        if (r.type === 'IN') {
+          if (day.state !== 'OUT') return;
+          day.state = 'IN';
+          day.openStartMins = mins;
+          day.openStartLabel = label;
+        } else if (r.type === 'OUT') {
+          if (day.state !== 'IN') return;
+          if (day.openStartMins !== null && mins > day.openStartMins) {
+            const dur = mins - day.openStartMins;
+            day.chunks.push({ start: day.openStartLabel, end: label, mins: dur });
+            day.totalMins += dur;
+          }
+          day.state = 'OUT';
+          day.openStartMins = null;
+          day.openStartLabel = null;
+        }
+      });
+
+      window.processedDailyMap = dailyMap;
+      const todayKey = getDateKey();
+      const today = dailyMap[todayKey];
+      window.punchState = today ? today.state : 'OUT';
+      window.openChunkStartMins = today ? today.openStartMins : null;
+      window.openChunkStartLabel = today ? today.openStartLabel : null;
+
+      applyButtonState();
+      renderDashboard();
+    }
+
+    function applyButtonState() {
+      const btn = document.getElementById('punchBtn');
+      const badge = document.getElementById('statusBadge');
+
+      if (window.punchState === 'IN') {
+        badge.innerText = '🟢 CLOCKED IN';
+        badge.className = 'status-badge in';
+        btn.innerText = '■ Stop Work';
+        btn.classList.remove('start');
+        btn.classList.add('stop');
+      } else {
+        badge.innerText = '🔴 CLOCKED OUT';
+        badge.className = 'status-badge out';
+        btn.innerText = '▶ Start Work';
+        btn.classList.remove('stop');
+        btn.classList.add('start');
+      }
+    }
+
+    function currentTodayTotalMins(todayKey) {
+      const day = window.processedDailyMap[todayKey];
+      let total = day ? day.totalMins : 0;
+      if (window.punchState === 'IN' && window.openChunkStartMins !== null) {
+        const nowMins = parseToMins(new Date());
+        if (nowMins > window.openChunkStartMins) {
+          total += (nowMins - window.openChunkStartMins);
+        }
+      }
+      return total;
+    }
+
+    function renderDashboard() {
+      const todayKey = getDateKey();
+      const dailyMap = window.processedDailyMap;
+      const carryover = parseInt(document.getElementById('carryoverMins').value, 10) || 0;
+
+      const totalTodayMins = currentTodayTotalMins(todayKey);
+      document.getElementById('todayTotal').innerText = minsToLabel(totalTodayMins);
+
+      const todayPctVal = Math.min(100, Math.round((totalTodayMins / DAILY_GOAL_MINS) * 100));
+      document.getElementById('todayPct').innerText = `${todayPctVal}% Complete`;
+
+      const remainingToday = DAILY_GOAL_MINS - totalTodayMins;
+      const remEl = document.getElementById('todayRemaining');
+      if (remainingToday <= 0) {
+        remEl.innerText = "00:00";
+        remEl.style.color = "var(--success)";
+        document.getElementById('todayRemPct').innerText = "0% Left (Goal Reached)";
+      } else {
+        remEl.innerText = minsToLabel(remainingToday);
+        remEl.style.color = "var(--warning)";
+        document.getElementById('todayRemPct').innerText = `${Math.round((remainingToday / DAILY_GOAL_MINS) * 100)}% Left`;
+      }
+
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const daysToMon = (dayOfWeek + 6) % 7;
+      const monDate = new Date(now);
+      monDate.setDate(now.getDate() - daysToMon);
+
+      let weekTotalMins = carryover;
+      let weeklyRows = [];
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(monDate);
+        d.setDate(monDate.getDate() + i);
+        const dKey = getDateKey(d);
+
+        let dayMins = dailyMap[dKey] ? dailyMap[dKey].totalMins : 0;
+        if (dKey === todayKey) dayMins = totalTodayMins;
+
+        weekTotalMins += dayMins;
+        const target = (i < 5) ? DAILY_GOAL_MINS : 0;
+        const diff = dayMins - target;
+
+        weeklyRows.push({
+          dayName: days[i],
+          dateKey: dKey,
+          target: target,
+          actual: dayMins,
+          diff: diff,
+          statusStr: diff >= 0 ? `+${minsToLabel(diff)}` : minsToLabel(diff)
+        });
+      }
+
+      document.getElementById('weekTotal').innerText = minsToLabel(weekTotalMins);
+      document.getElementById('weekly40Banner').style.display = weekTotalMins >= WEEKLY_GOAL_MINS ? 'block' : 'none';
+
+      const weekPctVal = Math.min(100, Math.round((weekTotalMins / WEEKLY_GOAL_MINS) * 100));
+      const weekRemMins = Math.max(0, WEEKLY_GOAL_MINS - weekTotalMins);
+      document.getElementById('weekPct').innerText = `${weekPctVal}% Complete | ${minsToLabel(weekRemMins)} Left`;
+      document.getElementById('pctLabel').innerText = `${weekPctVal}%`;
+
+      const fill = document.getElementById('progressFill');
+      fill.style.width = Math.min(100, (weekTotalMins / WEEKLY_GOAL_MINS) * 100) + '%';
+
+      let visibleWeeklyRows = window.showFullWeek ? weeklyRows : weeklyRows.slice(Math.max(0, daysToMon - 2), daysToMon + 1);
+
+      let weeklyTableHtml = '';
+      visibleWeeklyRows.forEach(r => {
+        weeklyTableHtml += `<tr>
+          <td><b>${r.dayName}</b> (${r.dateKey.slice(5)})</td>
+          <td>${minsToLabel(r.target)}</td>
+          <td>${minsToLabel(r.actual)}</td>
+          <td style="color:${r.diff >= 0 ? 'var(--success)' : 'var(--muted)'};">${r.statusStr}</td>
+        </tr>`;
+      });
+      document.getElementById('weeklyBody').innerHTML = weeklyTableHtml;
+
+      // Today's Chunks
+      const today = dailyMap[todayKey];
+      let chunksHtml = '';
+      if (today && today.chunks.length > 0) {
+        today.chunks.forEach(c => {
+          chunksHtml += `<tr><td>${c.start}</td><td>${c.end}</td><td>${minsToLabel(c.mins)}</td></tr>`;
+        });
+      }
+      if (today && today.state === 'IN' && today.openStartLabel) {
+        chunksHtml += `<tr><td>${today.openStartLabel}</td><td><i>in progress…</i></td><td>–</td></tr>`;
+      }
+      document.getElementById('chunksBody').innerHTML = chunksHtml || '<tr><td colspan="3" style="text-align:center; color:var(--muted);">No chunks yet</td></tr>';
+
+      // Raw Logs
+      let rawLogsHtml = '';
+      if (today && today.rawLogs.length > 0) {
+        today.rawLogs.forEach(l => {
+          rawLogsHtml += `<tr><td><b>${l.timeStr}</b></td><td>${l.note || '<i>None</i>'}</td></tr>`;
+        });
+      }
+      document.getElementById('rawLogsBody').innerHTML = rawLogsHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No log entries today</td></tr>';
+
+      // Daily History
+      const dates = Object.keys(dailyMap).sort().reverse();
+      let monthTotalMins = 0, yearTotalMins = 0;
+      const curYear = now.getFullYear();
+      const curMonth = now.getMonth();
+
+      dates.forEach(dKey => {
+        const parts = dKey.split('-');
+        const y = parseInt(parts[0], 10);
+        const m = parseInt(parts[1], 10) - 1;
+        let mins = dailyMap[dKey].totalMins;
+        if (dKey === todayKey) mins = totalTodayMins;
+
+        if (y === curYear) {
+          yearTotalMins += mins;
+          if (m === curMonth) monthTotalMins += mins;
+        }
+      });
+
+      document.getElementById('monthTotalScore').innerText = minsToLabel(monthTotalMins);
+      document.getElementById('yearTotalScore').innerText = minsToLabel(yearTotalMins);
+
+      let visibleDates = window.showAllDaily ? dates : dates.filter(dKey => dKey >= getDateKey(monDate));
+      let dailyHtml = '';
+      visibleDates.forEach(dKey => {
+        let mins = dailyMap[dKey].totalMins;
+        if (dKey === todayKey) mins = totalTodayMins;
+        const parts = dKey.split('-');
+        const friendly = new Date(parts[0], parts[1]-1, parts[2]).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        dailyHtml += `<tr><td>${friendly}</td><td><b>${minsToLabel(mins)}</b></td></tr>`;
+      });
+      document.getElementById('dailyBody').innerHTML = dailyHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No activity recorded</td></tr>';
+    }
+
+    function toggleDailyHistory() {
+      window.showAllDaily = !window.showAllDaily;
+      document.getElementById('dailyToggleBtn').innerText = window.showAllDaily ? "Show Current Week Only" : "Show Previous Weeks";
+      renderDashboard();
+    }
+
+    function toggleWeeklyView() {
+      window.showFullWeek = !window.showFullWeek;
+      document.getElementById('weeklyToggleBtn').innerText = window.showFullWeek ? "Show Past 3 Days" : "Show Full Week";
+      renderDashboard();
+    }
+
+    function tickLiveTotal() {
+      if (window.punchState === 'IN') renderDashboard();
+    }
+
+    function sendPunch() {
+      const wantIn = window.punchState !== 'IN';
+      const now = new Date();
+      const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      const entry = {
+        timestamp: now.toISOString(),
+        type: wantIn ? 'IN' : 'OUT',
+        startTime: wantIn ? timeStr : '',
+        endTime: !wantIn ? timeStr : '',
+        notes: wantIn ? '[Clock In]' : '[Clock Out]'
+      };
+
+      window.rawSheetData.push(entry);
+      saveToLocalStorage();
+
+      const toast = document.getElementById('statusToast');
+      toast.innerText = `Logged "${wantIn ? 'Clock In' : 'Clock Out'}" at ${timeStr}`;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(window.rawSheetData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `timetracker_backup_${getDateKey()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function triggerImport() {
+      document.getElementById('jsonFileInput').click();
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (Array.isArray(imported)) {
+            window.rawSheetData = imported;
+            saveToLocalStorage();
+            alert("Time logs imported successfully.");
+          } else {
+            alert("Invalid time log JSON format.");
+          }
+        } catch (err) {
+          alert("Error parsing JSON file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function exportToCSV() {
+      if (!window.rawSheetData || window.rawSheetData.length === 0) {
+        alert("No data available to export.");
+        return;
+      }
+
+      const headers = ["Timestamp", "Type", "Start Time", "End Time", "Notes"];
+      const csvRows = [headers.join(",")];
+
+      window.rawSheetData.forEach(row => {
+        csvRows.push([
+          `"${row.timestamp}"`,
+          `"${row.type}"`,
+          `"${row.startTime || ''}"`,
+          `"${row.endTime || ''}"`,
+          `"${(row.notes || '').replace(/"/g, '""')}"`
+        ].join(","));
+      });
+
+      const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("href", url);
+      a.setAttribute("download", `Time_Tracker_Export_${getDateKey()}.csv`);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function exportToPNG() {
+      const stamp = document.getElementById('exportStamp');
+      stamp.innerText = `📌 Verified Export: ${new Date().toLocaleString()}`;
+      stamp.style.display = 'inline-block';
+
+      html2canvas(document.body).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Time_Tracker_Summary_${getDateKey()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        stamp.style.display = 'none';
+      });
+    }
+  </script>
+</body>
+</html>

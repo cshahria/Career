@@ -119,6 +119,16 @@
     font-weight: 400;
   }
 
+  .tile-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .tile-link.disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
   footer {
     text-align: center;
     font-size: 0.8rem;
@@ -139,13 +149,6 @@
   <div class="card">
     <div class="tile-grid">
 
-      <!-- TimeTrack Tile -->
-      <a href="https://cshahria.github.io/Career/DashApps/TimeTrack/index.html" class="tile-link">
-        <div class="icon">⏱️</div>
-        <div class="name">TimeTrack</div>
-        <div class="desc">Track work hours, milestone logs, and earnings projections</div>
-      </a>
-
       <!-- MileGuard Tile -->
       <a href="https://cshahria.github.io/Career/DashApps/MileGuard.html" class="tile-link">
         <div class="icon">🚗</div>
@@ -159,6 +162,14 @@
         <div class="name">Transition</div>
         <div class="desc">Track shared project milestones, accountability, & deliverables</div>
       </a>
+
+
+      <!-- Placeholder for Future DashApps -->
+      <div class="tile-link disabled">
+        <div class="icon">⚡</div>
+        <div class="name">Upcoming Utility</div>
+        <div class="desc">Client-side micro-tool currently in development</div>
+      </div>
 
     </div>
   </div>
