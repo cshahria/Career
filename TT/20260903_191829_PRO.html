@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weekly Projection Calculator (24-Hour)</title>
+  <title>Weekly Projection Calculator</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -22,7 +22,7 @@
       background: var(--bg);
       color: var(--text);
       padding: 12px 10px;
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       font-size: 14px;
       line-height: 1.3;
@@ -31,16 +31,15 @@
     .header h1 { font-size: 1.2rem; font-weight: 600; }
     .btn { padding: 4px 10px; font-size: 0.8rem; font-weight: 500; border: none; border-radius: 5px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; }
     .btn-secondary { background: #e2e8f0; color: #0f172a; }
-    .btn-secondary:hover { background: #cbd5e1; }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
     .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
     .stat-box .val { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
     .stat-box .lbl { color: var(--muted); font-size: 0.75rem; font-weight: 500; }
     .table-container { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-    th, td { padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: center; }
+    th, td { padding: 3px 4px; border-bottom: 1px solid var(--border); text-align: center; }
     th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.02em; }
-    input[type="time"], input[type="number"] { padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; text-align: center; width: 85px; }
+    input[type="time"], input[type="number"] { padding: 2px 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.8rem; text-align: center; width: 95px; }
     .note { font-size: 0.75rem; color: var(--muted); }
   </style>
 </head>
@@ -48,14 +47,11 @@
 
   <div class="header">
     <div>
-      <h1>🔮 Weekly Projection Calculator (24h)</h1>
+      <h1>🔮 Weekly Projection Calculator</h1>
     </div>
-    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+    <div style="display: flex; gap: 6px;">
       <a class="btn btn-secondary" href="index.html">← Back to Main Tracker</a>
-      <button class="btn btn-secondary" onclick="exportJSON()">📥 Export JSON</button>
-      <button class="btn btn-secondary" onclick="triggerImport()">📤 Import JSON</button>
-      <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
-      <button class="btn" onclick="resetToTypicalSchedule()">Reset Typical</button>
+      <button class="btn" onclick="resetToTypicalSchedule()">Reset to Typical Schedule</button>
     </div>
   </div>
 
@@ -89,10 +85,8 @@
           <tr>
             <th>Day</th>
             <th>Start</th>
-            <th>Break 1 (10m)</th>
             <th>Lunch Out</th>
             <th>Lunch In</th>
-            <th>Break 2 (10m)</th>
             <th>End</th>
             <th>After Start</th>
             <th>After End</th>
@@ -106,16 +100,16 @@
 
   <script>
     const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-    // Default schedule (24h format): Mon-Fri 07:30 to 16:30 with 30-min unpaid lunch and paid breaks
+    
+    // Default schedule: Mon-Fri 07:30 to 16:30 with 30-min lunch (8 hrs/day)
     const TYPICAL_SCHEDULE = {
-      Mon: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
-      Tue: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
-      Wed: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
-      Thu: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
-      Fri: { s1: '07:30', b1: '10:00', l1: '12:00', l2: '12:30', b2: '14:30', e1: '16:30', s2: '', e2: '' },
-      Sat: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '' },
-      Sun: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '' }
+      Mon: { s1: '07:30', l1: '12:00', l2: '12:30', e1: '16:30', s2: '', e2: '' },
+      Tue: { s1: '07:30', l1: '12:00', l2: '12:30', e1: '16:30', s2: '', e2: '' },
+      Wed: { s1: '07:30', l1: '12:00', l2: '12:30', e1: '16:30', s2: '', e2: '' },
+      Thu: { s1: '07:30', l1: '12:00', l2: '12:30', e1: '16:30', s2: '', e2: '' },
+      Fri: { s1: '07:30', l1: '12:00', l2: '12:30', e1: '16:30', s2: '', e2: '' },
+      Sat: { s1: '', l1: '', l2: '', e1: '', s2: '', e2: '' },
+      Sun: { s1: '', l1: '', l2: '', e1: '', s2: '', e2: '' }
     };
 
     function loadSchedule() {
@@ -139,6 +133,7 @@
 
     function renderTable() {
       const sched = loadSchedule();
+      
       const savedOt = localStorage.getItem('weekly_projection_ot') || '0';
       document.getElementById('bankedOtMins').value = savedOt;
 
@@ -150,10 +145,8 @@
           <tr>
             <td><b>${day}</b></td>
             <td><input type="time" value="${d.s1 || ''}" onchange="updateDay('${day}', 's1', this.value)"></td>
-            <td><input type="time" value="${d.b1 || ''}" onchange="updateDay('${day}', 'b1', this.value)"></td>
             <td><input type="time" value="${d.l1 || ''}" onchange="updateDay('${day}', 'l1', this.value)"></td>
             <td><input type="time" value="${d.l2 || ''}" onchange="updateDay('${day}', 'l2', this.value)"></td>
-            <td><input type="time" value="${d.b2 || ''}" onchange="updateDay('${day}', 'b2', this.value)"></td>
             <td><input type="time" value="${d.e1 || ''}" onchange="updateDay('${day}', 'e1', this.value)"></td>
             <td><input type="time" value="${d.s2 || ''}" onchange="updateDay('${day}', 's2', this.value)"></td>
             <td><input type="time" value="${d.e2 || ''}" onchange="updateDay('${day}', 'e2', this.value)"></td>
@@ -195,8 +188,6 @@
           }
         }
 
-        // Paid Breaks (California 10-min paid breaks do not subtract time)
-
         // After Hours Shift
         const s2 = timeToMins(d.s2), e2 = timeToMins(d.e2);
         if (s2 !== null && e2 !== null && e2 > s2) {
@@ -213,7 +204,7 @@
 
       document.getElementById('projectedWorked').innerText = minsToLabel(weeklyMins);
       document.getElementById('totalWithOt').innerText = minsToLabel(totalWithOt);
-
+      
       const diffEl = document.getElementById('goalDifference');
       diffEl.innerText = (targetDiff >= 0 ? '+' : '') + minsToLabel(targetDiff);
       diffEl.style.color = targetDiff >= 0 ? 'var(--success)' : 'var(--danger)';
@@ -224,53 +215,6 @@
       localStorage.setItem('weekly_projection_ot', '0');
       document.getElementById('bankedOtMins').value = 0;
       renderTable();
-    }
-
-    function exportJSON() {
-      const sched = loadSchedule();
-      const ot = localStorage.getItem('weekly_projection_ot') || '0';
-      const exportData = {
-        version: "1.0",
-        bankedOtMins: parseInt(ot, 10),
-        schedule: sched
-      };
-
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `projection_plan_${new Date().toISOString().split('T')[0]}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-    }
-
-    function triggerImport() {
-      document.getElementById('jsonFileInput').click();
-    }
-
-    function importJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const imported = JSON.parse(e.target.result);
-          if (imported.schedule) {
-            localStorage.setItem('weekly_projection_schedule', JSON.stringify(imported.schedule));
-            if (imported.bankedOtMins !== undefined) {
-              localStorage.setItem('weekly_projection_ot', imported.bankedOtMins.toString());
-            }
-            renderTable();
-            alert("Projection data imported successfully.");
-          } else {
-            alert("Invalid projection JSON format.");
-          }
-        } catch (err) {
-          alert("Error parsing JSON file: " + err.message);
-        }
-      };
-      reader.readAsText(file);
     }
 
     window.onload = renderTable;

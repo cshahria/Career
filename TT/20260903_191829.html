@@ -36,8 +36,6 @@
     .btn:hover { background: #334155; }
     .btn-secondary { background: #e2e8f0; color: #0f172a; }
     .btn-secondary:hover { background: #cbd5e1; }
-    .btn-nav { background: #2563eb; color: #fff; }
-    .btn-nav:hover { background: #1d4ed8; }
 
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
@@ -60,8 +58,6 @@
     .stat-box .val-large { font-size: 2.6rem; color: var(--primary); }
     .stat-box .lbl { color: var(--muted); font-size: 0.8rem; margin-top: 2px; font-weight: 500; }
     .stat-box .sub-val { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-
-    .weekly-40-banner { display: none; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; font-weight: 600; font-size: 0.85rem; text-align: center; }
 
     .progress-track { width: 100%; height: 14px; background: #f1f5f9; border-radius: 999px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--primary); transition: width 0.4s ease, background 0.4s ease; }
@@ -93,10 +89,6 @@
     .modal-card ul { padding-left: 20px; margin-top: 4px; }
 
     .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 8px; }
-    
-    .totals-summary { display: flex; gap: 16px; margin-bottom: 12px; background: #f1f5f9; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; }
-    .totals-summary div { font-weight: 600; }
-    .totals-summary span { color: var(--primary); }
   </style>
 </head>
 <body>
@@ -108,7 +100,6 @@
       <div id="exportStamp" class="export-stamp"></div>
     </div>
     <div class="header-actions">
-      <a class="btn btn-nav" href="projection.html">🔮 Projection</a>
       <a class="btn btn-secondary" href="https://docs.google.com/spreadsheets/d/1pSUsG4MNXQnqV02MOI37p69HgY--uzDXNZ2tI9FlZNA/edit" target="_blank">📊 Sheet</a>
       <button class="btn btn-secondary" onclick="openModal('docModal')">📖 Documentation</button>
       <button class="btn btn-secondary" onclick="openModal('licenseModal')">⚖️ License</button>
@@ -146,11 +137,6 @@
         <div id="weekPct" class="sub-val">0% Complete | 40:00 Left</div>
       </div>
     </div>
-
-    <div id="weekly40Banner" class="weekly-40-banner">
-      🔔 40 hours worked this week. Monitoring emails for urgent work.
-    </div>
-
     <div class="progress-track">
       <div id="progressFill" class="progress-fill" style="width:0%"></div>
     </div>
@@ -160,6 +146,7 @@
   <div class="card">
     <h2>
       <span>Today's Chunks</span>
+      <button class="toggle-btn" onclick="toggleRawLogs()" id="logToggleBtn">Show All Log Entries</button>
     </h2>
     <div class="table-container">
       <table>
@@ -168,7 +155,7 @@
       </table>
     </div>
 
-    <div id="rawLogsContainer" style="margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px;">
+    <div id="rawLogsContainer" style="display: none; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px;">
       <h3 style="font-size:0.85rem; color:var(--muted); margin-bottom:8px;">All Raw Punch Logs (Today)</h3>
       <div class="table-container">
         <table>
@@ -184,10 +171,6 @@
       <span>Daily History</span>
       <button class="toggle-btn" onclick="toggleDailyHistory()" id="dailyToggleBtn">Show Previous Weeks</button>
     </h2>
-    <div class="totals-summary">
-      <div>This Month Total: <span id="monthTotalScore">00:00</span></div>
-      <div>This Year Total: <span id="yearTotalScore">00:00</span></div>
-    </div>
     <div class="table-container">
       <table>
         <thead><tr><th>Date</th><th>Total Hours</th></tr></thead>
@@ -253,21 +236,28 @@
   <div id="licenseModal" class="modal-overlay" onclick="closeModalOnOuterClick(event, 'licenseModal')">
     <div class="modal-card">
       <button class="modal-close" onclick="closeModal('licenseModal')">&times;</button>
-      <h3>⚖️ Software License</h3>
-      <p style="font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 8px;">MIT License</p>
-      <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 12px;">Copyright &copy; 2026 Cyrus Shahriari. All rights reserved.</p>
+      <h3>⚖️ MIT License</h3>
+      <p style="font-family: monospace; white-space: pre-wrap; background: #f8fafc; padding: 12px; border-radius: 6px; font-size: 0.8rem; border: 1px solid var(--border);">
+Copyright (c) 2026
 
-      <section style="background: #f8fafc; padding: 14px; border-radius: 6px; border: 1px solid var(--border);">
-        <p style="margin-bottom: 10px;">
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-        </p>
-        <p style="margin-bottom: 10px;">
-          The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-        </p>
-        <p style="font-size: 0.8rem; color: var(--muted); text-transform: uppercase;">
-          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </p>
-      </section>
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+      </p>
     </div>
   </div>
 
@@ -516,17 +506,19 @@
       }
 
       const now = new Date();
-      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);
-      let curYearStr = '', curMonthStr = '';
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short' }).formatToParts(now);
+      let year, month, day;
       parts.forEach(p => {
-        if (p.type === 'year') curYearStr = p.value;
-        if (p.type === 'month') curMonthStr = p.value;
+        if (p.type === 'year') year = parseInt(p.value, 10);
+        if (p.type === 'month') month = parseInt(p.value, 10) - 1;
+        if (p.type === 'day') day = parseInt(p.value, 10);
       });
 
-      const dayOfWeek = new Date().getDay();
+      const todayPacific = new Date(Date.UTC(year, month, day));
+      const dayOfWeek = todayPacific.getUTCDay();
       const daysToMon = (dayOfWeek + 6) % 7;
-      const monDate = new Date();
-      monDate.setDate(now.getDate() - daysToMon);
+      const monDate = new Date(todayPacific);
+      monDate.setUTCDate(todayPacific.getUTCDate() - daysToMon);
 
       let weekTotalMins = carryover;
       let weeklyRows = [];
@@ -534,8 +526,8 @@
 
       for (let i = 0; i < 7; i++) {
         const d = new Date(monDate);
-        d.setDate(monDate.getDate() + i);
-        const dKey = getPacificDateKey(d);
+        d.setUTCDate(monDate.getUTCDate() + i);
+        const dKey = d.toISOString().split('T')[0];
 
         let dayMins = dailyMap[dKey] ? dailyMap[dKey].totalMins : 0;
         if (dKey === todayKey) dayMins = totalTodayMins;
@@ -558,14 +550,6 @@
 
       document.getElementById('weekTotal').innerText = minsToLabel(weekTotalMins);
 
-      // Toggle Weekly 40 Hour Banner
-      const banner = document.getElementById('weekly40Banner');
-      if (weekTotalMins >= WEEKLY_GOAL_MINS) {
-        banner.style.display = 'block';
-      } else {
-        banner.style.display = 'none';
-      }
-
       const weekPctVal = Math.min(100, Math.round((weekTotalMins / WEEKLY_GOAL_MINS) * 100));
       const weekRemMins = Math.max(0, WEEKLY_GOAL_MINS - weekTotalMins);
       document.getElementById('weekPct').innerText = `${weekPctVal}% Complete | ${minsToLabel(weekRemMins)} Left`;
@@ -585,10 +569,10 @@
         weekSub.style.color = "var(--muted)";
       }
 
-      // Render Weekly Table
+      // Render Weekly Target vs Actual Table
       let visibleWeeklyRows = weeklyRows;
       if (!window.showFullWeek) {
-        const todayIndex = daysToMon;
+        const todayIndex = daysToMon; // 0 for Mon ... 6 for Sun
         const startIdx = Math.max(0, todayIndex - 2);
         visibleWeeklyRows = weeklyRows.slice(startIdx, todayIndex + 1);
       }
@@ -626,27 +610,9 @@
       }
       document.getElementById('rawLogsBody').innerHTML = rawLogsHtml || '<tr><td colspan="2" style="text-align:center; color:var(--muted);">No log entries today</td></tr>';
 
-      // Calculate Month & Year Scores + Daily History Table
-      const monDateStr = getPacificDateKey(monDate);
+      // Render Daily History Table
+      const monDateStr = monDate.toISOString().split('T')[0];
       const dates = Object.keys(dailyMap).sort().reverse();
-
-      let monthTotalMins = 0;
-      let yearTotalMins = 0;
-
-      dates.forEach(dKey => {
-        let mins = dailyMap[dKey].totalMins;
-        if (dKey === todayKey) mins = totalTodayMins;
-
-        if (dKey.startsWith(`${curYearStr}-${curMonthStr}`)) {
-          monthTotalMins += mins;
-        }
-        if (dKey.startsWith(curYearStr)) {
-          yearTotalMins += mins;
-        }
-      });
-
-      document.getElementById('monthTotalScore').innerText = minsToLabel(monthTotalMins);
-      document.getElementById('yearTotalScore').innerText = minsToLabel(yearTotalMins);
 
       let visibleDates = dates;
       if (!window.showAllDaily) {
@@ -675,6 +641,18 @@
       window.showFullWeek = !window.showFullWeek;
       document.getElementById('weeklyToggleBtn').innerText = window.showFullWeek ? "Show Past 3 Days" : "Show Full Week";
       renderDashboard();
+    }
+
+    function toggleRawLogs() {
+      const container = document.getElementById('rawLogsContainer');
+      const btn = document.getElementById('logToggleBtn');
+      if (container.style.display === 'none') {
+        container.style.display = 'block';
+        btn.innerText = 'Hide Raw Entries';
+      } else {
+        container.style.display = 'none';
+        btn.innerText = 'Show All Log Entries';
+      }
     }
 
     function tickLiveTotal() {
@@ -782,6 +760,10 @@
     function exportToPNG() {
       const stamp = document.getElementById('exportStamp');
       const pdt = getPacificNowFormatted();
+      
+      const rawLogsContainer = document.getElementById('rawLogsContainer');
+      const previousRawLogsDisplay = rawLogsContainer.style.display;
+      rawLogsContainer.style.display = 'block';
 
       stamp.innerText = `📌 Verified Export Timestamp: ${pdt.fullTimestamp}`;
       stamp.style.display = 'inline-block';
@@ -793,6 +775,7 @@
         link.click();
 
         stamp.style.display = 'none';
+        rawLogsContainer.style.display = previousRawLogsDisplay;
       });
     }
   </script>
