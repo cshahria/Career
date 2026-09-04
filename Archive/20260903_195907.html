@@ -15,6 +15,7 @@
     --text:#1f2937;
     --muted:#6b7280;
     --border:#e5e7eb;
+    --warning-color:#e74c3c;
   }
   *{box-sizing:border-box;}
   body{
@@ -37,7 +38,13 @@
     color:#111827;
     font-weight: 800;
   }
-
+  .objective-text {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 6px auto 0;
+    line-height: 1.5;
+  }
   .card{
     background:var(--card);
     border:1px solid var(--border);
@@ -47,7 +54,6 @@
     box-shadow:0 2px 8px rgba(0,0,0,0.04);
   }
   
-  /* 3-column layout matching original sizing */
   .tile-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -77,8 +83,6 @@
     transform:translateY(-2px);
     box-shadow:0 4px 12px rgba(0,0,0,0.06);
   }
-  
-  /* Original icon sizing */
   .tile .icon, .tile-link .icon{
     width:46px;height:46px;
     border-radius:50%;
@@ -89,39 +93,13 @@
     margin:0 auto 10px;
     flex-shrink:0;
   }
-  
-  /* Original title and text sizing */
-  .tile .name, .tile-link .name{
-    font-weight:700;
-    font-size:1rem;
-    color:#111827;
-    margin-bottom:4px;
-  }
+  .tile .name, .tile-link .name{font-weight:700;font-size:1rem;color:#111827;margin-bottom:4px;}
   
   .tile .desc, .tile-link .desc{
     font-size:0.78rem;
     color:var(--muted);
     line-height:1.3;
     font-weight:400;
-  }
-
-  /* Greyed-out empty placeholder style */
-  .tile-placeholder {
-    border: 1px dashed #d1d5db;
-    background: #f9fafb;
-    opacity: 0.6;
-    cursor: default;
-  }
-  .tile-placeholder:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  .tile-placeholder .icon {
-    background: #e5e7eb;
-    color: #9ca3af;
-  }
-  .tile-placeholder .name {
-    color: #9ca3af;
   }
 
   .tile .copy-container, .tile-link .copy-container {
@@ -161,28 +139,18 @@
   }
 
   .footer-info {
-    margin-top: 16px;
+    margin-top: 24px;
     text-align: center;
+    padding: 0 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
-  /* Consolidated Objective + Disclaimer Box */
-  .consolidated-box {
-    background: #f8fafc;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
+  .footer-text {
     font-size: 0.8rem;
     color: var(--muted);
     line-height: 1.5;
-    text-align: left;
-    max-width: 100%;
-  }
-
-  .consolidated-box strong {
-    color: var(--text);
+    margin-bottom: 8px;
   }
 
   .boards-pill {
@@ -205,7 +173,6 @@
     transform: translateY(-1px);
   }
 
-  /* Modal Overlay */
   .modal-overlay {
     position: fixed;
     top:0; left:0; right:0; bottom:0;
@@ -268,6 +235,10 @@
     font-family: inherit;
     font-size: 0.9rem;
   }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--sky);
+  }
 
   .input-with-mic {
     position: relative;
@@ -288,6 +259,19 @@
     justify-content: center;
     font-size: 0.95rem;
     padding: 0;
+    transition: background 0.1s;
+    user-select: none;
+  }
+  .mic-btn:hover { background: #e5e7eb; }
+  .mic-btn.listening {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
   }
 
   .board-section {
@@ -295,7 +279,9 @@
     padding-bottom: 12px;
     border-bottom: 1px dashed var(--border);
   }
-  .board-section:last-of-type { border-bottom: none; }
+  .board-section:last-of-type {
+    border-bottom: none;
+  }
   .board-title {
     font-size: 1rem;
     font-weight: 700;
@@ -314,6 +300,9 @@
 
   <header>
     <h1>Community & Engagement Board</h1>
+    <p class="objective-text">
+      A collaborative directory for engagement initiatives.
+    </p>
   </header>
 
   <div class="card">
@@ -351,16 +340,10 @@
       </div>
 
       <!-- SECOND ROW -->
-      <a href="https://cshahria.github.io/Career/index.html" target="_blank" class="tile-link">
-        <div class="icon">💼</div>
-        <div class="name">Career Site</div>
-        <div class="desc">Browse professional background & portfolio</div>
-      </a>
-
-      <a href="https://cshahria.github.io/Career/DashApps/index.html" target="_blank" class="tile-link">
-        <div class="icon">⚡</div>
-        <div class="name">DashApps</div>
-        <div class="desc">Interactive client-side utilities and calculators</div>
+      <a href="https://cshahria.github.io/Career/career_analytics.html" target="_blank" class="tile-link">
+        <div class="icon">📊</div>
+        <div class="name">Career Analytics</div>
+        <div class="desc">Interactive dashboard & tenure metrics</div>
       </a>
 
       <div class="tile" onclick="openModal('developModal')">
@@ -369,11 +352,17 @@
         <div class="desc">Log system feature concepts, bugs, or roadmap ideas</div>
       </div>
 
-      <!-- THIRD ROW -->
-      <a href="https://cshahria.github.io/Career/career_analytics.html" target="_blank" class="tile-link">
-        <div class="icon">📊</div>
-        <div class="name">Career Analytics</div>
-        <div class="desc">Interactive dashboard & tenure metrics</div>
+      <a href="https://cshahria.github.io/Career/index.html" target="_blank" class="tile-link">
+        <div class="icon">💼</div>
+        <div class="name">Career Site</div>
+        <div class="desc">Browse professional background & portfolio</div>
+      </a>
+
+      <!-- THIRD ROW: DashApps, World Cup, LinkedIn Group -->
+      <a href="https://cshahria.github.io/Career/DashApps/index.html" target="_blank" class="tile-link">
+        <div class="icon">⚡</div>
+        <div class="name">DashApps</div>
+        <div class="desc">Interactive client-side utilities and calculators</div>
       </a>
 
       <a href="https://cshahria.github.io/2026fifaworldcup/index.html" target="_blank" class="tile-link">
@@ -382,12 +371,11 @@
         <div class="desc">Read personal logs from tournament fan ops</div>
       </a>
 
-      <!-- 9th Tile Placeholder -->
-      <div class="tile tile-placeholder">
-        <div class="icon">➕</div>
-        <div class="name">Available</div>
-        <div class="desc">Reserved for future module</div>
-      </div>
+      <a href="https://www.linkedin.com/groups/37040080/" target="_blank" class="tile-link">
+        <div class="icon">🌐</div>
+        <div class="name">LinkedIn Group</div>
+        <div class="desc">Connect with professional venue operators</div>
+      </a>
 
     </div>
   </div>
@@ -396,10 +384,12 @@
     <button class="boards-pill" onclick="openModal('boardsModal')">
       <span>📋 Boards & Vision</span>
     </button>
-    
-    <div class="consolidated-box">
-      <strong>Objective & Terms:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency. Intended for internal coordination and designated stakeholder reference; external tools are subject to their respective privacy/security policies.
-    </div>
+    <p class="footer-text">
+      <strong>Objective:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency.
+    </p>
+    <p class="footer-text" style="font-style: italic; font-size: 0.75rem;">
+      <strong>Disclaimer:</strong> Intended for internal coordination and designated stakeholder reference. Information linked within external tools is subject to their respective privacy controls and security frameworks.
+    </p>
   </footer>
 
 </div>
