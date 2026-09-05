@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Stopwatch Tracker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px 16px;
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
+    .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    
+    .btn { padding: 6px 12px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .btn:hover { background: #334155; }
+    .btn-secondary { background: #e2e8f0; color: #0f172a; }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #15803d; }
+    .btn-warning { background: var(--warning); color: #fff; }
+    .btn-warning:hover { background: #b45309; }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px; }
+    .field-group { display: flex; flex-direction: column; gap: 4px; }
+    label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    input[type="text"], input[type="date"] {
+      font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; width: 100%;
+    }
+
+    .ping-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+    .ping-btn { font-size: 1rem; font-weight: 700; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; background: var(--primary); color: #fff; transition: transform 0.1s; }
+    .ping-btn:active { transform: scale(0.98); }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 12px; text-align: center; }
+    .stat-box { background: #f1f5f9; padding: 12px; border-radius: 6px; }
+    .stat-box .val { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+    .stat-box .lbl { color: var(--muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+
+    #map { height: 224px; width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-top: 12px; }
+
+    .table-container { overflow-x: auto; margin-top: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    tr:hover { background: #f8fafc; }
+
+    .badge-rest { background: #fef3c7; color: #92400e; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-left: 4px; }
+    .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 8px; }
+    .share-group { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+
+    footer {
+      margin-top: 32px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+    footer p { margin-bottom: 4px; }
+    .validated-badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1 id="appTitle">Trip Stopwatch</h1>
+      <p id="statusText">Ready</p>
+      <div id="exportStamp" class="export-stamp"></div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="exportCSV()">📊 Export CSV</button>
+      <button class="btn btn-secondary" onclick="exportJSON()">📥 Export JSON</button>
+      <button class="btn btn-secondary" onclick="triggerImport()">📤 Import JSON</button>
+      <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
+      <button class="btn btn-secondary" onclick="exportToPNG()">📷 Save PNG</button>
+      <button class="btn btn-danger" onclick="clearTrip()">🗑️ Clear Data</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="meta-grid">
+      <div class="field-group">
+        <label for="tripTitleInput">Title:</label>
+        <input type="text" id="tripTitleInput" value="Enter Trip" onchange="updateMetadata()">
+      </div>
+      <div class="field-group">
+        <label for="estStartInput">Estimated Start Date:</label>
+        <input type="date" id="estStartInput" onchange="updateMetadata()">
+      </div>
+      <div class="field-group">
+        <label for="estEndInput">Estimated End Date:</label>
+        <input type="date" id="estEndInput" onchange="updateMetadata()">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field-group">
+      <label for="stopNote">Location / Note:</label>
+      <input type="text" id="stopNote" placeholder="e.g., Start driving, Lunch rest, Hotel...">
+    </div>
+    <div class="ping-bar">
+      <button class="ping-btn" onclick="recordPing()">📍 Record Stop & GPS Ping</button>
+      <button id="pauseBtn" class="btn btn-warning" style="padding: 12px 16px; font-weight:600;" onclick="togglePause()">⏸️ Pause Trip / Rest Mode</button>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div id="elapsedTime" class="val">00:00:00</div>
+        <div class="lbl">Total Time</div>
+      </div>
+      <div class="stat-box">
+        <div id="totalStops" class="val">0</div>
+        <div class="lbl">Total Stops</div>
+      </div>
+      <div class="stat-box">
+        <div id="lastLegTime" class="val">--</div>
+        <div class="lbl">Last Leg Time</div>
+      </div>
+      <div class="stat-box">
+        <div id="lastLegDist" class="val">--</div>
+        <div class="lbl">Last Leg Miles</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size: 1rem; font-weight: 600;">Trip Log History</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Note</th>
+            <th>Location / City</th>
+            <th>Time Since Prev</th>
+            <th>Leg Dist</th>
+            <th>Avg Speed</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="logsBody">
+          <tr><td colspan="7" style="text-align:center; color:var(--muted);">No trip points recorded yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="share-group">
+      <button class="btn btn-success" onclick="shareNativeImage()">📲 Share Image & Log (WhatsApp/Email)</button>
+      <button class="btn btn-primary" onclick="shareEmailText()">✉️ Email Text Log</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size: 1rem; font-weight: 600;">Trip Route Map</h2>
+    <div id="map"></div>
+  </div>
+
+  <footer>
+    <p><strong>Copyright © Cyrus Shahriari. All rights reserved.</strong></p>
+    <p>Concept & Idea by Cyrus Shahriari • Developed with Gemini</p>
+    <div><span class="validated-badge">✓ System Validated</span></div>
+  </footer>
+
+  <script>
+    window.tripMeta = { title: "Enter Trip", estStart: "", estEnd: "", isPaused: false, accumulatedPauseTime: 0, pauseStartTime: null };
+    window.tripLogs = [];
+    let map, mapMarkers = [], mapPolyline;
+
+    window.onload = function() {
+      initMap();
+      loadFromLocalStorage();
+      setInterval(updateElapsedTime, 1000);
+    };
+
+    function initMap() {
+      map = L.map('map').setView([37.3382, -121.8863], 10);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+        crossOrigin: 'anonymous'
+      }).addTo(map);
+    }
+
+    function loadFromLocalStorage() {
+      const savedMeta = localStorage.getItem('trip_stopwatch_meta');
+      if (savedMeta) {
+        window.tripMeta = JSON.parse(savedMeta);
+        document.getElementById('tripTitleInput').value = window.tripMeta.title || "Enter Trip";
+        document.getElementById('estStartInput').value = window.tripMeta.estStart || "";
+        document.getElementById('estEndInput').value = window.tripMeta.estEnd || "";
+        updatePauseBtnUI();
+      }
+
+      const savedLogs = localStorage.getItem('trip_stopwatch_logs');
+      window.tripLogs = savedLogs ? JSON.parse(savedLogs) : [];
+      renderApp();
+    }
+
+    function saveToLocalStorage() {
+      localStorage.setItem('trip_stopwatch_meta', JSON.stringify(window.tripMeta));
+      localStorage.setItem('trip_stopwatch_logs', JSON.stringify(window.tripLogs));
+      renderApp();
+    }
+
+    function updateMetadata() {
+      window.tripMeta.title = document.getElementById('tripTitleInput').value || "Enter Trip";
+      window.tripMeta.estStart = document.getElementById('estStartInput').value;
+      window.tripMeta.estEnd = document.getElementById('estEndInput').value;
+      saveToLocalStorage();
+    }
+
+    function togglePause() {
+      if (!window.tripMeta.isPaused) {
+        window.tripMeta.isPaused = true;
+        window.tripMeta.pauseStartTime = Date.now();
+        document.getElementById('statusText').innerText = "Trip Paused / Rest Mode Active";
+      } else {
+        window.tripMeta.isPaused = false;
+        if (window.tripMeta.pauseStartTime) {
+          window.tripMeta.accumulatedPauseTime += (Date.now() - window.tripMeta.pauseStartTime);
+          window.tripMeta.pauseStartTime = null;
+        }
+        document.getElementById('statusText').innerText = "Trip Resumed";
+      }
+      updatePauseBtnUI();
+      saveToLocalStorage();
+    }
+
+    function updatePauseBtnUI() {
+      const btn = document.getElementById('pauseBtn');
+      if (window.tripMeta.isPaused) {
+        btn.innerText = "▶️ Resume Trip";
+        btn.className = "btn btn-success";
+      } else {
+        btn.innerText = "⏸️ Pause Trip / Rest Mode";
+        btn.className = "btn btn-warning";
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function calcDistanceMiles(lat1, lon1, lat2, lon2) {
+      if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
+      const R = 3958.8;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    }
+
+    function formatDiffTime(ms) {
+      if (ms < 0 || isNaN(ms)) return "--";
+      const secs = Math.floor((ms / 1000) % 60);
+      const mins = Math.floor((ms / (1000 * 60)) % 60);
+      const hrs = Math.floor(ms / (1000 * 60 * 60));
+      return `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    }
+
+    async function fetchAddress(lat, lng) {
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
+        const data = await res.json();
+        if (data && data.address) {
+          const city = data.address.city || data.address.town || data.address.village || data.address.county || '';
+          const state = data.address.state || '';
+          return city ? `${city}, ${state}` : data.display_name.split(',').slice(0, 2).join(',');
+        }
+      } catch (e) {
+        console.warn("Reverse geocode failed:", e);
+      }
+      return "Location Recorded";
+    }
+
+    function recordPing() {
+      const noteInput = document.getElementById('stopNote');
+      const note = noteInput.value.trim() || `Stop #${window.tripLogs.length + 1}`;
+      const now = new Date();
+
+      const logEntry = {
+        id: Date.now(),
+        timestamp: now.toISOString(),
+        timeDisplay: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
+        note: note,
+        isRest: window.tripMeta.isPaused,
+        lat: null,
+        lng: null,
+        address: "Location N/A"
+      };
+
+      if ("geolocation" in navigator) {
+        document.getElementById('statusText').innerText = "Acquiring GPS location...";
+        navigator.geolocation.getCurrentPosition(
+          async (pos) => {
+            logEntry.lat = pos.coords.latitude;
+            logEntry.lng = pos.coords.longitude;
+            logEntry.address = await fetchAddress(logEntry.lat, logEntry.lng);
+            window.tripLogs.push(logEntry);
+            saveToLocalStorage();
+            noteInput.value = '';
+            document.getElementById('statusText').innerText = `Logged point at ${logEntry.timeDisplay}`;
+          },
+          (err) => {
+            window.tripLogs.push(logEntry);
+            saveToLocalStorage();
+            noteInput.value = '';
+            document.getElementById('statusText').innerText = `Logged (No GPS) at ${logEntry.timeDisplay}`;
+          },
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      } else {
+        window.tripLogs.push(logEntry);
+        saveToLocalStorage();
+        noteInput.value = '';
+      }
+    }
+
+    function deleteLog(id) {
+      window.tripLogs = window.tripLogs.filter(item => item.id !== id);
+      saveToLocalStorage();
+    }
+
+    function clearTrip() {
+      if (confirm("Are you sure you want to clear all trip logs, titles, and dates? (You can recover via JSON Import if exported earlier)")) {
+        window.tripLogs = [];
+        window.tripMeta = { title: "Enter Trip", estStart: "", estEnd: "", isPaused: false, accumulatedPauseTime: 0, pauseStartTime: null };
+        document.getElementById('tripTitleInput').value = "Enter Trip";
+        document.getElementById('estStartInput').value = "";
+        document.getElementById('estEndInput').value = "";
+        updatePauseBtnUI();
+        saveToLocalStorage();
+        document.getElementById('statusText').innerText = "Trip data reset to defaults";
+      }
+    }
+
+    function updateElapsedTime() {
+      if (window.tripLogs.length === 0) {
+        document.getElementById('elapsedTime').innerText = "00:00:00";
+        return;
+      }
+      const firstTime = new Date(window.tripLogs[0].timestamp).getTime();
+      let now = Date.now();
+      
+      let currentPauseOffset = window.tripMeta.accumulatedPauseTime || 0;
+      if (window.tripMeta.isPaused && window.tripMeta.pauseStartTime) {
+        currentPauseOffset += (now - window.tripMeta.pauseStartTime);
+      }
+
+      const diffMs = Math.max(0, now - firstTime - currentPauseOffset);
+      document.getElementById('elapsedTime').innerText = formatDiffTime(diffMs);
+    }
+
+    function renderApp() {
+      document.getElementById('appTitle').innerText = window.tripMeta.title || "Enter Trip";
+      document.getElementById('totalStops').innerText = window.tripLogs.length;
+
+      let tbodyHtml = '';
+      if (window.tripLogs.length === 0) {
+        tbodyHtml = '<tr><td colspan="7" style="text-align:center; color:var(--muted);">No trip points recorded yet</td></tr>';
+        document.getElementById('lastLegTime').innerText = "--";
+        document.getElementById('lastLegDist').innerText = "--";
+      } else {
+        window.tripLogs.forEach((l, idx) => {
+          let timeSincePrev = "--";
+          let legDistStr = "--";
+          let avgSpeedStr = "--";
+
+          if (idx > 0) {
+            const prev = window.tripLogs[idx - 1];
+            const msDiff = new Date(l.timestamp).getTime() - new Date(prev.timestamp).getTime();
+            timeSincePrev = formatDiffTime(msDiff);
+
+            if (l.lat && l.lng && prev.lat && prev.lng) {
+              const miles = calcDistanceMiles(prev.lat, prev.lng, l.lat, l.lng);
+              legDistStr = `${miles.toFixed(1)} mi`;
+
+              const hours = msDiff / 3600000;
+              if (hours > 0.005) {
+                const mph = miles / hours;
+                avgSpeedStr = `${mph.toFixed(1)} mph`;
+              }
+            }
+          }
+
+          if (idx === window.tripLogs.length - 1 && idx > 0) {
+            document.getElementById('lastLegTime').innerText = timeSincePrev;
+            document.getElementById('lastLegDist').innerText = legDistStr;
+          }
+
+          const restTag = l.isRest ? `<span class="badge-rest">REST</span>` : '';
+
+          tbodyHtml += `<tr>
+            <td><b>${escapeHtml(l.timeDisplay)}</b>${restTag}</td>
+            <td>${escapeHtml(l.note)}</td>
+            <td>${escapeHtml(l.address || 'Location Recorded')}</td>
+            <td>${timeSincePrev}</td>
+            <td>${legDistStr}</td>
+            <td>${avgSpeedStr}</td>
+            <td><button class="btn btn-secondary" style="padding: 2px 6px; font-size: 0.75rem;" onclick="deleteLog(${l.id})">❌</button></td>
+          </tr>`;
+        });
+      }
+      document.getElementById('logsBody').innerHTML = tbodyHtml;
+
+      mapMarkers.forEach(m => map.removeLayer(m));
+      if (mapPolyline) map.removeLayer(mapPolyline);
+      mapMarkers = [];
+
+      const latLngs = [];
+      window.tripLogs.forEach((l, idx) => {
+        if (l.lat && l.lng) {
+          const pt = [l.lat, l.lng];
+          latLngs.push(pt);
+          const marker = L.marker(pt).addTo(map)
+            .bindPopup(`<b>Stop ${idx + 1}: ${escapeHtml(l.timeDisplay)}</b><br>${escapeHtml(l.note)}<br><i>${escapeHtml(l.address)}</i>`);
+          mapMarkers.push(marker);
+        }
+      });
+
+      if (latLngs.length > 0) {
+        mapPolyline = L.polyline(latLngs, { color: '#2563eb', weight: 4 }).addTo(map);
+        map.fitBounds(L.latLngBounds(latLngs), { padding: [20, 20] });
+      }
+    }
+
+    function generateSummaryText() {
+      let text = `Trip: ${window.tripMeta.title}\nEst Dates: ${window.tripMeta.estStart || 'N/A'} to ${window.tripMeta.estEnd || 'N/A'}\n\nStops:\n`;
+      window.tripLogs.forEach(l => {
+        text += `- ${l.timeDisplay}: ${l.note} (${l.address || 'N/A'})\n`;
+      });
+      return text;
+    }
+
+    async function shareNativeImage() {
+      const summaryText = generateSummaryText();
+      const canvas = await html2canvas(document.body, { useCORS: true, allowTaint: true });
+      
+      canvas.toBlob(async (blob) => {
+        const file = new File([blob], `Trip_${window.tripMeta.title.replace(/\s+/g, '_')}.png`, { type: 'image/png' });
+        
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: window.tripMeta.title,
+              text: summaryText
+            });
+          } catch (err) {
+            console.log("Sharing cancelled or failed:", err);
+          }
+        } else {
+          alert("Direct image sharing is supported on mobile devices. Downloading PNG image instead...");
+          exportToPNG();
+        }
+      });
+    }
+
+    function shareEmailText() {
+      const subject = encodeURIComponent(`Trip Summary: ${window.tripMeta.title}`);
+      const body = encodeURIComponent(generateSummaryText());
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    function exportCSV() {
+      if (!window.tripLogs || window.tripLogs.length === 0) {
+        alert("No trip logs to export.");
+        return;
+      }
+
+      const headers = ["ID", "Timestamp", "Time Display", "Note", "Rest Stop", "Address/City", "Latitude", "Longitude"];
+      const rows = [headers.join(",")];
+
+      window.tripLogs.forEach(l => {
+        const row = [
+          `"${l.id}"`,
+          `"${l.timestamp}"`,
+          `"${l.timeDisplay}"`,
+          `"${(l.note || '').replace(/"/g, '""')}"`,
+          `"${l.isRest ? 'Yes' : 'No'}"`,
+          `"${(l.address || '').replace(/"/g, '""')}"`,
+          `"${l.lat || ''}"`,
+          `"${l.lng || ''}"`
+        ];
+        rows.push(row.join(","));
+      });
+
+      const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Trip_${window.tripMeta.title.replace(/\s+/g, '_')}_Log.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function exportJSON() {
+      const payload = { meta: window.tripMeta, logs: window.tripLogs };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `trip_${window.tripMeta.title.replace(/\s+/g, '_')}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function triggerImport() {
+      document.getElementById('jsonFileInput').click();
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.meta && Array.isArray(imported.logs)) {
+            window.tripMeta = imported.meta;
+            window.tripLogs = imported.logs;
+            document.getElementById('tripTitleInput').value = window.tripMeta.title || "Enter Trip";
+            document.getElementById('estStartInput').value = window.tripMeta.estStart || "";
+            document.getElementById('estEndInput').value = window.tripMeta.estEnd || "";
+            updatePauseBtnUI();
+            saveToLocalStorage();
+            alert("Trip data imported successfully.");
+          } else {
+            alert("Invalid trip JSON format.");
+          }
+        } catch (err) {
+          alert("Error parsing JSON file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function exportToPNG() {
+      const stamp = document.getElementById('exportStamp');
+      stamp.innerText = `📌 Verified Trip Export: ${new Date().toLocaleString()}`;
+      stamp.style.display = 'inline-block';
+
+      html2canvas(document.body, { useCORS: true, allowTaint: true }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Trip_${window.tripMeta.title.replace(/\s+/g, '_')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        stamp.style.display = 'none';
+      });
+    }
+  </script>
+</body>
+</html>
