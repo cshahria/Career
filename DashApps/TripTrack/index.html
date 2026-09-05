@@ -24,18 +24,18 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 24px 16px;
+      padding: 16px 12px 40px;
       max-width: 800px;
       margin: 0 auto;
       font-size: 16px;
       line-height: 1.5;
     }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-    .header h1 { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
     .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
-    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .header-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
     
-    .btn { padding: 6px 12px; font-size: 0.85rem; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+    .btn { padding: 8px 12px; font-size: 0.85rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
     .btn:hover { background: #334155; }
     .btn-secondary { background: #e2e8f0; color: #0f172a; }
     .btn-secondary:hover { background: #cbd5e1; }
@@ -47,45 +47,87 @@
     .btn-warning:hover { background: #b45309; }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-danger:hover { background: #b91c1c; }
+    .btn-xs { padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; }
 
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 4px; }
     .field-group { display: flex; flex-direction: column; gap: 4px; }
-    label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
     input[type="text"], input[type="date"] {
       font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; width: 100%;
     }
 
-    .ping-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
-    .ping-btn { font-size: 1rem; font-weight: 700; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; background: var(--primary); color: #fff; transition: transform 0.1s; }
-    .ping-btn:active { transform: scale(0.98); }
+    .ping-bar { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+    .control-btn-lg {
+      flex: 1;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 12px 10px;
+      border-radius: 8px;
+      text-align: center;
+      white-space: nowrap;
+    }
 
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 12px; text-align: center; }
-    .stat-box { background: #f1f5f9; padding: 12px; border-radius: 6px; }
-    .stat-box .val { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
-    .stat-box .lbl { color: var(--muted); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-top: 12px; text-align: center; }
+    .stat-box { background: #f1f5f9; padding: 10px; border-radius: 6px; }
+    .stat-box .val { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+    .stat-box .lbl { color: var(--muted); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; }
 
-    #map { height: 224px; width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-top: 12px; }
+    #map { height: 220px; width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-top: 10px; }
 
-    .table-container { overflow-x: auto; margin-top: 12px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-    th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    tr:hover { background: #f8fafc; }
+    .table-container { overflow-x: auto; margin-top: 10px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; }
+    
+    .cell-time { font-size: 0.95rem; font-weight: 700; color: #0f172a; white-space: nowrap; }
+    .cell-note { cursor: pointer; font-size: 0.9rem; }
+    .cell-note:hover { text-decoration: underline; }
+    .edit-icon { font-size: 0.75rem; color: var(--muted); margin-left: 2px; }
+    
+    .location-badge {
+      display: inline-block;
+      background: #eff6ff;
+      color: #1e40af;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #bfdbfe;
+      cursor: pointer;
+    }
+    .location-badge:hover { background: #dbeafe; }
 
-    .badge-rest { background: #fef3c7; color: #92400e; font-size: 0.7rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-left: 4px; }
-    .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 8px; }
+    .gps-coords {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 3px;
+      font-family: monospace;
+      white-space: nowrap;
+    }
+
+    .cell-compact { font-size: 0.75rem; color: var(--muted); white-space: nowrap; line-height: 1.2; }
+
+    @media (max-width: 600px) {
+      .hide-mobile { display: none; }
+      .control-btn-lg { font-size: 0.92rem; padding: 10px 4px; }
+    }
+
+    .badge-rest { background: #fef3c7; color: #92400e; font-size: 0.68rem; font-weight: 700; padding: 2px 4px; border-radius: 4px; margin-left: 4px; display: inline-block; }
+    .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 6px; }
     .share-group { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 
+    .danger-zone { text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--border); }
+
     footer {
-      margin-top: 32px;
-      padding: 20px 0;
+      margin-top: 20px;
+      padding: 16px 0;
       border-top: 1px solid var(--border);
       text-align: center;
       color: var(--muted);
       font-size: 0.8rem;
-      line-height: 1.6;
+      line-height: 1.5;
     }
     footer p { margin-bottom: 4px; }
     .validated-badge {
@@ -109,12 +151,11 @@
       <div id="exportStamp" class="export-stamp"></div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-secondary" onclick="exportCSV()">📊 Export CSV</button>
-      <button class="btn btn-secondary" onclick="exportJSON()">📥 Export JSON</button>
-      <button class="btn btn-secondary" onclick="triggerImport()">📤 Import JSON</button>
+      <button class="btn btn-secondary btn-xs" onclick="exportCSV()">📊 CSV</button>
+      <button class="btn btn-secondary btn-xs" onclick="exportJSON()">📥 JSON</button>
+      <button class="btn btn-secondary btn-xs" onclick="triggerImport()">📤 Import</button>
       <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
-      <button class="btn btn-secondary" onclick="exportToPNG()">📷 Save PNG</button>
-      <button class="btn btn-danger" onclick="clearTrip()">🗑️ Clear Data</button>
+      <button class="btn btn-secondary btn-xs" onclick="exportToPNG()">📷 PNG</button>
     </div>
   </div>
 
@@ -125,11 +166,11 @@
         <input type="text" id="tripTitleInput" value="Enter Trip" onchange="updateMetadata()">
       </div>
       <div class="field-group">
-        <label for="estStartInput">Estimated Start Date:</label>
+        <label for="estStartInput">Est. Start Date:</label>
         <input type="date" id="estStartInput" onchange="updateMetadata()">
       </div>
       <div class="field-group">
-        <label for="estEndInput">Estimated End Date:</label>
+        <label for="estEndInput">Est. End Date:</label>
         <input type="date" id="estEndInput" onchange="updateMetadata()">
       </div>
     </div>
@@ -138,27 +179,29 @@
   <div class="card">
     <div class="field-group">
       <label for="stopNote">Location / Note:</label>
-      <input type="text" id="stopNote" placeholder="e.g., Start driving, Lunch rest, Hotel...">
+      <input type="text" id="stopNote" placeholder="e.g., Departure, Lunch rest, Hotel...">
     </div>
+
     <div class="ping-bar">
-      <button class="ping-btn" onclick="recordPing()">📍 Record Stop & GPS Ping</button>
-      <button id="pauseBtn" class="btn btn-warning" style="padding: 12px 16px; font-weight:600;" onclick="togglePause()">⏸️ Pause Trip / Rest Mode</button>
+      <button class="btn btn-primary control-btn-lg" onclick="recordPing()">📍 Record</button>
+      <button id="pauseBtn" class="btn btn-warning control-btn-lg" onclick="togglePause()">⏸️ Pause</button>
+      <button class="btn btn-secondary control-btn-lg" onclick="forceGPSFix()">📡 Force GPS</button>
     </div>
 
     <div class="stat-grid">
       <div class="stat-box">
-        <div id="elapsedTime" class="val">00:00:00</div>
+        <div id="elapsedTime" class="val">00:00</div>
         <div class="lbl">Total Time</div>
       </div>
       <div class="stat-box">
         <div id="totalStops" class="val">0</div>
         <div class="lbl">Total Stops</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box hide-mobile">
         <div id="lastLegTime" class="val">--</div>
         <div class="lbl">Last Leg Time</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box hide-mobile">
         <div id="lastLegDist" class="val">--</div>
         <div class="lbl">Last Leg Miles</div>
       </div>
@@ -173,28 +216,30 @@
           <tr>
             <th>Time</th>
             <th>Note</th>
-            <th>Location / City</th>
-            <th>Time Since Prev</th>
-            <th>Leg Dist</th>
-            <th>Avg Speed</th>
-            <th>Action</th>
+            <th>Location</th>
+            <th class="hide-mobile">Leg Metrics</th>
+            <th>Del</th>
           </tr>
         </thead>
         <tbody id="logsBody">
-          <tr><td colspan="7" style="text-align:center; color:var(--muted);">No trip points recorded yet</td></tr>
+          <tr><td colspan="5" style="text-align:center; color:var(--muted); padding:12px;">No trip points recorded yet</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="share-group">
-      <button class="btn btn-success" onclick="shareNativeImage()">📲 Share Image & Log (WhatsApp/Email)</button>
-      <button class="btn btn-primary" onclick="shareEmailText()">✉️ Email Text Log</button>
+      <button class="btn btn-success" style="flex:1;" onclick="shareNativeImage()">📲 Share Preview (WhatsApp/Apps)</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="shareEmailText()">✉️ Email Details</button>
     </div>
   </div>
 
   <div class="card">
     <h2 style="font-size: 1rem; font-weight: 600;">Trip Route Map</h2>
     <div id="map"></div>
+  </div>
+
+  <div class="danger-zone">
+    <button class="btn btn-danger btn-xs" style="opacity: 0.7;" onclick="clearTrip()">🗑️ Clear All Trip Data</button>
   </div>
 
   <footer>
@@ -207,6 +252,17 @@
     window.tripMeta = { title: "Enter Trip", estStart: "", estEnd: "", isPaused: false, accumulatedPauseTime: 0, pauseStartTime: null };
     window.tripLogs = [];
     let map, mapMarkers = [], mapPolyline;
+
+    const AIRPORTS = [
+      { code: "SJC", name: "San Jose Intl", lat: 37.3639, lng: -121.9289 },
+      { code: "SFO", name: "San Francisco Intl", lat: 37.6213, lng: -122.3790 },
+      { code: "OAK", name: "Oakland Intl", lat: 37.7213, lng: -122.2207 },
+      { code: "LAX", name: "Los Angeles Intl", lat: 33.9416, lng: -118.4085 },
+      { code: "SAN", name: "San Diego Intl", lat: 32.7338, lng: -117.1933 },
+      { code: "SMF", name: "Sacramento Intl", lat: 38.6954, lng: -121.5908 },
+      { code: "RNO", name: "Reno/Tahoe Intl", lat: 39.4991, lng: -119.7681 },
+      { code: "LAS", name: "Las Vegas Harry Reid", lat: 36.0840, lng: -115.1537 }
+    ];
 
     window.onload = function() {
       initMap();
@@ -271,11 +327,11 @@
     function updatePauseBtnUI() {
       const btn = document.getElementById('pauseBtn');
       if (window.tripMeta.isPaused) {
-        btn.innerText = "▶️ Resume Trip";
-        btn.className = "btn btn-success";
+        btn.innerText = "▶️ Resume";
+        btn.className = "btn btn-success control-btn-lg";
       } else {
-        btn.innerText = "⏸️ Pause Trip / Rest Mode";
-        btn.className = "btn btn-warning";
+        btn.innerText = "⏸️ Pause";
+        btn.className = "btn btn-warning control-btn-lg";
       }
     }
 
@@ -301,27 +357,133 @@
       return R * c;
     }
 
+    function getAirportOrCode(log) {
+      if (log.customCode) {
+        return { code: log.customCode, full: log.address || "Custom Code" };
+      }
+
+      if (!log.lat || !log.lng) {
+        return { code: "📍 Remote", full: log.address || "Manual Point" };
+      }
+
+      let closest = null;
+      let minDist = Infinity;
+
+      AIRPORTS.forEach(ap => {
+        const dist = calcDistanceMiles(log.lat, log.lng, ap.lat, ap.lng);
+        if (dist < minDist) {
+          minDist = dist;
+          closest = ap;
+        }
+      });
+
+      if (closest && minDist <= 35) {
+        return { code: `✈️ ${closest.code}`, full: `${closest.name} (${minDist.toFixed(1)} mi) • ${log.address}` };
+      }
+
+      const cityMatch = log.address ? log.address.split(',')[0] : '';
+      if (cityMatch && cityMatch.length <= 12) {
+        return { code: `📍 ${cityMatch}`, full: log.address };
+      }
+
+      return { code: "📍 Remote", full: log.address || `${log.lat.toFixed(4)}, ${log.lng.toFixed(4)}` };
+    }
+
+    function format24HourTime(dateObj) {
+      const hrs = String(dateObj.getHours()).padStart(2, '0');
+      const mins = String(dateObj.getMinutes()).padStart(2, '0');
+      return `${hrs}:${mins}`;
+    }
+
     function formatDiffTime(ms) {
       if (ms < 0 || isNaN(ms)) return "--";
-      const secs = Math.floor((ms / 1000) % 60);
       const mins = Math.floor((ms / (1000 * 60)) % 60);
       const hrs = Math.floor(ms / (1000 * 60 * 60));
-      return `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+      return `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}`;
     }
 
     async function fetchAddress(lat, lng) {
       try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`, { signal: controller.signal });
+        clearTimeout(timeoutId);
         const data = await res.json();
         if (data && data.address) {
           const city = data.address.city || data.address.town || data.address.village || data.address.county || '';
           const state = data.address.state || '';
-          return city ? `${city}, ${state}` : data.display_name.split(',').slice(0, 2).join(',');
+          if (city) return `${city}, ${state}`;
         }
       } catch (e) {
-        console.warn("Reverse geocode failed:", e);
+        console.warn("Geocode timeout/fail:", e);
       }
-      return "Location Recorded";
+      return `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+    }
+
+    function enableNoteEdit(id) {
+      const container = document.getElementById(`note-container-${id}`);
+      const log = window.tripLogs.find(l => l.id === id);
+      if (container && log) {
+        container.innerHTML = `<input type="text" id="input-note-${id}" value="${escapeHtml(log.note)}" onblur="saveNoteEdit(${id})" onkeydown="if(event.key==='Enter') saveNoteEdit(${id})" style="font-size:0.85rem; padding:2px 4px; border:1px solid var(--primary); border-radius:4px; width:100%;">`;
+        document.getElementById(`input-note-${id}`).focus();
+      }
+    }
+
+    function saveNoteEdit(id) {
+      const input = document.getElementById(`input-note-${id}`);
+      if (input) {
+        const log = window.tripLogs.find(l => l.id === id);
+        if (log) {
+          log.note = input.value.trim() || `Stop`;
+          saveToLocalStorage();
+        }
+      }
+    }
+
+    function enableCodeEdit(id) {
+      const container = document.getElementById(`code-container-${id}`);
+      const log = window.tripLogs.find(l => l.id === id);
+      if (container && log) {
+        const currentLoc = getAirportOrCode(log);
+        container.innerHTML = `<input type="text" id="input-code-${id}" value="${escapeHtml(log.customCode || currentLoc.code)}" onblur="saveCodeEdit(${id})" onkeydown="if(event.key==='Enter') saveCodeEdit(${id})" style="font-size:0.8rem; padding:2px 4px; border:1px solid var(--primary); border-radius:4px; width:80px; font-weight:700;">`;
+        document.getElementById(`input-code-${id}`).focus();
+      }
+    }
+
+    function saveCodeEdit(id) {
+      const input = document.getElementById(`input-code-${id}`);
+      if (input) {
+        const log = window.tripLogs.find(l => l.id === id);
+        if (log) {
+          log.customCode = input.value.trim();
+          saveToLocalStorage();
+        }
+      }
+    }
+
+    function forceGPSFix() {
+      if (!("geolocation" in navigator)) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+      }
+
+      document.getElementById('statusText').innerText = "Acquiring manual GPS fix...";
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const addr = await fetchAddress(lat, lng);
+          alert(`✅ GPS Signal Verified!\nLat/Lng: ${lat.toFixed(5)}, ${lng.toFixed(5)}\nLocation: ${addr}`);
+          document.getElementById('statusText').innerText = `GPS Active: ${addr}`;
+        },
+        () => {
+          const est = prompt("GPS signal lost. Enter your estimated location/city manually:");
+          if (est) {
+            document.getElementById('statusText').innerText = `Manual Location: ${est}`;
+          }
+        },
+        { enableHighAccuracy: true, timeout: 60000, maximumAge: 10000 }
+      );
     }
 
     function recordPing() {
@@ -332,35 +494,45 @@
       const logEntry = {
         id: Date.now(),
         timestamp: now.toISOString(),
-        timeDisplay: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
+        timeDisplay: format24HourTime(now),
         note: note,
         isRest: window.tripMeta.isPaused,
         lat: null,
         lng: null,
-        address: "Location N/A"
+        customCode: null,
+        address: "Locating..."
       };
 
       if ("geolocation" in navigator) {
-        document.getElementById('statusText').innerText = "Acquiring GPS location...";
-        navigator.geolocation.getCurrentPosition(
-          async (pos) => {
-            logEntry.lat = pos.coords.latitude;
-            logEntry.lng = pos.coords.longitude;
-            logEntry.address = await fetchAddress(logEntry.lat, logEntry.lng);
-            window.tripLogs.push(logEntry);
-            saveToLocalStorage();
-            noteInput.value = '';
-            document.getElementById('statusText').innerText = `Logged point at ${logEntry.timeDisplay}`;
-          },
-          (err) => {
-            window.tripLogs.push(logEntry);
-            saveToLocalStorage();
-            noteInput.value = '';
-            document.getElementById('statusText').innerText = `Logged (No GPS) at ${logEntry.timeDisplay}`;
-          },
-          { enableHighAccuracy: true, timeout: 10000 }
-        );
+        document.getElementById('statusText').innerText = "Acquiring GPS fix...";
+        
+        const handleSuccess = async (pos) => {
+          logEntry.lat = pos.coords.latitude;
+          logEntry.lng = pos.coords.longitude;
+          logEntry.address = await fetchAddress(logEntry.lat, logEntry.lng);
+          window.tripLogs.push(logEntry);
+          saveToLocalStorage();
+          noteInput.value = '';
+          document.getElementById('statusText').innerText = `Logged at ${logEntry.timeDisplay}`;
+        };
+
+        const handleError = () => {
+          const est = prompt("Location error or timeout. Type location or city code:", "SJC");
+          logEntry.customCode = est || "SJC";
+          logEntry.address = est || "Manual Point";
+          window.tripLogs.push(logEntry);
+          saveToLocalStorage();
+          noteInput.value = '';
+          document.getElementById('statusText').innerText = `Logged at ${logEntry.timeDisplay}`;
+        };
+
+        navigator.geolocation.getCurrentPosition(handleSuccess, handleError, {
+          enableHighAccuracy: true,
+          timeout: 60000,
+          maximumAge: 10000
+        });
       } else {
+        logEntry.address = "GPS Not Supported";
         window.tripLogs.push(logEntry);
         saveToLocalStorage();
         noteInput.value = '';
@@ -373,7 +545,7 @@
     }
 
     function clearTrip() {
-      if (confirm("Are you sure you want to clear all trip logs, titles, and dates? (You can recover via JSON Import if exported earlier)")) {
+      if (confirm("Are you sure you want to clear all trip logs?")) {
         window.tripLogs = [];
         window.tripMeta = { title: "Enter Trip", estStart: "", estEnd: "", isPaused: false, accumulatedPauseTime: 0, pauseStartTime: null };
         document.getElementById('tripTitleInput').value = "Enter Trip";
@@ -381,13 +553,13 @@
         document.getElementById('estEndInput').value = "";
         updatePauseBtnUI();
         saveToLocalStorage();
-        document.getElementById('statusText').innerText = "Trip data reset to defaults";
+        document.getElementById('statusText').innerText = "Trip reset";
       }
     }
 
     function updateElapsedTime() {
       if (window.tripLogs.length === 0) {
-        document.getElementById('elapsedTime').innerText = "00:00:00";
+        document.getElementById('elapsedTime').innerText = "00:00";
         return;
       }
       const firstTime = new Date(window.tripLogs[0].timestamp).getTime();
@@ -408,7 +580,7 @@
 
       let tbodyHtml = '';
       if (window.tripLogs.length === 0) {
-        tbodyHtml = '<tr><td colspan="7" style="text-align:center; color:var(--muted);">No trip points recorded yet</td></tr>';
+        tbodyHtml = '<tr><td colspan="5" style="text-align:center; color:var(--muted); padding:12px;">No trip points recorded yet</td></tr>';
         document.getElementById('lastLegTime').innerText = "--";
         document.getElementById('lastLegDist').innerText = "--";
       } else {
@@ -440,14 +612,23 @@
           }
 
           const restTag = l.isRest ? `<span class="badge-rest">REST</span>` : '';
+          const locInfo = getAirportOrCode(l);
+          const gpsString = (l.lat && l.lng) ? `${l.lat.toFixed(4)}, ${l.lng.toFixed(4)}` : 'No GPS';
 
           tbodyHtml += `<tr>
-            <td><b>${escapeHtml(l.timeDisplay)}</b>${restTag}</td>
-            <td>${escapeHtml(l.note)}</td>
-            <td>${escapeHtml(l.address || 'Location Recorded')}</td>
-            <td>${timeSincePrev}</td>
-            <td>${legDistStr}</td>
-            <td>${avgSpeedStr}</td>
+            <td class="cell-time">${escapeHtml(l.timeDisplay)}${restTag}</td>
+            <td class="cell-note" id="note-container-${l.id}" onclick="enableNoteEdit(${l.id})">
+              ${escapeHtml(l.note || 'Stop')} <span class="edit-icon">✏️</span>
+            </td>
+            <td>
+              <div id="code-container-${l.id}">
+                <span class="location-badge" title="${escapeHtml(locInfo.full)}" onclick="enableCodeEdit(${l.id})">
+                  ${escapeHtml(locInfo.code)} <span class="edit-icon">✏️</span>
+                </span>
+              </div>
+              <div class="gps-coords">🌐 ${gpsString}</div>
+            </td>
+            <td class="cell-compact hide-mobile">⏱ ${timeSincePrev}<br>📏 ${legDistStr}<br>⚡ ${avgSpeedStr}</td>
             <td><button class="btn btn-secondary" style="padding: 2px 6px; font-size: 0.75rem;" onclick="deleteLog(${l.id})">❌</button></td>
           </tr>`;
         });
@@ -464,7 +645,7 @@
           const pt = [l.lat, l.lng];
           latLngs.push(pt);
           const marker = L.marker(pt).addTo(map)
-            .bindPopup(`<b>Stop ${idx + 1}: ${escapeHtml(l.timeDisplay)}</b><br>${escapeHtml(l.note)}<br><i>${escapeHtml(l.address)}</i>`);
+            .bindPopup(`<b>Stop ${idx + 1}: ${escapeHtml(l.timeDisplay)}</b><br>${escapeHtml(l.note)}`);
           mapMarkers.push(marker);
         }
       });
@@ -475,41 +656,47 @@
       }
     }
 
-    function generateSummaryText() {
-      let text = `Trip: ${window.tripMeta.title}\nEst Dates: ${window.tripMeta.estStart || 'N/A'} to ${window.tripMeta.estEnd || 'N/A'}\n\nStops:\n`;
-      window.tripLogs.forEach(l => {
-        text += `- ${l.timeDisplay}: ${l.note} (${l.address || 'N/A'})\n`;
-      });
-      return text;
-    }
+    function shareNativeImage() {
+      if (window.tripLogs.length === 0) {
+        alert("No logs available to share.");
+        return;
+      }
 
-    async function shareNativeImage() {
-      const summaryText = generateSummaryText();
-      const canvas = await html2canvas(document.body, { useCORS: true, allowTaint: true });
-      
-      canvas.toBlob(async (blob) => {
-        const file = new File([blob], `Trip_${window.tripMeta.title.replace(/\s+/g, '_')}.png`, { type: 'image/png' });
-        
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: window.tripMeta.title,
-              text: summaryText
-            });
-          } catch (err) {
-            console.log("Sharing cancelled or failed:", err);
+      const last = window.tripLogs[window.tripLogs.length - 1];
+      const loc = getAirportOrCode(last);
+      const whatsAppText = `🚗 Trip Update: ${window.tripMeta.title}\nLatest Stop: ${last.timeDisplay} - ${last.note} (${loc.code})\nTotal Stops: ${window.tripLogs.length}`;
+
+      html2canvas(document.body, { useCORS: true, allowTaint: true }).then(canvas => {
+        canvas.toBlob(async (blob) => {
+          const file = new File([blob], `Trip_${window.tripMeta.title.replace(/\s+/g, '_')}.png`, { type: 'image/png' });
+          
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: window.tripMeta.title,
+                text: whatsAppText
+              });
+            } catch (err) {
+              console.log("Sharing cancelled:", err);
+            }
+          } else {
+            exportToPNG();
           }
-        } else {
-          alert("Direct image sharing is supported on mobile devices. Downloading PNG image instead...");
-          exportToPNG();
-        }
+        });
       });
     }
 
     function shareEmailText() {
+      let fullText = `Trip Summary: ${window.tripMeta.title}\nEst. Dates: ${window.tripMeta.estStart || 'N/A'} to ${window.tripMeta.estEnd || 'N/A'}\nTotal Stops: ${window.tripLogs.length}\n\nDetailed Stops:\n`;
+      window.tripLogs.forEach((l, i) => {
+        const loc = getAirportOrCode(l);
+        const gpsStr = (l.lat && l.lng) ? ` [GPS: ${l.lat.toFixed(5)}, ${l.lng.toFixed(5)}]` : '';
+        fullText += `${i + 1}. ${l.timeDisplay} - ${l.note} (${loc.code}: ${loc.full})${gpsStr}\n`;
+      });
+
       const subject = encodeURIComponent(`Trip Summary: ${window.tripMeta.title}`);
-      const body = encodeURIComponent(generateSummaryText());
+      const body = encodeURIComponent(fullText);
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
 
@@ -519,17 +706,18 @@
         return;
       }
 
-      const headers = ["ID", "Timestamp", "Time Display", "Note", "Rest Stop", "Address/City", "Latitude", "Longitude"];
+      const headers = ["ID", "Timestamp", "Time 24h", "Note", "Rest Stop", "Code/Location", "Latitude", "Longitude"];
       const rows = [headers.join(",")];
 
       window.tripLogs.forEach(l => {
+        const loc = getAirportOrCode(l);
         const row = [
           `"${l.id}"`,
           `"${l.timestamp}"`,
           `"${l.timeDisplay}"`,
           `"${(l.note || '').replace(/"/g, '""')}"`,
           `"${l.isRest ? 'Yes' : 'No'}"`,
-          `"${(l.address || '').replace(/"/g, '""')}"`,
+          `"${loc.full.replace(/"/g, '""')}"`,
           `"${l.lat || ''}"`,
           `"${l.lng || ''}"`
         ];
