@@ -100,11 +100,17 @@
     .location-badge:hover { background: #dbeafe; }
 
     .gps-coords {
-      font-size: 0.7rem;
-      color: var(--muted);
+      font-size: 0.72rem;
       margin-top: 3px;
       font-family: monospace;
       white-space: nowrap;
+    }
+    .gps-coords a {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    .gps-coords a:hover {
+      color: #1d4ed8;
     }
 
     .cell-compact { font-size: 0.75rem; color: var(--muted); white-space: nowrap; line-height: 1.2; }
@@ -259,6 +265,7 @@
       { code: "OAK", name: "Oakland Intl", lat: 37.7213, lng: -122.2207 },
       { code: "LAX", name: "Los Angeles Intl", lat: 33.9416, lng: -118.4085 },
       { code: "SAN", name: "San Diego Intl", lat: 32.7338, lng: -117.1933 },
+      { code: "SNA", name: "John Wayne / OC", lat: 33.6762, lng: -117.8675 },
       { code: "SMF", name: "Sacramento Intl", lat: 38.6954, lng: -121.5908 },
       { code: "RNO", name: "Reno/Tahoe Intl", lat: 39.4991, lng: -119.7681 },
       { code: "LAS", name: "Las Vegas Harry Reid", lat: 36.0840, lng: -115.1537 }
@@ -377,7 +384,8 @@
         }
       });
 
-      if (closest && minDist <= 35) {
+      // Match nearest airport up to 75 miles
+      if (closest && minDist <= 75) {
         return { code: `✈️ ${closest.code}`, full: `${closest.name} (${minDist.toFixed(1)} mi) • ${log.address}` };
       }
 
@@ -613,7 +621,14 @@
 
           const restTag = l.isRest ? `<span class="badge-rest">REST</span>` : '';
           const locInfo = getAirportOrCode(l);
-          const gpsString = (l.lat && l.lng) ? `${l.lat.toFixed(4)}, ${l.lng.toFixed(4)}` : 'No GPS';
+          
+          let gpsHtml = '<span style="color:var(--muted);">No GPS</span>';
+          if (l.lat && l.lng) {
+            const latFixed = l.lat.toFixed(4);
+            const lngFixed = l.lng.toFixed(4);
+            const osmUrl = `https://www.openstreetmap.org/?mlat=${l.lat}&mlon=${l.lng}#map=16/${l.lat}/${l.lng}`;
+            gpsHtml = `<a href="${osmUrl}" target="_blank" title="View on OpenStreetMap">${latFixed}, ${lngFixed} 🔗</a>`;
+          }
 
           tbodyHtml += `<tr>
             <td class="cell-time">${escapeHtml(l.timeDisplay)}${restTag}</td>
@@ -626,7 +641,7 @@
                   ${escapeHtml(locInfo.code)} <span class="edit-icon">✏️</span>
                 </span>
               </div>
-              <div class="gps-coords">🌐 ${gpsString}</div>
+              <div class="gps-coords">🌐 ${gpsHtml}</div>
             </td>
             <td class="cell-compact hide-mobile">⏱ ${timeSincePrev}<br>📏 ${legDistStr}<br>⚡ ${avgSpeedStr}</td>
             <td><button class="btn btn-secondary" style="padding: 2px 6px; font-size: 0.75rem;" onclick="deleteLog(${l.id})">❌</button></td>
