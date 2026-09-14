@@ -3,185 +3,543 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DashApps | Micro-Utility Hub</title>
+<title>RebuildGuard | Home Rebuild Cost Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root {
-    --bg: #f6f8f7;
+    --bg: #f8fafc;
     --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
     --primary: #2563eb;
-    --primary-light: #eff6ff;
-    --sky: #2b7fd6;
-    --sky-light: #e8f1fc;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --border: #e5e7eb;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #d97706;
   }
-
-  * { box-sizing: border-box; }
-
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    margin: 0;
-    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--bg);
     color: var(--text);
-    padding: 24px 16px 60px;
-    line-height: 1.55;
-  }
-
-  .wrap { max-width: 760px; margin: 0 auto; }
-
-  header {
-    text-align: center;
-    margin-bottom: 24px;
-    margin-top: 12px;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-    margin: 0;
-    color: #111827;
-    font-weight: 800;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
-    color: var(--muted);
-    max-width: 600px;
-    margin: 6px auto 0;
+    padding: 16px 12px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 16px;
     line-height: 1.5;
   }
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+  .header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
+  .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+  .header-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 20px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
+  .btn { padding: 8px 12px; font-size: 0.85rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+  .btn:hover { background: #334155; }
+  .btn-secondary { background: #e2e8f0; color: #0f172a; }
+  .btn-secondary:hover { background: #cbd5e1; }
+  .btn-danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+  .btn-danger:hover { background: #fca5a5; }
+  .btn-xs { padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; }
 
-  .tile-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+  .card h2 { font-size: 1rem; margin-bottom: 10px; }
+  .card h2 .sub { font-size: 0.75rem; color: var(--muted); font-weight: 400; display: block; margin-top: 2px; }
 
-  @media (min-width: 520px) {
-    .tile-grid { grid-template-columns: repeat(3, 1fr); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .field-group { display: flex; flex-direction: column; gap: 4px; }
+  label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+  label .hint { font-weight: 400; text-transform: none; display: block; font-size: 0.72rem; margin-top: 1px; }
+  input[type="text"], input[type="number"], select {
+    font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; width: 100%; color: var(--text);
   }
+  input:focus, select:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
 
-  .tile-link {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 14px;
-    text-align: center;
-    background: #fafbfa;
-    cursor: pointer;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    position: relative;
-  }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-top: 12px; text-align: center; }
+  .stat-box { background: #f1f5f9; padding: 12px 8px; border-radius: 6px; }
+  .stat-box .val { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+  .stat-box .lbl { color: var(--muted); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+  .stat-box.warn .val { color: var(--warning); }
+  .stat-box.danger .val { color: var(--danger); }
+  .stat-box.good .val { color: var(--success); }
 
-  .tile-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  }
+  .banner { padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-top: 10px; }
+  .banner.good { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .banner.warn { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .banner.danger { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-  .tile-link .icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--primary-light);
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    margin: 0 auto 10px;
-    flex-shrink: 0;
-  }
+  .table-container { overflow-x: auto; margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  th { background: #f1f5f9; color: var(--muted); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
 
-  .tile-link .name {
-    font-weight: 700;
-    font-size: 1rem;
-    color: #111827;
-    margin-bottom: 4px;
-  }
-
-  .tile-link .desc {
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.3;
-    font-weight: 400;
-  }
+  .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 6px; }
 
   footer {
+    margin-top: 20px;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
     text-align: center;
-    font-size: 0.8rem;
     color: var(--muted);
-    margin-top: 30px;
+    font-size: 0.75rem;
+    line-height: 1.5;
   }
+  footer p { margin-bottom: 6px; }
+  .mit-notice { font-size: 0.7rem; color: #94a3b8; font-style: italic; margin-top: 8px; }
+
+  .preset-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .preset-btn { font-size: 0.72rem; padding: 4px 8px; border-radius: 12px; border: 1px solid var(--border); background: #f8fafc; color: var(--text); cursor: pointer; }
+  .preset-btn:hover { background: #e2e8f0; }
+
+  .divider { border-top: 1px dashed var(--border); margin: 12px 0; }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-
-  <header>
-    <h1>DashApps Hub</h1>
-    <p class="subtitle">Lightweight, single-page browser utilities and interactive calculators.</p>
-  </header>
-
-  <div class="card">
-    <div class="tile-grid">
-
-      <!-- TimeTrack Tile -->
-      <a href="https://cshahria.github.io/Career/DashApps/TimeTrack/index.html" class="tile-link">
-        <div class="icon">⏱️</div>
-        <div class="name">TimeTrack</div>
-        <div class="desc">Track work hours, milestone logs, and earnings projections</div>
-      </a>
-
-      <!-- TripTrack Tile -->
-      <a href="https://cshahria.github.io/Career/DashApps/TripTrack/index.html" class="tile-link">
-        <div class="icon">📍</div>
-        <div class="name">TripTrack</div>
-        <div class="desc">GPS stopwatch logger, distance metrics, and route mapping</div>
-      </a>
-
-      <!-- MileGuard Tile -->
-      <a href="https://cshahria.github.io/Career/DashApps/MileGuard/index.html" class="tile-link">
-        <div class="icon">🚗</div>
-        <div class="name">MileGuard</div>
-        <div class="desc">Track annual policy mileage limits and split vehicle premiums</div>
-      </a>
-
-      <!-- RebuildGuard Tile -->
-      <a href="https://cshahria.github.io/Career/DashApps/HomeGuard/index.html" class="tile-link">
-        <div class="icon">🏠</div>
-        <div class="name">HomeGuard</div>
-        <div class="desc">Estimate replacement costs, policy gaps, & premium impacts</div>
-      </a>
-
-      <!-- Transition Tile -->
-      <a href="https://cshahria.github.io/Career/week27_unpto.html" target="_blank" class="tile-link">
-        <div class="icon">🌲</div>
-        <div class="name">Transition</div>
-        <div class="desc">Track shared project milestones, accountability, & deliverables</div>
-      </a>
-
-    </div>
+<div class="header">
+  <div>
+    <h1 id="appTitle">🏠 RebuildGuard</h1>
+    <p id="statusText">Estimate home rebuild costs, policy gaps, and premium impacts</p>
+    <div id="exportStamp" class="export-stamp"></div>
   </div>
-
-  <footer>
-    <p>DashApps Suite • Client-side local storage utilities</p>
-  </footer>
-
+  <div class="header-actions">
+    <button class="btn btn-secondary btn-xs" onclick="sendEmail()">✉️ Email</button>
+    <button class="btn btn-secondary btn-xs" onclick="exportCSV()">📊 CSV</button>
+    <button class="btn btn-secondary btn-xs" onclick="exportJSON()">📥 JSON</button>
+    <button class="btn btn-secondary btn-xs" onclick="triggerImport()">📤 Import</button>
+    <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
+    <button class="btn btn-secondary btn-xs" onclick="exportToPNG()">📷 PNG</button>
+    <button class="btn btn-danger btn-xs" onclick="resetCalculator()">🗑️ Reset</button>
+  </div>
 </div>
 
+<div class="card">
+  <h2>Property Details</h2>
+  <div class="grid">
+    <div class="field-group">
+      <label for="address">Address</label>
+      <input type="text" id="address" placeholder="123 Main St, City, ST" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="sqft">Square Footage</label>
+      <input type="number" id="sqft" value="1878" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="yearBuilt">Year Built</label>
+      <input type="number" id="yearBuilt" placeholder="e.g. 1955" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="stories">Stories</label>
+      <select id="stories" onchange="calcAndSave()">
+        <option value="1.0">Single story</option>
+        <option value="0.92">Two story</option>
+        <option value="0.88">Three+ story</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Construction Cost Basis
+    <span class="sub">Cost per sq ft varies by construction type &amp; region. Presets below fill in a starting value — override as needed.</span>
+  </h2>
+  <div class="grid">
+    <div class="field-group">
+      <label for="constructionType">Construction Type</label>
+      <select id="constructionType" onchange="applyPreset(); calcAndSave()">
+        <option value="standard">Standard tract-built</option>
+        <option value="eichler">Eichler / post-and-beam mid-century</option>
+        <option value="custom">Custom / architect-designed</option>
+        <option value="luxury">Luxury / high-end finishes</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label for="costPerSqft">Base Cost / Sq Ft ($)
+        <span class="hint">Auto-filled from type + region; editable</span>
+      </label>
+      <input type="number" id="costPerSqft" value="311" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="regionFactor">Regional Cost Factor
+        <span class="hint">Coastal CA typically 1.6–1.8× national avg</span>
+      </label>
+      <input type="number" id="regionFactor" value="1.0" step="0.05" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="qualityMult">Finish Quality Multiplier
+        <span class="hint">Economy .8 / Standard 1.0 / Above-avg 1.15 / Custom 1.3 / Premium 1.7</span>
+      </label>
+      <input type="number" id="qualityMult" value="1.0" step="0.05" min="0" oninput="calcAndSave()">
+    </div>
+  </div>
+  <div class="preset-row" id="presetRow"></div>
+</div>
+
+<div class="card">
+  <h2>Additional Rebuild Costs</h2>
+  <div class="grid">
+    <div class="field-group">
+      <label for="softCostPct">Soft Costs (%)
+        <span class="hint">Permits, architect, debris removal, demolition</span>
+      </label>
+      <input type="number" id="softCostPct" value="12" step="1" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="ordinancePct">Ordinance &amp; Law (%)
+        <span class="hint">Mandated code updates (typically 10-25%)</span>
+      </label>
+      <input type="number" id="ordinancePct" value="10" step="5" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="specialFeatures">Special Features Add-On ($)
+        <span class="hint">Pool, atrium, attached garage, ADU, etc.</span>
+      </label>
+      <input type="number" id="specialFeatures" value="0" step="500" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="essValue">Energy Storage System Value ($)
+        <span class="hint">Battery / ESS project value, if applicable</span>
+      </label>
+      <input type="number" id="essValue" value="0" step="500" min="0" oninput="calcAndSave()">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Current Policy &amp; Terms</h2>
+  <div class="grid">
+    <div class="field-group">
+      <label for="currentCoverage">Current Dwelling Coverage / Coverage A ($)</label>
+      <input type="number" id="currentCoverage" value="585000" step="1000" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="extendedCoveragePct">Extended Replacement Rider (%)
+        <span class="hint">Buffer rider (e.g. 25% or 50% above Coverage A)</span>
+      </label>
+      <select id="extendedCoveragePct" onchange="calcAndSave()">
+        <option value="0">0% (None)</option>
+        <option value="10">10% Buffer</option>
+        <option value="25" selected>25% Buffer</option>
+        <option value="50">50% Buffer</option>
+        <option value="100">100% Guaranteed</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label for="policyDeductible">Policy Deductible ($)</label>
+      <input type="number" id="policyDeductible" value="2500" step="250" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="currentPremium">Current Annual Premium ($)</label>
+      <input type="number" id="currentPremium" value="2000" step="10" min="0" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="wildfireImpact">Wildfire Score Impact ($/yr)
+        <span class="hint">From insurer's risk notice</span>
+      </label>
+      <input type="number" id="wildfireImpact" value="0" step="10" oninput="calcAndSave()">
+    </div>
+    <div class="field-group">
+      <label for="essSurcharge">Est. ESS/Battery Surcharge ($/yr)</label>
+      <input type="number" id="essSurcharge" value="0" step="10" min="0" oninput="calcAndSave()">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Estimated Replacement Cost</h2>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="val" id="outStructure">$0</div><div class="lbl">Structure Cost</div></div>
+    <div class="stat-box"><div class="val" id="outSoft">$0</div><div class="lbl">Soft &amp; Code Costs</div></div>
+    <div class="stat-box"><div class="val" id="outTotal">$0</div><div class="lbl">Total Replacement Cost</div></div>
+    <div class="stat-box"><div class="val" id="outPerSqft">$0</div><div class="lbl">Effective $ / Sq Ft</div></div>
+  </div>
+  <div id="gapBanner" class="banner good">—</div>
+</div>
+
+<div class="card">
+  <h2>Estimated Policy &amp; Premium Impact</h2>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="val" id="outMaxEffectiveCov">$0</div><div class="lbl">Max Buffer Limit (Cov A + Rider)</div></div>
+    <div class="stat-box"><div class="val" id="outCoverageDelta">0%</div><div class="lbl">Coverage Change Needed</div></div>
+    <div class="stat-box"><div class="val" id="outPremiumDelta">$0</div><div class="lbl">Est. Premium Increase</div></div>
+    <div class="stat-box"><div class="val" id="outNewPremium">$0</div><div class="lbl">Est. New Premium</div></div>
+  </div>
+  <div class="divider"></div>
+  <h2>Linked Coverage Estimates <span class="sub">Typically set as % of Coverage A — confirm actual % with carrier</span></h2>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>Coverage</th><th>Typical %</th><th class="num">Est. Amount</th></tr></thead>
+      <tbody>
+        <tr><td>B — Other Structures</td><td>10%</td><td class="num" id="covB">$0</td></tr>
+        <tr><td>C — Personal Property</td><td>60%</td><td class="num" id="covC">$0</td></tr>
+        <tr><td>D — Loss of Use</td><td>25%</td><td class="num" id="covD">$0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <p>Directional estimate only — not a carrier-approved replacement cost estimate or legal appraisal.</p>
+  <p>Confirm final figures with a licensed insurance agent, appraiser, or carrier replacement cost software.</p>
+  <div class="mit-notice">
+    <strong>MIT License Notice:</strong> Copyright &copy; 2026. Permission is hereby granted, free of charge, to any person obtaining a copy of this software to deal in the Software without restriction. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+  </div>
+</footer>
+
+<script>
+  /*
+   * MIT License Copyright (c) 2026
+   * Provided "AS IS", without warranty of any kind.
+   */
+  const PRESETS = {
+    standard: { cost: 180, quality: 1.0, label: "Standard tract" },
+    eichler:  { cost: 340, quality: 1.0, label: "Eichler / post-and-beam ($230–450/sqft specialist range)" },
+    custom:   { cost: 260, quality: 1.15, label: "Custom / architect-designed" },
+    luxury:   { cost: 400, quality: 1.5, label: "Luxury / high-end" }
+  };
+
+  const FIELDS = ["address","sqft","yearBuilt","stories","constructionType","costPerSqft",
+    "regionFactor","qualityMult","softCostPct","ordinancePct","specialFeatures","essValue",
+    "currentCoverage","extendedCoveragePct","policyDeductible","currentPremium","wildfireImpact","essSurcharge"];
+
+  function fmt(n) {
+    return "$" + Math.round(n).toLocaleString("en-US");
+  }
+
+  function applyPreset() {
+    const type = document.getElementById("constructionType").value;
+    const p = PRESETS[type];
+    if (p) {
+      document.getElementById("costPerSqft").value = p.cost;
+      document.getElementById("qualityMult").value = p.quality;
+    }
+  }
+
+  function renderPresetRow() {
+    const row = document.getElementById("presetRow");
+    row.innerHTML = "";
+    const specialistRates = [
+      {label: "Eichler floor $230/sqft", val: 230},
+      {label: "Eichler mid $350/sqft", val: 350},
+      {label: "Eichler ceiling $450/sqft", val: 450}
+    ];
+    specialistRates.forEach(r => {
+      const b = document.createElement("button");
+      b.className = "preset-btn";
+      b.textContent = r.label;
+      b.onclick = () => { document.getElementById("costPerSqft").value = r.val; calcAndSave(); };
+      row.appendChild(b);
+    });
+  }
+
+  function calculate() {
+    const address = document.getElementById("address").value || "Property";
+    const sqft = parseFloat(document.getElementById("sqft").value) || 0;
+    const costPerSqft = parseFloat(document.getElementById("costPerSqft").value) || 0;
+    const region = parseFloat(document.getElementById("regionFactor").value) || 1;
+    const quality = parseFloat(document.getElementById("qualityMult").value) || 1;
+    const stories = parseFloat(document.getElementById("stories").value) || 1;
+    const softPct = parseFloat(document.getElementById("softCostPct").value) || 0;
+    const ordinancePct = parseFloat(document.getElementById("ordinancePct").value) || 0;
+    const special = parseFloat(document.getElementById("specialFeatures").value) || 0;
+    const essValue = parseFloat(document.getElementById("essValue").value) || 0;
+    
+    const currentCoverage = parseFloat(document.getElementById("currentCoverage").value) || 0;
+    const extPct = parseFloat(document.getElementById("extendedCoveragePct").value) || 0;
+    const deductible = parseFloat(document.getElementById("policyDeductible").value) || 0;
+    const currentPremium = parseFloat(document.getElementById("currentPremium").value) || 0;
+    const wildfireImpact = parseFloat(document.getElementById("wildfireImpact").value) || 0;
+    const essSurcharge = parseFloat(document.getElementById("essSurcharge").value) || 0;
+
+    const structureCost = sqft * costPerSqft * region * quality * stories + special + essValue;
+    const softCosts = structureCost * ((softPct + ordinancePct) / 100);
+    const totalCost = structureCost + softCosts;
+    const effectivePerSqft = sqft > 0 ? totalCost / sqft : 0;
+
+    const maxEffectiveCoverage = currentCoverage * (1 + (extPct / 100));
+    const coverageDeltaPct = currentCoverage > 0 ? ((totalCost - currentCoverage) / currentCoverage) * 100 : 0;
+    const scaledPremium = currentCoverage > 0 ? currentPremium * (totalCost / currentCoverage) : currentPremium;
+    const premiumDelta = (scaledPremium - currentPremium) + wildfireImpact + essSurcharge;
+    const newPremium = currentPremium + premiumDelta;
+
+    document.getElementById("outStructure").textContent = fmt(structureCost);
+    document.getElementById("outSoft").textContent = fmt(softCosts);
+    document.getElementById("outTotal").textContent = fmt(totalCost);
+    document.getElementById("outPerSqft").textContent = fmt(effectivePerSqft);
+
+    document.getElementById("outMaxEffectiveCov").textContent = fmt(maxEffectiveCoverage);
+    document.getElementById("outCoverageDelta").textContent = (coverageDeltaPct >= 0 ? "+" : "") + coverageDeltaPct.toFixed(1) + "%";
+    document.getElementById("outPremiumDelta").textContent = (premiumDelta >= 0 ? "+" : "") + fmt(premiumDelta);
+    document.getElementById("outNewPremium").textContent = fmt(newPremium);
+
+    document.getElementById("covB").textContent = fmt(totalCost * 0.10);
+    document.getElementById("covC").textContent = fmt(totalCost * 0.60);
+    document.getElementById("covD").textContent = fmt(totalCost * 0.25);
+
+    const banner = document.getElementById("gapBanner");
+    const gap = totalCost - currentCoverage;
+    const effectiveGap = totalCost - maxEffectiveCoverage;
+
+    if (effectiveGap <= 0) {
+      banner.className = "banner good";
+      banner.textContent = `✓ Base Coverage A (${fmt(currentCoverage)}) with ${extPct}% rider gives ${fmt(maxEffectiveCoverage)} max protection — sufficient to cover estimated ${fmt(totalCost)} rebuild cost.`;
+    } else if (effectiveGap > 0 && effectiveGap < (totalCost * 0.15)) {
+      banner.className = "banner warn";
+      banner.textContent = `⚠ Moderate Risk: Estimated rebuild cost (${fmt(totalCost)}) exceeds total extended coverage limit (${fmt(maxEffectiveCoverage)}) by ${fmt(effectiveGap)}.`;
+    } else {
+      banner.className = "banner danger";
+      banner.textContent = `⚠ Underinsurance Risk: Estimated rebuild cost (${fmt(totalCost)}) exceeds total extended coverage limit (${fmt(maxEffectiveCoverage)}) by ${fmt(effectiveGap)}.`;
+    }
+
+    return { address, sqft, costPerSqft, region, quality, stories, softPct, ordinancePct, special, essValue,
+      currentCoverage, extPct, maxEffectiveCoverage, deductible, currentPremium, wildfireImpact, essSurcharge,
+      structureCost, softCosts, totalCost, effectivePerSqft, coverageDeltaPct, premiumDelta, newPremium };
+  }
+
+  function saveToLocalStorage() {
+    const data = {};
+    FIELDS.forEach(id => { data[id] = document.getElementById(id).value; });
+    localStorage.setItem("rebuildCalcData", JSON.stringify(data));
+  }
+
+  function loadFromLocalStorage() {
+    const raw = localStorage.getItem("rebuildCalcData");
+    if (!raw) return;
+    try {
+      const data = JSON.parse(raw);
+      FIELDS.forEach(id => {
+        if (data[id] !== undefined && document.getElementById(id)) {
+          document.getElementById(id).value = data[id];
+        }
+      });
+    } catch (e) { console.warn("Could not load saved data", e); }
+  }
+
+  function resetCalculator() {
+    if (confirm("Are you sure you want to clear all saved calculator data and local cache?")) {
+      localStorage.removeItem("rebuildCalcData");
+      location.reload();
+    }
+  }
+
+  function calcAndSave() {
+    calculate();
+    saveToLocalStorage();
+  }
+
+  function sendEmail() {
+    const r = calculate();
+    const subject = encodeURIComponent(`Rebuild Cost Calculation Summary - ${r.address}`);
+    const bodyText = `Home Rebuild Cost Estimate Summary
+----------------------------------------
+Property Address: ${r.address}
+Square Footage: ${r.sqft} sq ft
+
+ESTIMATED COSTS
+----------------------------------------
+Base Structure Cost: ${fmt(r.structureCost)}
+Soft & Code Upgrade Costs: ${fmt(r.softCosts)}
+Total Est. Rebuild Cost: ${fmt(r.totalCost)} (${fmt(r.effectivePerSqft)}/sq ft)
+
+CURRENT COVERAGE & ASSESSMENT
+----------------------------------------
+Current Coverage A: ${fmt(r.currentCoverage)}
+Extended Rider Buffer: ${r.extPct}% (Max Effective: ${fmt(r.maxEffectiveCoverage)})
+Policy Deductible: ${fmt(r.deductible)}
+
+Current Annual Premium: ${fmt(r.currentPremium)}
+Est. Adjusted Premium: ${fmt(r.newPremium)} (Change: ${r.premiumDelta >= 0 ? '+' : ''}${fmt(r.premiumDelta)})
+
+LINKED ESTIMATES
+----------------------------------------
+Coverage B (Other Structures - 10%): ${fmt(r.totalCost * 0.10)}
+Coverage C (Personal Property - 60%): ${fmt(r.totalCost * 0.60)}
+Coverage D (Loss of Use - 25%): ${fmt(r.totalCost * 0.25)}
+
+-- Generated via RebuildGuard --`;
+
+    window.location.href = `mailto:?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+  }
+
+  function exportJSON() {
+    const results = calculate();
+    const inputs = {};
+    FIELDS.forEach(id => { inputs[id] = document.getElementById(id).value; });
+    const payload = { inputs, results, exportedAt: new Date().toISOString() };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+    const a = document.createElement("a");
+    a.setAttribute("href", dataStr);
+    a.setAttribute("download", "rebuild_cost_estimate.json");
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function exportCSV() {
+    const results = calculate();
+    const rows = [["Field", "Value"]];
+    FIELDS.forEach(id => { rows.push([id, document.getElementById(id).value]); });
+    rows.push(["structureCost", results.structureCost.toFixed(2)]);
+    rows.push(["softCosts", results.softCosts.toFixed(2)]);
+    rows.push(["totalReplacementCost", results.totalCost.toFixed(2)]);
+    rows.push(["effectivePerSqft", results.effectivePerSqft.toFixed(2)]);
+    rows.push(["maxEffectiveCoverage", results.maxEffectiveCoverage.toFixed(2)]);
+    rows.push(["coverageDeltaPct", results.coverageDeltaPct.toFixed(2)]);
+    rows.push(["estPremiumDelta", results.premiumDelta.toFixed(2)]);
+    rows.push(["estNewPremium", results.newPremium.toFixed(2)]);
+    const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.href = url;
+    a.download = "rebuild_cost_estimate.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  function triggerImport() {
+    document.getElementById("jsonFileInput").click();
+  }
+
+  function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const imported = JSON.parse(e.target.result);
+        const inputs = imported.inputs || imported;
+        FIELDS.forEach(id => {
+          if (inputs[id] !== undefined && document.getElementById(id)) {
+            document.getElementById(id).value = inputs[id];
+          }
+        });
+        calcAndSave();
+        alert("Data imported successfully.");
+      } catch (err) {
+        alert("Error parsing JSON file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function exportToPNG() {
+    const stamp = document.getElementById("exportStamp");
+    stamp.innerText = "📌 Exported: " + new Date().toLocaleString();
+    stamp.style.display = "inline-block";
+    html2canvas(document.body, { useCORS: true, allowTaint: true }).then(canvas => {
+      const link = document.createElement("a");
+      link.download = "rebuild_cost_estimate.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      stamp.style.display = "none";
+    });
+  }
+
+  // Init
+  renderPresetRow();
+  loadFromLocalStorage();
+  calculate();
+</script>
 </body>
 </html>
