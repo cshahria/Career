@@ -54,20 +54,10 @@
       margin-bottom: 24px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .policy-inputs {
-      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 16px;
       flex-wrap: wrap;
-      align-items: flex-end;
-    }
-
-    .policy-inputs > div {
-      flex: 1;
-      min-width: 160px;
     }
 
     .shared-policy-card label {
@@ -82,42 +72,15 @@
       border: 1px solid var(--border-color);
       border-radius: 4px;
       font-size: 0.95rem;
-      width: 100%;
-      box-sizing: border-box;
     }
 
     .policy-summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #475569;
       background: #f1f5f9;
       padding: 12px 16px;
       border-radius: 6px;
-    }
-
-    .policy-summary-item {
-      background: #ffffff;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .policy-summary-item .lbl {
-      display: block;
-      font-size: 0.75rem;
-      color: #64748b;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .policy-summary-item .val {
-      display: block;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #0f172a;
-      margin-top: 2px;
+      flex-grow: 1;
     }
 
     .grid {
@@ -280,63 +243,26 @@
 <div class="container">
   <div class="header">
     <h1>Annual Vehicle Mileage & Insurance Tracker</h1>
-    <p>Monitor reported mileage caps, track time metrics, and split policy costs.</p>
+    <p>Monitor reported mileage caps, track usage percentages, and split policy costs.</p>
   </div>
 
   <form id="trackerForm">
     <div class="shared-policy-card">
-      <div class="policy-inputs">
-        <div>
-          <label for="total_policy_cost">Total Annual Premium ($)</label>
-          <input type="number" id="total_policy_cost" placeholder="0">
-        </div>
-        <div>
-          <label for="policy_start_date">Insurance Start Date</label>
-          <input type="date" id="policy_start_date">
-        </div>
-        <div>
-          <label for="policy_reset_date">Insurance Reset Date</label>
-          <input type="date" id="policy_reset_date">
-        </div>
-        <div>
-          <label for="checkin_date">Check-In / Log Date</label>
-          <input type="date" id="checkin_date">
-        </div>
+      <div>
+        <label for="total_policy_cost">Total Annual Insurance Premium ($)</label>
+        <input type="number" id="total_policy_cost" placeholder="0">
       </div>
-
+      <div>
+        <label for="policy_start_date">Insurance Start Date</label>
+        <input type="date" id="policy_start_date">
+      </div>
+      <div>
+        <label for="policy_reset_date">Insurance Reset Date</label>
+        <input type="date" id="policy_reset_date">
+      </div>
       <div class="policy-summary">
-        <div class="policy-summary-item">
-          <span class="lbl">Days Remaining</span>
-          <span class="val" id="days_rem_display">0 days</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Weeks Remaining</span>
-          <span class="val" id="weeks_rem_display">0.0 wks</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Months Remaining</span>
-          <span class="val" id="months_rem_display">0.0 mos</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Time Remaining %</span>
-          <span class="val" id="pct_time_rem_display">0.0%</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Cost Per Day (Total)</span>
-          <span class="val" id="cost_per_day_display">$0.00</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Cost Per Day (Per Vehicle)</span>
-          <span class="val" id="cost_per_day_veh_display">$0.00</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Split Premium / Veh</span>
-          <span class="val" id="split_cost_display">$0.00/yr</span>
-        </div>
-        <div class="policy-summary-item">
-          <span class="lbl">Monthly Share / Veh</span>
-          <span class="val" id="split_monthly_display">$0.00/mo</span>
-        </div>
+        <div><strong>Split Premium per Vehicle:</strong> <span id="split_cost_display">$0.00</span> / year</div>
+        <div><strong>Monthly Share per Vehicle:</strong> <span id="split_monthly_display">$0.00</span> / month</div>
       </div>
     </div>
 
@@ -535,7 +461,7 @@
       <button type="button" onclick="saveData()">Save Local</button>
       <button type="button" class="secondary" onclick="exportSnapshot()">Export JSON Snapshot</button>
       <button type="button" class="secondary" onclick="document.getElementById('fileInput').click()">Import JSON Snapshot</button>
-      <button type="button" class="secondary" onclick="emailVariables()">Email Data & Metrics</button>
+      <button type="button" class="secondary" onclick="emailVariables()">Email Data</button>
       <button type="button" class="secondary" onclick="window.print()">Export Report (PDF / Print)</button>
       <input type="file" id="fileInput" accept=".json" onchange="importSnapshot(event)">
     </div>
@@ -544,7 +470,7 @@
 
 <script>
   const fields = [
-    'total_policy_cost', 'policy_start_date', 'policy_reset_date', 'checkin_date',
+    'total_policy_cost', 'policy_start_date', 'policy_reset_date',
     'v1_name', 'v1_start', 'v1_current', 'v1_checkin', 'v1_cap', 'v1_est_weekly', 'v1_commute_trip', 'v1_trips_rem',
     'v2_name', 'v2_start', 'v2_current', 'v2_checkin', 'v2_cap', 'v2_est_weekly', 'v2_commute_trip', 'v2_trips_rem',
     'v3_name', 'v3_start', 'v3_current', 'v3_checkin', 'v3_cap', 'v3_est_weekly', 'v3_commute_trip', 'v3_trips_rem'
@@ -557,11 +483,6 @@
         document.getElementById(field).value = savedValue;
       }
     });
-
-    if (!document.getElementById('checkin_date').value) {
-      document.getElementById('checkin_date').value = new Date().toISOString().slice(0, 10);
-    }
-
     calculate();
   });
 
@@ -577,40 +498,21 @@
 
     const startDateVal = document.getElementById('policy_start_date').value;
     const resetDateVal = document.getElementById('policy_reset_date').value;
-    const checkinDateVal = document.getElementById('checkin_date').value;
 
-    let daysRemaining = 0;
-    let weeksRemaining = 0;
-    let monthsRemaining = 0;
-    let pctTimeRemaining = 0;
     let weeksElapsed = 1;
-    let costPerDayTotal = 0;
-    let costPerDayVeh = 0;
+    let weeksRemaining = 51;
 
     if (startDateVal && resetDateVal) {
       const start = new Date(startDateVal);
       const reset = new Date(resetDateVal);
-      const checkin = checkinDateVal ? new Date(checkinDateVal) : new Date();
-
+      const now = new Date();
+      
       const totalDays = Math.max(1, (reset - start) / (1000 * 60 * 60 * 24));
-      const elapsedDays = Math.max(1, Math.min(totalDays, (checkin - start) / (1000 * 60 * 60 * 24)));
-      daysRemaining = Math.max(0, Math.round(totalDays - elapsedDays));
-
-      weeksRemaining = daysRemaining / 7;
-      monthsRemaining = daysRemaining / 30.4375;
-      pctTimeRemaining = Math.max(0, Math.min(100, (daysRemaining / totalDays) * 100));
+      const elapsedDays = Math.max(1, Math.min(totalDays, (now - start) / (1000 * 60 * 60 * 24)));
+      
       weeksElapsed = elapsedDays / 7;
-
-      costPerDayTotal = totalPolicy / totalDays;
-      costPerDayVeh = splitAnnual / totalDays;
+      weeksRemaining = Math.max(0, (totalDays - elapsedDays) / 7);
     }
-
-    document.getElementById('days_rem_display').textContent = `${daysRemaining} days`;
-    document.getElementById('weeks_rem_display').textContent = `${weeksRemaining.toFixed(1)} wks`;
-    document.getElementById('months_rem_display').textContent = `${monthsRemaining.toFixed(1)} mos`;
-    document.getElementById('pct_time_rem_display').textContent = `${pctTimeRemaining.toFixed(1)}%`;
-    document.getElementById('cost_per_day_display').textContent = `$${costPerDayTotal.toFixed(2)}`;
-    document.getElementById('cost_per_day_veh_display').textContent = `$${costPerDayVeh.toFixed(2)}`;
 
     [1, 2, 3].forEach(v => {
       const start = parseFloat(document.getElementById(`v${v}_start`).value) || 0;
@@ -626,7 +528,7 @@
       const remaining = cap - driven;
       const pctUsed = cap > 0 ? Math.min(100, Math.round((driven / cap) * 100)) : 0;
 
-      const weeklyPace = estWeekly > 0 ? estWeekly : (driven / Math.max(1, weeksElapsed));
+      const weeklyPace = estWeekly > 0 ? estWeekly : (driven / weeksElapsed);
       const commuteWeeklyExtra = commuteTrip * tripsRem;
       const projectedFutureDriven = (weeklyPace + commuteWeeklyExtra) * weeksRemaining;
       const projectedAnnual = Math.round(driven + projectedFutureDriven);
@@ -708,29 +610,12 @@
   }
 
   function emailVariables() {
-    saveData();
     const data = {};
     fields.forEach(field => {
       data[field] = localStorage.getItem(field) || document.getElementById(field).value;
     });
-
-    const calculatedMetrics = {
-      days_remaining: document.getElementById('days_rem_display').textContent,
-      weeks_remaining: document.getElementById('weeks_rem_display').textContent,
-      months_remaining: document.getElementById('months_rem_display').textContent,
-      pct_time_remaining: document.getElementById('pct_time_rem_display').textContent,
-      insurance_cost_per_day_total: document.getElementById('cost_per_day_display').textContent,
-      insurance_cost_per_day_per_vehicle: document.getElementById('cost_per_day_veh_display').textContent
-    };
-
-    const payload = {
-      checkin_send_date: document.getElementById('checkin_date').value || new Date().toISOString().slice(0, 10),
-      metrics_summary: calculatedMetrics,
-      raw_variables: data
-    };
-
-    const subject = encodeURIComponent(`Vehicle Tracker Snapshot (${payload.checkin_send_date})`);
-    const body = encodeURIComponent(JSON.stringify(payload, null, 2));
+    const subject = encodeURIComponent("Vehicle Tracker LocalStorage Data");
+    const body = encodeURIComponent(JSON.stringify(data, null, 2));
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 </script>
