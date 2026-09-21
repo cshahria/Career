@@ -82,7 +82,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwgRxd9hRz_XF7RRjbr6rgz56jb0M-KWGQ8_YjAtZvz5lV48981AU8KYHUldP9y28Gn6A/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwIP0JWGmVmOlakt7SAEEckWnQEHL96BZ25Kq9cZRfMwgUa88_moXvA370OdplGOmiTlg/exec";
 
     window.onload = function() {
       fetchData();
@@ -141,6 +141,7 @@
       try {
         const response = await fetch(API_URL, {
           method: 'POST',
+          // Header set to text/plain to bypass browser CORS preflight block
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ action: 'archive' })
         });
