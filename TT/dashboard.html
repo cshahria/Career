@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Tracker Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 20px; color: #333; }
+    .btn-group { margin-bottom: 15px; }
+    button { padding: 8px 14px; margin-right: 8px; cursor: pointer; }
+    #statusMsg { margin: 10px 0; font-weight: bold; color: #007bb6; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+  </style>
+</head>
+<body>
+
+  <h1>Time Tracker Dashboard</h1>
+
+  <div class="btn-group">
+    <button onclick="fetchData()">↻ Refresh</button>
+    <button id="archiveBtn" onclick="archiveOldEntries()">📦 Archive Old Rows</button>
+  </div>
+
+  <div id="statusMsg"></div>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Type</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <script src="app.js"></script>
+</body>
+</html>
