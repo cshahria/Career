@@ -74,15 +74,6 @@
       margin-bottom: 14px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
     .status-toast {
       display: none;
       padding: 8px 12px;
@@ -191,62 +182,6 @@
       text-transform: uppercase;
     }
 
-    /* Verification Cards Styling */
-    .punch-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 12px;
-      margin-top: 8px;
-    }
-    .punch-card {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px 12px;
-      font-size: 0.8rem;
-    }
-    .punch-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      padding-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-    .punch-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .punch-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3px 6px;
-      border-radius: 4px;
-      background: #ffffff;
-      border: 1px solid #f1f5f9;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
-    .punch-type {
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 3px;
-      text-transform: uppercase;
-    }
-    .punch-type.in { background: #dcfce7; color: #166534; }
-    .punch-type.out { background: #fee2e2; color: #991b1b; }
-    .no-punches {
-      color: var(--muted);
-      font-style: italic;
-      text-align: center;
-      padding: 8px;
-    }
-
     @media (max-width: 640px) {
       .stat-grid { grid-template-columns: 1fr; }
       .header h1 { font-size: 1.1rem; }
@@ -300,11 +235,7 @@
     </div>
   </div>
 
-  <!-- Weekly Projection Table -->
   <div class="card">
-    <div class="card-title">
-      <span>📊 Weekly Schedule & Projections</span>
-    </div>
     <div class="table-container">
       <table>
         <thead>
@@ -323,17 +254,6 @@
         </thead>
         <tbody id="projectionBody"></tbody>
       </table>
-    </div>
-  </div>
-
-  <!-- Visual Punch Card Verification Section -->
-  <div class="card">
-    <div class="card-title">
-      <span>🔎 Raw Punch Verification Cards</span>
-      <span class="note">Shows all Check-Ins & Check-Outs from CSV/API for manual verification</span>
-    </div>
-    <div class="punch-cards-grid" id="punchCardsContainer">
-      <!-- Generated dynamically per day -->
     </div>
   </div>
 
@@ -361,11 +281,6 @@
       } catch (e) {
         return JSON.parse(JSON.stringify(TYPICAL_SCHEDULE));
       }
-    }
-
-    function loadRawPunches() {
-      const saved = localStorage.getItem('weekly_projection_raw_punches');
-      return saved ? JSON.parse(saved) : {};
     }
 
     function showToast(msg) {
@@ -475,36 +390,6 @@
       });
       document.getElementById('projectionBody').innerHTML = html;
       calculateProjections();
-      renderPunchCards();
-    }
-
-    function renderPunchCards() {
-      const rawPunches = loadRawPunches();
-      let html = '';
-
-      DAYS.forEach(day => {
-        const punches = rawPunches[day] || [];
-        html += `
-          <div class="punch-card">
-            <div class="punch-card-header">
-              <span>${day}</span>
-              <span class="note">${punches.length} punch${punches.length === 1 ? '' : 'es'}</span>
-            </div>
-            ${punches.length === 0 ? '<div class="no-punches">No raw punches recorded</div>' : `
-              <ul class="punch-list">
-                ${punches.map(p => `
-                  <li class="punch-item">
-                    <span class="punch-type ${p.type.toLowerCase()}">${p.type}</span>
-                    <span style="font-weight:600;">${p.time}</span>
-                  </li>
-                `).join('')}
-              </ul>
-            `}
-          </div>
-        `;
-      });
-
-      document.getElementById('punchCardsContainer').innerHTML = html;
     }
 
     function saveBankedOt() {
@@ -652,9 +537,6 @@
           }
         });
 
-        // Save raw punches for verification card view
-        localStorage.setItem('weekly_projection_raw_punches', JSON.stringify(dayEvents));
-
         const sched = loadSchedule();
         let syncedCount = 0;
 
@@ -677,7 +559,7 @@
           const lunchInCandidate = ins.find(e => e.mins >= 720 && e.mins <= 840);
           const lunchIn = lunchInCandidate ? lunchInCandidate.time : '';
 
-          // 4. AFTER-HOURS PUNCHES: Check-ins starting at/after 19:30 PT (1170 mins)
+          // 4. AFTER-HOURS PUNCHES: Check-ins starting at/after 20:00 PT (1200 mins) or 19:30 PT (1170 mins)
           const eveningInCandidate = ins.find(e => e.mins >= 1170);
           const hasAfterHours = Boolean(eveningInCandidate);
 
@@ -719,7 +601,7 @@
         localStorage.setItem('weekly_projection_schedule', JSON.stringify(sched));
         renderTable();
 
-        document.getElementById('syncStatusInfo').innerText = `Last Synced: ${new Date().toLocaleTimeString('en-US', { hour12: false })} (${syncedCount} days updated)`;
+        document.getElementById('syncStatusInfo').innerText = `Last Synced: ${new Date().toLocaleTimeString()} (${syncedCount} days updated)`;
         showToast(`Successfully synced actuals for ${syncedCount} worked day(s)!`);
         setTimeout(hideToast, 4000);
       } catch (err) {
@@ -733,7 +615,6 @@
     function resetToTypicalSchedule() {
       localStorage.setItem('weekly_projection_schedule', JSON.stringify(TYPICAL_SCHEDULE));
       localStorage.setItem('weekly_projection_ot', '0');
-      localStorage.removeItem('weekly_projection_raw_punches');
       document.getElementById('bankedOtMins').value = 0;
       document.getElementById('syncStatusInfo').innerText = 'Status: Reset to typical schedule';
       renderTable();
@@ -743,13 +624,11 @@
 
     function exportJSON() {
       const sched = loadSchedule();
-      const rawPunches = loadRawPunches();
       const ot = localStorage.getItem('weekly_projection_ot') || '0';
       const exportData = {
-        version: "1.2",
+        version: "1.1",
         bankedOtMins: parseInt(ot, 10),
-        schedule: sched,
-        rawPunches: rawPunches
+        schedule: sched
       };
 
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
@@ -777,9 +656,6 @@
             localStorage.setItem('weekly_projection_schedule', JSON.stringify(imported.schedule));
             if (imported.bankedOtMins !== undefined) {
               localStorage.setItem('weekly_projection_ot', imported.bankedOtMins.toString());
-            }
-            if (imported.rawPunches) {
-              localStorage.setItem('weekly_projection_raw_punches', JSON.stringify(imported.rawPunches));
             }
             renderTable();
             showToast("Projection data imported successfully.");
