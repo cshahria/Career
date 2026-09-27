@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NetTrack - Executive Net Worth Dashboard</title>
+  <title>NetTrack - Executive Wealth & Cash Flow Dashboard</title>
   <!-- Chart.js for corporate visual analytics -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- html2canvas for visual PNG snapshots -->
@@ -34,32 +34,32 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 20px 16px 60px;
-      max-width: 1080px;
+      padding: 12px 16px 40px;
+      max-width: 1100px;
       margin: 0 auto;
-      font-size: 15px;
-      line-height: 1.5;
+      font-size: 14px;
+      line-height: 1.4;
     }
 
     /* Top Beta & Security Disclaimer Banner */
     .top-disclaimer {
       background: #fef2f2;
       border: 1px solid #fecaca;
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-bottom: 16px;
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
       color: #991b1b;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .top-disclaimer-tag {
       background: #dc2626;
       color: #ffffff;
       font-weight: 800;
-      font-size: 0.68rem;
-      padding: 2px 6px;
+      font-size: 0.65rem;
+      padding: 2px 5px;
       border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -70,31 +70,31 @@
     .header {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
     .header-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
     }
     .header-title-container {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .brand-logo {
       background: var(--nav-dark);
       color: #ffffff;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1rem;
       letter-spacing: -0.03em;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--nav-dark); }
-    .header p { font-size: 0.82rem; color: var(--muted); margin-top: 1px; }
+    .header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--nav-dark); }
+    .header p { font-size: 0.78rem; color: var(--muted); margin-top: 0px; }
 
     .header-actions {
       display: flex;
@@ -102,9 +102,9 @@
       gap: 6px;
       flex-wrap: wrap;
       background: #ffffff;
-      padding: 8px 12px;
+      padding: 6px 10px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
       box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     }
     .action-group {
@@ -114,18 +114,48 @@
     }
     .action-divider {
       width: 1px;
-      height: 20px;
+      height: 18px;
       background: #e2e8f0;
-      margin: 0 3px;
+      margin: 0 2px;
+    }
+
+    /* Primary Section Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 0px;
+    }
+    .tab-btn {
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      border-radius: 6px 6px 0 0;
+    }
+    .tab-btn:hover {
+      color: var(--nav-dark);
+      background: #f1f5f9;
+    }
+    .tab-btn.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+      background: #ffffff;
     }
 
     /* Buttons Styling */
     .btn {
-      padding: 6px 11px;
-      font-size: 0.8rem;
+      padding: 5px 9px;
+      font-size: 0.78rem;
       font-weight: 500;
       border: 1px solid var(--btn-border);
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
       background: var(--btn-bg);
       color: #1e293b;
@@ -148,103 +178,106 @@
       background: var(--card); 
       border: 1px solid var(--border); 
       border-radius: 8px; 
-      padding: 18px 20px; 
-      margin-bottom: 20px; 
+      padding: 12px 14px; 
+      margin-bottom: 12px; 
       box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03); 
     }
 
-    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; text-align: center; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 0px; text-align: center; }
     .stat-box { 
       background: #f8fafc; 
       border: 1px solid var(--border); 
-      padding: 14px; 
-      border-radius: 8px; 
+      padding: 8px 10px; 
+      border-radius: 6px; 
       position: relative;
     }
-    .stat-box .val { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; }
-    .stat-box .val-large { font-size: 2.1rem; color: var(--primary); }
-    .stat-box .lbl { color: var(--muted); font-size: 0.8rem; margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
-    .stat-box .sub-val { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .stat-box .val { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+    .stat-box .val-large { font-size: 1.6rem; color: var(--primary); }
+    .stat-box .lbl { color: var(--muted); font-size: 0.72rem; margin-top: 1px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+    .stat-box .sub-val { font-size: 0.7rem; color: var(--muted); margin-top: 1px; }
 
     /* Rates & Preferences Bar */
     .fx-bar {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.82rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
       color: #334155;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
       align-items: center;
       justify-content: space-between;
     }
-    .fx-rates { display: flex; gap: 16px; flex-wrap: wrap; }
+    .fx-rates { display: flex; gap: 12px; flex-wrap: wrap; }
     .fx-item span { font-weight: 700; color: #0f172a; }
 
     /* Visual Charts Section */
-    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
     @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
     .chart-card { 
       background: var(--card); 
       border: 1px solid var(--border); 
       border-radius: 8px; 
-      padding: 16px; 
-      height: 320px; 
+      padding: 10px 12px; 
+      height: 220px; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       justify-content: center; 
       box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
     }
-    .chart-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; align-self: flex-start; }
+    .chart-card h3 { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; align-self: flex-start; }
 
     /* Tables & Controls */
-    .table-container { overflow-x: auto; margin-top: 8px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    th { background: #f1f5f9; color: #475569; font-weight: 700; font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .table-container { overflow-x: auto; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    th, td { padding: 5px 6px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th { background: #f1f5f9; color: #475569; font-weight: 700; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; }
     tr:hover { background: #f8fafc; }
-    h2 { font-size: 1rem; font-weight: 700; color: var(--nav-dark); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    h2 { font-size: 0.92rem; font-weight: 700; color: var(--nav-dark); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
 
-    input[type="text"], input[type="number"], select {
-      font-size: 0.85rem;
-      padding: 5px 8px;
+    input[type="text"], input[type="number"], input[type="date"], select {
+      font-size: 0.8rem;
+      padding: 3px 6px;
       border: 1px solid var(--border);
-      border-radius: 5px;
+      border-radius: 4px;
       background: #ffffff;
       color: var(--text);
       width: 100%;
     }
-    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+    input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
       outline: none;
       border-color: var(--accent-blue);
       box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
     }
-    input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
+    input[type="checkbox"] { width: 14px; height: 14px; cursor: pointer; accent-color: var(--primary); }
 
-    .export-stamp { display: none; background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 8px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .export-stamp { display: none; background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; font-size: 0.75rem; font-weight: 600; padding: 4px 8px; border-radius: 4px; }
     
     /* Footer & License Styling */
     footer {
-      margin-top: 30px;
-      padding-top: 20px;
+      margin-top: 20px;
+      padding-top: 12px;
       border-top: 1px solid var(--border);
       text-align: center;
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.5;
     }
     .license-box {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
-      padding: 12px 16px;
-      margin-top: 12px;
+      padding: 8px 12px;
+      margin-top: 8px;
       text-align: justify;
-      font-size: 0.73rem;
+      font-size: 0.68rem;
       color: #475569;
     }
 
@@ -265,7 +298,7 @@
         <div class="brand-logo">NT</div>
         <div>
           <h1>NetTrack Executive Dashboard</h1>
-          <p>Executive Multi-Currency Asset Allocation & Wealth Management</p>
+          <p>Executive Asset Allocation & Monthly Cash Flow Tracker</p>
         </div>
       </div>
       <div id="exportStamp" class="export-stamp"></div>
@@ -274,12 +307,12 @@
     <!-- Action Toolbar -->
     <div class="header-actions">
       <div class="action-group">
-        <button class="btn" onclick="addAccount()">➕ Add Account</button>
+        <button class="btn" id="addAccountBtn" onclick="addAccount()">➕ Add Account</button>
       </div>
       <div class="action-divider"></div>
       <div class="action-group">
-        <label for="baseCurrencySelect" style="font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-right: 2px;">Display:</label>
-        <select id="baseCurrencySelect" onchange="changeBaseCurrency(this.value)" style="width: auto; padding: 4px 6px; font-weight: 600;">
+        <label for="baseCurrencySelect" style="font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-right: 2px;">Display:</label>
+        <select id="baseCurrencySelect" onchange="changeBaseCurrency(this.value)" style="width: auto; padding: 3px 5px; font-weight: 600;">
           <option value="USD">$ — USD</option>
           <option value="EUR">€ — EUR</option>
           <option value="GBP">£ — GBP</option>
@@ -310,77 +343,178 @@
 
   <div class="fx-bar">
     <div class="fx-rates" id="ratesDisplay">Fetching live exchange rates...</div>
-    <div id="fxStatus" style="font-size: 0.75rem; color: var(--muted); font-weight: 500;">Checking market rates...</div>
+    <div id="fxStatus" style="font-size: 0.72rem; color: var(--muted); font-weight: 500;">Checking market rates...</div>
   </div>
 
-  <div class="card">
-    <div class="stat-grid">
-      <div class="stat-box" style="border-left: 4px solid var(--primary);">
-        <div id="totalNetWorthUSD" class="val val-large">$0.00</div>
-        <div class="lbl">Total Net Assets</div>
-        <div id="baseCurLabel" class="sub-val">Base Currency: USD ($)</div>
+  <!-- Main View Navigation Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('netWorthTab', this)">📊 Net Worth Ledger</button>
+    <button class="tab-btn" onclick="switchTab('cashFlowTab', this)">💵 Income & Monthly Expenses</button>
+  </div>
+
+  <!-- TAB 1: NET WORTH DASHBOARD -->
+  <div id="netWorthTab" class="tab-content active">
+    <div class="card">
+      <div class="stat-grid">
+        <div class="stat-box" style="border-left: 4px solid var(--primary);">
+          <div id="totalNetWorthUSD" class="val val-large">$0.00</div>
+          <div class="lbl">Total Net Assets</div>
+          <div id="baseCurLabel" class="sub-val">Base Currency: USD ($)</div>
+        </div>
+        <div class="stat-box" style="border-left: 4px solid var(--success);">
+          <div id="liquidTotalUSD" class="val" style="color: var(--success);">$0.00</div>
+          <div class="lbl">Liquid Operating Funds</div>
+          <div id="liquidPct" class="sub-val">0% of portfolio</div>
+        </div>
+        <div class="stat-box" style="border-left: 4px solid var(--warning);">
+          <div id="lockedTotalUSD" class="val" style="color: var(--warning);">$0.00</div>
+          <div class="lbl">Locked / Pension</div>
+          <div id="lockedPct" class="sub-val">0% of portfolio</div>
+        </div>
+        <div class="stat-box" style="border-left: 4px solid var(--pension-purple);">
+          <div id="minTotalUSD" class="val" style="color: var(--pension-purple);">$0.00</div>
+          <div class="lbl">Restricted / Min Balance</div>
+          <div id="minPct" class="sub-val">0% of portfolio</div>
+        </div>
       </div>
-      <div class="stat-box" style="border-left: 4px solid var(--success);">
-        <div id="liquidTotalUSD" class="val" style="color: var(--success);">$0.00</div>
-        <div class="lbl">Liquid Operating Funds</div>
-        <div id="liquidPct" class="sub-val">0% of portfolio</div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Currency Asset Distribution</h3>
+        <div style="position: relative; height: 100%; width: 100%;">
+          <canvas id="currencyChart"></canvas>
+        </div>
       </div>
-      <div class="stat-box" style="border-left: 4px solid var(--warning);">
-        <div id="lockedTotalUSD" class="val" style="color: var(--warning);">$0.00</div>
-        <div class="lbl">Locked / Pension</div>
-        <div id="lockedPct" class="sub-val">0% of portfolio</div>
+      <div class="chart-card">
+        <h3>Liquidity & Asset Classification</h3>
+        <div style="position: relative; height: 100%; width: 100%;">
+          <canvas id="liquidityChart"></canvas>
+        </div>
       </div>
-      <div class="stat-box" style="border-left: 4px solid var(--pension-purple);">
-        <div id="minTotalUSD" class="val" style="color: var(--pension-purple);">$0.00</div>
-        <div class="lbl">Restricted / Min Balance</div>
-        <div id="minPct" class="sub-val">0% of portfolio</div>
+    </div>
+
+    <div class="card">
+      <h2>
+        <span>Account Ledger</span>
+        <span style="font-size: 0.78rem; font-weight: 600; color: var(--muted);" id="accountCount">0 Accounts</span>
+      </h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Group / Category</th>
+              <th>Account Designation</th>
+              <th>Balance (Local)</th>
+              <th>Cur</th>
+              <th>FX Rate (vs USD)</th>
+              <th id="tableUsdColHeader">Converted Balance</th>
+              <th style="text-align:center;">Liquid</th>
+              <th style="text-align:center;">Pension/401k</th>
+              <th style="text-align:center;">Min Bal</th>
+              <th style="text-align:center;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="accountsBody"></tbody>
+        </table>
       </div>
     </div>
   </div>
 
-  <div class="charts-grid">
-    <div class="chart-card">
-      <h3>Currency Asset Distribution</h3>
-      <div style="position: relative; height: 100%; width: 100%;">
-        <canvas id="currencyChart"></canvas>
+  <!-- TAB 2: MONTHLY CASH FLOW & EXPENSE TRACKER -->
+  <div id="cashFlowTab" class="tab-content">
+    <div class="card">
+      <div class="stat-grid">
+        <div class="stat-box" style="border-left: 4px solid var(--success);">
+          <div id="totalIncomeVal" class="val val-large" style="color: var(--success);">$0.00</div>
+          <div class="lbl">Estimated Monthly Income</div>
+          <div id="incomeSub" class="sub-val">0 Income Sources</div>
+        </div>
+        <div class="stat-box" style="border-left: 4px solid var(--danger);">
+          <div id="totalExpenseVal" class="val val-large" style="color: var(--danger);">$0.00</div>
+          <div class="lbl">Estimated Monthly Expenses</div>
+          <div id="expenseSub" class="sub-val">0 Expense Categories</div>
+        </div>
+        <div class="stat-box" id="netCashFlowBox" style="border-left: 4px solid var(--primary);">
+          <div id="netCashFlowVal" class="val val-large">$0.00</div>
+          <div class="lbl">Estimated Net Cash Flow</div>
+          <div id="cashFlowMargin" class="sub-val">0% Net Margin</div>
+        </div>
       </div>
     </div>
-    <div class="chart-card">
-      <h3>Liquidity & Asset Classification</h3>
-      <div style="position: relative; height: 100%; width: 100%;">
-        <canvas id="liquidityChart"></canvas>
-      </div>
-    </div>
-  </div>
 
-  <div class="card">
-    <h2>
-      <span>Account Ledger</span>
-      <span style="font-size: 0.8rem; font-weight: 600; color: var(--muted);" id="accountCount">0 Accounts</span>
-    </h2>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Group / Category</th>
-            <th>Account Designation</th>
-            <th>Balance (Local)</th>
-            <th>Cur</th>
-            <th>FX Rate (vs USD)</th>
-            <th id="tableUsdColHeader">Converted Balance</th>
-            <th style="text-align:center;">Liquid</th>
-            <th style="text-align:center;">Pension/401k</th>
-            <th style="text-align:center;">Min Bal</th>
-            <th style="text-align:center;">Action</th>
-          </tr>
-        </thead>
-        <tbody id="accountsBody"></tbody>
-      </table>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>Income vs. Expenditure Distribution</h3>
+        <div style="position: relative; height: 100%; width: 100%;">
+          <canvas id="cashFlowChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Liquidity Runway & Reserve Status</h3>
+        <div style="text-align: center; padding: 10px;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 4px;">Estimated Operating Runway</div>
+          <div id="runwayMonthsVal" style="font-size: 2rem; font-weight: 800; color: var(--nav-dark);">0.0 Months</div>
+          <p style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">Based on Liquid Operating Funds divided by Estimated Monthly Expenses.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly Income Sources Ledger (15 Rows Default + Add Row UI) -->
+    <div class="card">
+      <h2>
+        <span>Monthly Income Sources</span>
+        <div>
+          <button class="btn" style="margin-right: 8px;" onclick="addIncomeRow()">➕ Add Income Row</button>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--muted);" id="incomeRowCount">15 Rows</span>
+        </div>
+      </h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 140px;">Date</th>
+              <th>Income Stream Description</th>
+              <th>Category / Source</th>
+              <th>Monthly Amount</th>
+              <th>Notes / Deposit Date</th>
+              <th style="text-align:center; width: 60px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="incomeBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Monthly Expense Ledger (15 Rows Default + Add Row UI) -->
+    <div class="card">
+      <h2>
+        <span>Monthly Expenses</span>
+        <div>
+          <button class="btn" style="margin-right: 8px;" onclick="addExpenseRow()">➕ Add Expense Row</button>
+          <span style="font-size: 0.78rem; font-weight: 600; color: var(--muted);" id="expenseRowCount">15 Rows</span>
+        </div>
+      </h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 140px;">Date</th>
+              <th>Expense / Line Item</th>
+              <th>Classification</th>
+              <th>Monthly Amount</th>
+              <th>Notes / Billing Date</th>
+              <th style="text-align:center; width: 60px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="expensesBody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
   <footer>
-    <p><strong>NetTrack Executive Dashboard</strong> • Client-side local storage utility for multi-currency asset tracking.</p>
+    <p><strong>NetTrack Executive Dashboard</strong> • Client-side local storage utility for multi-currency asset and cash flow tracking.</p>
     <div class="license-box">
       <strong>SOFTWARE LICENSE & USAGE DISCLAIMER:</strong> This software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors, developers, or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software. This tool does not provide official financial, legal, or tax advice. Default loads and resets contain 0 values and zero identifying information for security.
     </div>
@@ -409,7 +543,7 @@
       '#7c3aed'  // Deep Violet
     ];
 
-    // Default Initial Template Accounts (ALL VALUES SET TO 0 FOR SECURITY)
+    // Default Net Worth Account Structure
     const initialAccounts = [
       { id: 1, type: "Liquid Assets", name: "Primary Checking Account", balance: 0.00, currency: "USD", fxRate: 1.0, isLiquid: true, isPension: false, isMinBal: true },
       { id: 2, type: "Liquid Assets", name: "Savings Reserve Account", balance: 0.00, currency: "USD", fxRate: 1.0, isLiquid: true, isPension: false, isMinBal: false },
@@ -420,14 +554,61 @@
       { id: 7, type: "Global Retirement", name: "International Pension Account (CAD)", balance: 0.00, currency: "CAD", fxRate: 0.7400, isLiquid: false, isPension: true, isMinBal: false }
     ];
 
+    // Helper to generate 15 empty income rows
+    function createInitialIncomeSources() {
+      const categories = [
+        "Primary Employment", "Secondary Income / Consulting", "Investment Dividends", 
+        "Rental Property Revenue", "Business Distributions", "Annuity / Pension", 
+        "Interest Income", "Other Income Source"
+      ];
+      const list = [];
+      for (let i = 1; i <= 15; i++) {
+        list.push({
+          id: i,
+          date: "",
+          name: "",
+          category: categories[i - 1] || "Income Source",
+          amount: 0.00,
+          notes: ""
+        });
+      }
+      return list;
+    }
+
+    // Helper to generate 15 empty expense rows
+    function createInitialExpenses() {
+      const categories = [
+        "Housing / Rent / Mortgage", "Utilities & Services", "Groceries & Food", 
+        "Insurance (Health, Auto, Home)", "Transportation & Fuel", "Debt Service & Loans", 
+        "Subscriptions & Telecom", "Healthcare & Discretionary", "Property Taxes & Fees", 
+        "Miscellaneous Expenses"
+      ];
+      const list = [];
+      for (let i = 1; i <= 15; i++) {
+        list.push({
+          id: i,
+          date: "",
+          name: "",
+          category: categories[i - 1] || "Expense Category",
+          amount: 0.00,
+          notes: ""
+        });
+      }
+      return list;
+    }
+
+    const initialIncomeSources = createInitialIncomeSources();
+    const initialExpenses = createInitialExpenses();
+
     let accounts = [];
-    let preferences = {
-      baseCurrency: 'USD'
-    };
+    let incomeSources = [];
+    let expenses = [];
+    let preferences = { baseCurrency: 'USD' };
 
     let fxRatesVsUsd = { USD: 1.0, EUR: 1.0850, GBP: 1.2750, JPY: 0.0067, CHF: 1.1200, CAD: 0.7400 };
     let currencyChart = null;
     let liquidityChart = null;
+    let cashFlowChart = null;
 
     // Window Load Entry Point
     window.onload = function() {
@@ -438,17 +619,17 @@
 
     function loadLocalStorage() {
       const savedAccs = localStorage.getItem('nettrack_corp_accounts');
+      const savedIncome = localStorage.getItem('nettrack_corp_income');
+      const savedExpenses = localStorage.getItem('nettrack_corp_expenses');
       const savedPrefs = localStorage.getItem('nettrack_corp_prefs');
 
       if (savedPrefs) {
         try { preferences = JSON.parse(savedPrefs); } catch(e) { preferences = { baseCurrency: 'USD' }; }
       }
 
-      if (savedAccs) {
-        try { accounts = JSON.parse(savedAccs); } catch(e) { accounts = JSON.parse(JSON.stringify(initialAccounts)); }
-      } else {
-        accounts = JSON.parse(JSON.stringify(initialAccounts));
-      }
+      accounts = savedAccs ? JSON.parse(savedAccs) : JSON.parse(JSON.stringify(initialAccounts));
+      incomeSources = savedIncome ? JSON.parse(savedIncome) : JSON.parse(JSON.stringify(initialIncomeSources));
+      expenses = savedExpenses ? JSON.parse(savedExpenses) : JSON.parse(JSON.stringify(initialExpenses));
 
       const curSelect = document.getElementById('baseCurrencySelect');
       if (curSelect) curSelect.value = preferences.baseCurrency || 'USD';
@@ -456,6 +637,8 @@
 
     function saveLocalStorage() {
       localStorage.setItem('nettrack_corp_accounts', JSON.stringify(accounts));
+      localStorage.setItem('nettrack_corp_income', JSON.stringify(incomeSources));
+      localStorage.setItem('nettrack_corp_expenses', JSON.stringify(expenses));
       localStorage.setItem('nettrack_corp_prefs', JSON.stringify(preferences));
     }
 
@@ -474,7 +657,7 @@
           if (rates.CHF) fxRatesVsUsd.CHF = parseFloat((1 / rates.CHF).toFixed(4));
           if (rates.CAD) fxRatesVsUsd.CAD = parseFloat((1 / rates.CAD).toFixed(4));
 
-          statusEl.innerText = `Updated: ${new Date().toLocaleTimeString()}`;
+          statusEl.innerText = `Updated: ${new Date().toLocaleTimeString('en-US', { hour12: false })}`;
           
           accounts.forEach(a => {
             if (fxRatesVsUsd[a.currency]) {
@@ -499,6 +682,19 @@
       `;
     }
 
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+
+      const addBtn = document.getElementById('addAccountBtn');
+      if (addBtn) addBtn.style.display = tabId === 'netWorthTab' ? 'inline-flex' : 'none';
+      
+      // Refresh charts upon tab switch
+      renderApp();
+    }
+
     function formatFormattedCurrency(valInUsd, targetCurrency) {
       const info = CURRENCY_MAP[targetCurrency] || CURRENCY_MAP.USD;
       const targetFxVsUsd = fxRatesVsUsd[targetCurrency] || 1.0;
@@ -515,33 +711,28 @@
 
     function renderApp() {
       renderTable();
+      renderCashFlowTables();
       calculateTotalsAndCharts();
       document.getElementById('accountCount').innerText = `${accounts.length} Registered Accounts`;
+      document.getElementById('incomeRowCount').innerText = `${incomeSources.length} Income Rows`;
+      document.getElementById('expenseRowCount').innerText = `${expenses.length} Expense Rows`;
     }
 
     function renderTable() {
       const tbody = document.getElementById('accountsBody');
       const baseCur = preferences.baseCurrency || 'USD';
-      const baseInfo = CURRENCY_MAP[baseCur] || CURRENCY_MAP.USD;
       document.getElementById('tableUsdColHeader').innerText = `Converted (${baseCur})`;
 
       let html = '';
-
       accounts.forEach((a, idx) => {
         const usdVal = a.balance * a.fxRate;
         const displayConvertedVal = formatFormattedCurrency(usdVal, baseCur);
 
         html += `
           <tr>
-            <td>
-              <input type="text" value="${escapeHtml(a.type || '')}" onchange="updateAccount(${idx}, 'type', this.value)">
-            </td>
-            <td>
-              <input type="text" value="${escapeHtml(a.name || '')}" onchange="updateAccount(${idx}, 'name', this.value)">
-            </td>
-            <td>
-              <input type="number" step="any" value="${a.balance}" onchange="updateAccount(${idx}, 'balance', parseFloat(this.value)||0)">
-            </td>
+            <td><input type="text" value="${escapeHtml(a.type || '')}" onchange="updateAccount(${idx}, 'type', this.value)"></td>
+            <td><input type="text" value="${escapeHtml(a.name || '')}" onchange="updateAccount(${idx}, 'name', this.value)"></td>
+            <td><input type="number" step="any" value="${a.balance}" onchange="updateAccount(${idx}, 'balance', parseFloat(this.value)||0)"></td>
             <td>
               <select onchange="updateAccountCurrency(${idx}, this.value)">
                 <option value="USD" ${a.currency==='USD'?'selected':''}>USD ($)</option>
@@ -552,27 +743,52 @@
                 <option value="CAD" ${a.currency==='CAD'?'selected':''}>CAD (C$)</option>
               </select>
             </td>
-            <td>
-              <input type="number" step="0.0001" value="${a.fxRate}" onchange="updateAccount(${idx}, 'fxRate', parseFloat(this.value)||1)">
-            </td>
+            <td><input type="number" step="0.0001" value="${a.fxRate}" onchange="updateAccount(${idx}, 'fxRate', parseFloat(this.value)||1)"></td>
             <td style="font-weight: 700; color: var(--nav-dark);">${displayConvertedVal}</td>
-            <td style="text-align:center;">
-              <input type="checkbox" ${a.isLiquid?'checked':''} onchange="updateAccount(${idx}, 'isLiquid', this.checked)">
-            </td>
-            <td style="text-align:center;">
-              <input type="checkbox" ${a.isPension?'checked':''} onchange="updateAccount(${idx}, 'isPension', this.checked)">
-            </td>
-            <td style="text-align:center;">
-              <input type="checkbox" ${a.isMinBal?'checked':''} onchange="updateAccount(${idx}, 'isMinBal', this.checked)">
-            </td>
-            <td style="text-align:center;">
-              <button class="btn btn-danger" style="padding: 3px 7px;" onclick="deleteAccount(${idx})" title="Remove Row">✕</button>
-            </td>
+            <td style="text-align:center;"><input type="checkbox" ${a.isLiquid?'checked':''} onchange="updateAccount(${idx}, 'isLiquid', this.checked)"></td>
+            <td style="text-align:center;"><input type="checkbox" ${a.isPension?'checked':''} onchange="updateAccount(${idx}, 'isPension', this.checked)"></td>
+            <td style="text-align:center;"><input type="checkbox" ${a.isMinBal?'checked':''} onchange="updateAccount(${idx}, 'isMinBal', this.checked)"></td>
+            <td style="text-align:center;"><button class="btn btn-danger" style="padding: 2px 6px;" onclick="deleteAccount(${idx})" title="Remove Row">✕</button></td>
           </tr>
         `;
       });
-
       tbody.innerHTML = html;
+    }
+
+    function renderCashFlowTables() {
+      // Income Table
+      const incBody = document.getElementById('incomeBody');
+      let incHtml = '';
+      incomeSources.forEach((inc, idx) => {
+        incHtml += `
+          <tr>
+            <td><input type="date" value="${inc.date || ''}" onchange="updateCashFlowItem('income', ${idx}, 'date', this.value)"></td>
+            <td><input type="text" placeholder="Income Description" value="${escapeHtml(inc.name || '')}" onchange="updateCashFlowItem('income', ${idx}, 'name', this.value)"></td>
+            <td><input type="text" placeholder="Category" value="${escapeHtml(inc.category || '')}" onchange="updateCashFlowItem('income', ${idx}, 'category', this.value)"></td>
+            <td><input type="number" step="any" placeholder="0.00" value="${inc.amount || 0}" onchange="updateCashFlowItem('income', ${idx}, 'amount', parseFloat(this.value)||0)"></td>
+            <td><input type="text" placeholder="Notes / Details" value="${escapeHtml(inc.notes || '')}" onchange="updateCashFlowItem('income', ${idx}, 'notes', this.value)"></td>
+            <td style="text-align:center;"><button class="btn btn-danger" style="padding: 2px 6px;" onclick="deleteCashFlowRow('income', ${idx})" title="Remove Row">✕</button></td>
+          </tr>
+        `;
+      });
+      incBody.innerHTML = incHtml;
+
+      // Expenses Table
+      const expBody = document.getElementById('expensesBody');
+      let expHtml = '';
+      expenses.forEach((exp, idx) => {
+        expHtml += `
+          <tr>
+            <td><input type="date" value="${exp.date || ''}" onchange="updateCashFlowItem('expense', ${idx}, 'date', this.value)"></td>
+            <td><input type="text" placeholder="Expense Description" value="${escapeHtml(exp.name || '')}" onchange="updateCashFlowItem('expense', ${idx}, 'name', this.value)"></td>
+            <td><input type="text" placeholder="Classification" value="${escapeHtml(exp.category || '')}" onchange="updateCashFlowItem('expense', ${idx}, 'category', this.value)"></td>
+            <td><input type="number" step="any" placeholder="0.00" value="${exp.amount || 0}" onchange="updateCashFlowItem('expense', ${idx}, 'amount', parseFloat(this.value)||0)"></td>
+            <td><input type="text" placeholder="Notes / Due Date" value="${escapeHtml(exp.notes || '')}" onchange="updateCashFlowItem('expense', ${idx}, 'notes', this.value)"></td>
+            <td style="text-align:center;"><button class="btn btn-danger" style="padding: 2px 6px;" onclick="deleteCashFlowRow('expense', ${idx})" title="Remove Row">✕</button></td>
+          </tr>
+        `;
+      });
+      expBody.innerHTML = expHtml;
     }
 
     function updateAccount(idx, field, val) {
@@ -584,6 +800,16 @@
     function updateAccountCurrency(idx, newCur) {
       accounts[idx].currency = newCur;
       accounts[idx].fxRate = fxRatesVsUsd[newCur] || 1.0;
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function updateCashFlowItem(type, idx, field, val) {
+      if (type === 'income') {
+        incomeSources[idx][field] = val;
+      } else {
+        expenses[idx][field] = val;
+      }
       saveLocalStorage();
       renderApp();
     }
@@ -611,6 +837,44 @@
         saveLocalStorage();
         renderApp();
       }
+    }
+
+    function addIncomeRow() {
+      const newId = incomeSources.length ? Math.max(...incomeSources.map(i => i.id)) + 1 : 1;
+      incomeSources.push({
+        id: newId,
+        date: "",
+        name: "",
+        category: "Additional Income",
+        amount: 0.00,
+        notes: ""
+      });
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function addExpenseRow() {
+      const newId = expenses.length ? Math.max(...expenses.map(e => e.id)) + 1 : 1;
+      expenses.push({
+        id: newId,
+        date: "",
+        name: "",
+        category: "Additional Expense",
+        amount: 0.00,
+        notes: ""
+      });
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function deleteCashFlowRow(type, idx) {
+      if (type === 'income') {
+        incomeSources.splice(idx, 1);
+      } else {
+        expenses.splice(idx, 1);
+      }
+      saveLocalStorage();
+      renderApp();
     }
 
     function calculateTotalsAndCharts() {
@@ -646,18 +910,50 @@
       document.getElementById('lockedPct').innerText = `${Math.round((lockedTotalUsd / safeTotal)*100)}% of portfolio`;
       document.getElementById('minPct').innerText = `${Math.round((minTotalUsd / safeTotal)*100)}% of portfolio`;
 
-      renderCharts(currencyTotalsUsd, { Liquid: liquidTotalUsd, Locked: lockedTotalUsd, MinBalance: minTotalUsd });
-    }
-
-    function renderCharts(curData, liqData) {
-      const baseCur = preferences.baseCurrency || 'USD';
-      const activeCurKeys = Object.keys(curData).filter(k => curData[k] > 0);
-      const activeCurValues = activeCurKeys.map(k => {
-        const usdVal = curData[k];
-        return (usdVal / (fxRatesVsUsd[baseCur] || 1.0));
+      // Cash Flow Calculations
+      let totalMonthlyIncome = 0;
+      let populatedIncomeCount = 0;
+      incomeSources.forEach(i => {
+        let amt = parseFloat(i.amount) || 0;
+        totalMonthlyIncome += amt;
+        if (amt > 0 || i.name.trim() !== '') populatedIncomeCount++;
       });
 
-      // Refined Corporate Currency Pie Chart
+      let totalMonthlyExpenses = 0;
+      let populatedExpenseCount = 0;
+      expenses.forEach(e => {
+        let amt = parseFloat(e.amount) || 0;
+        totalMonthlyExpenses += amt;
+        if (amt > 0 || e.name.trim() !== '') populatedExpenseCount++;
+      });
+
+      const netCashFlow = totalMonthlyIncome - totalMonthlyExpenses;
+      const netMargin = totalMonthlyIncome > 0 ? ((netCashFlow / totalMonthlyIncome) * 100).toFixed(1) : '0.0';
+
+      document.getElementById('totalIncomeVal').innerText = formatFormattedCurrency(totalMonthlyIncome, baseCur);
+      document.getElementById('incomeSub').innerText = `${populatedIncomeCount} Sources Tracked`;
+
+      document.getElementById('totalExpenseVal').innerText = formatFormattedCurrency(totalMonthlyExpenses, baseCur);
+      document.getElementById('expenseSub').innerText = `${populatedExpenseCount} Categories Tracked`;
+
+      const netBox = document.getElementById('netCashFlowVal');
+      netBox.innerText = formatFormattedCurrency(netCashFlow, baseCur);
+      netBox.style.color = netCashFlow >= 0 ? 'var(--success)' : 'var(--danger)';
+      document.getElementById('cashFlowMargin').innerText = `${netMargin}% Estimated Margin`;
+
+      // Runway Calculation
+      const runwayMonths = totalMonthlyExpenses > 0 ? (liquidTotalUsd / totalMonthlyExpenses).toFixed(1) : '∞';
+      document.getElementById('runwayMonthsVal').innerText = `${runwayMonths} Months`;
+
+      renderCharts(currencyTotalsUsd, { Liquid: liquidTotalUsd, Locked: lockedTotalUsd, MinBalance: minTotalUsd }, totalMonthlyIncome, totalMonthlyExpenses);
+    }
+
+    function renderCharts(curData, liqData, monthlyInc, monthlyExp) {
+      const baseCur = preferences.baseCurrency || 'USD';
+      const activeCurKeys = Object.keys(curData).filter(k => curData[k] > 0);
+      const activeCurValues = activeCurKeys.map(k => (curData[k] / (fxRatesVsUsd[baseCur] || 1.0)));
+
+      // Currency Chart
       const curCtx = document.getElementById('currencyChart').getContext('2d');
       if (currencyChart) currencyChart.destroy();
       currencyChart = new Chart(curCtx, {
@@ -668,29 +964,18 @@
             data: activeCurValues.length > 0 ? activeCurValues : [1],
             backgroundColor: activeCurValues.length > 0 ? CORPORATE_CHART_COLORS : ['#e2e8f0'],
             borderColor: '#ffffff',
-            borderWidth: 2,
-            hoverOffset: 4
+            borderWidth: 2
           }]
         },
         options: { 
           responsive: true, 
           maintainAspectRatio: false, 
-          plugins: { 
-            legend: { position: 'bottom', labels: { font: { family: 'sans-serif', size: 11, weight: 'bold' } } },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  const val = context.raw || 0;
-                  return ` ${context.label}: ${CURRENCY_MAP[baseCur].symbol}${val.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-                }
-              }
-            }
-          },
+          plugins: { legend: { position: 'bottom', labels: { font: { size: 10, weight: 'bold' } } } },
           cutout: '62%'
         }
       });
 
-      // Refined Corporate Liquidity Bar Chart
+      // Liquidity Chart
       const liqCtx = document.getElementById('liquidityChart').getContext('2d');
       if (liquidityChart) liquidityChart.destroy();
       
@@ -714,60 +999,64 @@
         options: { 
           responsive: true, 
           maintainAspectRatio: false, 
-          plugins: { 
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  const val = context.raw || 0;
-                  return ` ${CURRENCY_MAP[baseCur].symbol}${val.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-                }
-              }
-            }
-          } 
+          plugins: { legend: { display: false } } 
+        }
+      });
+
+      // Cash Flow Chart
+      const cfCtx = document.getElementById('cashFlowChart').getContext('2d');
+      if (cashFlowChart) cashFlowChart.destroy();
+      cashFlowChart = new Chart(cfCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Est. Monthly Income', 'Est. Monthly Expenses'],
+          datasets: [{
+            data: [
+              monthlyInc / (fxRatesVsUsd[baseCur] || 1.0),
+              monthlyExp / (fxRatesVsUsd[baseCur] || 1.0)
+            ],
+            backgroundColor: ['#059669', '#dc2626'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
         }
       });
     }
 
     function exportToCSV() {
       const baseCur = preferences.baseCurrency || 'USD';
-      const headers = ["ID", "Group/Type", "Account Name", "Balance (Local)", "Currency", "FX Rate Vs USD", `Converted (${baseCur})`, "Liquid", "Pension/401k", "Min Balance"];
-      const rows = [headers.join(",")];
+      const rows = [["--- NET ASSETS ---"], ["ID", "Group/Type", "Account Name", "Balance (Local)", "Currency", "FX Rate Vs USD", `Converted (${baseCur})`, "Liquid", "Pension/401k", "Min Balance"].join(",")];
 
       accounts.forEach(a => {
         const usdVal = a.balance * a.fxRate;
         const convVal = (usdVal / (fxRatesVsUsd[baseCur] || 1.0)).toFixed(2);
-        rows.push([
-          a.id,
-          `"${a.type||''}"`,
-          `"${a.name||''}"`,
-          a.balance,
-          a.currency,
-          a.fxRate,
-          convVal,
-          a.isLiquid ? 'YES' : 'NO',
-          a.isPension ? 'YES' : 'NO',
-          a.isMinBal ? 'YES' : 'NO'
-        ].join(","));
+        rows.push([a.id, `"${a.type||''}"`, `"${a.name||''}"`, a.balance, a.currency, a.fxRate, convVal, a.isLiquid?'YES':'NO', a.isPension?'YES':'NO', a.isMinBal?'YES':'NO'].join(","));
       });
+
+      rows.push([""], ["--- MONTHLY INCOME ---"], ["Date", "Description", "Category", "Monthly Amount", "Notes"].join(","));
+      incomeSources.forEach(i => rows.push([`"${i.date||''}"`, `"${i.name||''}"`, `"${i.category||''}"`, i.amount, `"${i.notes||''}"`].join(",")));
+
+      rows.push([""], ["--- MONTHLY EXPENSES ---"], ["Date", "Description", "Category", "Monthly Amount", "Notes"].join(","));
+      expenses.forEach(e => rows.push([`"${e.date||''}"`, `"${e.name||''}"`, `"${e.category||''}"`, e.amount, `"${e.notes||''}"`].join(",")));
 
       const blob = new Blob([rows.join("\n")], { type: "text/csv" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `NetTrack_Corporate_Export_${new Date().toISOString().slice(0,10)}.csv`;
+      a.download = `NetTrack_Executive_Export_${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
     }
 
     function exportToJSON() {
-      const payload = {
-        preferences: preferences,
-        accounts: accounts
-      };
+      const payload = { preferences, accounts, incomeSources, expenses };
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
       const a = document.createElement('a');
       a.href = dataStr;
-      a.download = `NetTrack_Config_${new Date().toISOString().slice(0,10)}.json`;
+      a.download = `NetTrack_Executive_Config_${new Date().toISOString().slice(0,10)}.json`;
       a.click();
     }
 
@@ -778,22 +1067,19 @@
       reader.onload = function(evt) {
         try {
           const imported = JSON.parse(evt.target.result);
-          if (Array.isArray(imported)) {
-            accounts = imported;
-          } else if (imported && Array.isArray(imported.accounts)) {
-            accounts = imported.accounts;
+          if (imported) {
+            if (imported.accounts) accounts = imported.accounts;
+            if (imported.incomeSources) incomeSources = imported.incomeSources;
+            if (imported.expenses) expenses = imported.expenses;
             if (imported.preferences) {
               preferences = imported.preferences;
               const curSelect = document.getElementById('baseCurrencySelect');
               if (curSelect) curSelect.value = preferences.baseCurrency || 'USD';
             }
-          } else {
-            alert("Invalid JSON format.");
-            return;
           }
           saveLocalStorage();
           renderApp();
-          alert("Configuration & Accounts imported successfully!");
+          alert("Configuration, Accounts, and Cash Flow imported successfully!");
         } catch(err) {
           alert("Error parsing JSON file.");
         }
@@ -804,7 +1090,7 @@
 
     function exportToPNG() {
       const stamp = document.getElementById('exportStamp');
-      stamp.innerText = `📌 NetTrack Executive Verified Snapshot: ${new Date().toLocaleString()}`;
+      stamp.innerText = `📌 NetTrack Executive Verified Snapshot: ${new Date().toLocaleString('en-US', { hour12: false })}`;
       stamp.style.display = 'block';
 
       html2canvas(document.body).then(canvas => {
@@ -818,23 +1104,26 @@
 
     function sendEmailSummary() {
       const baseCur = preferences.baseCurrency || 'USD';
-      let totalUsd = 0, liqUsd = 0, lockedUsd = 0;
+      let totalUsd = 0, liqUsd = 0;
       accounts.forEach(a => {
         const usd = a.balance * a.fxRate;
         totalUsd += usd;
         if (a.isLiquid) liqUsd += usd;
-        if (a.isPension) lockedUsd += usd;
       });
 
-      const subject = encodeURIComponent(`NetTrack Wealth Summary - ${new Date().toLocaleDateString()}`);
+      let totalInc = 0; incomeSources.forEach(i => totalInc += (parseFloat(i.amount)||0));
+      let totalExp = 0; expenses.forEach(e => totalExp += (parseFloat(e.amount)||0));
+
+      const subject = encodeURIComponent(`NetTrack Wealth & Cash Flow Summary - ${new Date().toLocaleDateString()}`);
       const body = encodeURIComponent(
-        `NetTrack Executive Portfolio Summary\n` +
-        `Date: ${new Date().toLocaleString()}\n` +
-        `Base Display Currency: ${baseCur}\n\n` +
+        `NetTrack Executive Summary\n` +
+        `Date: ${new Date().toLocaleString('en-US', { hour12: false })}\n` +
+        `Base Currency: ${baseCur}\n\n` +
         `Total Assets: ${formatFormattedCurrency(totalUsd, baseCur)}\n` +
-        `Liquid Operating Funds: ${formatFormattedCurrency(liqUsd, baseCur)}\n` +
-        `Locked / Pension Assets: ${formatFormattedCurrency(lockedUsd, baseCur)}\n\n` +
-        `Total Accounts Tracked: ${accounts.length}\n`
+        `Liquid Operating Funds: ${formatFormattedCurrency(liqUsd, baseCur)}\n\n` +
+        `Est. Monthly Income: ${formatFormattedCurrency(totalInc, baseCur)}\n` +
+        `Est. Monthly Expenses: ${formatFormattedCurrency(totalExp, baseCur)}\n` +
+        `Est. Net Monthly Flow: ${formatFormattedCurrency(totalInc - totalExp, baseCur)}\n`
       );
       window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
@@ -842,9 +1131,13 @@
     function hardReset() {
       if (confirm("Reset back to zero-value security template? Local preferences and custom account edits will be erased.")) {
         localStorage.removeItem('nettrack_corp_accounts');
+        localStorage.removeItem('nettrack_corp_income');
+        localStorage.removeItem('nettrack_corp_expenses');
         localStorage.removeItem('nettrack_corp_prefs');
         preferences = { baseCurrency: 'USD' };
         accounts = JSON.parse(JSON.stringify(initialAccounts));
+        incomeSources = JSON.parse(JSON.stringify(initialIncomeSources));
+        expenses = JSON.parse(JSON.stringify(initialExpenses));
         const curSelect = document.getElementById('baseCurrencySelect');
         if (curSelect) curSelect.value = 'USD';
         saveLocalStorage();
