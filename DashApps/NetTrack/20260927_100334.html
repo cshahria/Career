@@ -231,59 +231,6 @@
     }
     .chart-card h3 { font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; align-self: flex-start; }
 
-    /* Progress & Runway Styles */
-    .runway-card-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 4px 6px;
-    }
-    .runway-metrics-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px;
-      text-align: center;
-    }
-    .runway-metric-item {
-      display: flex;
-      flex-direction: column;
-    }
-    .runway-val-primary {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--nav-dark);
-      line-height: 1.1;
-    }
-    .runway-lbl-sub {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-    .progress-bar-container {
-      width: 100%;
-      background-color: #e2e8f0;
-      border-radius: 8px;
-      height: 14px;
-      overflow: hidden;
-      margin-top: 6px;
-      position: relative;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #2563eb, #059669);
-      width: 0%;
-      transition: width 0.4s ease-in-out;
-      border-radius: 8px;
-    }
-
     /* Tables & Controls */
     .table-container { overflow-x: auto; margin-top: 4px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
@@ -505,31 +452,10 @@
       </div>
       <div class="chart-card">
         <h3>Liquidity Runway & Reserve Status</h3>
-        <div class="runway-card-container">
-          <div class="runway-metrics-grid">
-            <div class="runway-metric-item">
-              <div id="runwayMonthsVal" class="runway-val-primary">0.0 Mo</div>
-              <div class="runway-lbl-sub">Monthly Runway</div>
-            </div>
-            <div class="runway-metric-item" style="border-left: 1px solid var(--border);">
-              <div id="runwayYearsVal" class="runway-val-primary" style="color: var(--accent-blue);">0.00 Yrs</div>
-              <div class="runway-lbl-sub">Annual Runway</div>
-            </div>
-          </div>
-
-          <div style="margin-top: 6px;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.72rem; font-weight: 700; color: var(--muted); margin-bottom: 2px;">
-              <span>Target Reserve Coverage (12 Mo Goal)</span>
-              <span id="runwayPctVal" style="color: var(--nav-dark);">0%</span>
-            </div>
-            <div class="progress-bar-container">
-              <div id="runwayProgressFill" class="progress-bar-fill"></div>
-            </div>
-          </div>
-
-          <p id="runwaySubText" style="font-size: 0.7rem; color: var(--muted); text-align: center; margin-top: 4px;">
-            Liquid funds cover 0% of liquid assets vs monthly burn.
-          </p>
+        <div style="text-align: center; padding: 10px;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--muted); font-weight: 700; margin-bottom: 4px;">Estimated Operating Runway</div>
+          <div id="runwayMonthsVal" style="font-size: 2rem; font-weight: 800; color: var(--nav-dark);">0.0 Months</div>
+          <p style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">Based on Liquid Operating Funds divided by Estimated Monthly Expenses.</p>
         </div>
       </div>
     </div>
@@ -980,8 +906,7 @@
       document.getElementById('baseCurLabel').innerText = `Base Currency: ${baseCur} (${CURRENCY_MAP[baseCur].symbol})`;
 
       const safeTotal = totalNWUsd > 0 ? totalNWUsd : 1;
-      const liquidSharePct = Math.round((liquidTotalUsd / safeTotal) * 100);
-      document.getElementById('liquidPct').innerText = `${liquidSharePct}% of portfolio`;
+      document.getElementById('liquidPct').innerText = `${Math.round((liquidTotalUsd / safeTotal)*100)}% of portfolio`;
       document.getElementById('lockedPct').innerText = `${Math.round((lockedTotalUsd / safeTotal)*100)}% of portfolio`;
       document.getElementById('minPct').innerText = `${Math.round((minTotalUsd / safeTotal)*100)}% of portfolio`;
 
@@ -1016,24 +941,9 @@
       netBox.style.color = netCashFlow >= 0 ? 'var(--success)' : 'var(--danger)';
       document.getElementById('cashFlowMargin').innerText = `${netMargin}% Estimated Margin`;
 
-      // Runway Calculations (Months, Years, Progress Bar Target of 12 Months)
-      if (totalMonthlyExpenses > 0) {
-        const rawMonths = liquidTotalUsd / totalMonthlyExpenses;
-        const rawYears = rawMonths / 12;
-        const targetPct = Math.min(Math.round((rawMonths / 12) * 100), 100);
-
-        document.getElementById('runwayMonthsVal').innerText = `${rawMonths.toFixed(1)} Mo`;
-        document.getElementById('runwayYearsVal').innerText = `${rawYears.toFixed(2)} Yrs`;
-        document.getElementById('runwayPctVal').innerText = `${targetPct}%`;
-        document.getElementById('runwayProgressFill').style.width = `${targetPct}%`;
-        document.getElementById('runwaySubText').innerText = `Liquid funds (${liquidSharePct}% of total assets) cover ${rawMonths.toFixed(1)} months of expenses.`;
-      } else {
-        document.getElementById('runwayMonthsVal').innerText = '∞ Mo';
-        document.getElementById('runwayYearsVal').innerText = '∞ Yrs';
-        document.getElementById('runwayPctVal').innerText = '100%';
-        document.getElementById('runwayProgressFill').style.width = '100%';
-        document.getElementById('runwaySubText').innerText = 'Zero monthly expenses configured.';
-      }
+      // Runway Calculation
+      const runwayMonths = totalMonthlyExpenses > 0 ? (liquidTotalUsd / totalMonthlyExpenses).toFixed(1) : '∞';
+      document.getElementById('runwayMonthsVal').innerText = `${runwayMonths} Months`;
 
       renderCharts(currencyTotalsUsd, { Liquid: liquidTotalUsd, Locked: lockedTotalUsd, MinBalance: minTotalUsd }, totalMonthlyIncome, totalMonthlyExpenses);
     }
