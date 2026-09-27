@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetTrack - Executive Net Worth Dashboard</title>
+  <!-- Chart.js for corporate visual analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- html2canvas for visual PNG snapshots -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <style>
+    :root {
+      /* Corporate Navy / Slate Accent Palette */
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #1e3a8a; /* Deep Navy */
+      --primary-hover: #0f172a;
+      --accent-blue: #2563eb;
+      --success: #059669; /* Corporate Forest Emerald */
+      --danger: #dc2626;
+      --warning: #d97706; /* Subtle Amber */
+      --pension-purple: #4f46e5; /* Muted Corporate Indigo */
+      --btn-bg: #ffffff;
+      --btn-border: #cbd5e1;
+      --btn-hover: #f1f5f9;
+      --nav-dark: #0f172a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px 16px;
+      max-width: 1080px;
+      margin: 0 auto;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* Header & Navbar Layout */
+    .header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .header-title-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      background: var(--nav-dark);
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--nav-dark); }
+    .header p { font-size: 0.82rem; color: var(--muted); margin-top: 1px; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      background: #ffffff;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .action-divider {
+      width: 1px;
+      height: 20px;
+      background: #e2e8f0;
+      margin: 0 3px;
+    }
+
+    /* Buttons Styling */
+    .btn {
+      padding: 6px 11px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid var(--btn-border);
+      border-radius: 6px;
+      cursor: pointer;
+      background: var(--btn-bg);
+      color: #1e293b;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease-in-out;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .btn:hover { background: var(--btn-hover); color: #0f172a; border-color: #94a3b8; }
+    .btn-primary { background: var(--nav-dark); color: #ffffff; border-color: var(--nav-dark); }
+    .btn-primary:hover { background: #1e293b; border-color: #1e293b; color: #ffffff; }
+    .btn-danger { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+    .btn-danger:hover { background: #fee2e2; border-color: #fca5a5; }
+
+    /* Cards & Stat Boxes */
+    .card { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      padding: 18px 20px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03); 
+    }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; text-align: center; }
+    .stat-box { 
+      background: #f8fafc; 
+      border: 1px solid var(--border); 
+      padding: 14px; 
+      border-radius: 8px; 
+      position: relative;
+    }
+    .stat-box .val { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; }
+    .stat-box .val-large { font-size: 2.1rem; color: var(--primary); }
+    .stat-box .lbl { color: var(--muted); font-size: 0.8rem; margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+    .stat-box .sub-val { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* Rates & Preferences Bar */
+    .fx-bar {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: #334155;
+      margin-bottom: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .fx-rates { display: flex; gap: 16px; flex-wrap: wrap; }
+    .fx-item span { font-weight: 700; color: #0f172a; }
+
+    /* Visual Charts Section */
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    @media (max-width: 768px) { .charts-grid { grid-template-columns: 1fr; } }
+    .chart-card { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      padding: 16px; 
+      height: 320px; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    .chart-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; align-self: flex-start; }
+
+    /* Tables & Controls */
+    .table-container { overflow-x: auto; margin-top: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    th { background: #f1f5f9; color: #475569; font-weight: 700; font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    tr:hover { background: #f8fafc; }
+    h2 { font-size: 1rem; font-weight: 700; color: var(--nav-dark); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+    input[type="text"], input[type="number"], select {
+      font-size: 0.85rem;
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: #ffffff;
+      color: var(--text);
+      width: 100%;
+    }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+    input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
+
+    .export-stamp { display: none; background: #e0f2fe; border: 1px solid #bae6fd; color: #0369a1; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 8px; }
+    
+    /* File input hidden */
+    #jsonInput { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-top">
+      <div class="header-title-container">
+        <div class="brand-logo">NT</div>
+        <div>
+          <h1>NetTrack Corporate Dashboard</h1>
+          <p>Executive Multi-Currency Asset Allocation & Wealth Management</p>
+        </div>
+      </div>
+      <div id="exportStamp" class="export-stamp"></div>
+    </div>
+    
+    <!-- Action Toolbar -->
+    <div class="header-actions">
+      <div class="action-group">
+        <button class="btn" onclick="addAccount()">➕ Add Account</button>
+      </div>
+      <div class="action-divider"></div>
+      <div class="action-group">
+        <label for="baseCurrencySelect" style="font-size: 0.8rem; font-weight: 600; color: var(--muted); margin-right: 2px;">Display:</label>
+        <select id="baseCurrencySelect" onchange="changeBaseCurrency(this.value)" style="width: auto; padding: 4px 6px; font-weight: 600;">
+          <option value="USD">$ — USD</option>
+          <option value="EUR">€ — EUR</option>
+          <option value="GBP">£ — GBP</option>
+          <option value="JPY">¥ — JPY</option>
+          <option value="CHF">CHF — CHF</option>
+          <option value="CAD">C$ — CAD</option>
+        </select>
+      </div>
+      <div class="action-divider"></div>
+      <div class="action-group">
+        <button class="btn" onclick="exportToPNG()">📷 PNG</button>
+        <button class="btn" onclick="exportToCSV()">📥 CSV</button>
+        <button class="btn" onclick="exportToJSON()">💾 Export JSON</button>
+        <button class="btn" onclick="document.getElementById('jsonInput').click()">📂 Import JSON</button>
+        <input type="file" id="jsonInput" accept=".json" onchange="importJSON(event)">
+      </div>
+      <div class="action-divider"></div>
+      <div class="action-group">
+        <button class="btn" onclick="sendEmailSummary()">✉️ Email</button>
+        <button class="btn btn-danger" onclick="hardReset()">🔄 Hard Reset</button>
+      </div>
+      <div class="action-divider"></div>
+      <div class="action-group">
+        <button class="btn btn-primary" onclick="fetchExchangeRates()">↻ Live FX Rates</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fx-bar">
+    <div class="fx-rates" id="ratesDisplay">Fetching live exchange rates...</div>
+    <div id="fxStatus" style="font-size: 0.75rem; color: var(--muted); font-weight: 500;">Checking market rates...</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-grid">
+      <div class="stat-box" style="border-left: 4px solid var(--primary);">
+        <div id="totalNetWorthUSD" class="val val-large">$0.00</div>
+        <div class="lbl">Total Net Assets</div>
+        <div id="baseCurLabel" class="sub-val">Base Currency: USD ($)</div>
+      </div>
+      <div class="stat-box" style="border-left: 4px solid var(--success);">
+        <div id="liquidTotalUSD" class="val" style="color: var(--success);">$0.00</div>
+        <div class="lbl">Liquid Operating Funds</div>
+        <div id="liquidPct" class="sub-val">0% of portfolio</div>
+      </div>
+      <div class="stat-box" style="border-left: 4px solid var(--warning);">
+        <div id="lockedTotalUSD" class="val" style="color: var(--warning);">$0.00</div>
+        <div class="lbl">Locked / Pension</div>
+        <div id="lockedPct" class="sub-val">0% of portfolio</div>
+      </div>
+      <div class="stat-box" style="border-left: 4px solid var(--pension-purple);">
+        <div id="minTotalUSD" class="val" style="color: var(--pension-purple);">$0.00</div>
+        <div class="lbl">Restricted / Min Balance</div>
+        <div id="minPct" class="sub-val">0% of portfolio</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Currency Asset Distribution</h3>
+      <div style="position: relative; height: 100%; width: 100%;">
+        <canvas id="currencyChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Liquidity & Asset Classification</h3>
+      <div style="position: relative; height: 100%; width: 100%;">
+        <canvas id="liquidityChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>
+      <span>Account Ledger</span>
+      <span style="font-size: 0.8rem; font-weight: 600; color: var(--muted);" id="accountCount">0 Accounts</span>
+    </h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Group / Category</th>
+            <th>Account Designation</th>
+            <th>Balance (Local)</th>
+            <th>Cur</th>
+            <th>FX Rate (vs USD)</th>
+            <th id="tableUsdColHeader">Converted Balance</th>
+            <th style="text-align:center;">Liquid</th>
+            <th style="text-align:center;">Pension/401k</th>
+            <th style="text-align:center;">Min Bal</th>
+            <th style="text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="accountsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // 6 Major Global Currencies Map
+    const CURRENCY_MAP = {
+      USD: { symbol: '$', name: 'US Dollar', defaultFxVsUsd: 1.0 },
+      EUR: { symbol: '€', name: 'Euro', defaultFxVsUsd: 1.0850 },
+      GBP: { symbol: '£', name: 'British Pound', defaultFxVsUsd: 1.2750 },
+      JPY: { symbol: '¥', name: 'Japanese Yen', defaultFxVsUsd: 0.0067 },
+      CHF: { symbol: 'CHF ', name: 'Swiss Franc', defaultFxVsUsd: 1.1200 },
+      CAD: { symbol: 'C$', name: 'Canadian Dollar', defaultFxVsUsd: 0.7400 }
+    };
+
+    // Refined Corporate Chart Color Palette
+    const CORPORATE_CHART_COLORS = [
+      '#0f172a', // Deep Slate / Navy
+      '#2563eb', // Corporate Blue
+      '#059669', // Forest Emerald
+      '#d97706', // Subtle Amber
+      '#4f46e5', // Corporate Indigo
+      '#475569', // Steel Slate
+      '#0284c7', // Sky Blue
+      '#7c3aed'  // Deep Violet
+    ];
+
+    // Default Initial Template Accounts
+    const initialAccounts = [
+      { id: 1, type: "USD", name: "US Account 1 (Citi-4348)", balance: 12500, currency: "USD", fxRate: 1.0, isLiquid: true, isPension: false, isMinBal: true },
+      { id: 2, type: "USD", name: "US Account 2 (Cha-0743)", balance: 45000, currency: "USD", fxRate: 1.0, isLiquid: true, isPension: false, isMinBal: true },
+      { id: 3, type: "USD", name: "US Account 3 (Operating)", balance: 8500, currency: "USD", fxRate: 1.0, isLiquid: true, isPension: false, isMinBal: true },
+      { id: 4, type: "USD", name: "US Account 4 (Savings)", balance: 22000, currency: "USD", fxRate: 1.0, isLiquid: true, isPension: false, isMinBal: false },
+      { id: 5, type: "USD", name: "US Account 5 (Retirement IRA)", balance: 85000, currency: "USD", fxRate: 1.0, isLiquid: false, isPension: true, isMinBal: false },
+      { id: 6, type: "EUR", name: "Foreign Account EUR 1", balance: 18500, currency: "EUR", fxRate: 1.0850, isLiquid: true, isPension: false, isMinBal: true },
+      { id: 7, type: "GBP", name: "Foreign Account GBP 1", balance: 12000, currency: "GBP", fxRate: 1.2750, isLiquid: true, isPension: false, isMinBal: false },
+      { id: 8, type: "CAD", name: "Foreign Account CAD 1", balance: 15000, currency: "CAD", fxRate: 0.7400, isLiquid: false, isPension: true, isMinBal: false }
+    ];
+
+    let accounts = [];
+    let preferences = {
+      baseCurrency: 'USD'
+    };
+
+    let fxRatesVsUsd = { USD: 1.0, EUR: 1.0850, GBP: 1.2750, JPY: 0.0067, CHF: 1.1200, CAD: 0.7400 };
+    let currencyChart = null;
+    let liquidityChart = null;
+
+    // Window Load Entry Point
+    window.onload = function() {
+      loadLocalStorage();
+      fetchExchangeRates();
+      renderApp();
+    };
+
+    function loadLocalStorage() {
+      const savedAccs = localStorage.getItem('nettrack_corp_accounts');
+      const savedPrefs = localStorage.getItem('nettrack_corp_prefs');
+
+      if (savedPrefs) {
+        try { preferences = JSON.parse(savedPrefs); } catch(e) { preferences = { baseCurrency: 'USD' }; }
+      }
+
+      if (savedAccs) {
+        try { accounts = JSON.parse(savedAccs); } catch(e) { accounts = JSON.parse(JSON.stringify(initialAccounts)); }
+      } else {
+        accounts = JSON.parse(JSON.stringify(initialAccounts));
+      }
+
+      const curSelect = document.getElementById('baseCurrencySelect');
+      if (curSelect) curSelect.value = preferences.baseCurrency || 'USD';
+    }
+
+    function saveLocalStorage() {
+      localStorage.setItem('nettrack_corp_accounts', JSON.stringify(accounts));
+      localStorage.setItem('nettrack_corp_prefs', JSON.stringify(preferences));
+    }
+
+    async function fetchExchangeRates() {
+      const statusEl = document.getElementById('fxStatus');
+      statusEl.innerText = "Fetching live market rates...";
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/USD');
+        const data = await res.json();
+        if (data && data.rates) {
+          const rates = data.rates;
+          fxRatesVsUsd.USD = 1.0;
+          if (rates.EUR) fxRatesVsUsd.EUR = parseFloat((1 / rates.EUR).toFixed(4));
+          if (rates.GBP) fxRatesVsUsd.GBP = parseFloat((1 / rates.GBP).toFixed(4));
+          if (rates.JPY) fxRatesVsUsd.JPY = parseFloat((1 / rates.JPY).toFixed(6));
+          if (rates.CHF) fxRatesVsUsd.CHF = parseFloat((1 / rates.CHF).toFixed(4));
+          if (rates.CAD) fxRatesVsUsd.CAD = parseFloat((1 / rates.CAD).toFixed(4));
+
+          statusEl.innerText = `Updated: ${new Date().toLocaleTimeString()}`;
+          
+          accounts.forEach(a => {
+            if (fxRatesVsUsd[a.currency]) {
+              a.fxRate = fxRatesVsUsd[a.currency];
+            }
+          });
+          saveLocalStorage();
+          renderApp();
+        }
+      } catch(err) {
+        statusEl.innerText = "Fallback FX rates active";
+      }
+      renderRatesBar();
+    }
+
+    function renderRatesBar() {
+      document.getElementById('ratesDisplay').innerHTML = `
+        <div class="fx-item">EUR/USD: <span>$${fxRatesVsUsd.EUR.toFixed(4)}</span></div>
+        <div class="fx-item">GBP/USD: <span>$${fxRatesVsUsd.GBP.toFixed(4)}</span></div>
+        <div class="fx-item">CAD/USD: <span>$${fxRatesVsUsd.CAD.toFixed(4)}</span></div>
+        <div class="fx-item">CHF/USD: <span>$${fxRatesVsUsd.CHF.toFixed(4)}</span></div>
+      `;
+    }
+
+    function formatFormattedCurrency(valInUsd, targetCurrency) {
+      const info = CURRENCY_MAP[targetCurrency] || CURRENCY_MAP.USD;
+      const targetFxVsUsd = fxRatesVsUsd[targetCurrency] || 1.0;
+      const convertedVal = valInUsd / targetFxVsUsd;
+
+      return info.symbol + convertedVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function changeBaseCurrency(newBase) {
+      preferences.baseCurrency = newBase;
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function renderApp() {
+      renderTable();
+      calculateTotalsAndCharts();
+      document.getElementById('accountCount').innerText = `${accounts.length} Registered Accounts`;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('accountsBody');
+      const baseCur = preferences.baseCurrency || 'USD';
+      const baseInfo = CURRENCY_MAP[baseCur] || CURRENCY_MAP.USD;
+      document.getElementById('tableUsdColHeader').innerText = `Converted (${baseCur})`;
+
+      let html = '';
+
+      accounts.forEach((a, idx) => {
+        const usdVal = a.balance * a.fxRate;
+        const displayConvertedVal = formatFormattedCurrency(usdVal, baseCur);
+
+        html += `
+          <tr>
+            <td>
+              <input type="text" value="${escapeHtml(a.type || '')}" onchange="updateAccount(${idx}, 'type', this.value)">
+            </td>
+            <td>
+              <input type="text" value="${escapeHtml(a.name || '')}" onchange="updateAccount(${idx}, 'name', this.value)">
+            </td>
+            <td>
+              <input type="number" step="any" value="${a.balance}" onchange="updateAccount(${idx}, 'balance', parseFloat(this.value)||0)">
+            </td>
+            <td>
+              <select onchange="updateAccountCurrency(${idx}, this.value)">
+                <option value="USD" ${a.currency==='USD'?'selected':''}>USD ($)</option>
+                <option value="EUR" ${a.currency==='EUR'?'selected':''}>EUR (€)</option>
+                <option value="GBP" ${a.currency==='GBP'?'selected':''}>GBP (£)</option>
+                <option value="JPY" ${a.currency==='JPY'?'selected':''}>JPY (¥)</option>
+                <option value="CHF" ${a.currency==='CHF'?'selected':''}>CHF</option>
+                <option value="CAD" ${a.currency==='CAD'?'selected':''}>CAD (C$)</option>
+              </select>
+            </td>
+            <td>
+              <input type="number" step="0.0001" value="${a.fxRate}" onchange="updateAccount(${idx}, 'fxRate', parseFloat(this.value)||1)">
+            </td>
+            <td style="font-weight: 700; color: var(--nav-dark);">${displayConvertedVal}</td>
+            <td style="text-align:center;">
+              <input type="checkbox" ${a.isLiquid?'checked':''} onchange="updateAccount(${idx}, 'isLiquid', this.checked)">
+            </td>
+            <td style="text-align:center;">
+              <input type="checkbox" ${a.isPension?'checked':''} onchange="updateAccount(${idx}, 'isPension', this.checked)">
+            </td>
+            <td style="text-align:center;">
+              <input type="checkbox" ${a.isMinBal?'checked':''} onchange="updateAccount(${idx}, 'isMinBal', this.checked)">
+            </td>
+            <td style="text-align:center;">
+              <button class="btn btn-danger" style="padding: 3px 7px;" onclick="deleteAccount(${idx})" title="Remove Row">✕</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function updateAccount(idx, field, val) {
+      accounts[idx][field] = val;
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function updateAccountCurrency(idx, newCur) {
+      accounts[idx].currency = newCur;
+      accounts[idx].fxRate = fxRatesVsUsd[newCur] || 1.0;
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function addAccount() {
+      const newId = accounts.length ? Math.max(...accounts.map(a => a.id)) + 1 : 1;
+      accounts.push({
+        id: newId,
+        type: "USD",
+        name: "New Corporate Account",
+        balance: 10000,
+        currency: "USD",
+        fxRate: 1.0,
+        isLiquid: true,
+        isPension: false,
+        isMinBal: false
+      });
+      saveLocalStorage();
+      renderApp();
+    }
+
+    function deleteAccount(idx) {
+      if (confirm(`Remove account "${accounts[idx].name}"?`)) {
+        accounts.splice(idx, 1);
+        saveLocalStorage();
+        renderApp();
+      }
+    }
+
+    function calculateTotalsAndCharts() {
+      let totalNWUsd = 0;
+      let liquidTotalUsd = 0;
+      let lockedTotalUsd = 0;
+      let minTotalUsd = 0;
+
+      let currencyTotalsUsd = { USD: 0, EUR: 0, GBP: 0, JPY: 0, CHF: 0, CAD: 0 };
+
+      accounts.forEach(a => {
+        const usdVal = a.balance * a.fxRate;
+        totalNWUsd += usdVal;
+
+        if (a.isLiquid) liquidTotalUsd += usdVal;
+        if (a.isPension) lockedTotalUsd += usdVal;
+        if (a.isMinBal) minTotalUsd += usdVal;
+
+        if (!currencyTotalsUsd[a.currency]) currencyTotalsUsd[a.currency] = 0;
+        currencyTotalsUsd[a.currency] += usdVal;
+      });
+
+      const baseCur = preferences.baseCurrency || 'USD';
+      document.getElementById('totalNetWorthUSD').innerText = formatFormattedCurrency(totalNWUsd, baseCur);
+      document.getElementById('liquidTotalUSD').innerText = formatFormattedCurrency(liquidTotalUsd, baseCur);
+      document.getElementById('lockedTotalUSD').innerText = formatFormattedCurrency(lockedTotalUsd, baseCur);
+      document.getElementById('minTotalUSD').innerText = formatFormattedCurrency(minTotalUsd, baseCur);
+
+      document.getElementById('baseCurLabel').innerText = `Base Currency: ${baseCur} (${CURRENCY_MAP[baseCur].symbol})`;
+
+      const safeTotal = totalNWUsd > 0 ? totalNWUsd : 1;
+      document.getElementById('liquidPct').innerText = `${Math.round((liquidTotalUsd / safeTotal)*100)}% of portfolio`;
+      document.getElementById('lockedPct').innerText = `${Math.round((lockedTotalUsd / safeTotal)*100)}% of portfolio`;
+      document.getElementById('minPct').innerText = `${Math.round((minTotalUsd / safeTotal)*100)}% of portfolio`;
+
+      renderCharts(currencyTotalsUsd, { Liquid: liquidTotalUsd, Locked: lockedTotalUsd, MinBalance: minTotalUsd });
+    }
+
+    function renderCharts(curData, liqData) {
+      const baseCur = preferences.baseCurrency || 'USD';
+      const activeCurKeys = Object.keys(curData).filter(k => curData[k] > 0);
+      const activeCurValues = activeCurKeys.map(k => {
+        const usdVal = curData[k];
+        return (usdVal / (fxRatesVsUsd[baseCur] || 1.0));
+      });
+
+      // Refined Corporate Currency Pie Chart
+      const curCtx = document.getElementById('currencyChart').getContext('2d');
+      if (currencyChart) currencyChart.destroy();
+      currencyChart = new Chart(curCtx, {
+        type: 'doughnut',
+        data: {
+          labels: activeCurKeys,
+          datasets: [{
+            data: activeCurValues,
+            backgroundColor: CORPORATE_CHART_COLORS,
+            borderColor: '#ffffff',
+            borderWidth: 2,
+            hoverOffset: 4
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { 
+            legend: { position: 'bottom', labels: { font: { family: 'sans-serif', size: 11, weight: 'bold' } } },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const val = context.raw || 0;
+                  return ` ${context.label}: ${CURRENCY_MAP[baseCur].symbol}${val.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+                }
+              }
+            }
+          },
+          cutout: '62%'
+        }
+      });
+
+      // Refined Corporate Liquidity Bar Chart
+      const liqCtx = document.getElementById('liquidityChart').getContext('2d');
+      if (liquidityChart) liquidityChart.destroy();
+      
+      const convertedLiqValues = [
+        liqData.Liquid / (fxRatesVsUsd[baseCur] || 1.0),
+        liqData.Locked / (fxRatesVsUsd[baseCur] || 1.0),
+        liqData.MinBalance / (fxRatesVsUsd[baseCur] || 1.0)
+      ];
+
+      liquidityChart = new Chart(liqCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Liquid Operating', 'Locked / Pension', 'Min Balance'],
+          datasets: [{
+            label: `Converted (${baseCur})`,
+            data: convertedLiqValues,
+            backgroundColor: ['#059669', '#d97706', '#4f46e5'],
+            borderRadius: 6
+          }]
+        },
+        options: { 
+          responsive: true, 
+          maintainAspectRatio: false, 
+          plugins: { 
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const val = context.raw || 0;
+                  return ` ${CURRENCY_MAP[baseCur].symbol}${val.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+                }
+              }
+            }
+          } 
+        }
+      });
+    }
+
+    function exportToCSV() {
+      const baseCur = preferences.baseCurrency || 'USD';
+      const headers = ["ID", "Group/Type", "Account Name", "Balance (Local)", "Currency", "FX Rate Vs USD", `Converted (${baseCur})`, "Liquid", "Pension/401k", "Min Balance"];
+      const rows = [headers.join(",")];
+
+      accounts.forEach(a => {
+        const usdVal = a.balance * a.fxRate;
+        const convVal = (usdVal / (fxRatesVsUsd[baseCur] || 1.0)).toFixed(2);
+        rows.push([
+          a.id,
+          `"${a.type||''}"`,
+          `"${a.name||''}"`,
+          a.balance,
+          a.currency,
+          a.fxRate,
+          convVal,
+          a.isLiquid ? 'YES' : 'NO',
+          a.isPension ? 'YES' : 'NO',
+          a.isMinBal ? 'YES' : 'NO'
+        ].join(","));
+      });
+
+      const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `NetTrack_Corporate_Export_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    }
+
+    function exportToJSON() {
+      const payload = {
+        preferences: preferences,
+        accounts: accounts
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+      const a = document.createElement('a');
+      a.href = dataStr;
+      a.download = `NetTrack_Config_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+    }
+
+    function importJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const imported = JSON.parse(evt.target.result);
+          if (Array.isArray(imported)) {
+            // Direct array of accounts
+            accounts = imported;
+          } else if (imported && Array.isArray(imported.accounts)) {
+            // Config object containing accounts & preferences
+            accounts = imported.accounts;
+            if (imported.preferences) {
+              preferences = imported.preferences;
+              const curSelect = document.getElementById('baseCurrencySelect');
+              if (curSelect) curSelect.value = preferences.baseCurrency || 'USD';
+            }
+          } else {
+            alert("Invalid JSON format.");
+            return;
+          }
+          saveLocalStorage();
+          renderApp();
+          alert("Configuration & Accounts imported successfully!");
+        } catch(err) {
+          alert("Error parsing JSON file.");
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function exportToPNG() {
+      const stamp = document.getElementById('exportStamp');
+      stamp.innerText = `📌 NetTrack Executive Verified Snapshot: ${new Date().toLocaleString()}`;
+      stamp.style.display = 'block';
+
+      html2canvas(document.body).then(canvas => {
+        const a = document.createElement('a');
+        a.download = `NetTrack_Executive_Dashboard_${new Date().toISOString().slice(0,10)}.png`;
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+        stamp.style.display = 'none';
+      });
+    }
+
+    function sendEmailSummary() {
+      const baseCur = preferences.baseCurrency || 'USD';
+      let totalUsd = 0, liqUsd = 0, lockedUsd = 0;
+      accounts.forEach(a => {
+        const usd = a.balance * a.fxRate;
+        totalUsd += usd;
+        if (a.isLiquid) liqUsd += usd;
+        if (a.isPension) lockedUsd += usd;
+      });
+
+      const subject = encodeURIComponent(`NetTrack Wealth Summary - ${new Date().toLocaleDateString()}`);
+      const body = encodeURIComponent(
+        `NetTrack Executive Portfolio Summary\n` +
+        `Date: ${new Date().toLocaleString()}\n` +
+        `Base Display Currency: ${baseCur}\n\n` +
+        `Total Assets: ${formatFormattedCurrency(totalUsd, baseCur)}\n` +
+        `Liquid Operating Funds: ${formatFormattedCurrency(liqUsd, baseCur)}\n` +
+        `Locked / Pension Assets: ${formatFormattedCurrency(lockedUsd, baseCur)}\n\n` +
+        `Total Accounts Tracked: ${accounts.length}\n`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    function hardReset() {
+      if (confirm("Reset back to default template? Local preferences and custom account edits will be reset.")) {
+        localStorage.removeItem('nettrack_corp_accounts');
+        localStorage.removeItem('nettrack_corp_prefs');
+        preferences = { baseCurrency: 'USD' };
+        accounts = JSON.parse(JSON.stringify(initialAccounts));
+        const curSelect = document.getElementById('baseCurrencySelect');
+        if (curSelect) curSelect.value = 'USD';
+        saveLocalStorage();
+        renderApp();
+      }
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
