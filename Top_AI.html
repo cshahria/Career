@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top AI Tools Hub</title>
+<style>
+  :root {
+    --bg: #f6f8f7;
+    --card: #ffffff;
+    --primary: #2563eb;
+    --primary-light: #eff6ff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px 60px;
+    line-height: 1.55;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+    margin-top: 12px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #111827;
+    font-weight: 800;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 6px auto 0;
+    line-height: 1.5;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  @media (min-width: 520px) {
+    .tile-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .tile-link {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 14px;
+    text-align: center;
+    background: #fafbfa;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+  }
+
+  .tile-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .tile-link .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 10px;
+    flex-shrink: 0;
+  }
+
+  .tile-link .name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #111827;
+    margin-bottom: 4px;
+  }
+
+  .tile-link .desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.3;
+    font-weight: 400;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>Top AI Tools Hub</h1>
+    <p class="subtitle">Curated list of leading conversational and research AI models with free tiers.</p>
+  </header>
+
+  <div class="card">
+    <div class="tile-grid">
+
+      <!-- Gemini Tile -->
+      <a href="https://gemini.google.com" target="_blank" class="tile-link">
+        <div class="icon">✨</div>
+        <div class="name">Gemini</div>
+        <div class="desc">Multimodal assistant with deep Google Workspace integration</div>
+      </a>
+
+      <!-- ChatGPT Tile -->
+      <a href="https://chatgpt.com" target="_blank" class="tile-link">
+        <div class="icon">💬</div>
+        <div class="name">ChatGPT</div>
+        <div class="desc">General-purpose conversational AI, drafting, and light coding</div>
+      </a>
+
+      <!-- Claude Tile -->
+      <a href="https://claude.ai" target="_blank" class="tile-link">
+        <div class="icon">🧠</div>
+        <div class="name">Claude</div>
+        <div class="desc">Advanced logical reasoning and nuanced long-form writing</div>
+      </a>
+
+      <!-- Perplexity Tile -->
+      <a href="https://www.perplexity.ai" target="_blank" class="tile-link">
+        <div class="icon">🔍</div>
+        <div class="name">Perplexity</div>
+        <div class="desc">Conversational search engine providing real-time cited answers</div>
+      </a>
+
+      <!-- Mistral Le Chat Tile -->
+      <a href="https://chat.mistral.ai" target="_blank" class="tile-link">
+        <div class="icon">🇪🇺</div>
+        <div class="name">Le Chat</div>
+        <div class="desc">European AI assistant by Mistral with robust multilingual support</div>
+      </a>
+
+      <!-- DeepSeek Tile -->
+      <a href="https://chat.deepseek.com" target="_blank" class="tile-link">
+        <div class="icon">🚀</div>
+        <div class="name">DeepSeek</div>
+        <div class="desc">High-performance open-weights models with advanced reasoning</div>
+      </a>
+
+      <!-- NotebookLM Tile -->
+      <a href="https://notebook.google.com" target="_blank" class="tile-link">
+        <div class="icon">📓</div>
+        <div class="name">NotebookLM</div>
+        <div class="desc">Source-grounded research assistant and automated audio podcasts</div>
+      </a>
+
+      <!-- HuggingChat Tile -->
+      <a href="https://huggingface.co/chat" target="_blank" class="tile-link">
+        <div class="icon">🤗</div>
+        <div class="name">HuggingChat</div>
+        <div class="desc">Open-source conversational AI community hub by Hugging Face</div>
+      </a>
+
+      <!-- Qwen Chat Tile -->
+      <a href="https://chat.qwenlm.ai" target="_blank" class="tile-link">
+        <div class="icon">🌐</div>
+        <div class="name">Qwen Chat</div>
+        <div class="desc">Multilingual assistant powered by Alibaba's large language models</div>
+      </a>
+
+      <!-- Codeium Tile -->
+      <a href="https://codeium.com" target="_blank" class="tile-link">
+        <div class="icon">💻</div>
+        <div class="name">Codeium</div>
+        <div class="desc">Free-forever AI code completion and developer assistant plugin</div>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>AI Tools Hub • Direct access links with free tier options</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

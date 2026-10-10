@@ -105,25 +105,6 @@
     font-weight:400;
   }
 
-  /* Greyed-out empty placeholder style */
-  .tile-placeholder {
-    border: 1px dashed #d1d5db;
-    background: #f9fafb;
-    opacity: 0.6;
-    cursor: default;
-  }
-  .tile-placeholder:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  .tile-placeholder .icon {
-    background: #e5e7eb;
-    color: #9ca3af;
-  }
-  .tile-placeholder .name {
-    color: #9ca3af;
-  }
-
   .tile .copy-container, .tile-link .copy-container {
     margin-top:8px;
     border-top: 1px dotted var(--border);
@@ -168,7 +149,6 @@
     align-items: center;
   }
 
-  /* Consolidated Objective + Disclaimer Box */
   .consolidated-box {
     background: #f8fafc;
     border: 1px solid var(--border);
@@ -205,7 +185,6 @@
     transform: translateY(-1px);
   }
 
-  /* Modal Overlay */
   .modal-overlay {
     position: fixed;
     top:0; left:0; right:0; bottom:0;
@@ -313,7 +292,7 @@
 <div class="wrap">
 
   <header>
-    <h1>Community & Engagement Board</h1>
+    <h1>Community & Engagement Board</h1>[cite: 2]
   </header>
 
   <div class="card">
@@ -382,12 +361,12 @@
         <div class="desc">Read personal logs from tournament fan ops</div>
       </a>
 
-      <!-- 9th Tile Placeholder -->
-      <div class="tile tile-placeholder">
-        <div class="icon">➕</div>
-        <div class="name">Available</div>
-        <div class="desc">Reserved for future module</div>
-      </div>
+      <!-- Top AI Hub Tile with absolute URL fallback -->
+      <a href="https://cshahria.github.io/Career/Top_AI.html" target="_blank" class="tile-link">
+        <div class="icon">🤖</div>
+        <div class="name">Top AI Hub</div>
+        <div class="desc">Direct access hub for leading conversational AI tools</div>
+      </a>
 
     </div>
   </div>
@@ -398,7 +377,7 @@
     </button>
     
     <div class="consolidated-box">
-      <strong>Objective & Terms:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency. Intended for internal coordination and designated stakeholder reference; external tools are subject to their respective privacy/security policies.
+      <strong>Objective & Terms:</strong> This navigation board consolidates operational links, tracking workflows, and active communications channels into a unified interface to enhance coordination and operational efficiency. Intended for internal coordination and designated stakeholder reference; external tools are subject to their respective privacy/security policies.[cite: 2]
     </div>
   </footer>
 
