@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Evaluation Matrix - DashApp</title>
+    <!-- Tailwind CSS for sleek styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas for PNG export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .card { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); }
+        .input-range::-webkit-slider-thumb { background: #0284c7; }
+    </style>
+</head>
+<body class="p-6">
+
+    <div id="exportArea" class="max-w-7xl mx-auto space-y-6">
+        <!-- Header & Action Buttons -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-4 border-b border-slate-200 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Career Alignment Matrix</h1>
+                <p class="text-sm text-slate-500">Evaluate potential career paths against your Ikigai, Vision, and Practical Criteria.</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="addRole()" class="bg-sky-600 hover:bg-sky-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition shadow-sm">
+                    + Add Role
+                </button>
+                <button onclick="exportJSON()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-2 rounded-lg text-sm border border-slate-300 transition">
+                    Export JSON
+                </button>
+                <button onclick="exportPNG()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-2 rounded-lg text-sm border border-slate-300 transition">
+                    Export PNG
+                </button>
+                <button onclick="emailMatrix()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-2 rounded-lg text-sm border border-slate-300 transition">
+                    Email Summary
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid / Matrix -->
+        <div id="rolesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamic Role Cards will render here -->
+        </div>
+    </div>
+
+    <script>
+        // Default roles pre-populated from your spreadsheet
+        let roles = [
+            {
+                id: 1,
+                title: "Corporate Ethical AI Marketer",
+                vision: "To champion and promote the ethical use of AI which will influence industry standards of regulation, governance, and accountability.",
+                visionStrength: 10,
+                owner: 1,
+                alignsValues: 10,
+                prestige: 7,
+                uniquelyQualified: 7,
+                industryGrowth: 10,
+                earningPotential: 10,
+                easeOfEntry: 10,
+                workLifeBalance: 5,
+                perksTravel: 10,
+                flexibility: 5,
+                notes: "Would 'Ethical AI' jobs or companies be TRULY ethical though? Is there demand?"
+            },
+            {
+                id: 2,
+                title: "Founder of Ethical AI Institute",
+                vision: "To be the leader in establishing standards for the ethical use of AI to strongly influence regulation, governance, and usage.",
+                visionStrength: 10,
+                owner: 10,
+                alignsValues: 10,
+                prestige: 7,
+                uniquelyQualified: 7,
+                industryGrowth: 10,
+                earningPotential: 10,
+                easeOfEntry: 4,
+                workLifeBalance: 1,
+                perksTravel: 10,
+                flexibility: 5,
+                notes: "Need to research institutions more. How does an institute make money?"
+            }
+        ];
+
+        function calculateScore(role) {
+            const criteria = [
+                role.visionStrength, role.owner, role.alignsValues, 
+                role.prestige, role.uniquelyQualified, role.industryGrowth, 
+                role.earningPotential, role.easeOfEntry, role.workLifeBalance, 
+                role.perksTravel, role.flexibility
+            ];
+            const sum = criteria.reduce((a, b) => Number(a) + Number(b), 0);
+            return (sum / criteria.length).toFixed(2);
+        }
+
+        function renderRoles() {
+            const container = document.getElementById('rolesContainer');
+            container.innerHTML = '';
+
+            roles.forEach((role, idx) => {
+                const score = calculateScore(role);
+                const card = document.createElement('div');
+                card.className = "card p-5 space-y-4";
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-start border-b border-slate-100 pb-3">
+                        <input type="text" value="${role.title}" onchange="updateField(${idx}, 'title', this.value)" 
+                               class="bg-transparent font-bold text-lg text-slate-800 focus:outline-none focus:border-sky-500 border-b border-transparent w-full mr-2"/>
+                        <div class="text-right shrink-0">
+                            <span class="text-[10px] uppercase text-slate-400 font-semibold tracking-wider block">Score</span>
+                            <span class="text-2xl font-extrabold text-sky-600">${score}</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Vision & Purpose</label>
+                        <textarea onchange="updateField(${idx}, 'vision', this.value)" 
+                                  class="w-full bg-slate-50 border border-slate-200 rounded p-2 text-xs text-slate-700 mt-1 focus:outline-none focus:border-sky-500">${role.vision}</textarea>
+                    </div>
+
+                    <div class="space-y-2.5 text-xs">
+                        ${renderSlider(idx, 'Vision Strength', 'visionStrength', role.visionStrength)}
+                        ${renderSlider(idx, 'Ownership / Autonomy', 'owner', role.owner)}
+                        ${renderSlider(idx, 'Value Alignment', 'alignsValues', role.alignsValues)}
+                        ${renderSlider(idx, 'Prestige & Branding', 'prestige', role.prestige)}
+                        ${renderSlider(idx, 'Uniquely Qualified', 'uniquelyQualified', role.uniquelyQualified)}
+                        ${renderSlider(idx, 'Industry Growth', 'industryGrowth', role.industryGrowth)}
+                        ${renderSlider(idx, 'Earning Potential', 'earningPotential', role.earningPotential)}
+                        ${renderSlider(idx, 'Ease of Entry', 'easeOfEntry', role.easeOfEntry)}
+                        ${renderSlider(idx, 'Work / Life Balance', 'workLifeBalance', role.workLifeBalance)}
+                        ${renderSlider(idx, 'Perks & Travel', 'perksTravel', role.perksTravel)}
+                        ${renderSlider(idx, 'Flexibility / Remote', 'flexibility', role.flexibility)}
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100">
+                        <label class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Notes & Questions</label>
+                        <textarea onchange="updateField(${idx}, 'notes', this.value)" 
+                                  class="w-full bg-slate-50 border border-slate-200 rounded p-2 text-xs text-slate-600 mt-1 focus:outline-none focus:border-sky-500">${role.notes}</textarea>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderSlider(roleIdx, label, field, val) {
+            return `
+                <div>
+                    <div class="flex justify-between mb-0.5">
+                        <span class="text-slate-600">${label}</span>
+                        <span class="font-bold text-sky-600">${val}</span>
+                    </div>
+                    <input type="range" min="1" max="10" value="${val}" 
+                           oninput="updateField(${roleIdx}, '${field}', this.value)" 
+                           class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer input-range">
+                </div>
+            `;
+        }
+
+        function updateField(roleIdx, field, val) {
+            roles[roleIdx][field] = val;
+            renderRoles();
+        }
+
+        function addRole() {
+            roles.push({
+                id: Date.now(),
+                title: "New Career Path Option",
+                vision: "",
+                visionStrength: 5,
+                owner: 5,
+                alignsValues: 5,
+                prestige: 5,
+                uniquelyQualified: 5,
+                industryGrowth: 5,
+                earningPotential: 5,
+                easeOfEntry: 5,
+                workLifeBalance: 5,
+                perksTravel: 5,
+                flexibility: 5,
+                notes: ""
+            });
+            renderRoles();
+        }
+
+        // --- Export & Sharing Functions ---
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(roles, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "career_matrix_export.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function exportPNG() {
+            const element = document.getElementById('exportArea');
+            html2canvas(element, { scale: 2, backgroundColor: '#f8fafc' }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'career_matrix.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function emailMatrix() {
+            let body = "Career Matrix Summary:\n\n";
+            roles.forEach(r => {
+                body += `Role: ${r.title}\nScore: ${calculateScore(r)}\nVision: ${r.vision}\nNotes: ${r.notes}\n-------------------\n\n`;
+            });
+            const mailtoLink = `mailto:?subject=My%20Career%20Matrix%20Summary&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+
+        // Initialize on load
+        renderRoles();
+    </script>
+</body>
+</html>

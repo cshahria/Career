@@ -1,0 +1,76 @@
+CYRUS SHAHRIARI
+4644 Mossbrook Circle, San Jose, CA | 669-251-6243
+cyrus.shahriari@gmail.com | linkedin.com/in/cyrusshahriari
+
+CHANGE MANAGEMENT • SERVICENOW • ITIL • BUSINESS SYSTEMS ANALYST
+Senior Product Manager and Business Systems Analyst with expertise delivering AI-enabled compliance, governance, risk, and enterprise workflow products for Fortune 500 organizations. Experienced leading the complete product lifecycle—from customer discovery and roadmap development through Agile delivery and adoption—across highly regulated financial services, healthcare, and technology environments. Proven success translating complex regulatory requirements into scalable ServiceNow solutions while leveraging Generative AI to improve operational efficiency and accelerate product delivery.
+ 
+CORE COMPETENCIES
+IT Change Management: Enterprise Change Management, ServiceNow Change Administration, CAB Facilitation, ITIL Change Enablement, Incident & Problem Management, CMDB, Performance Analytics, Risk Assessment, Change Calendar Administration, Executive Reporting, Agile, Process Governance
+AI & Generative AI Technologies: Google Gemini, ChatGPT, Microsoft Copilot, Claude Enterprise, Agentic AI.
+Enterprise Applications & Tools: ServiceNow, Jira, Confluence, Workday, PowerShell, Linux, Windows, SharePoint.
+Business Analysis & Systems Evaluation: Requirements Lifecycle Management, User Story & Epic Generation, Acceptance Criteria Drafting, Backlog Management, Gap & Impact Analysis, As-Is/To-Be Process Mapping, User Acceptance Testing (UAT).
+Methodologies & Leadership: Agile/Scrum, ITIL Framework, Cross-Functional Team Collaboration, Stakeholder Engagement.
+
+PROFESSIONAL EXPERIENCE
+
+SERVICENOW, Santa Clara, CA January 2025 - May 2026
+Cloud-based software platform that automates digital business workflows and powers enterprise operations. 
+Product Manager
+- Owned product strategy and roadmap execution** for ServiceNow Integrated Risk Management (IRM) capabilities supporting Audit Management, Regulatory Change, Policy & Compliance, and Enterprise Risk. Prioritized roadmap investments based on customer feedback, regulatory requirements, and engineering capacity.
+- Applied Generative AI and Agentic AI to automate regulatory workflows including requirements generation, policy interpretation, acceptance criteria creation, and audit documentation, improving delivery efficiency by 30% across a multi-million-dollar compliance product portfolio.
+- Supported enterprise ServiceNow platform operations by partnering with Incident Management, platform engineering, and governance teams to improve operational stability, change quality, and AI-enabled efficiency.
+- Authored and maintained comprehensive business requirements, functional specifications, user stories, and acceptance criteria in ServiceNow; led sprint ceremonies and drove backlog prioritization.
+- Served as primary communication lead for platform issues, conducting root cause analysis and delivering clear, data-driven insights and dashboards to executive and cross-functional audiences.
+- Managed the complete product lifecycle from discovery and stakeholder workshops through roadmap planning, backlog prioritization, sprint execution, release management, adoption, and continuous product improvement.
+- Partnered with compliance, audit, and legal stakeholders to translate evolving regulatory obligations into product capabilities supporting enterprise governance, audit readiness, and policy compliance.
+- Conducted workshops with auditors, compliance specialists, business owners, and technical stakeholders to validate product requirements, prioritize enhancements, and improve user adoption.
+
+ 
+CYPRESS HCM AT SERVICENOW, Santa Clara, CA May 2023 - January 2025
+Cloud-based software platform that automates digital business workflows and powers enterprise operations. 
+Business Systems Analyst
+- Owned and optimized the ServiceNow Visitor Management application across 20+ global locations, directing mobile version upgrades, hardware integration, and multi-region system deployments.
+- Managed the inaugural deployment of the Occupational Health & Safety application module, establishing baseline functional specifications, data tracking, and governance standards.
+
+
+ 
+FIRST REPUBLIC BANK, San Francisco, CA May 2020 - May 2023
+Commercial bank and wealth management firm catering to high-net-worth individuals. 
+Sr. IT Infrastructure Change Analyst
+- Evaluated more than 1,200 monthly infrastructure and application change requests, balancing operational risk, regulatory compliance, business priorities, and production stability within an enterprise financial services environment.
+- Chaired bi-weekly Change Advisory Board (CAB) meetings, facilitating risk assessment, approval decisions, scheduling, and production readiness reviews with infrastructure, application, and executive stakeholders.
+- Managed Normal, Standard, Emergency, and Expedited Changes within ServiceNow Change Management, ensuring testing evidence, rollback plans, approvals, and implementation documentation met governance standards.
+- Administered the enterprise Forward Schedule of Changes, preventing scheduling conflicts through CMDB dependency analysis and coordination across multiple technical teams.
+- Partnered with Incident and Problem Management teams to investigate failed implementations, perform Root Cause Analysis, and reduce recurring operational risk.
+- Improved change governance through reporting and KPI analysis, reducing emergency changes by over 50% while increasing successful standard changes through workflow automation.
+- Supported audit readiness by maintaining complete change records, approval history, and policy compliance within a highly regulated financial services environment.
+- Increased standard, pre-approved automated changes by 15% through workflow automation initiatives.
+
+LUMENTUM, San Jose, CA January 2020 - July 2020
+Leading provider of optical, photonic, and commercial laser products 
+ITIL Process Manager
+Lumentum is a leading provider of optical, photonic, and commercial laser products 
+- Led ITIL system process development, oversight, and configuration tracking with a primary focus on Incident, Change, Configuration, and Problem Management across three global regions.
+- Designed and implemented the Configuration Management Database (CMDB) on the ServiceNow CSDM model, successfully aiding the corporate platform migration from Jira Service Desk to ServiceNow.
+ 
+ABBVIE, Sunnyvale, CA August 2018 - December 2019
+Global biopharmaceutical company discovering and delivering innovative medicines.
+ServiceNow Business Analyst
+- Delivered end-to-end business systems analysis for a global pharmaceutical organization, eliciting and documenting regulatory requirements for platform implementations in a compliance-driven environment.
+- Mapped complex As-Is/To-Be HR process flows and authored functional specs to support a validated Workday-to-ServiceNow system integration, serving as the core liaison between business teams and technical engineers.
+ 
+KAISER PERMANENTE, Pleasanton, CA November 2017 - August 2018
+One of the largest not-for-profit health plans in the U.S., operating on an integrated care model.
+Business Systems Analyst
+- Supported ITAM and SAM process optimization at an enterprise healthcare scale, tracking system requirements and conducting gap analysis for corporate asset management deployment.
+ 
+DIMENSION DATA, ITSM Data / Business Analyst, Santa Clara, CA   April 2016 - November 2017
+COOPER TECHNOLOGIES,IT Service Consultant,  Santa Cruz, CA    June 2015 - March 2016
+HEALTH SHARED SERVICES BC,Sr. Coordinator, Vancouver, Canada   January 2013 - June 2014
+EUROPEAN CENTRAL BANK, ITIL Designer, Frankfurt, Germany    March 2026 – March 2012
+ 
+EDUCATION
+Management, Information Systems, Menlo College, Atherton, CA
+ITIL v3 Certified - APM Group Foundation | Microsoft Certified Technology Specialist (MCTS)
+FEMA CERT Train-the-Trainer / Program Manager | Bilingual: English (Native) | German (Fluent)
