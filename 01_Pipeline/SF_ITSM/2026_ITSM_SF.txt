@@ -1,0 +1,175 @@
+Skip to content
+ 
+SF Careers Logo with City Seal
+ 
+SF.GOV
+SF | DHR
+My Applications
+ 
+Career Opportunity
+Principal ServiceNow Implementation Specialist (1054) - Enterprise Applications - Department of Technology
+Recruitment: RTF0162692-01025034
+
+Published: September 28, 2026
+
+Contact
+Sean Sexton - sean.sexton@sfgov.org
+Apply using SmartRecruiters, the City and County of San Francisco's application portal.
+
+Share
+ 
+Department: Technology
+Job class: 1054-IS Business Analyst-Principal
+Salary range: $155,298.00 - $221,026.00
+Role type: Permanent Exempt What does this mean?
+Hours: Full-time
+ 
+About:
+Important: A cover letter and resume must be submitted as part of the application in order to be considered. The cover letter must describe your experience with the ServiceNow platform and how your background aligns with the essential duties and desirable qualifications. Please refer to the How to Apply section below for instructions.
+
+Application Opening: Wednesday, September 23, 2026
+ 
+Application Deadline: Apply immediately. This recruitment is considered open until filled, but will close no sooner than Friday, October 30, 2026 (11:59 PM).
+ 
+Salary Range: $155,298 to $195,338 annually (click here to learn more)
+ 
+Appointment Type: Permanent Exempt, Full Time. This position is excluded by the Charter from the competitive civil service examination process and shall serve at the discretion of the appointment officer. The anticipated duration of this project position is up to thirty-six (36) months.
+ 
+Work Location: Incumbent will conduct the majority of work at the Department of Technology, (1 S Van Ness, Ave San Francisco, CA 94103).  However, there may be situations where the incumbent will be required to work at other sites throughout the City and County of San Francisco as necessary.
+ 
+Work Arrangement: This is a full-time position. The department supports a hybrid work schedule in compliance with City & County of San Francisco policies on remote work.
+Are you ready to make an impact in one of the most innovative cities? The San Francisco Department of Technology (DT) is looking for passionate IT professionals to help shape the future of technology in San Francisco! As the centralized technology services provider for the City and County of San Francisco (CCSF), DT delivers critical infrastructure and services to over 33,000 employees—supporting public safety, municipal broadband, cybersecurity, cloud solutions, and more! With a $170M+ annual budget and a team of 300+ experts, DT is leading the charge in digital transformation. DT provides services through our core areas of IT Excellence:
+
+IT Project Management Office
+Enterprise Application Services
+Cloud Center of Excellence
+IT Operations and Support including the Service Desk and NOC
+City Infrastructure including the Network, Telcom and Data Centers
+Office of Cybersecurity including Cyber Defense, Identity Management and Disaster Recovery
+Public Safety Systems and Municipal Broadband Fiber
+SFGovTV Broadcasting Services
+IT Finance and Administration Services
+Emerging Technologies
+Why Join Us?  Innovative & impactful work at DT, you won’t just work on IT—you’ll power a city. Your expertise will directly impact the residents of San Francisco, from closing the digital divide to ensuring secure, efficient city operations.
+
+Benefits of Working for CCSF:  In addition to challenging and rewarding work, the City provides a generous suite of benefits to its employees.
+
+Competitive pay, benefits, and retirement options
+Career growth opportunities through training, internal mobility, and subsidized education
+Diverse work environment in a diverse city
+Join the team that’s shaping the future of technology in San Francisco. Apply today and be part of a dynamic, innovative, and mission-driven IT team!
+
+Role description
+ServiceNow Modernization Project:
+The ServiceNow Modernization project is a multi-year initiative to modernize and enhance the City’s enterprise ServiceNow platform, which supports IT Service Management (ITSM), asset and configuration management, knowledge management, reporting, and the automation and digitization of business processes across DT and partner departments.
+
+Its purpose is to expand and strengthen the City’s ServiceNow capabilities by delivering updated modules, automated workflows, modernized ITSM functionality, and more mature asset and knowledge management processes, along with improved reporting and analytics. The project is scheduled to run from June 2026 through June 2029. A 36 month timeline is necessary because the modernization effort will be delivered in sequenced phases.
+
+The overarching goal of this project is to support DT and other City departments and agencies in their IT modernization efforts by digitizing business processes and intelligently automating tasks and workflows that integrate systems, people, and data across the enterprise.
+
+Position Description:
+This role reports to the ITSM Program Service Manager (ServiceNow Platform Manager). Under general direction, this position oversees the more difficult and complex aspects of the systems development lifecycle for ServiceNow, including needs analysis, structured systems analysis and design, feasibility analysis, technology and software assessment, project planning and management, system installation, implementation and testing, conversion to production status, technical and procedural documentation, user training, and post-implementation assessment and administration.
+
+This role requires strong ServiceNow developer expertise, including hands-on experience in platform development, configuration, customization, and integration, to design and deliver scalable, high-quality solutions. The position serves as a senior technical lead and may act as the primary subject matter resource for an organization supporting complex, enterprise-level systems.
+
+The successful candidate will:
+(A) Demonstrate the ability to perform job functions in an independent manner.
+
+(B) Have a strong background in IT Service Management and IT Operations Management processes and solutions.
+
+(C) Possess deep expertise across the ServiceNow platform, including hands-on development, configuration, customization, and administration of applications, integrations, and workflows.
+
+Essential duties include, but are not limited to, the following:
+
+Serves as the lead technical authority for ServiceNow, providing architectural direction and oversight across solution design, development, testing, and deployment.
+Leads the design, development, and implementation of ServiceNow ITSM modules, custom applications, workflows, and automation solutions.
+Designs, configures, develops, and enhances ServiceNow Service Operations Workspace (SOW) using UI Builder, including workspace pages, components, user experiences, AI/Now Assist capabilities, and Employee Service Center (ESC) functionality.
+Architects scalable platform solutions and integrations using REST/SOAP APIs, IntegrationHub, and MID Server.
+Partners with stakeholders to gather requirements, assess technical feasibility, and define scalable solutions for integrations, enhancements, and new capabilities.
+Enhances CMDB and asset management capabilities through discovery, data modeling, system integration, and data quality governance.
+Enhances and enforces development standards, platform governance, and best practices while performing advanced scripting and troubleshooting.
+Leads platform lifecycle and operations, including upgrades, performance tuning, monitoring, release management, documentation.
+Provides knowledge transfer and handoff to permanent staff at project completion.
+Participates in QA cycles, regression testing, and release management activities.
+Performs other related duties as assigned.
+How to qualify
+Minimum Qualifications
+
+Education:
+An associate degree in business administration, public administration, information systems, economics, finance, computer science, UX/UI design, or a closely related field from an accredited college or university OR its equivalent in terms of total course credits/units [i.e., at least sixty (60) semester or ninety (90) quarter credits/units with a minimum of twenty (20) semester or thirty (30) quarter credits/units in one of the fields above or a closely-related field].
+
+Experience:
+Five (5) years of experience in the information systems field, including system analysis, business process design, development and implementation of business application solutions or IT project management.
+
+Substitution:
+One year of additional experience as described above may be substituted for the required degree.
+
+Completion of the 1010 Information Systems Trainee Program may be substituted for the required degree.
+
+Desirable Qualiﬁcations
+
+Hands-on experience configuring and developing ServiceNow Service Operations Workspace (SOW) using UI Builder, including workspace pages and components, user experience configuration, AI/Now Assist capabilities, and Employee Service Center (ESC).
+Hands-on experience with ServiceNow Otto, AI Agents, and Model Context Protocol (MCP) capabilities, including configuring and developing AI-driven workflows, agentic automation, and governed integrations between ServiceNow and external AI agents, tools, and enterprise systems.
+Extensive hands-on experience with ITIL Service Management and Business Management core processes (Solid/Advanced understanding of an ITIL framework and ITSM principles)
+Experience with development and implementation of ServiceNow ITSM & ITBM core modules - Incident Management, Problem Management, Configuration Management, Change Management, Knowledge Management, Project Portfolio Suites of application (PPS)
+Proficiency in an Admin/Developer/Implementer capacity administering an enterprise-wide, multi-tier ServiceNow production environment
+Experience with all scripted aspects of the ServiceNow system including Business Rules, Client Scripts, Script Includes, UI Actions, ACLs, Workflow Activities and Scheduled Jobs
+Skilled in extending the ServiceNow schema to custom applications - System application design and development within Service Oriented Architecture to extend the core functionality of the platform
+Experience with ServiceNow client and server-side JavaScript and the ServiceNow scripted APIs using scripted Web-Services and other web-based technologies such as XML, HTML, AJAX, CSS, HTTP, REST/SOAP, WSDL, JAXWS, SSO-SAML Setup and Integration of ServiceNow with third party systems/applications
+Knowledge of technical components such as LDAP, VPN, SSL, SAML/SSO and other such technologies
+Execution of at least 10 full ServiceNow Application Development life cycles performing advanced ServiceNow configuration and development on ServiceNow Madrid or newer releases
+Experience with ServiceNow ITOM and Orchestration to automate complex multi-system tasks on remote servers using ServiceNow Orchestration which extends the workflow capabilities of the ServiceNow platform to communicate and orchestrate activities outside the ServiceNow instance
+Very strong ability to reason logically and creatively to identify and resolve problems by understanding high level direction, outlining technical approach, and implementing scalable solutions
+Demonstrated ability to effectively lead a team and participate in activities and assignments that will benefit other members of the team or will contribute to the accomplishment of team objectives
+ServiceNow Administrator Certification (CSA)
+ServiceNow Implementation Specialist Certification (CIS)
+ITIL Foundation Certification
+Possession of a Master's degree in computer science, MIS or a closely related field from an accredited college or university
+Verification of Education and Experience
+
+Please make sure it is clear in your application exactly how you meet the minimum qualifications. Every application is reviewed to ensure that you meet the minimum qualifications as listed in the job ad. Review SF Careers Employment Applications for considerations taken when reviewing applications. 
+
+Applicants may be required to submit verification of qualifying education and experience at any point during the recruitment and selection process. If education verification is required, information on how to verify education requirements, including verifying foreign education credits or degree equivalency, can be found at https://careers.sf.gov/knowledge/experience-education/.
+
+Note: Falsifying one’s education, training, or work experience or attempted deception on the application may result in disqualification for this and future job opportunities with the City and County of San Francisco.
+
+What else should I know?
+Selection Procedures
+
+The selection process will include evaluation of applications in relation to minimum requirements and assessment of candidates’ job-related knowledge, skills and abilities. Depending on the number of applicants, the Department may establish and implement additional screening mechanisms to evaluate candidate qualifications. This typically includes an oral interview and/or a written or performance exercise.
+
+If this becomes necessary, only those applicants whose qualifications most closely meet the Department needs will be invited to continue in the selection process. Applicants meeting the minimum requirements are not guaranteed advancement in the selection process.
+
+How to Apply
+
+Applicants are encouraged to apply immediately as this recruitment may close at any time, but not before October 30, 2026.
+
+Your application MUST include a cover letter and resume to be considered. The cover letter must describe your experience with the ServiceNow platform and describe how your background aligns with the essential duties and desirable qualifications.
+
+To upload, please attach using the "additional attachments" function.
+ 
+You may contact Sean Sexton by email at Sean.Sexton@sfgov.org with questions regarding this opportunity.
+ 
+Late or incomplete submissions will not be considered. Mailed, hand delivered or faxed documents/applications will not be accepted.
+For best practices on the application process, please visit Apply for Jobs in the City and County of San Francisco Best Practices Guide. Applicants may be contacted by email about this announcement and, therefore, it is their responsibility to ensure that their registered email address is accurate and kept up-to-date. Also, applicants must ensure that email from CCSF is not blocked on their computer by a spam filter. To prevent blocking, applicants should set up their email to accept CCSF mail from the following addresses @sfgov.org, @sfdpw.org, @sfport.com, @flysfo.com, @sfwater.org, @sfdph.org, @asianart.org, @sfmta.com, @sfpl.org, @dcyf.org, @first5sf.org, @famsf.org, @ccsf.edu, @smartalerts.info, and @smartrecruiters.com).
+
+Applicants will receive a confirmation email that their online application has been received in response to every announcement for which they file. Applicants should retain this confirmation email for their records. Failure to receive this email means that the online application was not submitted or received.
+
+Additional Information Regarding Employment with the City and County of San Francisco:
+
+Information About the Hiring Process
+Conviction History
+Employee Benefits Overview
+Equal Employment Opportunity
+Disaster Service Worker
+ADA Accommodation
+Veterans Preference
+Right to Work
+Copies of Application Documents
+The Office of the City Administrator is committed to ensuring that the City's services are inclusive, efficient, equitable, and culturally competent for San Franciscans of all races, ethnic backgrounds, religions, and sexual orientations. This commitment requires comprehensive review and thorough analysis of existing practices and policies to remove barriers to real inclusion.  
+
+We are also committed to ensuring that we have a safe, equitable, and inclusive workplace for individuals of all races. This includes creating opportunities for hiring, promotion, training, and development, for all employees, including but not limited to Black, Indigenous, and people of color (BIPOC).
+
+The City and County of San Francisco encourages women, minorities and persons with disabilities to apply. Applicants will be considered regardless of their sex, race, age, religion, color, national origin, ancestry, physical disability, mental disability, medical condition (associated with cancer, a history of cancer, or genetic characteristics), HIV/AIDS status, genetic information, marital status, sexual orientation, gender, gender identity, gender expression, military and veteran status, or other protected category under the law.
+
+ 
