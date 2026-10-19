@@ -1,0 +1,27 @@
+{
+  "reminders": [
+    {
+      "id": 1,
+      "text": "SFO check-in (11/26 @ 17:00 PT)",
+      "completed": false
+    },
+    {
+      "id": 1792375591636,
+      "text": "Doeki Shirt for sizing",
+      "completed": false
+    },
+    {
+      "id": 1792375603530,
+      "text": "Swiss sourdough",
+      "completed": false
+    },
+    {
+      "id": 1792375630770,
+      "text": "German bread",
+      "completed": false
+    }
+  ],
+  "agenda": {
+    "2026-11-26": "11/26 at 17:00 PT"
+  }
+}

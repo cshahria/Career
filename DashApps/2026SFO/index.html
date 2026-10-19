@@ -43,16 +43,20 @@
 
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 
-    .prep-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #1e40af; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-    .prep-banner h3 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-    .prep-banner p { font-size: 0.85rem; font-weight: 600; }
+    /* Merged Top Row Banner */
+    .top-merged-banner { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .top-merged-left { display: flex; flex-direction: column; gap: 2px; }
+    .top-merged-left h3 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .top-merged-left p { font-size: 0.85rem; font-weight: 600; }
+    .countdown-timer { font-size: 1.05rem; font-weight: 700; font-family: monospace; color: var(--primary); }
 
-    /* Checklist Styles */
+    /* Compact Reminder Cards Grid */
     .reminder-input-group { display: flex; gap: 8px; margin-bottom: 12px; }
-    .reminder-list { display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; }
-    .reminder-item { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.9rem; }
-    .reminder-item.completed span { text-decoration: line-through; color: var(--muted); }
-    .reminder-left { display: flex; align-items: center; gap: 8px; }
+    .reminder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; max-height: 220px; overflow-y: auto; }
+    .reminder-card-item { background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
+    .reminder-card-item.completed span { text-decoration: line-through; color: var(--muted); }
+    .reminder-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
+    .reminder-card-actions { display: flex; justify-content: flex-end; }
     input[type="text"] { font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; width: 100%; }
 
     /* Enlarged Calendar Month View Styles */
@@ -65,13 +69,10 @@
     .cal-date-num { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
     .cal-events-container { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; overflow-y: auto; max-height: 75px; }
     
-    /* Green highlight for 11/26 entry */
     .cal-agenda-green { font-size: 0.68rem; color: #166534; background: #dcfce7; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    
-    /* Light blue highlight for normal add/agenda slots */
     .cal-agenda-blue { font-size: 0.68rem; color: #1e40af; background: #eff6ff; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    
     .cal-holiday-text { font-size: 0.65rem; color: #b45309; background: #fef3c7; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cal-countdown-text { font-size: 0.65rem; color: #7c2d12; background: #ffedd5; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
     @media (max-width: 600px) {
       .cal-cell { min-height: 85px; padding: 4px; }
@@ -103,38 +104,41 @@
 </head>
 <body>
 
+  <!-- Top Header with JSON Export & Import buttons on top -->
   <div class="header">
     <div>
       <h1 id="appTitle">Trip Preparation Tracker</h1>
-      <p>SF Bay Area Ready</p>
       <div id="exportStamp" class="export-stamp"></div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-primary btn-xs" onclick="exportJSON()">📥 JSON (GitHub)</button>
+      <button class="btn btn-primary btn-xs" onclick="exportJSON()">📥 JSON Export & Email</button>
       <button class="btn btn-secondary btn-xs" onclick="triggerImport()">📤 Import</button>
       <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
       <button class="btn btn-secondary btn-xs" onclick="exportToPNG()">📷 PNG</button>
     </div>
   </div>
 
-  <!-- Trip Preparation Milestone Banner -->
-  <div class="prep-banner">
-    <div>
+  <!-- Merged Row: Trip Preparation Milestone & Countdown to 11/26/2026 -->
+  <div class="top-merged-banner">
+    <div class="top-merged-left">
       <h3>✈️ Trip Preparation Milestone</h3>
       <p>11/26 at SFO at 17:00 PT</p>
     </div>
-    <button class="btn btn-primary btn-xs" onclick="alert('Milestone confirmed: 11/26 at SFO at 17:00 PT')">🔔 Sync</button>
+    <div>
+      <span style="font-size: 0.75rem; font-weight: 700; display: block; color: var(--muted); text-transform: uppercase;">Countdown to 11/26/2026</span>
+      <div id="liveCountdownTimer" class="countdown-timer">Calculating...</div>
+    </div>
   </div>
 
-  <!-- Item Reminders / Checklist Section -->
+  <!-- Reminders / Compact Cards Section -->
   <div class="card">
-    <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px;">Trip Item Reminders</h2>
+    <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px;">Reminders</h2>
     <div class="reminder-input-group">
       <input type="text" id="newReminderInput" placeholder="Add item or task (e.g., Passport, Boarding pass)..." onkeydown="if(event.key==='Enter') addReminder()">
       <button class="btn btn-primary" onclick="addReminder()">Add</button>
     </div>
-    <div class="reminder-list" id="reminderListContainer">
-      <!-- Dynamic Items -->
+    <div class="reminder-grid" id="reminderGridContainer">
+      <!-- Dynamic Card Items -->
     </div>
   </div>
 
@@ -172,12 +176,10 @@
       { id: 1, text: "SFO check-in (11/26 @ 17:00 PT)", completed: false }
     ];
     
-    // November 26 entry starts in light green as requested
     window.tripAgenda = {
-      "2026-11-26": "11/26 at 17:00 PT"
+      "2026-11-26": ["11/26 at 17:00 PT"]
     };
 
-    // US, Swiss, and German Holidays Dataset (Nov 2026 - Jun 2027)
     const HOLIDAYS = {
       "2026-11-01": "All Saints' (DE/CH)",
       "2026-11-11": "Veterans Day (US)",
@@ -199,21 +201,64 @@
       "2027-06-19": "Juneteenth (US)"
     };
 
-    // Initialize calendar starting specifically with November 2026
+    const SF_EVENTS_2026 = {
+      "2026-01-11": ["SF Tech Career Fair", "Persian Cultural Meetup"],
+      "2026-01-12": ["Midterm Prep: Study Session A"],
+      "2026-01-15": ["Bay Area Job Expo", "German Film Series Kickoff"],
+      "2026-01-20": ["Midterm Exams Begin", "SF Innovation Summit"],
+      "2026-01-22": ["Midterm Week Peak", "Networking Mixer SOMA"],
+      "2026-01-26": ["SF Green Tech Career Fair"],
+      "2026-02-02": ["Persian Nowruz Prep Workshop"],
+      "2026-02-05": ["SFSU Spring Job Fair"],
+      "2026-02-12": ["Midterm Round 2 Review"],
+      "2026-02-17": ["Bay Area Engineering Hiring Event"],
+      "2026-02-23": ["Midterm Exams Period B"],
+      "2026-03-02": ["Silicon Valley Tech Fair"],
+      "2026-03-10": ["Spring Career Fair San Francisco"],
+      "2026-03-17": ["Midterm Final Phase"],
+      "2026-03-24": ["SF Networking & Startup Mixer"],
+      "2026-03-30": ["Q1 Career Strategy Review"]
+    };
+
     window.currentCalDate = new Date(2026, 10, 1);
 
     window.onload = function() {
       loadDataFromGitHubOrStorage();
+      setInterval(updateLiveCountdown, 1000);
+      updateLiveCountdown();
     };
 
-    // Pulls data automatically from the hardcoded values.json path on GitHub, falling back to localStorage
+    function updateLiveCountdown() {
+      const targetDate = new Date("2026-11-26T17:00:00-08:00");
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('liveCountdownTimer').innerText = "Target Date Reached!";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('liveCountdownTimer').innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
     async function loadDataFromGitHubOrStorage() {
       try {
         const response = await fetch('./values.json');
         if (response.ok) {
           const remoteData = await response.json();
           if (remoteData.reminders) window.tripReminders = remoteData.reminders;
-          if (remoteData.agenda) window.tripAgenda = remoteData.agenda;
+          if (remoteData.agenda) {
+            const convertedAgenda = {};
+            for (const [k, v] of Object.entries(remoteData.agenda)) {
+              convertedAgenda[k] = Array.isArray(v) ? v : [v];
+            }
+            window.tripAgenda = convertedAgenda;
+          }
           renderApp();
           return;
         }
@@ -225,7 +270,14 @@
       if (savedReminders) window.tripReminders = JSON.parse(savedReminders);
 
       const savedAgenda = localStorage.getItem('trip_agenda');
-      if (savedAgenda) window.tripAgenda = JSON.parse(savedAgenda);
+      if (savedAgenda) {
+        const parsed = JSON.parse(savedAgenda);
+        const convertedAgenda = {};
+        for (const [k, v] of Object.entries(parsed)) {
+          convertedAgenda[k] = Array.isArray(v) ? v : [v];
+        }
+        window.tripAgenda = convertedAgenda;
+      }
 
       renderApp();
     }
@@ -273,6 +325,8 @@
       const totalDays = new Date(year, month + 1, 0).getDate();
       const prevTotalDays = new Date(year, month, 0).getDate();
 
+      const targetDateObj = new Date("2026-11-26T00:00:00");
+
       let gridHtml = '';
       
       for (let i = firstDayIndex - 1; i >= 0; i--) {
@@ -284,20 +338,45 @@
         const mStr = String(month + 1).padStart(2, '0');
         const dStr = String(d).padStart(2, '0');
         const dateKey = `${year}-${mStr}-${dStr}`;
-        const agendaNote = window.tripAgenda[dateKey] || '';
+        const entries = window.tripAgenda[dateKey] || [];
         const holidayNote = HOLIDAYS[dateKey] || '';
+        const sfEvents = SF_EVENTS_2026[dateKey] || [];
 
-        // Specific styling check: 11/26 entry remains green, other days use light blue badge
-        let agendaClass = "cal-agenda-blue";
-        if (dateKey === "2026-11-26") {
-          agendaClass = "cal-agenda-green";
+        let eventsHtml = '';
+
+        const currDateObj = new Date(`${dateKey}T00:00:00`);
+        const diffDays = Math.round((targetDateObj - currDateObj) / (1000 * 60 * 60 * 24));
+        if (diffDays > 0) {
+          const countText = diffDays === 1 ? "1 more day" : `${diffDays} days left`;
+          eventsHtml += `<div class="cal-countdown-text">⏳ ${countText}</div>`;
+        }
+
+        if (holidayNote) {
+          eventsHtml += `<div class="cal-holiday-text" title="${escapeHtml(holidayNote)}">🏛️ ${escapeHtml(holidayNote)}</div>`;
+        }
+
+        if (sfEvents.length > 0) {
+          sfEvents.forEach(ev => {
+            eventsHtml += `<div class="cal-agenda-blue" title="${escapeHtml(ev)}">📌 ${escapeHtml(ev)}</div>`;
+          });
+        }
+
+        if (entries.length > 0) {
+          entries.forEach(entry => {
+            let agendaClass = "cal-agenda-blue";
+            if (dateKey === "2026-11-26") {
+              agendaClass = "cal-agenda-green";
+            }
+            eventsHtml += `<div class="${agendaClass}" title="${escapeHtml(entry)}">${escapeHtml(entry)}</div>`;
+          });
+        } else if (sfEvents.length === 0 && !holidayNote && diffDays <= 0) {
+          eventsHtml += `<div class="cal-agenda-blue" style="opacity: 0.6;">+ Add</div>`;
         }
 
         gridHtml += `<div class="cal-cell" onclick="editAgendaDate('${dateKey}')">
           <span class="cal-date-num">${d}</span>
           <div class="cal-events-container">
-            ${holidayNote ? `<div class="cal-holiday-text" title="${escapeHtml(holidayNote)}">🏛️ ${escapeHtml(holidayNote)}</div>` : ''}
-            <div class="${agendaClass}" title="${escapeHtml(agendaNote)}">${escapeHtml(agendaNote || '+ Add')}</div>
+            ${eventsHtml}
           </div>
         </div>`;
       }
@@ -312,13 +391,28 @@
     }
 
     function editAgendaDate(dateKey) {
-      const currentVal = window.tripAgenda[dateKey] || '';
-      const newVal = prompt(`Enter agenda note for ${dateKey}:`, currentVal);
-      if (newVal !== null) {
-        if (newVal.trim() === '') {
+      const currentEntries = window.tripAgenda[dateKey] || [];
+      const promptMsg = `Date: ${dateKey}\nCurrent custom entries:\n${currentEntries.map((e, i) => `${i+1}:${e}`).join('\n')}\n\nEnter a new entry to add, or type an existing entry index to edit/remove:`;
+      const newVal = prompt(promptMsg, "");
+      
+      if (newVal !== null && newVal.trim() !== "") {
+        const valTrim = newVal.trim();
+        if (!isNaN(valTrim) && Number(valTrim) > 0 && Number(valTrim) <= currentEntries.length) {
+          const idx = Number(valTrim) - 1;
+          const action = prompt(`Modify or delete entry "${currentEntries[idx]}"?\nType new text or leave blank to delete:`, currentEntries[idx]);
+          if (action === null || action.trim() === "") {
+            currentEntries.splice(idx, 1);
+          } else {
+            currentEntries[idx] = action.trim();
+          }
+        } else {
+          currentEntries.push(valTrim);
+        }
+
+        if (currentEntries.length === 0) {
           delete window.tripAgenda[dateKey];
         } else {
-          window.tripAgenda[dateKey] = newVal.trim();
+          window.tripAgenda[dateKey] = currentEntries;
         }
         saveToLocalStorage();
       }
@@ -337,23 +431,26 @@
     function renderApp() {
       let reminderHtml = '';
       if (window.tripReminders.length === 0) {
-        reminderHtml = '<div style="color:var(--muted); font-size:0.85rem; text-align:center; padding: 6px;">No reminders added yet.</div>';
+        reminderHtml = '<div style="color:var(--muted); font-size:0.85rem; text-align:center; padding: 6px; grid-column: 1 / -1;">No reminders added yet.</div>';
       } else {
         window.tripReminders.forEach(r => {
-          reminderHtml += `<div class="reminder-item ${r.completed ? 'completed' : ''}">
-            <div class="reminder-left">
-              <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="toggleReminder(${r.id})">
-              <span>${escapeHtml(r.text)}</span>
+          reminderHtml += `<div class="reminder-card-item ${r.completed ? 'completed' : ''}">
+            <div class="reminder-card-top">
+              <div style="display: flex; align-items: flex-start; gap: 6px;">
+                <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="toggleReminder(${r.id})" style="margin-top: 2px;">
+                <span>${escapeHtml(r.text)}</span>
+              </div>
             </div>
-            <button class="btn btn-secondary btn-xs" onclick="deleteReminder(${r.id})">❌</button>
+            <div class="reminder-card-actions">
+              <button class="btn btn-secondary btn-xs" onclick="deleteReminder(${r.id})">❌ Delete</button>
+            </div>
           </div>`;
         });
       }
-      document.getElementById('reminderListContainer').innerHTML = reminderHtml;
+      document.getElementById('reminderGridContainer').innerHTML = reminderHtml;
       renderCalendar();
     }
 
-    // Hardcoded export to values.json for direct uploading to https://cshahria.github.io/Career/DashApps/2026SFO/values.json
     function exportJSON() {
       const payload = {
         reminders: window.tripReminders,
@@ -366,6 +463,11 @@
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
+
+      const recipient = "cyrus.cti@gmail.com";
+      const subject = encodeURIComponent("Trip Dashboard JSON Update (values.json)");
+      const bodyText = `Save to:\nhttps://cshahria.github.io/Career/DashApps/2026SFO/values.json\nhttps://cshahria.github.io/Career/DashApps/2026SFO/index.html`;
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
     }
 
     function triggerImport() {
@@ -380,7 +482,13 @@
         try {
           const imported = JSON.parse(e.target.result);
           if (imported.reminders) window.tripReminders = imported.reminders;
-          if (imported.agenda) window.tripAgenda = imported.agenda;
+          if (imported.agenda) {
+            const convertedAgenda = {};
+            for (const [k, v] of Object.entries(imported.agenda)) {
+              convertedAgenda[k] = Array.isArray(v) ? v : [v];
+            }
+            window.tripAgenda = convertedAgenda;
+          }
           saveToLocalStorage();
           alert("Trip data successfully imported.");
         } catch (err) {

@@ -1,0 +1,66 @@
+{
+  "reminders": [
+    {
+      "id": 1,
+      "text": "SFO check-in (11/26 @ 17:00 PT)",
+      "completed": false
+    }
+  ],
+  "agenda": {
+    "2026-11-26": [
+      "11/26 at 17:00 PT"
+    ],
+    "2026-01-11": [
+      "SF Tech Career Fair",
+      "Persian Cultural Meetup"
+    ],
+    "2026-01-12": [
+      "Midterm Prep: Study Session A"
+    ],
+    "2026-01-15": [
+      "Bay Area Job Expo",
+      "German Film Series Kickoff"
+    ],
+    "2026-01-20": [
+      "Midterm Exams Begin",
+      "SF Innovation Summit"
+    ],
+    "2026-01-22": [
+      "Midterm Week Peak",
+      "Networking Mixer SOMA"
+    ],
+    "2026-01-26": [
+      "SF Green Tech Career Fair"
+    ],
+    "2026-02-02": [
+      "Persian Nowruz Prep Workshop"
+    ],
+    "2026-02-05": [
+      "SFSU Spring Job Fair"
+    ],
+    "2026-02-12": [
+      "Midterm Round 2 Review"
+    ],
+    "2026-02-17": [
+      "Bay Area Engineering Hiring Event"
+    ],
+    "2026-02-23": [
+      "Midterm Exams Period B"
+    ],
+    "2026-03-02": [
+      "Silicon Valley Tech Fair"
+    ],
+    "2026-03-10": [
+      "Spring Career Fair San Francisco"
+    ],
+    "2026-03-17": [
+      "Midterm Final Phase"
+    ],
+    "2026-03-24": [
+      "SF Networking & Startup Mixer"
+    ],
+    "2026-03-30": [
+      "Q1 Career Strategy Review"
+    ]
+  }
+}
