@@ -1,14 +1,25 @@
 {
   "reminders": [
     {
-      "id": 1,
-      "text": "SFO check-in (11/26 @ 17:00 PT)",
+      "id": 1792376731896,
+      "text": "Arrival 1700 on 11/26",
+      "completed": false
+    },
+    {
+      "id": 1792376746596,
+      "text": "Swiss / German Bread",
+      "completed": false
+    },
+    {
+      "id": 1792376752476,
+      "text": "Doeki Shirt",
       "completed": false
     }
   ],
   "agenda": {
     "2026-11-26": [
-      "11/26 at 17:00 PT"
+      "11/26 at 17:00 PT",
+      "1830 - Shalizar Persian Dinner"
     ],
     "2026-01-11": [
       "SF Tech Career Fair",
@@ -61,6 +72,12 @@
     ],
     "2026-03-30": [
       "Q1 Career Strategy Review"
+    ],
+    "2026-11-03": [
+      "1600 - US Midterm Coverage"
+    ],
+    "2026-11-27": [
+      "0800 - Black Friday"
     ]
   }
 }
