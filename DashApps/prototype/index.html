@@ -1,301 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PawVillage - Dog Sitting Intake Form</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons for Pet Friendly Aesthetics -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts: Inter & Fredoka for playful headers -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              red: '#E1251B',     /* Vibrant playful red */
-              blue: '#0056B3',    /* Deep rich blue */
-              teal: '#00A896',    /* Friendly teal accent */
-              lightBg: '#F4F9F9', /* Soft light pet care background */
-              cardBg: '#FFFFFF',  /* Crisp white card */
-              border: '#E2E8F0'   /* Subtle borders */
-            }
-          },
-          fontFamily: {
-            fredoka: ['Fredoka', 'sans-serif'],
-            sans: ['Inter', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paw Village – neighbors who watch each other’s dogs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6f1;--ink:#12263a;--mute:#5b6b78;--line:#d3dccf;--grass:#2f7d4f;--ball:#d8e84a;--panel:#fff;--warn:#a43b2a}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,sans-serif}
+h1,h2,h3,.brand{font-family:"Bricolage Grotesque",Figtree,sans-serif;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.05;margin:0 0 .4rem;font-weight:800}
+h2{font-size:1.35rem;margin:0 0 .75rem}
+h3{font-size:1.05rem;margin:0}
+a{color:var(--grass)}
+header{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.8rem clamp(1rem,4vw,2.5rem);background:var(--ink);color:#fff;position:sticky;top:0;z-index:5}
+.brand{font-size:1.3rem;font-weight:800;display:flex;align-items:center;gap:.5rem;color:#fff;text-decoration:none}
+.ball{width:1.2rem;height:1.2rem;border-radius:50%;background:var(--ball);box-shadow:inset -3px 0 0 rgba(0,0,0,.15)}
+nav{display:flex;gap:.25rem;margin-left:auto}
+nav a{color:#cfd9e2;text-decoration:none;padding:.4rem .8rem;border-radius:99px;font-weight:500}
+nav a[aria-current=page]{background:var(--ball);color:var(--ink);font-weight:700}
+.pts{font-weight:700;color:var(--ball)}
+main{max-width:1100px;margin:0 auto;padding:1.5rem clamp(1rem,4vw,2.5rem) 3rem}
+.lead{max-width:60ch;color:var(--mute);margin:0 0 1.5rem}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:1.5rem;align-items:start}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.1rem}
+label{display:block;font-weight:700;font-size:.9rem;margin:.8rem 0 .25rem}
+label:first-child{margin-top:0}
+input,select,textarea{width:100%;font:inherit;padding:.55rem .65rem;border:1px solid #b9c5b6;border-radius:8px;background:#fff;color:var(--ink)}
+textarea{min-height:70px;resize:vertical}
+:focus-visible{outline:3px solid var(--grass);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chips label{margin:0;font-weight:500;display:flex;align-items:center;gap:.35rem;border:1px solid #b9c5b6;border-radius:99px;padding:.25rem .7rem;cursor:pointer;font-size:.9rem}
+.chips input{width:auto}
+.chips label:has(input:checked){background:var(--ink);color:#fff;border-color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:99px;padding:.6rem 1.2rem;cursor:pointer;background:var(--ink);color:#fff}
+button.primary{background:var(--ball);color:var(--ink)}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+button.small{padding:.3rem .8rem;font-size:.85rem}
+.card{display:flex;gap:1rem;justify-content:space-between;align-items:flex-start;padding:1rem;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:.7rem}
+.card p{margin:.2rem 0;color:var(--mute);font-size:.92rem}
+.tag{display:inline-block;font-size:.78rem;background:#e6eee3;border-radius:6px;padding:.1rem .5rem;margin:.15rem .2rem 0 0}
+.cost{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.3rem;white-space:nowrap;text-align:right}
+.cost small{display:block;font-family:Figtree;font-weight:500;font-size:.75rem;color:var(--mute)}
+.no{color:var(--warn);font-size:.88rem}
+.empty{padding:1.2rem;border:2px dashed var(--line);border-radius:12px;color:var(--mute)}
+.range{display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem}
+.range input{flex:1}
+details{margin-top:1rem}
+summary{cursor:pointer;font-weight:700}
+#toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.7rem 1.2rem;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+fieldset{border:1px solid var(--line);border-radius:12px;margin:1rem 0 0;padding:.9rem}
+legend{font-family:"Bricolage Grotesque";font-weight:800;padding:0 .4rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
-<body class="bg-brand-lightBg font-sans text-slate-800 min-h-screen flex flex-col justify-between selection:bg-brand-teal selection:text-white">
+<body>
+<header>
+  <a class="brand" href="#find"><span class="ball"></span>Paw Village</a>
+  <span class="pts" id="pts"></span>
+  <nav aria-label="Main">
+    <a href="#find" data-t="find">Find a sitter</a>
+    <a href="#join" data-t="join">My profile</a>
+    <a href="#members" data-t="members">Members</a>
+  </nav>
+</header>
+<main id="app"></main>
+<div id="toast" role="status"></div>
 
-  <!-- Header Banner -->
-  <header class="bg-white shadow-md border-b-4 border-brand-red sticky top-0 z-10">
-    <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <!-- Logo & Brand Name -->
-      <a href="https://www.pawvillage.com" class="flex items-center gap-3 group text-decoration-none">
-        <div class="w-12 h-12 bg-brand-red rounded-full flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-105 transition-transform duration-200">
-          <i class="fa-solid fa-paw"></i>
-        </div>
-        <div>
-          <span class="font-fredoka text-2xl font-bold tracking-wide text-brand-blue block leading-none">PawVillage</span>
-          <span class="text-xs font-semibold text-brand-teal uppercase tracking-wider">Pet Care & Dog Sitting</span>
-        </div>
-      </a>
-      <!-- Contact Badge -->
-      <div class="text-xs sm:text-sm bg-teal-50 border border-brand-teal/30 text-teal-800 px-3 py-1.5 rounded-full flex items-center gap-2">
-        <i class="fa-solid fa-heart text-brand-red"></i>
-        <span class="font-medium">Trusted Dog Care Services</span>
-      </div>
-    </div>
-  </header>
+<script>
+const KEY='pawvillage.v1', RATE=10, START_POINTS=100;
+const SIZES=['small','medium','large'];
+const NEEDS=['Reactive to other dogs','Separation anxiety','Senior dog','Puppy','Escape artist','Needs long daily walks'];
+const MEDS=['none','oral','injection'];
+const MODES={their:'At the sitter’s home',mine:'At my home',visit:'Drop-in visits'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-  <!-- Main Content Container -->
-  <main class="max-w-3xl mx-auto w-full px-4 py-8 flex-grow">
-    
-    <!-- Hero / Intro Section -->
-    <div class="text-center mb-8">
-      <h1 class="font-fredoka text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Dog Sitting Intake Form</h1>
-      <p class="text-slate-600 max-w-lg mx-auto text-sm sm:text-base">
-        Welcome to PawVillage! Please complete this quick 9-step intake form so we can provide the safest, happiest stay for your pup.
-      </p>
-    </div>
+const SEED=[
+ {id:'s1',name:'Maya R.',area:'Willow Glen',dogs:1,size:'medium',meds:'none',needs:[],notes:'',sit:true,maxDogs:2,sizes:['small','medium','large'],medsOk:['oral'],modes:['their','mine','visit'],handles:['Senior dog','Puppy','Needs long daily walks'],yard:true,avail:[{from:'2026-11-01',to:'2026-12-31'}],bio:'Retired teacher, home all day.',points:100},
+ {id:'s2',name:'Dev & Priya',area:'Rose Garden',dogs:2,size:'small',meds:'none',needs:[],notes:'',sit:true,maxDogs:1,sizes:['small','medium'],medsOk:[],modes:['their','visit'],handles:['Puppy'],yard:false,avail:[{from:'2026-11-10',to:'2026-11-30'}],bio:'Apartment, two small dogs of our own.',points:100},
+ {id:'s3',name:'Jordan K.',area:'Almaden',dogs:1,size:'large',meds:'oral',needs:['Separation anxiety'],notes:'',sit:true,maxDogs:3,sizes:['small','medium','large'],medsOk:['oral','injection'],modes:['their','mine'],handles:['Reactive to other dogs','Separation anxiety','Senior dog','Escape artist'],yard:true,avail:[{from:'2026-11-15',to:'2027-01-15'}],bio:'Vet tech. Comfortable with meds and nervous dogs.',points:100},
+ {id:'s4',name:'Sam T.',area:'Willow Glen',dogs:0,size:'small',meds:'none',needs:[],notes:'',sit:true,maxDogs:2,sizes:['small','medium'],medsOk:[],modes:['mine','visit'],handles:[],yard:false,avail:[{from:'2026-11-01',to:'2026-11-20'}],bio:'Works from home, no dog yet.',points:100},
+ {id:'s5',name:'Lena B.',area:'Campbell',dogs:2,size:'medium',meds:'none',needs:[],notes:'',sit:true,maxDogs:2,sizes:['medium','large'],medsOk:['oral'],modes:['their'],handles:['Needs long daily walks','Puppy'],yard:true,avail:[{from:'2026-12-15',to:'2027-01-05'}],bio:'Big fenced yard, runs every morning.',points:100},
+ {id:'s6',name:'Chris O.',area:'Downtown',dogs:1,size:'small',meds:'injection',needs:['Senior dog'],notes:'Insulin twice daily',sit:false,maxDogs:0,sizes:[],medsOk:[],modes:[],handles:[],yard:false,avail:[],bio:'',points:100}
+];
+let S=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.members)return s}catch(e){}return{members:SEED,me:null,requests:[]}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const me=()=>S.members.find(m=>m.id===S.me);
+const reserved=()=>S.requests.filter(r=>r.status==='pending').reduce((a,r)=>a+r.cost,0);
+const balance=()=>me()?me().points-reserved():null;
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
+const chips=(name,opts,sel,fmt=x=>x)=>`<div class="chips">${opts.map(o=>`<label><input type="checkbox" name="${name}" value="${esc(o)}" ${(sel||[]).includes(o)?'checked':''}>${esc(fmt(o))}</label>`).join('')}</div>`;
+const checked=name=>[...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value);
+const nights=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
 
-    <!-- Intake Form Card -->
-    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10 relative overflow-hidden">
-      <!-- Decorative Paw prints background detail -->
-      <div class="absolute -right-6 -bottom-6 text-slate-100 opacity-60 pointer-events-none select-none text-9xl">
-        <i class="fa-solid fa-paw"></i>
-      </div>
+/* ---------- matching ---------- */
+function whyNot(m,q){
+  if(m.id===S.me)return'That’s you';
+  if(!m.sit)return'Not sitting right now';
+  if(!(m.avail||[]).some(r=>r.from<=q.from&&r.to>=q.to))return'Not available for those dates';
+  if(m.maxDogs<q.dogs)return`Takes up to ${m.maxDogs} dog${m.maxDogs===1?'':'s'}`;
+  if(!m.sizes.includes(q.size))return`Doesn’t take ${q.size} dogs`;
+  if(q.meds!=='none'&&!m.medsOk.includes(q.meds))return`Can’t give ${q.meds} medication`;
+  if(q.mode!=='any'&&!m.modes.includes(q.mode))return`No “${MODES[q.mode].toLowerCase()}” option`;
+  const miss=q.needs.filter(n=>!m.handles.includes(n));
+  if(miss.length)return`Not set up for: ${miss.join(', ').toLowerCase()}`;
+  if(q.yard&&!m.yard)return'No fenced yard';
+  if(q.area&&!m.area.toLowerCase().includes(q.area.toLowerCase()))return'Different area';
+  return null;
+}
 
-      <!-- Native mailto Form Action -->
-      <form id="intakeForm" action="mailto:wung.tina@gmail.com" method="post" enctype="text/plain" onsubmit="handleFormSubmit(event)">
-        
-        <!-- Field Grid Layout -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+/* ---------- views ---------- */
+function viewFind(){
+  const u=me()||{};
+  $('#app').innerHTML=`
+  <h1>Find a neighbor to watch your dog.</h1>
+  <p class="lead">Tell us when you’re away and what your dog needs. We’ll show members who can cover it, and what each stay costs in points.</p>
+  <div class="grid">
+   <form class="panel" id="q">
+     <div class="row"><div><label for="from">From</label><input type="date" id="from" required></div><div><label for="to">Until</label><input type="date" id="to" required></div></div>
+     <div class="row"><div><label for="dogs">Dogs</label><input type="number" id="dogs" min="1" max="6" value="${u.dogs||1}"></div>
+     <div><label for="size">Largest dog</label><select id="size">${SIZES.map(s=>`<option ${u.size===s?'selected':''}>${s}</option>`).join('')}</select></div></div>
+     <label for="meds">Medication</label><select id="meds">${MEDS.map(s=>`<option ${u.meds===s?'selected':''}>${s}</option>`).join('')}</select>
+     <label for="mode">Where</label><select id="mode"><option value="any">Any</option>${Object.entries(MODES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
+     <label>Special needs</label>${chips('needs',NEEDS,u.needs)}
+     <label for="area">Area contains</label><input id="area" placeholder="e.g. Willow Glen">
+     <label class="chips" style="margin-top:.8rem"><span style="display:flex;gap:.4rem;align-items:center;font-weight:500"><input type="checkbox" id="yard" style="width:auto"> Needs a fenced yard</span></label>
+     <p style="margin:1rem 0 0"><button class="primary" type="submit">Find sitters</button></p>
+   </form>
+   <div><div id="res"><div class="empty">Pick your dates to see who’s free.</div></div><div id="reqs"></div></div>
+  </div>`;
+  $('#q').onsubmit=e=>{e.preventDefault();search()};
+  drawReqs();
+}
+let lastQ=null;
+function search(){
+  const q={from:$('#from').value,to:$('#to').value,dogs:+$('#dogs').value,size:$('#size').value,meds:$('#meds').value,mode:$('#mode').value,needs:checked('needs'),yard:$('#yard').checked,area:$('#area').value.trim()};
+  if(!q.from||!q.to||q.to<=q.from){toast('Choose an end date after the start date');return}
+  q.n=nights(q.from,q.to);lastQ=q;
+  const all=S.members.map(m=>({m,why:whyNot(m,q)}));
+  const ok=all.filter(x=>!x.why&&x.m.id!==S.me), no=all.filter(x=>x.why&&x.why!=='That’s you');
+  const cost=q.n*RATE*q.dogs;
+  $('#res').innerHTML=`<h2>${ok.length} of ${S.members.length-(me()?1:0)} members can cover ${q.n} night${q.n===1?'':'s'}</h2>`+
+   (ok.length?ok.map(({m})=>`<div class="card"><div><h3>${esc(m.name)}</h3><p>${esc(m.area)} · ${esc(m.bio)}</p>
+     ${m.modes.map(k=>`<span class="tag">${esc(MODES[k])}</span>`).join('')}${m.yard?'<span class="tag">Fenced yard</span>':''}${m.medsOk.map(x=>`<span class="tag">${esc(x)} meds</span>`).join('')}${m.handles.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div>
+     <div><div class="cost">${cost} pts<small>${q.n} nights × ${q.dogs} dog${q.dogs>1?'s':''} × ${RATE}</small></div><p style="text-align:right"><button class="small" data-req="${esc(m.id)}">Request</button></p></div></div>`).join('')
+   :'<div class="empty">No one fits all of that yet. Try fewer filters or different dates, or see why below.</div>')+
+   (no.length?`<details><summary>Not a fit (${no.length})</summary>${no.map(x=>`<p class="no"><b>${esc(x.m.name)}</b> – ${esc(x.why)}</p>`).join('')}</details>`:'');
+  document.querySelectorAll('[data-req]').forEach(b=>b.onclick=()=>request(b.dataset.req,cost));
+}
+function request(id,cost){
+  if(!me()){toast('Create your profile first');location.hash='join';return}
+  if(cost>balance()){toast('Not enough points available');return}
+  const m=S.members.find(x=>x.id===id);
+  S.requests.push({id:'r'+Date.now(),to:id,toName:m.name,from:lastQ.from,until:lastQ.to,cost,status:'pending'});
+  save();head();drawReqs();toast(`Requested ${m.name} · ${cost} pts held`);
+}
+function drawReqs(){
+  const el=$('#reqs');if(!el)return;
+  if(!S.requests.length){el.innerHTML='';return}
+  el.innerHTML='<h2 style="margin-top:1.5rem">Your requests</h2>'+S.requests.map(r=>`<div class="card"><div><h3>${esc(r.toName)}</h3><p>${esc(r.from)} → ${esc(r.until)} · ${esc(r.status)}</p></div><div><div class="cost">${r.cost} pts</div>${r.status==='pending'?`<p style="text-align:right"><button class="ghost small" data-cx="${esc(r.id)}">Cancel</button></p>`:''}</div></div>`).join('');
+  el.querySelectorAll('[data-cx]').forEach(b=>b.onclick=()=>{S.requests=S.requests.filter(r=>r.id!==b.dataset.cx);save();head();drawReqs()});
+}
 
-          <!-- 1. Owner's Full Name -->
-          <div class="md:col-span-1">
-            <label for="ownerName" class="block text-sm font-semibold text-slate-700 mb-1">
-              1. Owner's Full Name <span class="text-brand-red">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-solid fa-user"></i>
-              </div>
-              <input type="text" id="ownerName" name="1_Owner_Name" required placeholder="e.g. Jane Doe"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none">
-            </div>
-          </div>
+function viewJoin(){
+  const u=me()||{dogs:1,size:'medium',meds:'none',needs:[],sit:true,maxDogs:1,sizes:['small','medium'],medsOk:[],modes:['their'],handles:[],yard:false,avail:[{from:'',to:''}]};
+  $('#app').innerHTML=`
+  <h1>${me()?'Your profile':'Join Paw Village'}</h1>
+  <p class="lead">Every member starts with ${START_POINTS} points. You spend points when someone watches your dog and earn them when you watch theirs.</p>
+  <form id="f" style="max-width:720px">
+   <fieldset><legend>About you</legend>
+    <div class="row"><div><label for="name">Name</label><input id="name" required value="${esc(u.name)}"></div><div><label for="area">Neighborhood</label><input id="area" required value="${esc(u.area)}"></div></div></fieldset>
+   <fieldset><legend>Your dogs</legend>
+    <div class="row"><div><label for="dogs">How many dogs</label><input type="number" id="dogs" min="0" max="6" value="${u.dogs}"></div>
+    <div><label for="size">Largest dog</label><select id="size">${SIZES.map(s=>`<option ${u.size===s?'selected':''}>${s}</option>`).join('')}</select></div></div>
+    <label for="meds">Medication</label><select id="meds">${MEDS.map(s=>`<option ${u.meds===s?'selected':''}>${s}</option>`).join('')}</select>
+    <label>Special needs</label>${chips('needs',NEEDS,u.needs)}
+    <label for="notes">Anything else a sitter should know</label><textarea id="notes">${esc(u.notes)}</textarea></fieldset>
+   <fieldset><legend>Sitting for others</legend>
+    <div class="chips"><label><input type="checkbox" id="sit" ${u.sit?'checked':''}>I can sit for other members</label></div>
+    <div class="row"><div><label for="maxDogs">Most dogs at once</label><input type="number" id="maxDogs" min="0" max="6" value="${u.maxDogs}"></div></div>
+    <label>Dog sizes I take</label>${chips('sizes',SIZES,u.sizes)}
+    <label>Medication I can give</label>${chips('medsOk',['oral','injection'],u.medsOk)}
+    <label>Where I can sit</label>${chips('modes',Object.keys(MODES),u.modes,k=>MODES[k])}
+    <label>Needs I can handle</label>${chips('handles',NEEDS,u.handles)}
+    <div class="chips" style="margin-top:.8rem"><label><input type="checkbox" id="yard" ${u.yard?'checked':''}>I have a fenced yard</label></div>
+    <label>Dates I’m available</label><div id="av">${(u.avail.length?u.avail:[{from:'',to:''}]).map(rangeRow).join('')}</div>
+    <button type="button" class="ghost small" id="addr">Add dates</button>
+    <label for="bio">Short intro</label><textarea id="bio">${esc(u.bio)}</textarea></fieldset>
+   <p><button class="primary" type="submit">${me()?'Save changes':'Join and get '+START_POINTS+' points'}</button></p>
+  </form>`;
+  $('#addr').onclick=()=>$('#av').insertAdjacentHTML('beforeend',rangeRow({from:'',to:''}));
+  $('#f').onsubmit=e=>{
+    e.preventDefault();
+    const rec={name:$('#name').value.trim(),area:$('#area').value.trim(),dogs:+$('#dogs').value,size:$('#size').value,meds:$('#meds').value,needs:checked('needs'),notes:$('#notes').value.trim(),sit:$('#sit').checked,maxDogs:+$('#maxDogs').value,sizes:checked('sizes'),medsOk:checked('medsOk'),modes:checked('modes'),handles:checked('handles'),yard:$('#yard').checked,bio:$('#bio').value.trim(),
+      avail:[...document.querySelectorAll('.range')].map(r=>({from:r.children[0].value,to:r.children[1].value})).filter(r=>r.from&&r.to&&r.to>r.from)};
+    if(me())Object.assign(me(),rec);
+    else{const m={id:'u'+Date.now(),points:START_POINTS,...rec};S.members.push(m);S.me=m.id}
+    save();head();toast('Profile saved');location.hash='find';
+  };
+}
+const rangeRow=r=>`<div class="range"><input type="date" aria-label="Available from" value="${esc(r.from)}"><input type="date" aria-label="Available until" value="${esc(r.to)}"></div>`;
 
-          <!-- 2. Owner's Email Address -->
-          <div class="md:col-span-1">
-            <label for="ownerEmail" class="block text-sm font-semibold text-slate-700 mb-1">
-              2. Email Address <span class="text-brand-red">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-solid fa-envelope"></i>
-              </div>
-              <input type="email" id="ownerEmail" name="2_Owner_Email" required placeholder="jane@example.com"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none">
-            </div>
-          </div>
+function viewMembers(){
+  $('#app').innerHTML=`<h1>Members</h1><p class="lead">${S.members.length} neighbors in the village.</p>
+  ${S.members.map(m=>`<div class="card"><div><h3>${esc(m.name)}${m.id===S.me?' (you)':''}</h3><p>${esc(m.area)} · ${m.dogs} dog${m.dogs===1?'':'s'}${m.sit?' · sits for others':''}</p></div><span class="cost">${m.points} pts</span></div>`).join('')}
+  <details><summary>Share the member list</summary>
+   <p class="lead">This proof of concept stores data in your browser only. To see the same members on another device, export here and import there.</p>
+   <button class="small" id="ex">Download members.json</button> <button class="ghost small" id="im">Import members.json</button>
+   <input type="file" id="file" accept="application/json" hidden></details>`;
+  $('#ex').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S.members,null,1)],{type:'application/json'}));a.download='members.json';a.click()};
+  $('#im').onclick=()=>$('#file').click();
+  $('#file').onchange=async e=>{try{const d=JSON.parse(await e.target.files[0].text());if(!Array.isArray(d))throw 0;
+    d.forEach(x=>{if(x&&x.id&&x.name&&!S.members.some(m=>m.id===x.id))S.members.push({...SEED[0],...x,avail:Array.isArray(x.avail)?x.avail:[]})});save();viewMembers();toast('Imported')}catch(_){toast('That file isn’t a valid members list')}};
+}
 
-          <!-- 3. Owner's Phone Number -->
-          <div class="md:col-span-1">
-            <label for="ownerPhone" class="block text-sm font-semibold text-slate-700 mb-1">
-              3. Phone Number <span class="text-brand-red">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-solid fa-phone"></i>
-              </div>
-              <input type="tel" id="ownerPhone" name="3_Owner_Phone" required placeholder="(555) 000-0000"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none">
-            </div>
-          </div>
-
-          <!-- 4. Dog's Name -->
-          <div class="md:col-span-1">
-            <label for="dogName" class="block text-sm font-semibold text-slate-700 mb-1">
-              4. Dog's Name <span class="text-brand-red">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-brand-teal">
-                <i class="fa-solid fa-dog"></i>
-              </div>
-              <input type="text" id="dogName" name="4_Dog_Name" required placeholder="e.g. Barnaby"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-teal focus:border-brand-teal text-sm transition-all duration-150 outline-none">
-            </div>
-          </div>
-
-          <!-- 5. Dog's Breed & Age -->
-          <div class="md:col-span-2">
-            <label for="dogBreedAge" class="block text-sm font-semibold text-slate-700 mb-1">
-              5. Dog's Breed & Age <span class="text-brand-red">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-solid fa-bone"></i>
-              </div>
-              <input type="text" id="dogBreedAge" name="5_Dog_Breed_And_Age" required placeholder="e.g. Golden Retriever, 3 years old"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none">
-            </div>
-          </div>
-
-          <!-- 6. Service Dates (Start & End) -->
-          <div class="md:col-span-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <label class="block text-sm font-semibold text-slate-700 mb-2">
-              6. Service Dates (Start Date & End Date) <span class="text-brand-red">*</span>
-            </label>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <span class="block text-xs font-medium text-slate-500 mb-1">Drop-off Date</span>
-                <input type="date" id="startDate" name="6a_Start_Date" required
-                  class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-blue text-sm outline-none bg-white">
-              </div>
-              <div>
-                <span class="block text-xs font-medium text-slate-500 mb-1">Pick-up Date</span>
-                <input type="date" id="endDate" name="6b_End_Date" required
-                  class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-blue text-sm outline-none bg-white">
-              </div>
-            </div>
-          </div>
-
-          <!-- 7. Feeding & Medication Instructions -->
-          <div class="md:col-span-2">
-            <label for="feedingInfo" class="block text-sm font-semibold text-slate-700 mb-1">
-              7. Feeding & Medication Instructions
-            </label>
-            <textarea id="feedingInfo" name="7_Feeding_and_Medication" rows="3" placeholder="Portion size, feeding times, daily medications, dietary restrictions..."
-              class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none resize-y"></textarea>
-          </div>
-
-          <!-- 8. Emergency Contact Info -->
-          <div class="md:col-span-2">
-            <label for="emergencyContact" class="block text-sm font-semibold text-slate-700 mb-1">
-              8. Emergency Contact Info <span class="text-brand-red">*</span>
-            </label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <i class="fa-solid fa-kit-medical"></i>
-              </div>
-              <input type="text" id="emergencyContact" name="8_Emergency_Contact" required placeholder="Name, relationship & phone number (e.g. Uncle Bob - 555-0199 or Local Vet Name)"
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none">
-            </div>
-          </div>
-
-          <!-- 9. Special Care / Behavior Notes -->
-          <div class="md:col-span-2">
-            <label for="specialCare" class="block text-sm font-semibold text-slate-700 mb-1">
-              9. Special Care & Behavior Notes
-            </label>
-            <textarea id="specialCare" name="9_Special_Care_Notes" rows="3" placeholder="Fears/triggers (thunderstorms, bikes), favorite treats/toys, crate habits, walk preferences..."
-              class="w-full p-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue text-sm transition-all duration-150 outline-none resize-y"></textarea>
-          </div>
-
-        </div>
-
-        <!-- Submit Button Section -->
-        <div class="mt-8 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p class="text-xs text-slate-500 text-center sm:text-left">
-            <i class="fa-solid fa-lock text-slate-400 mr-1"></i>
-            Submissions go directly to <span class="font-medium text-slate-700">wung.tina@gmail.com</span>
-          </p>
-          <button type="submit"
-            class="w-full sm:w-auto px-8 py-3.5 bg-brand-red hover:bg-red-700 text-white font-fredoka font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-3 group cursor-pointer">
-            <span>Submit Intake Form</span>
-            <i class="fa-solid fa-paper-plane text-sm group-hover:translate-x-1 transition-transform"></i>
-          </button>
-        </div>
-
-      </form>
-    </div>
-
-    <!-- Trust Badges -->
-    <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-      <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-        <i class="fa-solid fa-shield-heart text-2xl text-brand-teal mb-1"></i>
-        <h4 class="font-fredoka text-sm font-semibold text-slate-800">Loving Environment</h4>
-        <p class="text-xs text-slate-500 mt-0.5">Treated like family in a cozy home environment.</p>
-      </div>
-      <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-        <i class="fa-solid fa-clock-rotate-left text-2xl text-brand-blue mb-1"></i>
-        <h4 class="font-fredoka text-sm font-semibold text-slate-800">Regular Updates</h4>
-        <p class="text-xs text-slate-500 mt-0.5">Daily photos & messages during your pup's stay.</p>
-      </div>
-      <div class="p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-        <i class="fa-solid fa-user-nurse text-2xl text-brand-red mb-1"></i>
-        <h4 class="font-fredoka text-sm font-semibold text-slate-800">Experienced Care</h4>
-        <p class="text-xs text-slate-500 mt-0.5">Custom feeding, meds & attention to special needs.</p>
-      </div>
-    </div>
-  </main>
-
-  <!-- Confirmation Modal -->
-  <div id="successModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border-4 border-brand-teal animate-bounce-short">
-      <div class="w-16 h-16 bg-teal-100 text-brand-teal rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-        <i class="fa-solid fa-circle-check"></i>
-      </div>
-      <h3 class="font-fredoka text-2xl font-bold text-slate-900 mb-2">Form Ready to Send!</h3>
-      <p class="text-sm text-slate-600 mb-6">
-        Your email app should open automatically with your form submission directed to <strong class="text-slate-800">wung.tina@gmail.com</strong>.
-      </p>
-      <button onclick="closeModal()" class="w-full py-2.5 bg-brand-blue hover:bg-blue-800 text-white font-semibold rounded-xl text-sm transition-colors">
-        Got it, thanks!
-      </button>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-6 mt-8">
-    <div class="max-w-4xl mx-auto px-4 text-center text-xs text-slate-500">
-      <p class="mb-2">© 2026 PawVillage (www.pawvillage.com). All rights reserved.</p>
-      <p>Need immediate help? Contact <a href="mailto:wung.tina@gmail.com" class="text-brand-blue underline hover:text-brand-red">wung.tina@gmail.com</a></p>
-    </div>
-  </footer>
-
-  <!-- JavaScript Logic -->
-  <script>
-    function handleFormSubmit(event) {
-      // Show confirmation modal after trigger
-      setTimeout(() => {
-        const modal = document.getElementById('successModal');
-        modal.classList.remove('hidden');
-      }, 300);
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('successModal');
-      modal.classList.add('hidden');
-    }
-
-    // Auto-set minimum date for pick-up/drop-off to today
-    document.addEventListener('DOMContentLoaded', () => {
-      const today = new Date().toISOString().split('T')[0];
-      const startDateInput = document.getElementById('startDate');
-      const endDateInput = document.getElementById('endDate');
-      
-      if (startDateInput && endDateInput) {
-        startDateInput.min = today;
-        endDateInput.min = today;
-
-        startDateInput.addEventListener('change', (e) => {
-          endDateInput.min = e.target.value;
-        });
-      }
-    });
-  </script>
+function head(){const b=balance();$('#pts').textContent=b===null?'':`${b} pts available`}
+function route(){
+  const t=(location.hash||'#find').slice(1);
+  const v={find:viewFind,join:viewJoin,members:viewMembers}[t]?t:'find';
+  document.querySelectorAll('nav a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.t===v)||a.removeAttribute('aria-current'));
+  document.querySelectorAll('nav a').forEach(a=>{if(a.dataset.t===v)a.setAttribute('aria-current','page')});
+  ({find:viewFind,join:viewJoin,members:viewMembers})[v]();head();
+}
+addEventListener('hashchange',route);route();
+</script>
 </body>
 </html>
