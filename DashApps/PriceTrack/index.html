@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supermarket Unit Cost Comparator (Mobile-Friendly)</title>
+  <style>
+    /* Light Mode, Mobile-First responsive CSS (matches image_0.png aesthetic) */
+    :root {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-color: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.5;
+      padding: 16px;
+    }
+
+    /* Standard larger padding for tablet/desktop */
+    @media (min-width: 768px) {
+      body { padding: 32px 24px; }
+    }
+
+    .container {
+      max-width: 900px; /* Consolidating for mobile/tablet */
+      margin: 0 auto;
+    }
+
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h1 { margin: 0 0 8px 0; font-size: 1.6rem; color: var(--primary); }
+    .header p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+    /* Forms and Input Styling */
+    .form-group { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 12px; /* Touch optimization for mobile */
+      border: 1px solid var(--border-color);
+      border-radius: 8px; /* Softer, mobile radius */
+      box-sizing: border-box;
+      font-size: 1rem; /* Minimum 16px font to prevent zoom on iOS */
+    }
+
+    /* Special input wrapper for $ prefix or unit suffix */
+    .input-wrapper { position: relative; }
+    .input-wrapper.prefix input { padding-left: 36px; }
+    .input-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Add Item Card (similar to image_0.png shared card) */
+    .add-item-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .add-item-card h2 { margin-bottom: 16px; font-size: 1.2rem; color: var(--text-color); }
+
+    /* Flex structure for the inputs, stacks on mobile */
+    .inputs-grid { display: flex; flex-direction: column; gap: 12px; }
+
+    /* Tablet Grid Adjustment */
+    @media (min-width: 768px) {
+      .inputs-grid { flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
+      .inputs-grid .form-group { flex: 1; min-width: 180px; margin-bottom: 0;}
+      .inputs-grid .form-group.unit { flex: 1; min-width: 150px; }
+    }
+
+    /* Main Action Button */
+    .btn-add-item {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 16px; /* Touch large */
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      width: 100%;
+      margin-top: 16px;
+    }
+    .btn-add-item:hover { background-color: var(--primary-hover); }
+
+    /* Summary Card (Lowest Unit Cost) */
+    .summary-card {
+      background: #eef2f6; /* Subtle highlight */
+      border: 1px solid #d1d9e2;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .summary-item {
+      background: var(--card-bg);
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .summary-item .lbl {
+      display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;
+    }
+
+    .summary-item .val {
+      display: block; font-weight: 700; font-size: 1.2rem; color: var(--text-color); margin-top: 4px;
+    }
+
+    /* Dynamic Item Comparison Grid */
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* Narrow screen grid forcing single column below 480px */
+    @media (max-width: 480px) { .item-grid { grid-template-columns: 1fr; } }
+
+    .item-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-card.best-value {
+      border: 2px solid var(--success);
+      box-shadow: 0 0 10px rgba(22, 163, 74, 0.2);
+    }
+
+    /* The Best Value Badge (Absolute Positioned) */
+    .best-value-badge {
+      display: none;
+      position: absolute; top: -12px; left: 16px;
+      background-color: var(--success); color: white;
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    }
+
+    .best-value .best-value-badge { display: block; }
+
+    /* Delete Button */
+    .btn-delete {
+      position: absolute; top: 12px; right: 12px;
+      background: none; border: none; color: #94a3b8;
+      cursor: pointer; font-size: 1.2rem; line-height: 1;
+    }
+    .btn-delete:hover { color: var(--danger); }
+
+    .item-card h3 {
+      font-size: 1.1rem; color: var(--primary); margin-right: 32px; /* Space for delete btn */
+      margin-bottom: 8px; word-wrap: break-word; /* Handle long item names */
+    }
+
+    .package-summary { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px; }
+
+    /* Visual results area */
+    .result-section {
+      margin-top: auto; /* Push results to bottom */
+      padding-top: 12px; border-top: 1px dashed var(--border-color);
+      text-align: center;
+    }
+
+    .normalized-cost { font-size: 1.8rem; font-weight: 800; color: var(--text-color); display: block; }
+    .normalized-unit { font-size: 0.9rem; color: var(--text-muted); font-weight: 600; }
+
+    /* Secondary conversions (small print) */
+    .equiv-costs { display: block; margin-top: 6px; font-size: 0.75rem; color: #64748b; }
+
+    /* Toolbar for Save/Load/Export (matches image_0.png aesthetic) */
+    .toolbar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    }
+
+    .toolbar-btn {
+      color: white; border: none;
+      padding: 12px 18px; /* Touch large */
+      font-size: 0.95rem; border-radius: 6px;
+      cursor: pointer; font-weight: 600;
+      flex-grow: 1; /* Stretch on very small screens */
+      text-align: center; text-decoration: none;
+    }
+
+    .toolbar-btn.clear { background-color: var(--danger); flex-grow: 0; min-width: 100px; }
+    .toolbar-btn.clear:hover { background-color: var(--danger-hover); }
+
+    .toolbar-btn.primary { background-color: var(--primary); }
+    .toolbar-btn.primary:hover { background-color: var(--primary-hover); }
+
+    .toolbar-btn.secondary { background-color: #64748b; }
+    .toolbar-btn.secondary:hover { background-color: #475569; }
+
+    /* Print styling */
+    @media print {
+      body { background: white; padding: 0; color: black; }
+      .header p, .toolbar, .add-item-card, .best-value-badge, .btn-delete { display: none !important; }
+      .container { max-width: 100%; }
+      .summary-card { grid-template-columns: 1fr 1fr; border: 1px solid #ccc; background: transparent; padding: 10px;}
+      .item-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 10px;}
+      .item-card { border: 1px solid #ccc; box-shadow: none; break-inside: avoid;}
+      .equiv-costs { display: none;}
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Supermarket Cost Comparator</h1>
+    <p>Compare equivalent prices (e.g., $ / oz) across different product sizes to find the real best value.</p>
+  </div>
+
+  <!-- 1. ADD ITEM SECTION -->
+  <form id="addItemForm">
+    <div class="add-item-card">
+      <h2>Add Item Details</h2>
+      
+      <div class="inputs-grid">
+        <div class="form-group item-name">
+          <label for="item_name">Product Name</label>
+          <input type="text" id="item_name" placeholder="e.g., Orange Juice A">
+        </div>
+
+        <div class="form-group price">
+          <label for="item_price">Total Price ($)</label>
+          <div class="input-wrapper prefix">
+            <span class="input-prefix">$</span>
+            <input type="number" id="item_price" placeholder="2.99" step="any" min="0">
+          </div>
+        </div>
+
+        <div class="form-group size">
+          <label for="item_quantity">Package Size (no decimals forced)</label>
+          <!-- FIXED: type="number" removed, replaced with type="text" and pattern -->
+          <input type="text" id="item_quantity" placeholder="e.g., 40, 1.5, 750" pattern="[0-9]*\.?[0-9]*">
+        </div>
+
+        <div class="form-group unit">
+          <label for="item_unit">Unit</label>
+          <select id="item_unit">
+            <optgroup label="Mass (Weight)">
+                <option value="oz">Ounces (oz)</option>
+                <option value="lb">Pounds (lb)</option>
+                <option value="g">Grams (g)</option>
+                <option value="kg">Kilograms (kg)</option>
+            </optgroup>
+            <optgroup label="Volume">
+                <option value="floz">Fluid Ounces (fl oz)</option>
+                <option value="gal">Gallons (gal)</option>
+                <option value="mL">Milliliters (mL)</option>
+                <option value="L">Liters (L)</option>
+            </optgroup>
+            <optgroup label="Count">
+                <option value="each">Count (Each)</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-add-item">Calculate & Add Item to Compare</button>
+    </div>
+  </form>
+
+  <!-- 2. SUMMARY CARD -->
+  <div id="summaryCard" class="summary-card" style="display: none;">
+    <div class="summary-item">
+      <span class="lbl">Lowest Unit Cost</span>
+      <span class="val" id="summary_lowest_cost">--</span>
+    </div>
+    <div class="summary-item">
+      <span class="lbl">Best Value Item</span>
+      <span class="val" id="summary_best_item">Add items...</span>
+    </div>
+  </div>
+
+  <!-- 3. COMPARISON LIST -->
+  <div id="comparisonList" class="item-grid">
+    <!-- Item cards injected here -->
+  </div>
+
+  <!-- 4. TOOLBAR / OPTIONS -->
+  <div class="toolbar">
+    <button type="button" class="toolbar-btn clear" onclick="clearAllItems()">Clear All</button>
+    <button type="button" class="toolbar-btn primary" onclick="saveLocal()">Save Local</button>
+    <button type="button" class="toolbar-btn secondary" onclick="exportJSON()">Export JSON Snapshot</button>
+    <a href="#" id="emailBtn" class="toolbar-btn secondary">Email Data</a>
+    <button type="button" class="toolbar-btn secondary" onclick="window.print()">Export Report (PDF)</button>
+    <input type="file" id="fileInput" accept=".json" style="display:none;" onchange="importJSON(event)">
+    <button type="button" class="toolbar-btn secondary" onclick="document.getElementById('fileInput').click()">Import JSON Snapshot</button>
+  </div>
+</div>
+
+<script>
+  // --- A. Define State and Fields ---
+  const itemFields = ['item_name', 'item_price', 'item_quantity', 'item_unit'];
+  const LOCAL_STORAGE_KEY = 'supermarket_comparison_items';
+  
+  // SUPPORTED UNITS & NORMALIZATION TO OZ/FLOZ/EACH
+  const unitWeights = { oz: 1, lb: 16, g: 0.035274, kg: 35.274 };
+  const unitVolumes = { floz: 1, gal: 128, mL: 0.033814, L: 33.814 };
+  const unitMisc = { each: 1 };
+
+  // State
+  let comparedItems = [];
+
+  // --- B. Page Init ---
+  window.addEventListener('DOMContentLoaded', () => {
+    // 1. Load data from Local Storage if present
+    const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (savedData) comparedItems = JSON.parse(savedData);
+    
+    clearInputs();
+    renderItemGrid();
+  });
+
+  // Handle Form Submission (Add Item)
+  document.getElementById('addItemForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    addItem();
+  });
+
+
+  // --- C. Add, Calculate, Normalize ---
+  function addItem() {
+    // 1. Get raw inputs
+    const rawData = {};
+    let allValid = true;
+    itemFields.forEach(field => {
+        rawData[field] = document.getElementById(field).value;
+        if (!rawData[field]) allValid = false;
+    });
+
+    if (!allValid) {
+        alert("Please fill in all details for the item.");
+        return;
+    }
+
+    // 2. Normalize and structure the data
+    const newItem = normalizeItem(rawData);
+    if (!newItem) return;
+
+    // 3. Update State
+    comparedItems.push(newItem);
+
+    // 4. Update UI
+    clearInputs();
+    renderItemGrid();
+  }
+
+  function normalizeItem(raw) {
+    const price = parseFloat(raw.item_price);
+    // Package size handling: using type="text" and explicit parsing to avoid decimal forcing
+    const quantityRawStr = raw.item_quantity.toString().trim();
+    const quantity = parseFloat(quantityRawStr);
+    const unit = raw.item_unit;
+
+    // validation
+    if (isNaN(price) || price < 0) {
+        alert("Please enter a valid positive Price.");
+        return null;
+    }
+    if (isNaN(quantity) || quantity <= 0) {
+        alert("Please enter a valid positive Package Size.");
+        return null;
+    }
+
+    const itemData = {
+        name: raw.item_name,
+        price_raw: price,
+        // The display logic needs the original string to respect user formatting
+        quantity_display: quantityRawStr, 
+        quantity_calc: quantity, // for math
+        unit_raw: unit,
+        normCost: 0, // Baseline comparable ( oz, fl oz, or each)
+        normType: '', 
+        displayCost: '', // primary text ($0.00 / oz)
+        displayUnit: '', // oz, fl oz, each
+        displayEquiv: '' // alternative comparisons ($ per kg, etc)
+    };
+
+    // Calculate normalized cost per baseline unit
+    if (unitWeights[unit]) {
+        itemData.normCost = price / (quantity * unitWeights[unit]);
+        itemData.normType = 'mass';
+        itemData.displayCost = formatCurrency(itemData.normCost);
+        itemData.displayUnit = 'oz';
+        // Equiv conversions
+        const cost_kg = itemData.normCost * (unitWeights['kg']);
+        const cost_lb = itemData.normCost * (unitWeights['lb']);
+        itemData.displayEquiv = `${formatCurrency(cost_kg, 2)} / kg | ${formatCurrency(cost_lb, 2)} / lb`;
+    
+    } else if (unitVolumes[unit]) {
+        itemData.normCost = price / (quantity * unitVolumes[unit]);
+        itemData.normType = 'volume';
+        itemData.displayCost = formatCurrency(itemData.normCost);
+        itemData.displayUnit = 'fl oz';
+        // Equiv conversions
+        const cost_L = itemData.normCost * (unitVolumes['L']);
+        const cost_gal = itemData.normCost * (unitVolumes['gal']);
+        itemData.displayEquiv = `${formatCurrency(cost_L, 2)} / L | ${formatCurrency(cost_gal, 2)} / gal`;
+
+    } else if (unitMisc[unit]) {
+        itemData.normCost = price / quantity;
+        itemData.normType = 'each';
+        itemData.displayCost = formatCurrency(itemData.normCost);
+        itemData.displayUnit = 'each';
+    }
+
+    return itemData;
+  }
+
+
+  // --- D. Render Grid and Summary ---
+  function renderItemGrid() {
+    const listContainer = document.getElementById('comparisonList');
+    const summaryCard = document.getElementById('summaryCard');
+    
+    // Clear current list
+    listContainer.innerHTML = '';
+
+    // Handle Empty State
+    if (comparedItems.length === 0) {
+      summaryCard.style.display = 'none';
+      listContainer.innerHTML = '<p style="text-align:center; color: #64748b; padding: 20px; font-weight:600;">No items added to compare yet.</p>';
+      updateEmailLink(); // empty details
+      return;
+    }
+
+    summaryCard.style.display = 'grid';
+
+    // 1. Find Best Value across state
+    const bestValueIndex = findBestValueIndex(comparedItems);
+    const bestItem = bestValueIndex !== -1 ? comparedItems[bestValueIndex] : null;
+
+    // 2. Generate and Insert HTML cards
+    comparedItems.forEach((item, index) => {
+        const isBestValue = index === bestValueIndex;
+        const cardHTML = generateItemCardHTML(item, index, isBestValue);
+        listContainer.insertAdjacentHTML('beforeend', cardHTML);
+    });
+
+    // 3. Update Summary Card Display
+    if (bestItem) {
+        document.getElementById('summary_lowest_cost').textContent = `${bestItem.displayCost} / ${bestItem.displayUnit}`;
+        document.getElementById('summary_best_item').textContent = bestItem.name;
+    }
+
+    // 4. Update Email Link (mailto payload)
+    updateEmailLink();
+  }
+
+  function findBestValueIndex(items) {
+    if (items.length === 0) return -1;
+    if (items.length === 1) return 0;
+
+    let lowestCost = parseFloat(items[0].normCost);
+    let bestIndex = 0;
+
+    for (let i = 1; i < items.length; i++) {
+        const currentCost = parseFloat(items[i].normCost);
+        
+        // gracefully handle comparisons between mass/volume
+        if (items[i].normType !== items[bestIndex].normType) continue;
+
+        if (currentCost < lowestCost) {
+            lowestCost = currentCost;
+            bestIndex = i;
+        }
+    }
+    return bestIndex;
+  }
+
+  function generateItemCardHTML(item, index, isBestValue) {
+    const unitLabel = getUnitLabel(item.unit_raw);
+    
+    return `
+      <div class="item-card ${isBestValue ? 'best-value' : ''}">
+        <span class="best-value-badge">Best Value!</span>
+        <button type="button" class="btn-delete" onclick="removeItem(${index})" aria-label="Delete item">×</button>
+        <h3>${item.name}</h3>
+        <!-- Uses item.quantity_display to respect original formatting -->
+        <p class="package-summary">Package: $${item.price_raw.toFixed(2)} for ${item.quantity_display} ${unitLabel}</p>
+        
+        <div class="result-section">
+          <span class="normalized-cost">${item.displayCost}</span>
+          <span class="normalized-unit">/ ${item.displayUnit} (equiv)</span>
+          <span class="equiv-costs">${item.displayEquiv}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // --- E. Item Management Actions ---
+  function removeItem(index) {
+    // Update state
+    comparedItems.splice(index, 1);
+    // Save to local
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(comparedItems));
+    // Re-render
+    renderItemGrid();
+  }
+
+  function clearAllItems() {
+    if (comparedItems.length === 0) return;
+    if (confirm("Clear all comparison items and start over?")) {
+        comparedItems = [];
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        renderItemGrid();
+    }
+  }
+
+  // --- F. Local Storage, JSON, and Email (Modified from image_0.png) ---
+  
+  // Saves manually to browser local storage
+  function saveLocal() {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(comparedItems));
+    // Confirmation
+    const primaryBtn = document.querySelector('.btn-add-item');
+    const originalText = primaryBtn.textContent;
+    primaryBtn.textContent = 'Saved Locally!';
+    setTimeout(() => primaryBtn.textContent = originalText, 1500);
+  }
+
+  function exportJSON() {
+    if (comparedItems.length === 0) { alert("Add items to compare before exporting."); return; }
+    
+    const exportData = {
+        title: "Supermarket Cost Comparison Snapshot",
+        date: new Date().toISOString(),
+        items: comparedItems
+    };
+
+    const jsonString = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", jsonString);
+    downloadAnchor.setAttribute("download", `price_comparison_snapshot_${new Date().toISOString().slice(0,10)}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  }
+
+  function importJSON(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(e) {
+      try {
+        const importPayload = JSON.parse(e.target.result);
+        
+        // Handle snapshot payload vs raw array
+        if (Array.isArray(importPayload)) comparedItems = importPayload; 
+        else if (importPayload.items && Array.isArray(importPayload.items)) comparedItems = importPayload.items;
+        else throw new Error("Invalid format");
+
+        // Save imported state
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(comparedItems));
+        // Re-render
+        renderItemGrid();
+        alert('Items imported successfully.');
+      } catch (err) {
+        alert('Error parsing JSON file. Invalid format.');
+      }
+    };
+    fileReader.readAsText(event.target.files[0]);
+  }
+
+  function updateEmailLink() {
+    const emailBtn = document.getElementById('emailBtn');
+    
+    let subject = "Supermarket Cost Comparison Report";
+    let body = "";
+
+    if (comparedItems.length === 0) {
+        subject = "Supermarket Cost Comparison Tool (Empty)";
+        body = "No items compared yet. Add items to compare unit costs at the supermarket.";
+        emailBtn.setAttribute('href', `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+        return;
+    }
+
+    // 1. Build body with summary
+    const bestValueIndex = findBestValueIndex(comparedItems);
+    const bestItem = bestValueIndex !== -1 ? comparedItems[bestValueIndex] : null;
+
+    body = `Unit Cost Comparison Report:\nDate: ${new Date().toISOString().slice(0, 10)}\n\n`;
+    
+    if (bestItem) {
+        body += `**BEST VALUE ITEM:**\n`;
+        body += `${bestItem.name} @ ${bestItem.displayCost} / ${bestItem.displayUnit}\n`;
+        body += `Package: $${bestItem.price_raw.toFixed(2)} for ${bestItem.quantity_display} ${getUnitLabel(bestItem.unit_raw)}\n\n`;
+    }
+
+    body += `Comparison Details:\n`;
+    comparedItems.forEach((item, index) => {
+        const bestBadge = (index === bestValueIndex) ? `[BEST VALUE] ` : ``;
+        body += `${index + 1}. ${bestBadge}${item.name}\n`;
+        body += `   Package: $${item.price_raw.toFixed(2)} for ${item.quantity_display} ${getUnitLabel(item.unit_raw)}\n`;
+        body += `   Unit Cost: ${item.displayCost} / ${item.displayUnit} (${item.displayEquiv})\n\n`;
+    });
+
+    // encoded subject/body
+    const encodedSubject = subject.replace(/ /g, '%20');
+    const encodedBody = body.replace(/ /g, '%20').replace(/\n/g, '%0A');
+
+    emailBtn.setAttribute('href', `mailto:?subject=${encodedSubject}&body=${encodedBody}`);
+  }
+
+  // --- G. Helpers ---
+  function clearInputs() {
+    itemFields.forEach(field => {
+      document.getElementById(field).value = '';
+    });
+    // baseline unit
+    document.getElementById('item_unit').value = 'oz';
+  }
+
+  function formatCurrency(amount, decimals = 3) {
+    // common grocery costs (ths of a cent $0.062 vs $0.06)
+    return `$${amount.toFixed(decimals)}`;
+  }
+
+  function getUnitLabel(unitKey) {
+    const unitMap = {
+        oz: 'oz', lb: 'lb', g: 'g', kg: 'kg', floz: 'fl oz', gal: 'gal', mL: 'mL', L: 'L', each: 'each'
+    };
+    return unitMap[unitKey] || unitKey;
+  }
+</script>
+</body>
+</html>
