@@ -304,6 +304,7 @@
   <div class="card">
     <div class="card-title">
       <span>📊 Weekly Schedule & Projections</span>
+      <span class="note">Note: Break 1 & Break 2 are 10m reminders and excluded from totals</span>
     </div>
     <div class="table-container">
       <table>
@@ -330,7 +331,7 @@
   <div class="card">
     <div class="card-title">
       <span>🔎 Raw Punch Verification Cards</span>
-      <span class="note">Shows all Check-Ins & Check-Outs from CSV/API for manual verification</span>
+      <span class="note">Shows all Check-Ins, Check-Outs, Total Hours & Lunch</span>
     </div>
     <div class="punch-cards-grid" id="punchCardsContainer">
       <!-- Generated dynamically per day -->
@@ -344,11 +345,11 @@
 
     // Default template: Mon-Fri 07:30 to 16:30 with 30-min lunch
     const TYPICAL_SCHEDULE = {
-      Mon: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
-      Tue: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
-      Wed: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
-      Thu: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
-      Fri: { s1: '07:30', b1: '', l1: '12:00', l2: '12:30', b2: '', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Mon: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Tue: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Wed: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Thu: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Fri: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
       Sat: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '', isActual: false, hasAfterHours: false },
       Sun: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '', isActual: false, hasAfterHours: false }
     };
@@ -462,10 +463,10 @@
           <tr ${rowClass}>
             <td><b>${day}</b>${badges}</td>
             <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.s1 || ''}" onchange="formatTime(this, '${day}', 's1')"></td>
-            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="" value="${d.b1 || ''}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b1', this.value)"></td>
+            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="10" value="${d.b1 !== undefined ? d.b1 : '10'}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b1', this.value)"></td>
             <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.l1 || ''}" onchange="formatTime(this, '${day}', 'l1')"></td>
             <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.l2 || ''}" onchange="formatTime(this, '${day}', 'l2')"></td>
-            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="" value="${d.b2 || ''}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b2', this.value)"></td>
+            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="10" value="${d.b2 !== undefined ? d.b2 : '10'}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b2', this.value)"></td>
             <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.e1 || ''}" onchange="formatTime(this, '${day}', 'e1')"></td>
             <td><input type="text" class="time-input after-input" placeholder="HH:MM" maxlength="5" value="${d.s2 || ''}" onchange="formatTime(this, '${day}', 's2')"></td>
             <td><input type="text" class="time-input after-input" placeholder="HH:MM" maxlength="5" value="${d.e2 || ''}" onchange="formatTime(this, '${day}', 'e2')"></td>
@@ -478,17 +479,40 @@
       renderPunchCards();
     }
 
+    function computeDayStats(punches) {
+      let workedMins = 0;
+      let lunchMins = 0;
+      const sorted = [...punches].sort((a, b) => a.mins - b.mins);
+      for (let i = 0; i < sorted.length - 1; i++) {
+        const curr = sorted[i];
+        const next = sorted[i+1];
+        let diff = next.mins - curr.mins;
+        if (diff < 0) diff += 24 * 60;
+        if (curr.type === 'IN' && next.type === 'OUT') {
+          workedMins += diff;
+        } else if (curr.type === 'OUT' && next.type === 'IN') {
+          lunchMins += diff;
+        }
+      }
+      return {
+        worked: minsToLabel(workedMins),
+        lunch: minsToLabel(lunchMins)
+      };
+    }
+
     function renderPunchCards() {
       const rawPunches = loadRawPunches();
       let html = '';
 
       DAYS.forEach(day => {
         const punches = rawPunches[day] || [];
+        const stats = computeDayStats(punches);
+
         html += `
           <div class="punch-card">
             <div class="punch-card-header">
               <span>${day}</span>
-              <span class="note">${punches.length} punch${punches.length === 1 ? '' : 'es'}</span>
+              <span class="note">${punches.length} punch${punches.length === 1 ? '' : 'es'} | Worked: <b>${stats.worked}</b> | Lunch: <b>${stats.lunch}</b></span>
             </div>
             ${punches.length === 0 ? '<div class="no-punches">No raw punches recorded</div>' : `
               <ul class="punch-list">
@@ -516,7 +540,9 @@
       const sched = loadSchedule();
       if (!sched[day]) sched[day] = {};
       sched[day][field] = val;
-      sched[day].isActual = false; // Clear auto-synced flag upon manual edit
+      if (field !== 'b1' && field !== 'b2') {
+        sched[day].isActual = false; // Clear auto-synced flag upon manual schedule edit
+      }
       localStorage.setItem('weekly_projection_schedule', JSON.stringify(sched));
       renderTable();
     }
@@ -529,7 +555,7 @@
         const d = sched[day] || {};
         let dayMins = 0;
 
-        // Primary Shift calculation
+        // Primary Shift calculation (Breaks b1 and b2 are intentionally excluded as reminders)
         const s1 = timeToMins(d.s1), l1 = timeToMins(d.l1), l2 = timeToMins(d.l2), e1 = timeToMins(d.e1);
         if (s1 !== null && e1 !== null) {
           let shift1Mins = e1 - s1;
@@ -543,7 +569,7 @@
           }
         }
 
-        // After Hours Shift calculation
+        // After Hours Shift calculation (also handles early pre-shift calls captured in s2/e2)
         const s2 = timeToMins(d.s2), e2 = timeToMins(d.e2);
         if (s2 !== null && e2 !== null) {
           let shift2Mins = e2 - s2;
@@ -642,8 +668,17 @@
           const isIn = notes.includes('clock in') || Boolean(r['Start Time'] || r['startTime']);
           const isOut = notes.includes('clock out') || Boolean(r['End Time'] || r['endTime']);
 
-          const formattedTime = formatPDTTime(tsDate);
-          const mins = timeToMins(formattedTime);
+          let formattedTime = formatPDTTime(tsDate);
+          let mins = timeToMins(formattedTime);
+
+          // Correct 1-hour DST offset shift for dates on or after November 1, 2026
+          if (dateKey >= '2026-11-01') {
+            mins += 60;
+            if (mins >= 24 * 60) mins -= 24 * 60;
+            const h = Math.floor(mins / 60);
+            const m = Math.round(mins % 60);
+            formattedTime = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+          }
 
           if (isIn) {
             dayEvents[dayName].push({ type: 'IN', time: formattedTime, mins: mins });
@@ -666,8 +701,22 @@
           const outs = events.filter(e => e.type === 'OUT');
           if (ins.length === 0 && outs.length === 0) return;
 
-          // 1. START: Earliest Clock In of the day
-          const primaryStart = ins.length > 0 ? ins[0].time : '';
+          // Check for early call / pre-shift work before 07:00 (420 mins)
+          const earlyIns = ins.filter(e => e.mins < 420);
+          const earlyOuts = outs.filter(e => e.mins < 420 || (earlyIns.length > 0 && e.mins < 450));
+          let preStart = '';
+          let preEnd = '';
+          let mainIns = ins;
+
+          if (earlyIns.length > 0 && earlyOuts.length > 0) {
+            preStart = earlyIns[0].time;
+            preEnd = earlyOuts[0].time;
+            // Filter main ins/outs to be >= 07:00 (420 mins)
+            mainIns = ins.filter(e => e.mins >= 420);
+          }
+
+          // 1. START: Earliest Clock In of main shift (>= 07:00) or overall earliest if no pre-shift
+          const primaryStart = mainIns.length > 0 ? mainIns[0].time : (ins.length > 0 ? ins[0].time : '');
 
           // 2. LUNCH OUT: First Clock Out around midday (11:30–13:30 PT / 690–810 mins)
           const lunchOutCandidate = outs.find(e => e.mins >= 690 && e.mins <= 810);
@@ -677,42 +726,41 @@
           const lunchInCandidate = ins.find(e => e.mins >= 720 && e.mins <= 840);
           const lunchIn = lunchInCandidate ? lunchInCandidate.time : '';
 
-          // 4. AFTER-HOURS PUNCHES: Check-ins starting at/after 19:30 PT (1170 mins)
+          // 4. AFTER-HOURS / EVENING PUNCHES: Check-ins starting at/after 19:30 PT (1170 mins)
           const eveningInCandidate = ins.find(e => e.mins >= 1170);
-          const hasAfterHours = Boolean(eveningInCandidate);
+          const hasEvening = Boolean(eveningInCandidate);
 
           let primaryEnd = '';
-          let afterStart = '';
-          let afterEnd = '';
+          let afterStart = preStart; // Pre-shift early call mapped to After Start/End if present
+          let afterEnd = preEnd;
 
-          if (hasAfterHours) {
+          if (hasEvening) {
             afterStart = eveningInCandidate.time;
-
-            // AFTER END: Final clock-out of the day occurring after evening start
             const finalOut = outs.length > 0 ? outs[outs.length - 1] : null;
             if (finalOut && finalOut.mins > eveningInCandidate.mins) {
               afterEnd = finalOut.time;
             }
-
-            // PRIMARY END: Clock Out for primary shift before evening start (usually 16:00–18:00 PT)
             const primaryOuts = outs.filter(e => e.mins < eveningInCandidate.mins);
             primaryEnd = primaryOuts.length > 0 ? primaryOuts[primaryOuts.length - 1].time : '16:30';
+          } else if (preStart) {
+            // Early call pre-shift captured in After Hours slots
+            const primaryOuts = outs.filter(e => e.mins >= 420);
+            primaryEnd = primaryOuts.length > 0 ? primaryOuts[primaryOuts.length - 1].time : (outs.length > 0 ? outs[outs.length - 1].time : '');
           } else {
-            // Standard day: Primary END is the latest Clock Out of the day
             primaryEnd = outs.length > 0 ? outs[outs.length - 1].time : '';
           }
 
-          // Update day state
+          // Update day state (Break 1 & Break 2 default to 10 mins as reminders)
           sched[day].s1 = primaryStart;
           sched[day].l1 = lunchOut;
           sched[day].l2 = lunchIn;
           sched[day].e1 = primaryEnd;
           sched[day].s2 = afterStart;
           sched[day].e2 = afterEnd;
-          sched[day].b1 = '';
-          sched[day].b2 = '';
+          sched[day].b1 = '10';
+          sched[day].b2 = '10';
           sched[day].isActual = true;
-          sched[day].hasAfterHours = hasAfterHours;
+          sched[day].hasAfterHours = Boolean(hasEvening || preStart);
           syncedCount++;
         });
 
@@ -746,7 +794,7 @@
       const rawPunches = loadRawPunches();
       const ot = localStorage.getItem('weekly_projection_ot') || '0';
       const exportData = {
-        version: "1.2",
+        version: "1.3",
         bankedOtMins: parseInt(ot, 10),
         schedule: sched,
         rawPunches: rawPunches
