@@ -119,6 +119,59 @@
     .banked-ot-group label { font-weight: 600; font-size: 0.82rem; color: var(--text); }
     .note { font-size: 0.75rem; color: var(--muted); }
 
+    /* Switch Toggle Styling */
+    .dst-switch-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .dst-switch-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1;
+      transition: .2s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+
     .stat-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -279,6 +332,16 @@
         <input type="number" id="bankedOtMins" value="0" style="width: 80px;" oninput="saveBankedOt(); calculateProjections();">
         <span class="note">(e.g., 180 = +03:00 carryover credit)</span>
       </div>
+
+      <!-- DST Offset Flip Switch -->
+      <div class="dst-switch-group">
+        <label for="dstSwitch">Nov DST +1h Offset:</label>
+        <label class="switch">
+          <input type="checkbox" id="dstSwitch" onchange="toggleDstShift()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
       <div id="syncStatusInfo" class="note" style="font-weight: 500;">
         Status: Ready to sync actuals
       </div>
@@ -369,6 +432,18 @@
       return saved ? JSON.parse(saved) : {};
     }
 
+    function loadDstSetting() {
+      const saved = localStorage.getItem('weekly_projection_dst_offset');
+      return saved === null ? true : saved === 'true'; // Default to true (ON)
+    }
+
+    function toggleDstShift() {
+      const isChecked = document.getElementById('dstSwitch').checked;
+      localStorage.setItem('weekly_projection_dst_offset', isChecked ? 'true' : 'false');
+      showToast(isChecked ? "Nov DST Offset Enabled (+1h on sync)" : "Nov DST Offset Disabled (Standard sync)");
+      setTimeout(hideToast, 2500);
+    }
+
     function showToast(msg) {
       const t = document.getElementById('statusToast');
       t.innerText = msg;
@@ -447,6 +522,7 @@
       const sched = loadSchedule();
       const savedOt = localStorage.getItem('weekly_projection_ot') || '0';
       document.getElementById('bankedOtMins').value = savedOt;
+      document.getElementById('dstSwitch').checked = loadDstSetting();
 
       let html = '';
 
@@ -654,6 +730,8 @@
           return ta - tb;
         });
 
+        const isDstShiftEnabled = loadDstSetting();
+
         sorted.forEach(r => {
           const tsRaw = r['Timestamp'] || r['timestamp'];
           if (!tsRaw) return;
@@ -671,8 +749,8 @@
           let formattedTime = formatPDTTime(tsDate);
           let mins = timeToMins(formattedTime);
 
-          // Correct 1-hour DST offset shift for dates on or after November 1, 2026
-          if (dateKey >= '2026-11-01') {
+          // Apply +1h offset if DST switch is ON and date is on or after November 1, 2026
+          if (isDstShiftEnabled && dateKey >= '2026-11-01') {
             mins += 60;
             if (mins >= 24 * 60) mins -= 24 * 60;
             const h = Math.floor(mins / 60);
@@ -793,9 +871,11 @@
       const sched = loadSchedule();
       const rawPunches = loadRawPunches();
       const ot = localStorage.getItem('weekly_projection_ot') || '0';
+      const dstOffset = loadDstSetting();
       const exportData = {
-        version: "1.3",
+        version: "1.4",
         bankedOtMins: parseInt(ot, 10),
+        dstOffsetEnabled: dstOffset,
         schedule: sched,
         rawPunches: rawPunches
       };
@@ -825,6 +905,9 @@
             localStorage.setItem('weekly_projection_schedule', JSON.stringify(imported.schedule));
             if (imported.bankedOtMins !== undefined) {
               localStorage.setItem('weekly_projection_ot', imported.bankedOtMins.toString());
+            }
+            if (imported.dstOffsetEnabled !== undefined) {
+              localStorage.setItem('weekly_projection_dst_offset', imported.dstOffsetEnabled ? 'true' : 'false');
             }
             if (imported.rawPunches) {
               localStorage.setItem('weekly_projection_raw_punches', JSON.stringify(imported.rawPunches));
