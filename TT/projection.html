@@ -567,7 +567,10 @@
         if (curr.type === 'IN' && next.type === 'OUT') {
           workedMins += diff;
         } else if (curr.type === 'OUT' && next.type === 'IN') {
-          lunchMins += diff;
+          // Only treat off-clock gaps between 11:00 (660 mins) and 15:00 (900 mins) as Lunch
+          if (curr.mins >= 660 && next.mins <= 900) {
+            lunchMins += diff;
+          }
         }
       }
       return {

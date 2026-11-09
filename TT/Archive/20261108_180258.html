@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Projection Calculator (24-Hour)</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --badge-bg: #eff6ff;
+      --badge-text: #1e40af;
+      --after-bg: #fefce8;
+      --after-badge: #854d0e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 16px 12px;
+      max-width: 1100px;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .header h1 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em; }
+    .header-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #0f172a;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+    .btn:hover { background: #334155; }
+    .btn:active { transform: scale(0.98); }
+    .btn-secondary { background: #e2e8f0; color: #0f172a; }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-sync { background: var(--primary); color: #ffffff; font-weight: 600; }
+    .btn-sync:hover { background: var(--primary-hover); }
+    .btn-sync:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-toast {
+      display: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      border: 1px solid #bfdbfe;
+    }
+    .error-banner {
+      display: none;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: var(--danger);
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      font-size: 0.82rem;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .banked-ot-group { display: flex; align-items: center; gap: 8px; }
+    .banked-ot-group label { font-weight: 600; font-size: 0.82rem; color: var(--text); }
+    .note { font-size: 0.75rem; color: var(--muted); }
+
+    /* Switch Toggle Styling */
+    .dst-switch-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .dst-switch-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1;
+      transition: .2s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      text-align: center;
+    }
+    .stat-box {
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .stat-box .val { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: -0.02em; }
+    .stat-box .lbl { color: var(--muted); font-size: 0.75rem; font-weight: 500; margin-top: 2px; }
+
+    .table-container { overflow-x: auto; width: 100%; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; white-space: nowrap; }
+    th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
+    th {
+      background: #f1f5f9;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    th.after-header { background: #fef9c3; color: #713f12; }
+    tr:hover { background: #f8fafc; }
+    
+    input[type="text"].time-input, input[type="number"] {
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.82rem;
+      text-align: center;
+      width: 72px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #ffffff;
+      color: var(--text);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input[type="text"].time-input:focus, input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+    .after-input { border-color: #fde047 !important; background: #fffdf0 !important; }
+    .break-input { width: 56px !important; }
+    .actual-row { background: #f0fdf4; }
+    .actual-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: #dcfce7;
+      color: #15803d;
+      padding: 1px 4px;
+      border-radius: 3px;
+      margin-left: 4px;
+      text-transform: uppercase;
+    }
+    .after-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: #fef08a;
+      color: #713f12;
+      padding: 1px 4px;
+      border-radius: 3px;
+      margin-left: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Verification Cards Styling */
+    .punch-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .punch-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+    }
+    .punch-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .punch-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .punch-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3px 6px;
+      border-radius: 4px;
+      background: #ffffff;
+      border: 1px solid #f1f5f9;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    .punch-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .punch-type.in { background: #dcfce7; color: #166534; }
+    .punch-type.out { background: #fee2e2; color: #991b1b; }
+    .no-punches {
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+      padding: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .stat-grid { grid-template-columns: 1fr; }
+      .header h1 { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1>🔮 Weekly Projection Calculator (24h)</h1>
+    </div>
+    <div class="header-actions">
+      <a class="btn btn-secondary" href="index.html">← Back to Main Tracker</a>
+      <button class="btn btn-sync" id="syncBtn" onclick="syncActualsFromTracker()">🔄 Sync Actuals</button>
+      <button class="btn btn-secondary" onclick="exportJSON()">📥 Export JSON</button>
+      <button class="btn btn-secondary" onclick="triggerImport()">📤 Import JSON</button>
+      <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
+      <button class="btn btn-secondary" onclick="resetToTypicalSchedule()">Reset Typical</button>
+    </div>
+  </div>
+
+  <div id="statusToast" class="status-toast"></div>
+  <div id="errorBanner" class="error-banner"></div>
+
+  <div class="card">
+    <div class="controls-row">
+      <div class="banked-ot-group">
+        <label for="bankedOtMins">Banked OT (mins):</label>
+        <input type="number" id="bankedOtMins" value="0" style="width: 80px;" oninput="saveBankedOt(); calculateProjections();">
+        <span class="note">(e.g., 180 = +03:00 carryover credit)</span>
+      </div>
+
+      <!-- DST Offset Flip Switch -->
+      <div class="dst-switch-group">
+        <label for="dstSwitch">Nov DST +1h Offset:</label>
+        <label class="switch">
+          <input type="checkbox" id="dstSwitch" onchange="toggleDstShift()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div id="syncStatusInfo" class="note" style="font-weight: 500;">
+        Status: Ready to sync actuals
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div id="projectedWorked" class="val">00:00</div>
+        <div class="lbl">Projected Work Hours</div>
+      </div>
+      <div class="stat-box">
+        <div id="totalWithOt" class="val" style="color: var(--success);">00:00</div>
+        <div class="lbl">Total Incl. Banked OT</div>
+      </div>
+      <div class="stat-box">
+        <div id="goalDifference" class="val">00:00</div>
+        <div class="lbl">Variance (vs 40:00 Goal)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Projection Table -->
+  <div class="card">
+    <div class="card-title">
+      <span>📊 Weekly Schedule & Projections</span>
+      <span class="note">Note: Break 1 & Break 2 are 10m reminders and excluded from totals</span>
+    </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Start</th>
+            <th>Break 1 (m)</th>
+            <th>Lunch Out</th>
+            <th>Lunch In</th>
+            <th>Break 2 (m)</th>
+            <th>End</th>
+            <th class="after-header">After Start</th>
+            <th class="after-header">After End</th>
+            <th>Daily Total</th>
+          </tr>
+        </thead>
+        <tbody id="projectionBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Visual Punch Card Verification Section -->
+  <div class="card">
+    <div class="card-title">
+      <span>🔎 Raw Punch Verification Cards</span>
+      <span class="note">Shows all Check-Ins, Check-Outs, Total Hours & Lunch</span>
+    </div>
+    <div class="punch-cards-grid" id="punchCardsContainer">
+      <!-- Generated dynamically per day -->
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwIP0JWGmVmOlakt7SAEEckWnQEHL96BZ25Kq9cZRfMwgUa88_moXvA370OdplGOmiTlg/exec";
+    const TZ = "America/Los_Angeles";
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+    // Default template: Mon-Fri 07:30 to 16:30 with 30-min lunch
+    const TYPICAL_SCHEDULE = {
+      Mon: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Tue: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Wed: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Thu: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Fri: { s1: '07:30', b1: '10', l1: '12:00', l2: '12:30', b2: '10', e1: '16:30', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Sat: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '', isActual: false, hasAfterHours: false },
+      Sun: { s1: '', b1: '', l1: '', l2: '', b2: '', e1: '', s2: '', e2: '', isActual: false, hasAfterHours: false }
+    };
+
+    function loadSchedule() {
+      const saved = localStorage.getItem('weekly_projection_schedule');
+      if (!saved) return JSON.parse(JSON.stringify(TYPICAL_SCHEDULE));
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        return JSON.parse(JSON.stringify(TYPICAL_SCHEDULE));
+      }
+    }
+
+    function loadRawPunches() {
+      const saved = localStorage.getItem('weekly_projection_raw_punches');
+      return saved ? JSON.parse(saved) : {};
+    }
+
+    function loadDstSetting() {
+      const saved = localStorage.getItem('weekly_projection_dst_offset');
+      return saved === null ? true : saved === 'true'; // Default to true (ON)
+    }
+
+    function toggleDstShift() {
+      const isChecked = document.getElementById('dstSwitch').checked;
+      localStorage.setItem('weekly_projection_dst_offset', isChecked ? 'true' : 'false');
+      showToast(isChecked ? "Nov DST Offset Enabled (+1h on sync)" : "Nov DST Offset Disabled (Standard sync)");
+      setTimeout(hideToast, 2500);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('statusToast');
+      t.innerText = msg;
+      t.style.display = 'block';
+    }
+
+    function hideToast() {
+      document.getElementById('statusToast').style.display = 'none';
+    }
+
+    function showError(msg) {
+      const b = document.getElementById('errorBanner');
+      b.innerText = msg;
+      b.style.display = 'block';
+    }
+
+    function clearError() {
+      document.getElementById('errorBanner').style.display = 'none';
+    }
+
+    function timeToMins(t) {
+      if (!t || typeof t !== 'string' || t.indexOf(':') === -1) return null;
+      const parts = t.split(':');
+      const h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      if (isNaN(h) || isNaN(m)) return null;
+      return h * 60 + m;
+    }
+
+    function minsToLabel(mins) {
+      const sign = mins < 0 ? '-' : '';
+      const abs = Math.abs(mins);
+      const h = Math.floor(abs / 60);
+      const m = Math.round(abs % 60);
+      return `${sign}${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
+
+    function enforceTwoDigits(input) {
+      if (input.value.length > 2) {
+        input.value = input.value.slice(0, 2);
+      }
+    }
+
+    function formatTime(input, day, field) {
+      let val = input.value.trim();
+      if (!val) {
+        updateDay(day, field, '');
+        return;
+      }
+      
+      val = val.replace(/[^\d:]/g, '');
+      if (!val.includes(':')) {
+        if (val.length === 1 || val.length === 2) {
+          val = val.padStart(2, '0') + ':00';
+        } else if (val.length === 3) {
+          val = '0' + val.substring(0, 1) + ':' + val.substring(1, 3);
+        } else if (val.length >= 4) {
+          val = val.substring(0, 2) + ':' + val.substring(2, 4);
+        }
+      }
+      
+      const parts = val.split(':');
+      if (parts.length === 2) {
+         let h = parseInt(parts[0], 10) || 0;
+         let m = parseInt(parts[1], 10) || 0;
+         if (h > 23) h = 23;
+         if (m > 59) m = 59;
+         input.value = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+         updateDay(day, field, input.value);
+      } else {
+         updateDay(day, field, '');
+      }
+    }
+
+    function renderTable() {
+      const sched = loadSchedule();
+      const savedOt = localStorage.getItem('weekly_projection_ot') || '0';
+      document.getElementById('bankedOtMins').value = savedOt;
+      document.getElementById('dstSwitch').checked = loadDstSetting();
+
+      let html = '';
+
+      DAYS.forEach(day => {
+        const d = sched[day] || {};
+        const isActual = d.isActual || false;
+        const hasAfter = d.hasAfterHours || false;
+        const rowClass = isActual ? 'class="actual-row"' : '';
+        let badges = '';
+        if (isActual) badges += '<span class="actual-badge">ACTUAL</span>';
+        if (hasAfter) badges += '<span class="after-badge">AFTER-HRS</span>';
+
+        html += `
+          <tr ${rowClass}>
+            <td><b>${day}</b>${badges}</td>
+            <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.s1 || ''}" onchange="formatTime(this, '${day}', 's1')"></td>
+            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="10" value="${d.b1 !== undefined ? d.b1 : '10'}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b1', this.value)"></td>
+            <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.l1 || ''}" onchange="formatTime(this, '${day}', 'l1')"></td>
+            <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.l2 || ''}" onchange="formatTime(this, '${day}', 'l2')"></td>
+            <td><input type="number" class="break-input" min="0" max="99" maxlength="2" placeholder="10" value="${d.b2 !== undefined ? d.b2 : '10'}" oninput="enforceTwoDigits(this)" onchange="updateDay('${day}', 'b2', this.value)"></td>
+            <td><input type="text" class="time-input" placeholder="HH:MM" maxlength="5" value="${d.e1 || ''}" onchange="formatTime(this, '${day}', 'e1')"></td>
+            <td><input type="text" class="time-input after-input" placeholder="HH:MM" maxlength="5" value="${d.s2 || ''}" onchange="formatTime(this, '${day}', 's2')"></td>
+            <td><input type="text" class="time-input after-input" placeholder="HH:MM" maxlength="5" value="${d.e2 || ''}" onchange="formatTime(this, '${day}', 'e2')"></td>
+            <td id="total-${day}" style="font-weight:600;">00:00</td>
+          </tr>
+        `;
+      });
+      document.getElementById('projectionBody').innerHTML = html;
+      calculateProjections();
+      renderPunchCards();
+    }
+
+    function computeDayStats(punches) {
+      let workedMins = 0;
+      let lunchMins = 0;
+      const sorted = [...punches].sort((a, b) => a.mins - b.mins);
+      for (let i = 0; i < sorted.length - 1; i++) {
+        const curr = sorted[i];
+        const next = sorted[i+1];
+        let diff = next.mins - curr.mins;
+        if (diff < 0) diff += 24 * 60;
+        if (curr.type === 'IN' && next.type === 'OUT') {
+          workedMins += diff;
+        } else if (curr.type === 'OUT' && next.type === 'IN') {
+          lunchMins += diff;
+        }
+      }
+      return {
+        worked: minsToLabel(workedMins),
+        lunch: minsToLabel(lunchMins)
+      };
+    }
+
+    function renderPunchCards() {
+      const rawPunches = loadRawPunches();
+      let html = '';
+
+      DAYS.forEach(day => {
+        const punches = rawPunches[day] || [];
+        const stats = computeDayStats(punches);
+
+        html += `
+          <div class="punch-card">
+            <div class="punch-card-header">
+              <span>${day}</span>
+              <span class="note">${punches.length} punch${punches.length === 1 ? '' : 'es'} | Worked: <b>${stats.worked}</b> | Lunch: <b>${stats.lunch}</b></span>
+            </div>
+            ${punches.length === 0 ? '<div class="no-punches">No raw punches recorded</div>' : `
+              <ul class="punch-list">
+                ${punches.map(p => `
+                  <li class="punch-item">
+                    <span class="punch-type ${p.type.toLowerCase()}">${p.type}</span>
+                    <span style="font-weight:600;">${p.time}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            `}
+          </div>
+        `;
+      });
+
+      document.getElementById('punchCardsContainer').innerHTML = html;
+    }
+
+    function saveBankedOt() {
+      const val = document.getElementById('bankedOtMins').value;
+      localStorage.setItem('weekly_projection_ot', val);
+    }
+
+    function updateDay(day, field, val) {
+      const sched = loadSchedule();
+      if (!sched[day]) sched[day] = {};
+      sched[day][field] = val;
+      if (field !== 'b1' && field !== 'b2') {
+        sched[day].isActual = false; // Clear auto-synced flag upon manual schedule edit
+      }
+      localStorage.setItem('weekly_projection_schedule', JSON.stringify(sched));
+      renderTable();
+    }
+
+    function calculateProjections() {
+      const sched = loadSchedule();
+      let weeklyMins = 0;
+
+      DAYS.forEach(day => {
+        const d = sched[day] || {};
+        let dayMins = 0;
+
+        // Primary Shift calculation (Breaks b1 and b2 are intentionally excluded as reminders)
+        const s1 = timeToMins(d.s1), l1 = timeToMins(d.l1), l2 = timeToMins(d.l2), e1 = timeToMins(d.e1);
+        if (s1 !== null && e1 !== null) {
+          let shift1Mins = e1 - s1;
+          if (shift1Mins < 0) shift1Mins += 24 * 60; // Handle midnight crossover
+          dayMins += shift1Mins;
+
+          if (l1 !== null && l2 !== null) {
+            let lunchMins = l2 - l1;
+            if (lunchMins < 0) lunchMins += 24 * 60;
+            dayMins -= lunchMins;
+          }
+        }
+
+        // After Hours Shift calculation (also handles early pre-shift calls captured in s2/e2)
+        const s2 = timeToMins(d.s2), e2 = timeToMins(d.e2);
+        if (s2 !== null && e2 !== null) {
+          let shift2Mins = e2 - s2;
+          if (shift2Mins < 0) shift2Mins += 24 * 60; // Handle midnight crossover
+          dayMins += shift2Mins;
+        }
+
+        document.getElementById(`total-${day}`).innerText = minsToLabel(dayMins);
+        weeklyMins += dayMins;
+      });
+
+      const bankedOt = parseInt(document.getElementById('bankedOtMins').value, 10) || 0;
+      const totalWithOt = weeklyMins + bankedOt;
+      const targetDiff = totalWithOt - 2400; // 2400 mins = 40 hours standard goal
+
+      document.getElementById('projectedWorked').innerText = minsToLabel(weeklyMins);
+      document.getElementById('totalWithOt').innerText = minsToLabel(totalWithOt);
+
+      const diffEl = document.getElementById('goalDifference');
+      diffEl.innerText = (targetDiff >= 0 ? '+' : '') + minsToLabel(targetDiff);
+      diffEl.style.color = targetDiff >= 0 ? 'var(--success)' : 'var(--danger)';
+    }
+
+    function getPacificDateKey(d) {
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d);
+      let y, m, day;
+      parts.forEach(p => {
+        if (p.type === 'year') y = p.value;
+        if (p.type === 'month') m = p.value;
+        if (p.type === 'day') day = p.value;
+      });
+      return `${y}-${m}-${day}`;
+    }
+
+    function formatPDTTime(dateObj) {
+      const parts = new Intl.DateTimeFormat('en-US', { timeZone: TZ, hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(dateObj);
+      let hh = '00', mm = '00';
+      parts.forEach(p => {
+        if (p.type === 'hour') hh = String(p.value).padStart(2, '0');
+        if (p.type === 'minute') mm = String(p.value).padStart(2, '0');
+      });
+      if (hh === '24') hh = '00';
+      return `${hh}:${mm}`;
+    }
+
+    async function syncActualsFromTracker() {
+      clearError();
+      showToast("Fetching live punch data from Time Tracker API...");
+      const syncBtn = document.getElementById('syncBtn');
+      syncBtn.disabled = true;
+
+      try {
+        const resp = await fetch(API_URL);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status} - Unable to connect to API`);
+        const json = await resp.json();
+
+        if (json.status !== "success" || !json.data) {
+          throw new Error(json.message || "Invalid payload received from server API.");
+        }
+
+        // Determine current week window (Monday - Sunday) in Pacific Time Zone
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const daysToMon = (dayOfWeek + 6) % 7;
+        const monDate = new Date();
+        monDate.setDate(now.getDate() - daysToMon);
+
+        const weekKeys = {};
+        DAYS.forEach((name, i) => {
+          const d = new Date(monDate);
+          d.setDate(monDate.getDate() + i);
+          weekKeys[getPacificDateKey(d)] = name;
+        });
+
+        // Collect punch events per day
+        const dayEvents = {};
+        DAYS.forEach(d => dayEvents[d] = []);
+
+        const sorted = json.data.slice().sort((a, b) => {
+          const ta = new Date(a['Timestamp'] || a['timestamp'] || 0).getTime();
+          const tb = new Date(b['Timestamp'] || b['timestamp'] || 0).getTime();
+          return ta - tb;
+        });
+
+        const isDstShiftEnabled = loadDstSetting();
+
+        sorted.forEach(r => {
+          const tsRaw = r['Timestamp'] || r['timestamp'];
+          if (!tsRaw) return;
+          const tsDate = new Date(tsRaw);
+          if (isNaN(tsDate.getTime())) return;
+
+          const dateKey = getPacificDateKey(tsDate);
+          const dayName = weekKeys[dateKey];
+          if (!dayName) return;
+
+          const notes = (r['Work Performed / Notes'] || r['notes'] || r['Break Details'] || '').toLowerCase();
+          const isIn = notes.includes('clock in') || Boolean(r['Start Time'] || r['startTime']);
+          const isOut = notes.includes('clock out') || Boolean(r['End Time'] || r['endTime']);
+
+          let formattedTime = formatPDTTime(tsDate);
+          let mins = timeToMins(formattedTime);
+
+          // Apply +1h offset if DST switch is ON and date is on or after November 1, 2026
+          if (isDstShiftEnabled && dateKey >= '2026-11-01') {
+            mins += 60;
+            if (mins >= 24 * 60) mins -= 24 * 60;
+            const h = Math.floor(mins / 60);
+            const m = Math.round(mins % 60);
+            formattedTime = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+          }
+
+          if (isIn) {
+            dayEvents[dayName].push({ type: 'IN', time: formattedTime, mins: mins });
+          } else if (isOut) {
+            dayEvents[dayName].push({ type: 'OUT', time: formattedTime, mins: mins });
+          }
+        });
+
+        // Save raw punches for verification card view
+        localStorage.setItem('weekly_projection_raw_punches', JSON.stringify(dayEvents));
+
+        const sched = loadSchedule();
+        let syncedCount = 0;
+
+        DAYS.forEach(day => {
+          const events = dayEvents[day];
+          if (!events || events.length === 0) return;
+
+          const ins = events.filter(e => e.type === 'IN');
+          const outs = events.filter(e => e.type === 'OUT');
+          if (ins.length === 0 && outs.length === 0) return;
+
+          // Check for early call / pre-shift work before 07:00 (420 mins)
+          const earlyIns = ins.filter(e => e.mins < 420);
+          const earlyOuts = outs.filter(e => e.mins < 420 || (earlyIns.length > 0 && e.mins < 450));
+          let preStart = '';
+          let preEnd = '';
+          let mainIns = ins;
+
+          if (earlyIns.length > 0 && earlyOuts.length > 0) {
+            preStart = earlyIns[0].time;
+            preEnd = earlyOuts[0].time;
+            // Filter main ins/outs to be >= 07:00 (420 mins)
+            mainIns = ins.filter(e => e.mins >= 420);
+          }
+
+          // 1. START: Earliest Clock In of main shift (>= 07:00) or overall earliest if no pre-shift
+          const primaryStart = mainIns.length > 0 ? mainIns[0].time : (ins.length > 0 ? ins[0].time : '');
+
+          // 2. LUNCH OUT: First Clock Out around midday (11:30–13:30 PT / 690–810 mins)
+          const lunchOutCandidate = outs.find(e => e.mins >= 690 && e.mins <= 810);
+          const lunchOut = lunchOutCandidate ? lunchOutCandidate.time : '';
+
+          // 3. LUNCH IN: First Clock In following lunch (12:00–14:00 PT / 720–840 mins)
+          const lunchInCandidate = ins.find(e => e.mins >= 720 && e.mins <= 840);
+          const lunchIn = lunchInCandidate ? lunchInCandidate.time : '';
+
+          // 4. AFTER-HOURS / EVENING PUNCHES: Check-ins starting at/after 19:30 PT (1170 mins)
+          const eveningInCandidate = ins.find(e => e.mins >= 1170);
+          const hasEvening = Boolean(eveningInCandidate);
+
+          let primaryEnd = '';
+          let afterStart = preStart; // Pre-shift early call mapped to After Start/End if present
+          let afterEnd = preEnd;
+
+          if (hasEvening) {
+            afterStart = eveningInCandidate.time;
+            const finalOut = outs.length > 0 ? outs[outs.length - 1] : null;
+            if (finalOut && finalOut.mins > eveningInCandidate.mins) {
+              afterEnd = finalOut.time;
+            }
+            const primaryOuts = outs.filter(e => e.mins < eveningInCandidate.mins);
+            primaryEnd = primaryOuts.length > 0 ? primaryOuts[primaryOuts.length - 1].time : '16:30';
+          } else if (preStart) {
+            // Early call pre-shift captured in After Hours slots
+            const primaryOuts = outs.filter(e => e.mins >= 420);
+            primaryEnd = primaryOuts.length > 0 ? primaryOuts[primaryOuts.length - 1].time : (outs.length > 0 ? outs[outs.length - 1].time : '');
+          } else {
+            primaryEnd = outs.length > 0 ? outs[outs.length - 1].time : '';
+          }
+
+          // Update day state (Break 1 & Break 2 default to 10 mins as reminders)
+          sched[day].s1 = primaryStart;
+          sched[day].l1 = lunchOut;
+          sched[day].l2 = lunchIn;
+          sched[day].e1 = primaryEnd;
+          sched[day].s2 = afterStart;
+          sched[day].e2 = afterEnd;
+          sched[day].b1 = '10';
+          sched[day].b2 = '10';
+          sched[day].isActual = true;
+          sched[day].hasAfterHours = Boolean(hasEvening || preStart);
+          syncedCount++;
+        });
+
+        localStorage.setItem('weekly_projection_schedule', JSON.stringify(sched));
+        renderTable();
+
+        document.getElementById('syncStatusInfo').innerText = `Last Synced: ${new Date().toLocaleTimeString('en-US', { hour12: false })} (${syncedCount} days updated)`;
+        showToast(`Successfully synced actuals for ${syncedCount} worked day(s)!`);
+        setTimeout(hideToast, 4000);
+      } catch (err) {
+        showError("Sync failed: " + err.message);
+        hideToast();
+      } finally {
+        syncBtn.disabled = false;
+      }
+    }
+
+    function resetToTypicalSchedule() {
+      localStorage.setItem('weekly_projection_schedule', JSON.stringify(TYPICAL_SCHEDULE));
+      localStorage.setItem('weekly_projection_ot', '0');
+      localStorage.removeItem('weekly_projection_raw_punches');
+      document.getElementById('bankedOtMins').value = 0;
+      document.getElementById('syncStatusInfo').innerText = 'Status: Reset to typical schedule';
+      renderTable();
+      showToast("Reset schedule to typical default.");
+      setTimeout(hideToast, 3000);
+    }
+
+    function exportJSON() {
+      const sched = loadSchedule();
+      const rawPunches = loadRawPunches();
+      const ot = localStorage.getItem('weekly_projection_ot') || '0';
+      const dstOffset = loadDstSetting();
+      const exportData = {
+        version: "1.4",
+        bankedOtMins: parseInt(ot, 10),
+        dstOffsetEnabled: dstOffset,
+        schedule: sched,
+        rawPunches: rawPunches
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `projection_plan_${getPacificDateKey(new Date())}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function triggerImport() {
+      document.getElementById('jsonFileInput').click();
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (imported.schedule) {
+            localStorage.setItem('weekly_projection_schedule', JSON.stringify(imported.schedule));
+            if (imported.bankedOtMins !== undefined) {
+              localStorage.setItem('weekly_projection_ot', imported.bankedOtMins.toString());
+            }
+            if (imported.dstOffsetEnabled !== undefined) {
+              localStorage.setItem('weekly_projection_dst_offset', imported.dstOffsetEnabled ? 'true' : 'false');
+            }
+            if (imported.rawPunches) {
+              localStorage.setItem('weekly_projection_raw_punches', JSON.stringify(imported.rawPunches));
+            }
+            renderTable();
+            showToast("Projection data imported successfully.");
+            setTimeout(hideToast, 3000);
+          } else {
+            showError("Invalid projection JSON format.");
+          }
+        } catch (err) {
+          showError("Error parsing JSON file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    window.onload = function() {
+      renderTable();
+    };
+  </script>
+</body>
+</html>
