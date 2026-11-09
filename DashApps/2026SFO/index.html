@@ -1,490 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trip Preparation & Calendar Tracker</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <style>
-    :root {
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --primary: #2563eb;
-      --success: #16a34a;
-      --danger: #dc2626;
-      --warning: #d97706;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 16px 12px 40px;
-      max-width: 900px;
-      margin: 0 auto;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-    .header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; }
-    .header p { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
-    .header-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-    
-    .btn { padding: 8px 12px; font-size: 0.85rem; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; background: #0f172a; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
-    .btn:hover { background: #334155; }
-    .btn-secondary { background: #e2e8f0; color: #0f172a; }
-    .btn-secondary:hover { background: #cbd5e1; }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { background: #1d4ed8; }
-    .btn-xs { padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trip Preparation & Calendar Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#f4f2ec;--card:#fff;--ink:#16233b;--mut:#6b7385;--line:#e4e1d8;--acc:#1f3a5f;--soft:#eef3f8;--teal:#0e7c7b;--tealbg:#e3f3f1;--warm:#b4532a;--warmbg:#fbeee6;--gold:#8a6a12;--goldbg:#fbf3d9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.5 Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);max-width:1040px;margin:0 auto;padding:20px 14px 40px}
+h1,h2,.serif{font-family:Fraunces,Georgia,serif;letter-spacing:-.01em}
+h2{font-size:1.2rem}
+.btn{padding:8px 13px;font:600 .82rem Inter,sans-serif;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:#fff;color:var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}.btn.pri:hover{background:#17304f}
+.btn.sm{padding:5px 10px;font-size:.75rem}
+input{font:inherit;font-size:.9rem;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);width:100%;min-width:0}
+input:focus,.btn:focus-visible,.cell:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 1px 2px rgba(22,35,59,.04)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.grp{display:flex;gap:6px;flex-wrap:wrap}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.top h1{font-size:1.7rem}.top small{color:var(--mut)}
+.stamp{display:none;background:var(--soft);color:var(--acc);font-size:.8rem;font-weight:600;padding:5px 10px;border-radius:6px;margin-top:6px}
 
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.hero{background:linear-gradient(135deg,#1f3a5f,#16294a);color:#fff;border-radius:16px;padding:22px;margin-bottom:18px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+.hero .k{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a9bddb}
+.hero .big{font:600 1.45rem Fraunces,Georgia,serif;margin-top:2px}
+.countdown-timer{font:600 1.7rem ui-monospace,Menlo,Consolas,monospace;margin-top:2px}
+#clk{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:.8rem;color:#c9d6ea}#clk b{color:#fff;font-variant-numeric:tabular-nums;margin-left:4px}
 
-    /* Merged Top Row Banner */
-    .top-merged-banner { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .top-merged-left { display: flex; flex-direction: column; gap: 2px; }
-    .top-merged-left h3 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-    .top-merged-left p { font-size: 0.85rem; font-weight: 600; }
-    .countdown-timer { font-size: 1.05rem; font-weight: 700; font-family: monospace; color: var(--primary); }
+.tag{display:inline-block;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.tag.hol{background:var(--goldbg);color:var(--gold)}.tag.cd{background:var(--soft);color:var(--acc)}
+.tag.go{background:var(--teal);color:#fff}.tag.now{background:var(--warm);color:#fff}
 
-    /* Compact Reminder Cards Grid */
-    .reminder-input-group { display: flex; gap: 8px; margin-bottom: 12px; }
-    .reminder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; max-height: 220px; overflow-y: auto; }
-    .reminder-card-item { background: #f8fafc; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.85rem; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; }
-    .reminder-card-item.completed span { text-decoration: line-through; color: var(--muted); }
-    .reminder-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
-    .reminder-card-actions { display: flex; justify-content: flex-end; }
-    input[type="text"] { font-size: 0.95rem; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; background: #ffffff; width: 100%; }
+/* 10-day outlook */
+.days{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.day{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}
+.day.today{border-color:var(--warm);box-shadow:0 0 0 1px var(--warm)}
+.day.trip{background:var(--tealbg);border-color:var(--teal)}
+.dh{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.dh .d{font:700 1.05rem Fraunces,Georgia,serif}.dh .d span{color:var(--mut);font:500 .9rem Inter,sans-serif;margin-left:4px}
+.slot{display:grid;grid-template-columns:48px 20px 1fr auto;gap:6px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+.slot .t{font:600 .85rem ui-monospace,Menlo,Consolas,monospace;color:var(--acc)}
+.slot .tx{font-size:.9rem;word-break:break-word}
+.ib{border:0;background:none;color:var(--mut);cursor:pointer;font-size:.85rem;padding:4px 6px;border-radius:6px}.ib:hover{background:var(--soft);color:var(--ink)}
+.empty{color:var(--mut);font-size:.82rem;padding:4px 0 8px;border-top:1px solid var(--line)}
+.add{display:grid;grid-template-columns:62px 1fr auto;gap:6px;margin-top:8px}
+.ti{font-family:ui-monospace,Menlo,Consolas,monospace;text-align:center}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;font-size:.72rem;padding:3px 9px;cursor:pointer;color:var(--mut)}.chip:hover{background:var(--soft);color:var(--ink)}
 
-    /* Enlarged Calendar Month View Styles */
-    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
-    .cal-day-header { font-size: 0.8rem; font-weight: 700; color: var(--muted); padding-bottom: 6px; text-transform: uppercase; }
-    .cal-cell { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; min-height: 110px; padding: 6px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; text-align: left; }
-    .cal-cell:hover { background: #f1f5f9; border-color: var(--primary); }
-    .cal-cell.other-month { opacity: 0.35; background: #f1f5f9; }
-    .cal-date-num { font-size: 0.85rem; font-weight: 700; color: var(--muted); }
-    .cal-events-container { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; overflow-y: auto; max-height: 75px; }
-    
-    .cal-agenda-green { font-size: 0.68rem; color: #166534; background: #dcfce7; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .cal-agenda-blue { font-size: 0.68rem; color: #1e40af; background: #eff6ff; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .cal-holiday-text { font-size: 0.65rem; color: #b45309; background: #fef3c7; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .cal-countdown-text { font-size: 0.65rem; color: #7c2d12; background: #ffedd5; padding: 2px 4px; border-radius: 3px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* month */
+.tabs{display:inline-flex;background:var(--bg);border-radius:10px;padding:3px;gap:2px}
+.tabs button{border:0;background:none;padding:7px 14px;border-radius:8px;font:600 .82rem Inter,sans-serif;color:var(--mut);cursor:pointer}
+.tabs button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(22,35,59,.12)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dow{font-size:.7rem;font-weight:700;color:var(--mut);text-transform:uppercase;text-align:center;padding-bottom:4px;letter-spacing:.06em}
+.cell{border:1px solid var(--line);border-radius:10px;min-height:112px;padding:6px;background:#fff;cursor:pointer;display:flex;flex-direction:column;gap:3px;overflow:hidden}
+.cell:hover{border-color:var(--teal);background:#fafdfd}
+.cell.off{background:transparent;border:0;cursor:default}
+.cell.today{border-color:var(--warm);box-shadow:0 0 0 1px var(--warm)}
+.cell.trip{background:var(--tealbg);border-color:var(--teal)}
+.cell .n{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:.85rem}
+.cell .n small{font-size:.62rem;font-weight:600;color:var(--acc);background:var(--soft);padding:1px 5px;border-radius:99px}
+.ch{font-size:.68rem;background:var(--soft);color:var(--acc);border-radius:4px;padding:2px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500}
+.ch i{font-style:normal;font-weight:700;font-family:ui-monospace,Menlo,monospace;margin-right:3px}
+.hl{font-size:.64rem;background:var(--goldbg);color:var(--gold);border-radius:4px;padding:2px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.more{font-size:.64rem;color:var(--mut);padding-left:2px}
+.dots{display:none;gap:3px}.dots s{width:6px;height:6px;border-radius:50%;background:var(--acc)}
 
-    @media (max-width: 600px) {
-      .cal-cell { min-height: 85px; padding: 4px; }
-    }
+/* reminders + planner */
+.two{display:grid;grid-template-columns:3fr 2fr;gap:18px}.two .card{margin-bottom:0}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;max-height:260px;overflow-y:auto;margin-top:12px}
+.rem{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;background:var(--bg);border-radius:10px;padding:9px 10px;font-size:.85rem}
+.rem.done span{text-decoration:line-through;color:var(--mut)}
+.rem label{display:flex;gap:7px;align-items:flex-start;cursor:pointer}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.pg label{font-size:.7rem;font-weight:600;color:var(--mut);display:block;margin-bottom:2px}
+.hint{font-size:.78rem;color:var(--mut)}
+#pOut{font-size:.8rem;color:var(--teal);margin-top:8px;min-height:1em}
 
-    .export-stamp { display: none; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 6px; margin-top: 6px; }
-
-    footer {
-      margin-top: 20px;
-      padding: 16px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      line-height: 1.5;
-    }
-    footer p { margin-bottom: 4px; }
-    .validated-badge {
-      display: inline-block;
-      background: #dcfce7;
-      color: #166534;
-      font-weight: 600;
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 12px;
-      margin-top: 4px;
-    }
-  </style>
+#modal,#share{position:fixed;inset:0;background:rgba(22,35,59,.45);display:none;align-items:center;justify-content:center;padding:14px;z-index:20}
+#share{z-index:30}
+#modal.open,#share.open{display:flex}
+select{font:600 .78rem Inter,sans-serif;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+textarea{width:100%;font:inherit;font-size:.85rem;padding:10px;border:1px solid var(--line);border-radius:8px;margin-top:10px;resize:vertical;color:var(--ink)}
+.btn.wa{background:#25d366;border-color:#25d366;color:#07351a}.btn.wa:hover{background:#1fbd5a}
+.slot.def .tx,.slot.def .t{color:var(--mut)}.slot.def .tx{font-style:italic}
+.shcard{position:fixed;left:0;top:0;z-index:-1;width:360px;background:#fff;padding:18px;color:var(--ink)}.shcard h3{font:700 1.15rem Fraunces,Georgia,serif;margin-bottom:10px;color:var(--acc)}.shd{border-top:1px solid var(--line);padding:8px 0 4px}.shd em{font-style:normal;font-size:.72rem;color:var(--gold);background:var(--goldbg);padding:1px 7px;border-radius:99px;margin-left:4px}.shr{display:grid;grid-template-columns:46px 1fr;gap:6px;font-size:.88rem;padding:2px 0}.shr span:first-child{font:600 .82rem ui-monospace,Menlo,monospace;color:var(--acc)}
+.sheet{background:#fff;border-radius:16px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;padding:18px}
+footer{margin-top:24px;text-align:center;color:var(--mut);font-size:.78rem}
+@media(max-width:700px){.days,.two{grid-template-columns:1fr}.cell{min-height:64px;padding:4px}.cell .ch,.cell .hl,.cell .more{display:none}.dots{display:flex;flex-wrap:wrap}.cal{gap:3px}.top h1{font-size:1.4rem}.hero{padding:18px}}
+</style>
 </head>
 <body>
+<div class="top">
+  <div><h1 id="appTitle">Trip Preparation Tracker</h1><small>Plan every slot from home to gate</small><div id="exportStamp" class="stamp"></div></div>
+  <div class="grp">
+    <button class="btn pri sm" onclick="exportJSON()">📥 JSON Export &amp; Email</button>
+    <button class="btn sm" onclick="triggerImport()">📤 Import</button>
+    <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
+        <button class="btn sm" onclick="resetLocal()">🗑 Reset</button>
+	<button class="btn sm" onclick="exportToPNG()">📷 PNG</button>
+  </div>
+</div>
 
-  <!-- Top Header with JSON Export & Import buttons on top -->
-  <div class="header">
-    <div>
-      <h1 id="appTitle">Trip Preparation Tracker</h1>
-      <div id="exportStamp" class="export-stamp"></div>
-    </div>
-    <div class="header-actions">
-      <button class="btn btn-primary btn-xs" onclick="exportJSON()">📥 JSON Export & Email</button>
-      <button class="btn btn-secondary btn-xs" onclick="triggerImport()">📤 Import</button>
-      <input type="file" id="jsonFileInput" style="display:none" accept=".json" onchange="importJSON(event)">
-      <button class="btn btn-secondary btn-xs" onclick="exportToPNG()">📷 PNG</button>
+<section class="hero">
+  <div>
+    <div class="k">✈️ Trip Preparation Milestone</div>
+    <div class="big">11/26 at SFO at 17:00 PT</div>
+    <div id="clk"></div>
+  </div>
+  <div>
+    <div class="k">Countdown to 11/26/2026</div>
+    <div id="liveCountdownTimer" class="countdown-timer">Calculating...</div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="row">
+    <div><h2>Day-by-Day Outlook</h2><div class="hint" id="winLabel"></div></div>
+    <div class="grp">
+      <select id="winSize" aria-label="Days shown" onchange="winN=+this.value;renderOutlook()"><option value="3">3 days</option><option value="4" selected>4 days</option><option value="5">5 days</option><option value="7">7 days</option><option value="10">10 days</option></select>
+      <button class="btn sm" onclick="shiftWin(-1)">◀ Earlier</button>
+      <button class="btn sm" onclick="goWin('today')">Today</button>
+      <button class="btn sm" onclick="goWin('trip')">Trip week</button>
+      <button class="btn sm" onclick="shiftWin(1)">Later ▶</button>
+      <button class="btn pri sm" onclick="openShare(key(winStart),shownKeys())">📤 Send days</button>
     </div>
   </div>
+  <div class="days" id="days"></div>
+</section>
 
-  <!-- Merged Row: Trip Preparation Milestone & Countdown to 11/26/2026 -->
-  <div class="top-merged-banner">
-    <div class="top-merged-left">
-      <h3>✈️ Trip Preparation Milestone</h3>
-      <p>11/26 at SFO at 17:00 PT</p>
+<section class="card">
+  <div class="row"><h2 id="calMonthTitle">Month View</h2><div class="tabs" id="tabs"></div></div>
+  <div class="cal" id="calHead"></div>
+  <div class="cal" id="calendarGridBody" style="margin-top:5px"></div>
+</section>
+
+<div class="two">
+  <section class="card">
+    <div class="row" style="margin-bottom:0"><h2>Reminders</h2><span class="hint" id="remProg"></span></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <input type="text" id="newReminderInput" placeholder="Add item or task (e.g., Passport, Boarding pass)..." onkeydown="if(event.key==='Enter')addReminder()">
+      <button class="btn pri" onclick="addReminder()">Add</button>
     </div>
-    <div>
-      <span style="font-size: 0.75rem; font-weight: 700; display: block; color: var(--muted); text-transform: uppercase;">Countdown to 11/26/2026</span>
-      <div id="liveCountdownTimer" class="countdown-timer">Calculating...</div>
+    <div class="chips" id="sugg"></div>
+    <div class="rgrid" id="reminderGridContainer"></div>
+  </section>
+  <section class="card">
+    <h2>Plan Backwards</h2>
+    <div class="hint">Enter the flight; it drops "leave home", "arrive airport" and "departs" slots onto the calendar.</div>
+    <div class="pg">
+      <div><label>Flight date</label><input type="date" id="pDate" value="2026-11-26"></div>
+      <div><label>Departs (24h)</label><input id="pTime" value="1700" inputmode="numeric" maxlength="5"></div>
+      <div><label>Airport</label><input id="pAp" value="SFO" maxlength="4"></div>
+      <div><label>Drive (min)</label><input id="pDrive" type="number" value="60" min="0"></div>
+      <div style="grid-column:1/-1"><label>Be at airport (hours before)</label><input id="pBuf" type="number" value="3" min="0" step="0.5"></div>
     </div>
+    <button class="btn pri" onclick="planBack()">Add to calendar</button>
+    <div id="pOut"></div>
+  </section>
+</div>
+
+<footer>
+  <p><strong>Copyright © Cyrus Shahriari. All rights reserved.</strong></p>
+  <p>Concept &amp; Idea by Cyrus Shahriari • Design refresh with Claude</p>
+</footer>
+
+<div id="modal" onclick="if(event.target===this)closeDay()">
+  <div class="sheet">
+    <div class="row" style="margin-bottom:8px"><h2 id="mTitle"></h2><div class="grp"><button class="btn pri sm" onclick="openShare(ctx,[ctx])">📤 Share</button><button class="btn sm" onclick="closeDay()">Close</button></div></div>
+    <div id="mBody"></div>
   </div>
+</div>
 
-  <!-- Reminders / Compact Cards Section -->
-  <div class="card">
-    <h2 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px;">Reminders</h2>
-    <div class="reminder-input-group">
-      <input type="text" id="newReminderInput" placeholder="Add item or task (e.g., Passport, Boarding pass)..." onkeydown="if(event.key==='Enter') addReminder()">
-      <button class="btn btn-primary" onclick="addReminder()">Add</button>
+<div id="share" onclick="if(event.target===this)closeShare()">
+  <div class="sheet">
+    <div class="row" style="margin-bottom:8px"><h2>Send schedule</h2><button class="btn sm" onclick="closeShare()">Close</button></div>
+    <div class="hint">Pick the days to include</div>
+    <div class="chips" id="shDays"></div>
+    <textarea id="shTxt" rows="11" aria-label="Message"></textarea>
+    <div class="grp" style="margin-top:10px">
+      <button class="btn wa" onclick="shWA()">WhatsApp</button>
+      <button class="btn" id="shNat" onclick="shNative()">Share…</button>
+      <button class="btn" onclick="shCopy()">Copy</button>
+      <button class="btn" onclick="shShot()">📷 Screenshot</button>
     </div>
-    <div class="reminder-grid" id="reminderGridContainer">
-      <!-- Dynamic Card Items -->
-    </div>
+    <div class="hint" id="shMsg" style="margin-top:8px"></div>
   </div>
+</div>
 
-  <!-- Daily Agenda in an Enlarged Month View -->
-  <div class="card">
-    <div class="calendar-header">
-      <h2 style="font-size: 1rem; font-weight: 600;" id="calMonthTitle">Agenda Month View</h2>
-      <div style="display: flex; gap: 4px;">
-        <button class="btn btn-secondary btn-xs" onclick="changeMonth(-1)">◀ Prev</button>
-        <button class="btn btn-secondary btn-xs" onclick="changeMonth(1)">Next ▶</button>
-      </div>
-    </div>
-    <div class="calendar-grid" id="calendarGridHeader">
-      <div class="cal-day-header">Sun</div>
-      <div class="cal-day-header">Mon</div>
-      <div class="cal-day-header">Tue</div>
-      <div class="cal-day-header">Wed</div>
-      <div class="cal-day-header">Thu</div>
-      <div class="cal-day-header">Fri</div>
-      <div class="cal-day-header">Sat</div>
-    </div>
-    <div class="calendar-grid" id="calendarGridBody" style="margin-top: 6px;">
-      <!-- Dynamic Calendar Days -->
-    </div>
-  </div>
+<script>
+window.tripReminders = [{ id: 1, text: "SFO check-in (11/26 @ 17:00 PT)", completed: false }];
+window.tripAgenda = { "2026-11-26": ["11/26 at 17:00 PT"] };
 
-  <footer>
-    <p><strong>Copyright © Cyrus Shahriari. All rights reserved.</strong></p>
-    <p>Concept & Idea by Cyrus Shahriari • Developed with Gemini</p>
-    <div><span class="validated-badge">✓ System Validated</span></div>
-  </footer>
+const HOLIDAYS = {
+  "2026-11-01":"All Saints' (DE/CH)","2026-11-11":"Veterans Day (US)","2026-11-18":"Repentance Day (DE)","2026-11-26":"Thanksgiving (US)",
+  "2026-12-08":"Immaculate Conception (CH)","2026-12-25":"Christmas Day (US/DE/CH)","2026-12-26":"2nd Day Christmas (DE/CH)",
+  "2027-01-01":"New Year's Day (US/DE/CH)","2027-01-06":"Epiphany (DE/CH)","2027-02-15":"Presidents' Day (US)","2027-03-26":"Good Friday (DE/CH)",
+  "2027-03-29":"Easter Monday (DE/CH)","2027-05-01":"Labour Day (DE/CH)","2027-05-06":"Ascension Day (DE/CH)","2027-05-17":"Whit Monday (DE/CH)",
+  "2027-05-25":"Corpus Christi (CH)","2027-05-31":"Memorial Day (US)","2027-06-19":"Juneteenth (US)"
+};
+const TRIP='2026-11-26', MONTHS=[[2026,10],[2026,11],[2027,0]];
+const MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const DN=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const SUGG=["Passport valid 6+ months","Boarding pass in wallet","Travel insurance","Phone eSIM / roaming plan","Notify bank of travel","Out-of-office & mail hold","Power adapter","Airport ride / parking booked"];
+const DEF=[['09:00','Morning breakfast – TBD'],['12:00','Lunch – TBD'],['18:00','Evening dinner – TBD']];
+const SH_HINT='WhatsApp opens its chat picker: choose 2026_Proshi_Khonum. (Web links cannot pre-select a group.)';
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const dt=k=>new Date(k+'T00:00:00');
+const diffTrip=k=>Math.round((dt(TRIP)-dt(k))/864e5);
+let ctx=null, vm=0, winStart=null, winN=4;
 
-  <script>
-    window.tripReminders = [
-      { id: 1, text: "SFO check-in (11/26 @ 17:00 PT)", completed: false }
-    ];
-    
-    window.tripAgenda = {
-      "2026-11-26": ["11/26 at 17:00 PT"]
-    };
+function escapeHtml(s){return s?String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"):'';}
+const esc=escapeHtml;
 
-    const HOLIDAYS = {
-      "2026-11-01": "All Saints' (DE/CH)",
-      "2026-11-11": "Veterans Day (US)",
-      "2026-11-18": "Repentance Day (DE)",
-      "2026-11-26": "Thanksgiving (US)",
-      "2026-12-08": "Immaculate Conception (CH)",
-      "2026-12-25": "Christmas Day (US/DE/CH)",
-      "2026-12-26": "2nd Day Christmas (DE/CH)",
-      "2027-01-01": "New Year's Day (US/DE/CH)",
-      "2027-01-06": "Epiphany (DE/CH)",
-      "2027-02-15": "Presidents' Day (US)",
-      "2027-03-26": "Good Friday (DE/CH)",
-      "2027-03-29": "Easter Monday (DE/CH)",
-      "2027-05-01": "Labour Day (DE/CH)",
-      "2027-05-06": "Ascension Day (DE/CH)",
-      "2027-05-17": "Whit Monday (DE/CH)",
-      "2027-05-25": "Corpus Christi (CH)",
-      "2027-05-31": "Memorial Day (US)",
-      "2027-06-19": "Juneteenth (US)"
-    };
+/* ---- slot parsing: storage stays plain strings, e.g. "1630 SFO" ---- */
+function normT(s){let d=String(s).replace(/\D/g,'');if(!d)return '';if(d.length<=2)d=d.padStart(2,'0')+'00';if(d.length===3)d='0'+d;if(d.length!==4)return null;const h=+d.slice(0,2),m=+d.slice(2);return(h>23||m>59)?null:d.slice(0,2)+':'+d.slice(2);}
+function parse(s){
+  s=String(s);let m=s.match(/^(\d{1,2}):?(\d{2})\s+([\s\S]+)$/);
+  if(m){const t=normT(m[1]+m[2]);if(t)return{t,text:m[3],lead:1};}
+  m=s.match(/\b([01]?\d|2[0-3]):([0-5]\d)\b/);
+  return m?{t:pad(+m[1])+':'+m[2],text:s}:{t:'',text:s};
+}
+function icon(x){x=x.toLowerCase();
+  if(/sfo|flight|fly|airport|boarding|gate|depart|arrive/.test(x))return'✈️';
+  if(/drive|uber|lyft|taxi|shuttle|bart|train|leave/.test(x))return'🚗';
+  if(/hotel|check-in|airbnb|lodg/.test(x))return'🏨';
+  if(/dinner|lunch|breakfast|meal|restaurant|coffee/.test(x))return'🍽️';
+  if(/call|meeting|zoom/.test(x))return'📞';return'•';}
+function ents(k,withDef){
+  const a=(window.tripAgenda[k]||[]).map((s,i)=>({i,...parse(s)}));
+  if(withDef)DEF.forEach(d=>{if(!a.some(e=>e.t===d[0]))a.push({i:-1,t:d[0],text:d[1],def:1,lead:1});});
+  return a.sort((x,y)=>x.t.localeCompare(y.t)||x.i-y.i);
+}
 
-    window.currentCalDate = new Date(2026, 10, 1);
+/* ---- load / save (same keys + shapes as before) ---- */
+async function loadDataFromGitHubOrStorage(){
+  try{
+    const r=await fetch('./values.json');
+    if(r.ok){const d=await r.json();
+      if(d.reminders)window.tripReminders=d.reminders;
+      if(d.agenda){const c={};for(const[k,v]of Object.entries(d.agenda))c[k]=Array.isArray(v)?v:[v];window.tripAgenda=c;}
+      renderApp();return;}
+  }catch(e){console.log("Could not load remote values.json, falling back to local storage:",e);}
+  try{
+    const sr=localStorage.getItem('trip_reminders');if(sr)window.tripReminders=JSON.parse(sr);
+    const sa=localStorage.getItem('trip_agenda');
+    if(sa){const c={};for(const[k,v]of Object.entries(JSON.parse(sa)))c[k]=Array.isArray(v)?v:[v];window.tripAgenda=c;}
+  }catch(e){console.log(e);}
+  renderApp();
+}
+function saveToLocalStorage(){
+  try{localStorage.setItem('trip_reminders',JSON.stringify(window.tripReminders));localStorage.setItem('trip_agenda',JSON.stringify(window.tripAgenda));}catch(e){console.log(e);}
+  renderApp();
+}
 
-    window.onload = function() {
-      loadDataFromGitHubOrStorage();
-      setInterval(updateLiveCountdown, 1000);
-      updateLiveCountdown();
-    };
+/* ---- slot actions ---- */
+function dayBody(k,p){
+  let h='';
+  ents(k,1).forEach(e=>{h+=`<div class="slot ${e.def?'def':''}"><span class="t">${e.t||'—'}</span><span>${icon(e.text)}</span><span class="tx">${esc(e.text)}</span><span><button class="ib" aria-label="Edit" onclick="editSlot('${k}',${e.i},'${e.t}')">✎</button>${e.def?'':`<button class="ib" aria-label="Delete" onclick="delSlot('${k}',${e.i})">✕</button>`}</span></div>`;});
+  h+=`<div class="add"><input class="ti" id="${p}t" placeholder="1630" inputmode="numeric" maxlength="5" aria-label="Time"><input id="${p}x" placeholder="Add entry, e.g. Drive to SFO" aria-label="Slot" onkeydown="if(event.key==='Enter')addSlot('${k}','${p}')"><button class="btn pri sm" onclick="addSlot('${k}','${p}')">Add</button></div>`;
+  return h;
+}
+function addSlot(k,p){
+  const x=$(p+'x').value.trim();if(!x)return;
+  const t=normT($(p+'t').value);
+  if(t===null){alert('Time should look like 1630');return;}
+  (window.tripAgenda[k]=window.tripAgenda[k]||[]).push(t?t+' '+x:x);
+  saveToLocalStorage();const n=$(p+'t');if(n)n.focus();
+}
+function editSlot(k,i,t){
+  let cur;
+  if(i<0){const d=DEF.find(x=>x[0]===t);cur=t.replace(':','')+' '+d[1];}else cur=window.tripAgenda[k][i];
+  const v=prompt('Edit slot (e.g. "1230 Lunch at Café Roma"). Same time replaces the default:',cur);
+  if(v===null)return;
+  const n=v.trim();
+  if(i<0){if(!n||n===cur)return;(window.tripAgenda[k]=window.tripAgenda[k]||[]).push(n);}
+  else if(!n)window.tripAgenda[k].splice(i,1);else window.tripAgenda[k][i]=n;
+  if(window.tripAgenda[k]&&!window.tripAgenda[k].length)delete window.tripAgenda[k];
+  saveToLocalStorage();
+}
+function delSlot(k,i){window.tripAgenda[k].splice(i,1);if(!window.tripAgenda[k].length)delete window.tripAgenda[k];saveToLocalStorage();}
+function openDay(k){ctx=k;$('modal').classList.add('open');renderModal();}
+function closeDay(){ctx=null;$('modal').classList.remove('open');}
+function renderModal(){if(!ctx)return;const d=dt(ctx);$('mTitle').textContent=`${DN[d.getDay()]}, ${MN[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;$('mBody').innerHTML=(HOLIDAYS[ctx]?`<div style="margin-bottom:8px"><span class="tag hol">🏛️ ${esc(HOLIDAYS[ctx])}</span></div>`:'')+dayBody(ctx,'m');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('share').classList.contains('open'))closeShare();else closeDay();}});
 
-    function updateLiveCountdown() {
-      const targetDate = new Date("2026-11-26T17:00:00-08:00");
-      const now = new Date();
-      const diff = targetDate - now;
+/* ---- day-by-day outlook ---- */
+const ymd=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+const addD=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+function clampWin(d){const lo=new Date(2026,10,1),hi=new Date(2027,0,28);return d<lo?lo:d>hi?hi:ymd(d);}
+function goWin(w){winStart=w==='trip'?new Date(2026,10,24):clampWin(new Date());renderOutlook();}
+function shiftWin(n){winStart=addD(winStart,n*winN);renderOutlook();}
+function shownKeys(){return Array.from({length:winN},(_,i)=>key(addD(winStart,i)));}
+function tags(k){
+  const t=diffTrip(k);let h='';
+  if(k===key(new Date()))h+='<span class="tag now">Today</span>';
+  if(t>0)h+=`<span class="tag cd">${t===1?'1 more day':t+' days left'}</span>`;
+  if(t===0)h+='<span class="tag go">✈️ Travel day</span>';
+  if(HOLIDAYS[k])h+=`<span class="tag hol">🏛️ ${esc(HOLIDAYS[k])}</span>`;
+  return h;
+}
+function renderOutlook(){
+  if(!winStart)winStart=clampWin(new Date());
+  const e=addD(winStart,winN-1),f=d=>`${MN[d.getMonth()].slice(0,3)} ${d.getDate()}`;
+  $('winLabel').textContent=`${f(winStart)} – ${f(e)}, ${e.getFullYear()}`;
+  $('days').innerHTML=shownKeys().map(k=>{
+    const d=dt(k);
+    return `<div class="day ${k===key(new Date())?'today':''} ${k===TRIP?'trip':''}"><div class="dh"><div class="d">${DN[d.getDay()]}<span>${d.getMonth()+1}/${d.getDate()}</span></div><div class="grp" style="align-items:center">${tags(k)}<button class="btn sm" onclick="openShare('${k}',['${k}'])">📤 Share</button></div></div>${dayBody(k,'w'+k)}</div>`;
+  }).join('');
+}
 
-      if (diff <= 0) {
-        document.getElementById('liveCountdownTimer').innerText = "Target Date Reached!";
-        return;
-      }
+/* ---- sharing (text / WhatsApp / screenshot) ---- */
+const tm=e=>e.lead?e.t.replace(':',''):'•';
+function dayText(k){
+  const d=dt(k);
+  return `*${DN[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}*`+(HOLIDAYS[k]?` (${HOLIDAYS[k]})`:'')+(k===TRIP?' ✈️ Travel day':'')+'\n'+ents(k,1).map(e=>`${tm(e)} ${e.text}`).join('\n');
+}
+function shSel(){return[...document.querySelectorAll('#shDays input:checked')].map(x=>x.value);}
+function shBuild(){const ks=shSel();$('shTxt').value=ks.length?'📅 *Trip schedule*\n\n'+ks.map(dayText).join('\n\n')+'\n\n_Updated '+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})+'_':'';}
+function openShare(start,sel){
+  const s=dt(start),n=Math.max(7,sel.length);
+  $('shDays').innerHTML=Array.from({length:n},(_,i)=>{const k=key(addD(s,i)),d=dt(k);return`<label class="chip"><input type="checkbox" style="width:auto;vertical-align:-2px" value="${k}" ${sel.includes(k)?'checked':''} onchange="shBuild()"> ${DN[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}</label>`;}).join('');
+  $('shNat').style.display=navigator.share?'':'none';
+  $('shMsg').textContent=SH_HINT;$('share').classList.add('open');shBuild();
+}
+function closeShare(){$('share').classList.remove('open');}
+function shWA(){window.open('https://wa.me/?text='+encodeURIComponent($('shTxt').value),'_blank');}
+function shNative(){navigator.share({text:$('shTxt').value}).catch(()=>{});}
+function shCopy(){const t=$('shTxt');t.select();(navigator.clipboard?navigator.clipboard.writeText(t.value):Promise.reject()).catch(()=>document.execCommand('copy')).finally(()=>{$('shMsg').textContent='Copied ✓';});}
+async function shShot(){
+  const ks=shSel();if(!ks.length)return;
+  const el=document.createElement('div');el.className='shcard';
+  el.innerHTML='<h3>📅 Trip schedule</h3>'+ks.map(k=>{const d=dt(k);return`<div class="shd"><b>${DN[d.getDay()]} ${d.getMonth()+1}/${d.getDate()}</b>${HOLIDAYS[k]?` <em>${esc(HOLIDAYS[k])}</em>`:''}${k===TRIP?' <em>✈️ Travel day</em>':''}${ents(k,1).map(e=>`<div class="shr"><span>${tm(e)}</span><span>${esc(e.text)}</span></div>`).join('')}</div>`;}).join('');
+  document.body.appendChild(el);
+  try{
+    const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff'});
+    c.toBlob(async b=>{
+      const f=new File([b],'Trip_Schedule.png',{type:'image/png'});
+      if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]});}catch(e){}}
+      else{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='Trip_Schedule.png';a.click();$('shMsg').textContent='Image saved. Attach it in the WhatsApp group.';}
+    });
+  }catch(e){$('shMsg').textContent='Screenshot failed.';}
+  el.remove();
+}
 
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / 1000 / 60) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+/* ---- month view ---- */
+function renderCalendar(){
+  const[y,m]=MONTHS[vm];
+  $('calMonthTitle').textContent=`${MN[m]} ${y}`;
+  $('tabs').innerHTML=MONTHS.map((x,i)=>`<button class="${i===vm?'on':''}" onclick="vm=${i};renderCalendar()">${MN[x[1]].slice(0,3)} ${x[0]}</button>`).join('');
+  $('calHead').innerHTML=DN.map(d=>`<div class="dow">${d}</div>`).join('');
+  const first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();let h='';
+  for(let i=0;i<first;i++)h+='<div class="cell off"></div>';
+  for(let d=1;d<=n;d++){
+    const k=`${y}-${pad(m+1)}-${pad(d)}`,es=ents(k),t=diffTrip(k);
+    h+=`<div class="cell ${k===key(new Date())?'today':''} ${k===TRIP?'trip':''}" tabindex="0" onclick="openDay('${k}')" onkeydown="if(event.key==='Enter')openDay('${k}')">
+      <div class="n"><span>${d}</span>${t>0?`<small>T−${t}</small>`:t===0?'<small style="background:var(--teal);color:#fff">✈️ GO</small>':''}</div>
+      ${HOLIDAYS[k]?`<div class="hl" title="${esc(HOLIDAYS[k])}">🏛️ ${esc(HOLIDAYS[k])}</div>`:''}
+      ${es.slice(0,3).map(e=>`<div class="ch" title="${esc(e.text)}"><i>${e.t.replace(':','')}</i>${esc(e.text)}</div>`).join('')}
+      ${es.length>3?`<div class="more">+${es.length-3} more</div>`:''}
+      <div class="dots">${'<s></s>'.repeat(Math.min(es.length,4))}</div></div>`;
+  }
+  const tail=(7-(first+n)%7)%7;for(let i=0;i<tail;i++)h+='<div class="cell off"></div>';
+  $('calendarGridBody').innerHTML=h;
+}
 
-      document.getElementById('liveCountdownTimer').innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
+/* ---- reminders ---- */
+function addReminder(){const i=$('newReminderInput'),v=i.value.trim();if(!v)return;window.tripReminders.push({id:Date.now(),text:v,completed:false});i.value='';saveToLocalStorage();}
+function addSugg(i){window.tripReminders.push({id:Date.now(),text:SUGG[i],completed:false});saveToLocalStorage();}
+function toggleReminder(id){const r=window.tripReminders.find(x=>x.id===id);if(r){r.completed=!r.completed;saveToLocalStorage();}}
+function deleteReminder(id){window.tripReminders=window.tripReminders.filter(r=>r.id!==id);saveToLocalStorage();}
+function renderReminders(){
+  const R=window.tripReminders,done=R.filter(r=>r.completed).length;
+  $('remProg').textContent=R.length?`${done} of ${R.length} done`:'';
+  $('reminderGridContainer').innerHTML=R.length?R.map(r=>`<div class="rem ${r.completed?'done':''}"><label><input type="checkbox" style="width:auto;margin-top:3px" ${r.completed?'checked':''} onchange="toggleReminder(${r.id})"><span>${esc(r.text)}</span></label><button class="ib" aria-label="Delete" onclick="deleteReminder(${r.id})">✕</button></div>`).join(''):'<div class="hint" style="grid-column:1/-1">No reminders added yet.</div>';
+  const have=R.map(r=>r.text);
+  $('sugg').innerHTML=SUGG.map((s,i)=>have.includes(s)?'':`<button class="chip" onclick="addSugg(${i})">+ ${esc(s)}</button>`).join('');
+}
 
-    async function loadDataFromGitHubOrStorage() {
-      try {
-        const response = await fetch('./values.json');
-        if (response.ok) {
-          const remoteData = await response.json();
-          if (remoteData.reminders) window.tripReminders = remoteData.reminders;
-          if (remoteData.agenda) {
-            const convertedAgenda = {};
-            for (const [k, v] of Object.entries(remoteData.agenda)) {
-              convertedAgenda[k] = Array.isArray(v) ? v : [v];
-            }
-            window.tripAgenda = convertedAgenda;
-          }
-          renderApp();
-          return;
-        }
-      } catch (err) {
-        console.log("Could not load remote values.json, falling back to local storage:", err);
-      }
+/* ---- backwards planner ---- */
+function planBack(){
+  const d=$('pDate').value,t=normT($('pTime').value),ap=($('pAp').value||'SFO').toUpperCase().trim(),dr=+$('pDrive').value||0,bf=+$('pBuf').value||0;
+  if(!d||!t){alert('Enter a flight date and a time like 1700');return;}
+  const fl=dt(d);fl.setHours(+t.slice(0,2),+t.slice(3));
+  const arr=new Date(fl-bf*36e5),lv=new Date(arr-dr*6e4),f=x=>pad(x.getHours())+':'+pad(x.getMinutes());
+  const add=(k,s)=>{const a=window.tripAgenda[k]=window.tripAgenda[k]||[];if(!a.includes(s))a.push(s);};
+  add(key(lv),`${f(lv)} Leave home – drive to ${ap} (${dr} min)`);
+  add(key(arr),`${f(arr)} Arrive ${ap} (${bf}h before departure)`);
+  add(d,`${t} Flight departs ${ap}`);
+  saveToLocalStorage();
+  $('pOut').textContent=`Added: leave ${f(lv)} → at ${ap} ${f(arr)} → departs ${t}`;
+}
 
-      const savedReminders = localStorage.getItem('trip_reminders');
-      if (savedReminders) window.tripReminders = JSON.parse(savedReminders);
+/* ---- clocks / countdown ---- */
+function updateLiveCountdown(){
+  const diff=new Date("2026-11-26T17:00:00-08:00")-new Date();
+  if(diff<=0){$('liveCountdownTimer').innerText="Target Date Reached!";}
+  else{const d=Math.floor(diff/864e5),h=Math.floor(diff/36e5%24),m=Math.floor(diff/6e4%60),s=Math.floor(diff/1e3%60);$('liveCountdownTimer').innerText=`${d}d ${h}h ${m}m ${s}s`;}
+  const c=tz=>new Date().toLocaleTimeString('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit'});
+  $('clk').innerHTML=`<span>San Jose<b>${c('America/Los_Angeles')}</b></span><span>Frankfurt / Zurich<b>${c('Europe/Berlin')}</b></span>`;
+}
 
-      const savedAgenda = localStorage.getItem('trip_agenda');
-      if (savedAgenda) {
-        const parsed = JSON.parse(savedAgenda);
-        const convertedAgenda = {};
-        for (const [k, v] of Object.entries(parsed)) {
-          convertedAgenda[k] = Array.isArray(v) ? v : [v];
-        }
-        window.tripAgenda = convertedAgenda;
-      }
+function renderApp(){renderReminders();renderOutlook();renderCalendar();renderModal();}
 
-      renderApp();
-    }
+window.onload=function(){
+  const t=new Date();vm=t>=new Date(2027,0,1)?2:t>=new Date(2026,11,1)?1:0;
+  loadDataFromGitHubOrStorage();setInterval(updateLiveCountdown,1000);updateLiveCountdown();
+};
 
-    function saveToLocalStorage() {
-      localStorage.setItem('trip_reminders', JSON.stringify(window.tripReminders));
-      localStorage.setItem('trip_agenda', JSON.stringify(window.tripAgenda));
-      renderApp();
-    }
-
-    function addReminder() {
-      const input = document.getElementById('newReminderInput');
-      const val = input.value.trim();
-      if (!val) return;
-      window.tripReminders.push({ id: Date.now(), text: val, completed: false });
-      input.value = '';
-      saveToLocalStorage();
-    }
-
-    function toggleReminder(id) {
-      const item = window.tripReminders.find(r => r.id === id);
-      if (item) {
-        item.completed = !item.completed;
-        saveToLocalStorage();
-      }
-    }
-
-    function deleteReminder(id) {
-      window.tripReminders = window.tripReminders.filter(r => r.id !== id);
-      saveToLocalStorage();
-    }
-
-    function changeMonth(dir) {
-      window.currentCalDate.setMonth(window.currentCalDate.getMonth() + dir);
-      renderCalendar();
-    }
-
-    function renderCalendar() {
-      const year = window.currentCalDate.getFullYear();
-      const month = window.currentCalDate.getMonth();
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      document.getElementById('calMonthTitle').innerText = `${monthNames[month]} ${year}`;
-
-      const firstDayIndex = new Date(year, month, 1).getDay();
-      const totalDays = new Date(year, month + 1, 0).getDate();
-      const prevTotalDays = new Date(year, month, 0).getDate();
-
-      const targetDateObj = new Date("2026-11-26T00:00:00");
-
-      let gridHtml = '';
-      
-      for (let i = firstDayIndex - 1; i >= 0; i--) {
-        const dNum = prevTotalDays - i;
-        gridHtml += `<div class="cal-cell other-month"><span class="cal-date-num">${dNum}</span></div>`;
-      }
-
-      for (let d = 1; d <= totalDays; d++) {
-        const mStr = String(month + 1).padStart(2, '0');
-        const dStr = String(d).padStart(2, '0');
-        const dateKey = `${year}-${mStr}-${dStr}`;
-        const entries = window.tripAgenda[dateKey] || [];
-        const holidayNote = HOLIDAYS[dateKey] || '';
-
-        let eventsHtml = '';
-
-        const currDateObj = new Date(`${dateKey}T00:00:00`);
-        const diffDays = Math.round((targetDateObj - currDateObj) / (1000 * 60 * 60 * 24));
-        if (diffDays > 0) {
-          const countText = diffDays === 1 ? "1 more day" : `${diffDays} days left`;
-          eventsHtml += `<div class="cal-countdown-text">⏳ ${countText}</div>`;
-        }
-
-        if (holidayNote) {
-          eventsHtml += `<div class="cal-holiday-text" title="${escapeHtml(holidayNote)}">🏛️ ${escapeHtml(holidayNote)}</div>`;
-        }
-
-        if (entries.length > 0) {
-          entries.forEach(entry => {
-            let agendaClass = "cal-agenda-blue";
-            if (dateKey === "2026-11-26") {
-              agendaClass = "cal-agenda-green";
-            }
-            eventsHtml += `<div class="${agendaClass}" title="${escapeHtml(entry)}">${escapeHtml(entry)}</div>`;
-          });
-        } else if (!holidayNote && diffDays <= 0) {
-          eventsHtml += `<div class="cal-agenda-blue" style="opacity: 0.6;">+ Add</div>`;
-        }
-
-        gridHtml += `<div class="cal-cell" onclick="editAgendaDate('${dateKey}')">
-          <span class="cal-date-num">${d}</span>
-          <div class="cal-events-container">
-            ${eventsHtml}
-          </div>
-        </div>`;
-      }
-
-      const totalCellsSoFar = firstDayIndex + totalDays;
-      const nextDaysCount = totalCellsSoFar <= 35 ? (35 - totalCellsSoFar) : (42 - totalCellsSoFar);
-      for (let d = 1; d <= nextDaysCount; d++) {
-        gridHtml += `<div class="cal-cell other-month"><span class="cal-date-num">${d}</span></div>`;
-      }
-
-      document.getElementById('calendarGridBody').innerHTML = gridHtml;
-    }
-
-    function editAgendaDate(dateKey) {
-      const currentEntries = window.tripAgenda[dateKey] || [];
-      const promptMsg = `Date: ${dateKey}\nCurrent custom entries:\n${currentEntries.map((e, i) => `${i+1}:${e}`).join('\n')}\n\nEnter a new entry to add, or type an existing entry index to edit/remove:`;
-      const newVal = prompt(promptMsg, "");
-      
-      if (newVal !== null && newVal.trim() !== "") {
-        const valTrim = newVal.trim();
-        if (!isNaN(valTrim) && Number(valTrim) > 0 && Number(valTrim) <= currentEntries.length) {
-          const idx = Number(valTrim) - 1;
-          const action = prompt(`Modify or delete entry "${currentEntries[idx]}"?\nType new text or leave blank to delete:`, currentEntries[idx]);
-          if (action === null || action.trim() === "") {
-            currentEntries.splice(idx, 1);
-          } else {
-            currentEntries[idx] = action.trim();
-          }
-        } else {
-          currentEntries.push(valTrim);
-        }
-
-        if (currentEntries.length === 0) {
-          delete window.tripAgenda[dateKey];
-        } else {
-          window.tripAgenda[dateKey] = currentEntries;
-        }
-        saveToLocalStorage();
-      }
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function renderApp() {
-      let reminderHtml = '';
-      if (window.tripReminders.length === 0) {
-        reminderHtml = '<div style="color:var(--muted); font-size:0.85rem; text-align:center; padding: 6px; grid-column: 1 / -1;">No reminders added yet.</div>';
-      } else {
-        window.tripReminders.forEach(r => {
-          reminderHtml += `<div class="reminder-card-item ${r.completed ? 'completed' : ''}">
-            <div class="reminder-card-top">
-              <div style="display: flex; align-items: flex-start; gap: 6px;">
-                <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="toggleReminder(${r.id})" style="margin-top: 2px;">
-                <span>${escapeHtml(r.text)}</span>
-              </div>
-            </div>
-            <div class="reminder-card-actions">
-              <button class="btn btn-secondary btn-xs" onclick="deleteReminder(${r.id})">❌ Delete</button>
-            </div>
-          </div>`;
-        });
-      }
-      document.getElementById('reminderGridContainer').innerHTML = reminderHtml;
-      renderCalendar();
-    }
-
-    function exportJSON() {
-      const payload = {
-        reminders: window.tripReminders,
-        agenda: window.tripAgenda
-      };
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "values.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-
-      const recipient = "cyrus.cti@gmail.com";
-      const subject = encodeURIComponent("Trip Dashboard JSON Update (values.json)");
-      const bodyText = `Save to:\nhttps://cshahria.github.io/Career/DashApps/2026SFO/values.json\nhttps://cshahria.github.io/Career/DashApps/2026SFO/index.html`;
-      window.location.href = `mailto:${recipient}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
-    }
-
-    function triggerImport() {
-      document.getElementById('jsonFileInput').click();
-    }
-
-    function importJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const imported = JSON.parse(e.target.result);
-          if (imported.reminders) window.tripReminders = imported.reminders;
-          if (imported.agenda) {
-            const convertedAgenda = {};
-            for (const [k, v] of Object.entries(imported.agenda)) {
-              convertedAgenda[k] = Array.isArray(v) ? v : [v];
-            }
-            window.tripAgenda = convertedAgenda;
-          }
-          saveToLocalStorage();
-          alert("Trip data successfully imported.");
-        } catch (err) {
-          alert("Error parsing JSON file: " + err.message);
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function exportToPNG() {
-      const stamp = document.getElementById('exportStamp');
-      stamp.innerText = `📌 Exported: ${new Date().toLocaleString()}`;
-      stamp.style.display = 'inline-block';
-
-      html2canvas(document.body, { useCORS: true, allowTaint: true }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `Trip_Prep_Milestone.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        stamp.style.display = 'none';
-      });
-    }
-  </script>
+/* ---- export / import (unchanged behavior) ---- */
+function exportJSON(){
+  const payload={reminders:window.tripReminders,agenda:window.tripAgenda};
+  const a=document.createElement('a');
+  a.setAttribute("href","data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(payload,null,2)));
+  a.setAttribute("download","values.json");document.body.appendChild(a);a.click();a.remove();
+  const subject=encodeURIComponent("Trip Dashboard JSON Update (values.json)");
+  const body=`Save to:\nhttps://cshahria.github.io/Career/DashApps/2026SFO/values.json\nhttps://cshahria.github.io/Career/DashApps/2026SFO/index.html`;
+  window.location.href=`mailto:cyrus.cti@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+}
+function triggerImport(){$('jsonFileInput').click();}
+function resetLocal(){
+  if(!confirm('Erase ALL saved reminders and agenda entries on this device? This cannot be undone.'))return;
+  localStorage.removeItem('trip_reminders');localStorage.removeItem('trip_agenda');
+  window.tripReminders=[];window.tripAgenda={};renderApp();
+}
+function importJSON(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=function(e){
+    try{const im=JSON.parse(e.target.result);
+      if(im.reminders)window.tripReminders=im.reminders;
+      if(im.agenda){const c={};for(const[k,v]of Object.entries(im.agenda))c[k]=Array.isArray(v)?v:[v];window.tripAgenda=c;}
+      saveToLocalStorage();alert("Trip data successfully imported.");
+    }catch(err){alert("Error parsing JSON file: "+err.message);}
+  };
+  r.readAsText(file);
+}
+function exportToPNG(){
+  const s=$('exportStamp');s.innerText=`📌 Exported: ${new Date().toLocaleString()}`;s.style.display='inline-block';
+  html2canvas(document.body,{useCORS:true,allowTaint:true}).then(c=>{
+    const l=document.createElement('a');l.download='Trip_Prep_Milestone.png';l.href=c.toDataURL('image/png');l.click();s.style.display='none';
+  });
+}
+</script>
 </body>
 </html>
