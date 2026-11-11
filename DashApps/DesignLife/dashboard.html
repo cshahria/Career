@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Life Dashboard: Health, Work, Play, Love</title>
+<style>
+:root{color-scheme:light;--navy:#1f3a5f;--teal:#2a9d8f;--amber:#e09f3e;--ink:#1d2433;--mute:#667085;--line:#e3e7ee;--bg:#f6f8fb;--card:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:22px;margin:0;color:var(--navy)}
+.sub{color:var(--mute);font-size:14px;margin:2px 0 14px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.bar .sp{flex:1}
+button,.btn{font:inherit;font-size:14px;border:1px solid var(--navy);background:#fff;color:var(--navy);padding:7px 14px;border-radius:8px;cursor:pointer}
+button.p{background:var(--navy);color:#fff}
+button:hover{opacity:.88}
+.note{background:#fff7e8;border:1px solid #f0d9a8;border-left:4px solid var(--amber);border-radius:8px;padding:10px 14px;font-size:13.5px;margin-bottom:16px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;color:var(--mute);padding:8px 14px}
+.tabs button.on{color:var(--navy);border-color:var(--navy);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.row-h{display:flex;justify-content:space-between;align-items:baseline}
+.row-h b{font-size:18px;color:var(--navy)}
+.val{font-variant-numeric:tabular-nums;font-weight:600;color:var(--navy)}
+.hint{color:var(--mute);font-size:13px;margin:0 0 8px}
+input[type=range]{width:100%;height:12px;border-radius:6px;appearance:none;-webkit-appearance:none;outline:none;
+background:linear-gradient(to right,var(--navy) var(--p,0%),#dde3ec var(--p,0%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--navy);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--navy);cursor:pointer}
+.ends{display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-top:4px}
+input[type=text]{font:inherit;font-size:14px;padding:6px 10px;border:1px solid var(--line);border-radius:8px;width:170px}
+.q{padding:8px 0;border-top:1px solid var(--line)}
+.q p{margin:0 0 6px;font-size:14.5px}
+.scale{display:flex;gap:6px;flex-wrap:wrap}
+.scale button{padding:5px 12px;min-width:38px}
+.scale button.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.hide{display:none}
+.cmp-bar{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:13.5px}
+.cmp-bar .nm{width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmp-bar .tr{flex:1;height:14px;background:#e6ebf2;border-radius:7px;overflow:hidden}
+.cmp-bar .fl{height:100%;border-radius:7px}
+.cmp-bar .n{width:34px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:12.5px}
+.up{color:var(--teal);font-weight:600}.dn{color:var(--amber);font-weight:600}
+.scroll{overflow-x:auto}
+.x{border:0;color:var(--mute);padding:0 6px;font-size:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Life Dashboard</h1>
+  <p class="sub">Inspired by the gauges in <i>Designing Your Life</i> (Burnett &amp; Evans). Empty → Full.</p>
+
+  <div class="bar">
+    <button class="p" id="exp">⬇ Export JSON</button>
+    <button id="imp">⬆ Import JSON</button>
+    <input type="file" id="file" accept="application/json,.json" class="hide">
+    <span class="sp"></span>
+    <button id="snap">Save snapshot</button>
+  </div>
+
+  <div class="note"><b>Privacy:</b> your data is stored in this browser’s localStorage and never sent anywhere. Anyone using this device and browser profile could read it. For more privacy, use an incognito/private window (nothing is kept after you close it, so export first).</div>
+
+  <div class="tabs">
+    <button class="on" data-t="me">My dashboard</button>
+    <button data-t="team">Team compare</button>
+  </div>
+
+  <section id="me">
+    <div class="bar">
+      <label>Name <input type="text" id="name" placeholder="Your name"></label>
+      <span class="sp"></span>
+      <button id="qbtn">Take the questionnaire</button>
+    </div>
+    <div id="quiz" class="card hide"></div>
+    <div id="gauges"></div>
+  </section>
+
+  <section id="team" class="hide">
+    <div class="bar">
+      <button class="p" id="addmate">+ Add teammate (import their JSON)</button>
+      <input type="file" id="mfile" accept="application/json,.json" class="hide">
+      <span class="sub" style="margin:0">Up to 3 people including you. Each person exports their file and shares it.</span>
+    </div>
+    <div id="cmp"></div>
+    <div class="card"><b style="color:var(--navy)">Progress since first snapshot</b>
+      <div class="scroll"><table id="prog"></table></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const DIMS=[
+ {k:'health',n:'Health',d:'Physical, mental and emotional wellbeing.',q:['I have steady energy through most days.','I sleep and recover well enough.','I feel good about how I look after my body and mind.']},
+ {k:'work',n:'Work',d:'What you do for a living or contribute: paid or not.',q:['My work feels meaningful to me.','I regularly use my strengths.','I’m learning and growing in what I do.']},
+ {k:'play',n:'Play',d:'Things you do just for the joy of it.',q:['I do things purely for fun, with no goal.','I laugh or feel playful most weeks.','I make time for hobbies or creative pursuits.']},
+ {k:'love',n:'Love',d:'Giving and receiving love, connection and support.',q:['I feel close to people who matter to me.','I get support when I need it.','I regularly spend quality time with others.']}
+];
+const COLORS=['#1f3a5f','#2a9d8f','#e09f3e'];
+const KEY='dyl-dashboard-v1';
+let mem=null;
+const blank=()=>({type:'dyl-dashboard',name:'',values:{health:0,work:0,play:0,love:0},snapshots:[],team:[]});
+function load(){try{const r=localStorage.getItem(KEY);if(r)return Object.assign(blank(),JSON.parse(r))}catch(e){}return mem||blank()}
+function save(){mem=S;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let S=load();
+const $=id=>document.getElementById(id);
+function toast(m){let t=$('toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1f3a5f;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;z-index:20;max-width:90%';document.body.appendChild(t)}t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',3000)}
+const today=()=>new Date().toISOString().slice(0,10);
+const clamp=v=>Math.max(0,Math.min(100,Math.round(+v||0)));
+
+function paintGauge(el){el.style.setProperty('--p',el.value+'%')}
+function renderGauges(){
+  const g=$('gauges');g.innerHTML='';
+  DIMS.forEach(d=>{
+    const c=document.createElement('div');c.className='card';
+    c.innerHTML=`<div class="row-h"><b>${d.n}</b><span class="val"><span id="v-${d.k}"></span>%</span></div>
+    <p class="hint">${d.d}</p><input type="range" min="0" max="100" step="1" id="r-${d.k}" aria-label="${d.n}">
+    <div class="ends"><span>Empty</span><span>Full</span></div>`;
+    g.appendChild(c);
+    const r=c.querySelector('input');r.value=S.values[d.k];paintGauge(r);$('v-'+d.k).textContent=r.value;
+    r.oninput=()=>{S.values[d.k]=clamp(r.value);paintGauge(r);$('v-'+d.k).textContent=r.value;save();renderTeam()};
+  });
+  $('name').value=S.name||'';
+}
+let ans={};
+function renderQuiz(){
+  const q=$('quiz');
+  q.innerHTML='<b style="color:var(--navy)">Quick check-in</b><p class="hint">Rate each statement: 1 = not at all true, 5 = completely true. This is a simple prefill I wrote, not the book’s own instrument. You can still fine-tune the gauges afterwards.</p>';
+  DIMS.forEach(d=>{
+    const h=document.createElement('p');h.style.cssText='margin:12px 0 0;font-weight:600';h.textContent=d.n;q.appendChild(h);
+    d.q.forEach((t,i)=>{
+      const id=d.k+i,row=document.createElement('div');row.className='q';
+      row.innerHTML=`<p>${t}</p><div class="scale"></div>`;
+      const sc=row.querySelector('.scale');
+      for(let n=1;n<=5;n++){const b=document.createElement('button');b.textContent=n;if(ans[id]===n)b.className='on';
+        b.onclick=()=>{ans[id]=n;renderQuiz()};sc.appendChild(b)}
+      q.appendChild(row);
+    });
+  });
+  const a=document.createElement('div');a.className='bar';a.style.marginTop='12px';
+  a.innerHTML='<button class="p" id="apply">Apply to gauges</button><button id="qclose">Close</button>';
+  q.appendChild(a);
+  $('apply').onclick=()=>{
+    DIMS.forEach(d=>{const v=d.q.map((_,i)=>ans[d.k+i]).filter(Boolean);
+      if(v.length)S.values[d.k]=clamp(((v.reduce((x,y)=>x+y,0)/v.length)-1)/4*100)});
+    save();renderGauges();renderTeam();q.classList.add('hide')};
+  $('qclose').onclick=()=>q.classList.add('hide');
+}
+function people(){return [{name:S.name||'Me',values:S.values,snapshots:S.snapshots}].concat(S.team)}
+function renderTeam(){
+  const P=people(),c=$('cmp');c.innerHTML='';
+  DIMS.forEach(d=>{
+    const card=document.createElement('div');card.className='card';
+    card.innerHTML=`<b style="color:var(--navy)">${d.n}</b>`;
+    P.forEach((p,i)=>{
+      const v=clamp(p.values&&p.values[d.k]),r=document.createElement('div');r.className='cmp-bar';
+      r.innerHTML='<span class="nm"></span><span class="tr"><span class="fl" style="display:block;width:'+v+'%;background:'+COLORS[i]+'"></span></span><span class="n">'+v+'</span>';
+      r.querySelector('.nm').textContent=p.name||('Person '+(i+1));card.appendChild(r);
+    });
+    c.appendChild(card);
+  });
+  const t=$('prog');
+  let h='<tr><th>Person</th><th>Snapshots</th>'+DIMS.map(d=>'<th>'+d.n+'</th>').join('')+'</tr>';
+  t.innerHTML=h;
+  P.forEach((p,i)=>{
+    const s=p.snapshots||[],tr=document.createElement('tr');
+    const first=s[0],last=s[s.length-1],td=[];
+    const nm=document.createElement('td');nm.textContent=p.name||('Person '+(i+1));
+    if(i>0){const x=document.createElement('button');x.className='x';x.textContent='×';x.title='Remove';
+      x.onclick=()=>{S.team.splice(i-1,1);save();renderTeam()};nm.appendChild(x)}
+    tr.appendChild(nm);
+    const n=document.createElement('td');n.textContent=s.length;tr.appendChild(n);
+    DIMS.forEach(d=>{const c=document.createElement('td');
+      if(s.length<2){c.textContent='–'}else{const df=clamp(last.values[d.k])-clamp(first.values[d.k]);
+        c.textContent=(df>0?'+':'')+df;c.className=df>0?'up':df<0?'dn':''}
+      tr.appendChild(c)});
+    t.appendChild(tr);
+  });
+}
+function download(){
+  const b=new Blob([JSON.stringify({type:'dyl-dashboard',name:S.name,values:S.values,snapshots:S.snapshots,team:S.team},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download='life-dashboard-'+(S.name||'me').replace(/\W+/g,'-').toLowerCase()+'-'+today()+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+}
+function readJSON(f,cb){const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);
+  if(j.type!=='dyl-dashboard'||!j.values)throw 0;cb(j)}catch(e){toast('That file isn’t a valid dashboard export.')}};r.readAsText(f)}
+function cleanP(j){const v={};DIMS.forEach(d=>v[d.k]=clamp(j.values[d.k]));
+  return {name:String(j.name||'Teammate').slice(0,40),values:v,
+   snapshots:(Array.isArray(j.snapshots)?j.snapshots:[]).slice(-200).map(s=>({date:String(s.date||'').slice(0,10),values:Object.fromEntries(DIMS.map(d=>[d.k,clamp(s.values&&s.values[d.k])]))}))}}
+
+$('exp').onclick=download;
+$('imp').onclick=()=>$('file').click();
+$('file').onchange=e=>{const f=e.target.files[0];if(!f)return;
+  readJSON(f,j=>{
+    const p=cleanP(j);S.name=p.name;S.values=p.values;S.snapshots=p.snapshots;
+    S.team=Array.isArray(j.team)?j.team.slice(0,2).map(cleanP):S.team;save();renderGauges();renderTeam()});e.target.value=''};
+$('addmate').onclick=()=>$('mfile').click();
+$('mfile').onchange=e=>{const f=e.target.files[0];if(!f)return;
+  readJSON(f,j=>{const p=cleanP(j),i=S.team.findIndex(x=>x.name===p.name);
+    if(i>=0)S.team[i]=p;else if(S.team.length<2)S.team.push(p);else{toast('Team is full (3 people). Remove someone first.');return}
+    save();renderTeam()});e.target.value=''};
+$('snap').onclick=()=>{const d=today(),s={date:d,values:{...S.values}},i=S.snapshots.findIndex(x=>x.date===d);
+  if(i>=0)S.snapshots[i]=s;else S.snapshots.push(s);save();renderTeam();toast('Snapshot saved for '+d+'.')};
+$('name').oninput=e=>{S.name=e.target.value.slice(0,40);save();renderTeam()};
+$('qbtn').onclick=()=>{const q=$('quiz');if(!q.classList.contains('hide')){q.classList.add('hide');return}renderQuiz();q.classList.remove('hide');q.scrollIntoView({behavior:'smooth',block:'start'})};
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+  $('me').classList.toggle('hide',b.dataset.t!=='me');$('team').classList.toggle('hide',b.dataset.t!=='team');renderTeam()});
+renderGauges();renderTeam();
+</script>
+</body>
+</html>
